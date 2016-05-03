@@ -8,13 +8,13 @@ class Home extends CI_Controller
         parent::__construct();
         $this->load->helper(array('url', 'language'));
 
-        // redirect if needed, otherwise display the user list
-        function index()
-        {
-            $this->load->view('home/index');
-        }
 
-        // log the user in
 
+
+    }
+
+    function index()
+    {
+        $this->load->view('home/index');
     }
 }

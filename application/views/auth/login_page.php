@@ -48,7 +48,7 @@
                     creative economy ecosystem based on digital technology.</p>
                 <?php //echo form_open("auth/login", array('class' => 'login-form')); ?>
                 <form class="login-form" name="login_form" id="login_form" method="post">
-                    <div id="infoMessage"><?php echo $message; ?></div>
+                    <div id="infoMessage"></div>
 
                     <div class="row">
                         <div class="col-xs-6">
@@ -78,7 +78,7 @@
                         </div>
                     </div>
                     <input type="hidden" value="<?= site_url();?>" id="host">
-                    <input type="hidden" id="token" name="<?=$this->security->get_csrf_token_name();?>" value="<?=$this->security->get_csrf_hash();?>" style="display: none">
+<!--                    <input type="hidden" id="token" name="--><?//=$this->security->get_csrf_token_name();?><!--" value="--><?//=$this->security->get_csrf_hash();?><!--" style="display: none">-->
                 </form>
                 <?php //echo form_close(); ?>
                 <!-- BEGIN FORGOT PASSWORD FORM -->
@@ -94,8 +94,7 @@
                         <?php //echo form_input($forgot_email); ?></div>
                     <div class="form-actions">
                         <button type="button" id="back-btn" class="btn blue btn-outline">Back</button>
-                        <input type="submit" class="btn blue uppercase pull-right" name="forgot_password"
-                               value="Submit">
+                        <a type="button" class="btn blue uppercase pull-right" name="forgot_password"></a>
                     </div>
                     <?php //echo form_close(); ?>
                 </form>
@@ -187,4 +186,15 @@
             duration: 8000
         }
     );
+
+    $(document).ready(function () {
+        // Ajax setup csrf token.
+        var csfrData = {};
+        csfrData['<?php echo $this->security->get_csrf_token_name(); ?>'] = '<?php echo
+        $this->security->get_csrf_hash(); ?>';
+        $.ajaxSetup({
+            data: csfrData,
+            cache: false
+        });
+    })
 </script>

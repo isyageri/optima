@@ -35,7 +35,6 @@ class Auth extends CI_Controller
             $data['success'] = true;
             $data['message'] = "Login success";
             echo json_encode($data);
-            redirect('home/index', 'refresh');
 
         } else {
             // if the login was un-successful
