@@ -24,7 +24,7 @@ class Auth extends CI_Controller
 
     // log the user in
 
-    function login()
+    function login_act()
     {
         $remember = (bool)$this->input->post('remember');
 

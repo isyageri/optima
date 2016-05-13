@@ -51,7 +51,7 @@ $(document).ready(function() {
 
         jQuery.ajax({
             type: "POST",
-            url: site+"auth/login",
+            url: site+"auth/login_act",
             dataType: 'json',
             data: {username: username, password: password, csrf_token:token_val},
             cache :false,
