@@ -3,15 +3,13 @@
 class Home extends CI_Controller
 {
 
-    function __construct()
-    {
+    function __construct() {
         parent::__construct();
         $this->load->helper(array('url', 'language'));
-
     }
 
-    function index()
-    {
+    function index() {
+        check_login();
         $this->load->view('home/index');
     }
 }
