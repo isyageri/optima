@@ -52,7 +52,7 @@ class Abstract_model extends  CI_Model {
 
 	/*Criteria (Where Condition)*/
 	public $criteria = array();
-	
+
 	/* Criteria sql */
 	public $criteriaSQL = false;
 
@@ -62,34 +62,34 @@ class Abstract_model extends  CI_Model {
 
 	/*total count*/
 	public $totalCount = 0;
-	
+
 	/*Combo Display*/
 	public $comboDisplay = array();
-	
+
 	public $likeOperator = '';
-    
+
     public $jqGridParamSearch = array();
-    
+
 	function __construct() {
-	    	    
+
 		parent::__construct();
-		
+
 		if( strtolower($this->db->platform()) == 'mysql' ) {
-		    $this->likeOperator = " LIKE ";    	    
+		    $this->likeOperator = " LIKE ";
 		}else if (strtolower($this->db->platform()) == 'postgre') {
 		    $this->likeOperator = " ILIKE ";
 		}
 	}
 
 	public function validate(){} // <-- tobe implemented
-	
+
 	public function beforeWrite(){} // <-- tobe implemented
-    
+
     public function afterWrite(){} // <-- tobe implemented
 
 	public function getAll($start = 0, $limit = 30, $orderby = '', $ordertype = 'ASC') {
-		$this->db->_protect_identifiers = false;
-		
+		//$this->db->_protect_identifiers = false;
+
 		$this->db->select($this->selectClause);
 		$this->db->from($this->fromClause);
 		if(count($this->joinClause) > 0) {
@@ -106,11 +106,11 @@ class Abstract_model extends  CI_Model {
 		$whereCondition = '';
 		$condition = array();
 		$condition = $this->getCriteria();
-		
+
 		$whereCondition = join(" AND ", $condition);
-		if(count($this->jqGridParamSearch['where']) > 0)
+		if( isset($this->jqGridParamSearch['where']) and count($this->jqGridParamSearch['where']) > 0)
 		    $whereCondition .= join(" AND ", $this->jqGridParamSearch['where']);
-		
+
 		$wh = "";
 		if(count($this->jqGridParamSearch) > 0) {
 		    if($this->jqGridParamSearch['search'] != null && $this->jqGridParamSearch['search'] === 'true'){
@@ -170,29 +170,29 @@ class Abstract_model extends  CI_Model {
                     default :
                         $wh = "";
                 }
-            }    
+            }
 		}
-			
+
 		if(!empty($wh)) {
-            if(!empty($whereCondition)) 
+            if(!empty($whereCondition))
                 $whereCondition .= " AND ".$wh;
             else
                 $whereCondition = $wh;
         }
-        
+
 		if($whereCondition != "") {
 		    $this->db->where($whereCondition, null, false);
 		}
-        
-        
+
+
         if(count($this->jqGridParamSearch) > 0) {
             $this->db->order_by($this->jqGridParamSearch['sort_by'], $this->jqGridParamSearch['sord']);
         }else {
             if(empty($orderby)) $orderby = $this->pkey;
 		    $this->db->order_by($orderby, $ordertype);
         }
-        
-        
+
+
         if(count($this->jqGridParamSearch) > 0) {
             $this->db->limit($this->jqGridParamSearch['limit']['end'], $this->jqGridParamSearch['limit']['start']);
         }else if($limit != -1) {
@@ -200,25 +200,25 @@ class Abstract_model extends  CI_Model {
         }
 
 		$queryResult = $this->db->get();
-		$items = $queryResult->result_array(); 
-		
+		$items = $queryResult->result_array();
+
 		$queryResult->free_result();
-		
+
 		return $items;
 
 	}
-	
+
 	public function getAlias(){
         if (empty($this->alias)) return '';
-        
+
         return $this->alias.'.';
     }
-    
+
     public function getDisplayFieldCriteria($value){
         if (empty($value)) return "";
-        
+
         if (count($this->comboDisplay) == 0) return "";
-        
+
         $fields = array();
         for($i=0; $i < count($this->comboDisplay);$i++){
             $fields[$i] = $this->comboDisplay[$i].$this->likeOperator.$this->db->escape('%'.$value.'%');
@@ -230,7 +230,7 @@ class Abstract_model extends  CI_Model {
 
         return $query;
     }
-    
+
 	public function setCriteria($criteria) {
 		if(empty($criteria))
 			throw new Exception('Empty Condition');
@@ -238,12 +238,12 @@ class Abstract_model extends  CI_Model {
 		$this->criteria[] = $criteria;
 		return $this->criteria;
 	}
-	
+
 
 	public function getCriteria() {
 		return $this->criteria;
 	}
-	
+
 	public function getCriteriaSQL(){
         if ($this->criteriaSQL === false){
             $this->criteriaSQL = "";
@@ -255,11 +255,11 @@ class Abstract_model extends  CI_Model {
     }
 
 	public function countAll() {
-	    $this->db->_protect_identifiers = false;
-	    
+	    //$this->db->_protect_identifiers = false;
+
 		$query = "SELECT COUNT(1) AS totalcount FROM ".$this->fromClause;
 		if(count($this->joinClause) > 0) {
-			
+
 			foreach($this->joinClause as $with) {
 				if(empty($with['table_name']) or
 						empty($with['on']) or empty($with['join_type'])) {
@@ -272,11 +272,11 @@ class Abstract_model extends  CI_Model {
 		$whereCondition = '';
 		$condition = array();
 		$condition = $this->getCriteria();
-		
+
 		$whereCondition = join(" AND ", $condition);
-		if(count($this->jqGridParamSearch['where']) > 0)
+		if(isset($this->jqGridParamSearch['where']) and count($this->jqGridParamSearch['where']) > 0)
 		    $whereCondition .= join(" AND ", $this->jqGridParamSearch['where']);
-		
+
 		$wh = "";
 		if(count($this->jqGridParamSearch) > 0) {
 		    if($this->jqGridParamSearch['search'] != null && $this->jqGridParamSearch['search'] === 'true'){
@@ -336,32 +336,32 @@ class Abstract_model extends  CI_Model {
                     default :
                         $wh = "";
                 }
-            }    
+            }
 		}
 
 		if(!empty($wh)) {
-            if(!empty($whereCondition)) 
+            if(!empty($whereCondition))
                 $whereCondition .= " AND ".$wh;
             else
                 $whereCondition = $wh;
         }
-        
+
         if(!empty($whereCondition)) {
             $query = $query. " WHERE ".$whereCondition;
-        }    
-        
+        }
+
 		$query = $this->db->query($query);
 		$row = $query->row_array();
-		
+
 		$query->free_result();
-		
-		
+
+
 		return $row['totalcount'];
 	}
 
 	public function get($id) {
-        $this->db->_protect_identifiers = false;
-        
+        //$this->db->_protect_identifiers = false;
+
 		$this->db->select($this->selectClause, false);
 		$this->db->from($this->fromClause);
 		if(count($this->joinClause) > 0) {
@@ -379,21 +379,21 @@ class Abstract_model extends  CI_Model {
 			$this->db->where($this->alias.".".$this->pkey, $id);
 		else
 			$this->db->where($this->pkey, $id);
-        
-        
+
+
 		$queryResult = $this->db->get();
 		$item = $queryResult->row_array();
-		
+
 		$queryResult->free_result();
-				
+
 		return $item;
 	}
 
 	public function setRecord($record) {
-	    
+
 	    $this->item = $record;
 		$this->record = array();
-        
+
 		foreach($this->fields as $key => $field) {
 
 			if ($field['nullable']){
@@ -401,7 +401,7 @@ class Abstract_model extends  CI_Model {
                     continue;
                 }
             }
-			
+
 			if($this->actionType == 'CREATE') {
 				if(isset($field['pkey'])) {
 					continue;
@@ -443,7 +443,7 @@ class Abstract_model extends  CI_Model {
 						}
 					}
 				}
-				
+
 				if($field['type'] == 'str') {
 					$record[$key] = htmlentities($record[$key]);
 				}elseif($field['type'] == 'int' || $field['type'] == 'float') {
@@ -464,7 +464,7 @@ class Abstract_model extends  CI_Model {
 					}
 				}
 			}
-			
+
 			$this->record[$key] = $record[$key];
 		}
 
@@ -490,37 +490,37 @@ class Abstract_model extends  CI_Model {
 
 		$countitems = $row['isunique'];
 		$query->free_result();
-		
+
 		if($countitems > 0) return false;
 
 		return true;
 	}
 
 	public function create() {
-		$this->db->_protect_identifiers = true;
+		//$this->db->_protect_identifiers = true;
 		try {
 			$this->validate();
-			
+
 			$this->db->set( $this->record );
 			$this->db->insert( $this->table );
-			
+
 			$this->afterWrite();
 		}catch(Exception $e) {
 			throw $e;
 		}
-                
+
 		return true;
 	}
 
 	public function update() {
-		$this->db->_protect_identifiers = true;
+		//$this->db->_protect_identifiers = true;
 		try {
 			$this->validate();
-			
+
 			$this->db->set($this->record);
 			$this->db->where($this->pkey, $this->record[$this->pkey]);
 			$this->db->update( $this->table );
-			
+
 			$this->afterWrite();
 		}catch(Exception $e) {
 			throw $e;
@@ -530,7 +530,7 @@ class Abstract_model extends  CI_Model {
 	}
 
 	public function remove($id) {
-	    
+
 		if(empty($id)) throw new Exception("ID is empty");
 
 		if ($this->isRefferenced($id)){
@@ -547,27 +547,27 @@ class Abstract_model extends  CI_Model {
 
 	public function isRefferenced($id){
         if (count($this->refs) == 0) return false;
-  	
+
         foreach ($this->refs as $table => $field){
             $sql = "SELECT COUNT(1) as totalcount FROM ".$table." WHERE ".$field." = $id";
             $query = $this->db->query($sql);
 			$row = $query->row_array();
 			$query->free_result();
-			
+
             if ($row['totalcount'] > 0) return true;
         }
         return false;
     }
-    
+
     public function generate_id($owner, $table_name, $col_name) {
-        $sql = "SELECT (coalesce(MAX($col_name),0) + 1) AS generated_id FROM $owner.$table_name";  
+        $sql = "SELECT (coalesce(MAX($col_name),0) + 1) AS generated_id FROM $owner.$table_name";
         $query = $this->db->query($sql);
 		$row = $query->row_array();
-		
+
 		return $row['generated_id'];
-		
+
     }
-    
+
     public function setJQGridParam($param) {
         $this->jqGridParamSearch = $param;
     }

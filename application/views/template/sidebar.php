@@ -16,7 +16,7 @@
     </li>
     <li class="nav-item  active open">
         <a href="#" class="nav-link nav-toggle">
-            <i class="icon-diamond"></i>
+            <i class="icon-user"></i>
             <span class="title">Administration</span>
             <span class="arrow"></span>
         </a>
