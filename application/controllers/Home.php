@@ -10,8 +10,6 @@ class Home extends CI_Controller
 
     function index() {
         check_login();
-
-        $this->load->model('administration/groups');
         $this->load->view('home/index');
     }
 }
