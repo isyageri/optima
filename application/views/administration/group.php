@@ -56,8 +56,8 @@
             ],
             height: '100%',
             autowidth: true,
-            rowNum: 10,
             viewrecords: true,
+            rowNum: 5,
             rowList: [5, 10, 20],
             rownumbers: true, // show row numbers
             rownumWidth: 35, // the width of the row numbers columns

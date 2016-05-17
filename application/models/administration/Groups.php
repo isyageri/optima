@@ -17,11 +17,9 @@ class Groups extends Abstract_model {
                             );
 
     public $selectClause    = "grp.*";
-    public $fromClause      = "groups grp";
+    public $fromClause      = "groups as grp";
 
     public $refs            = array('users_groups' => 'group_id');
-
-    public $comboDisplay    = array();
 
     function __construct() {
         parent::__construct();

@@ -42,7 +42,7 @@ class Groups_controller {
             $count = $table->countAll();
 
             if ($count > 0) $total_pages = ceil($count / $limit);
-            else $total_pages = 0;
+            else $total_pages = 1;
 
             if ($page > $total_pages) $page = $total_pages;
             $start = $limit * $page - ($limit); // do not put $limit*($page - 1)
@@ -51,6 +51,7 @@ class Groups_controller {
                 'start' => $start,
                 'end' => $limit
             );
+
             $table->setJQGridParam($req_param);
 
             if ($page == 0) $data['page'] = 1;
