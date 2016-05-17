@@ -15,9 +15,9 @@
     </ul>
 </div>
 <!-- end breadcrumb -->
-
+<div class="space-4"></div>
 <div class="row">
-    <div class="col-xs-12">
+    <div class="col-md-12">
         <table id="grid-table"></table>
         <div id="grid-pager"></div>
     </div>
@@ -266,8 +266,8 @@
         //update buttons classes
         var buttons = form.next().find('.EditButton .fm-button');
         buttons.addClass('btn btn-sm').find('[class*="-icon"]').hide();//ui-icon, s-icon
-        buttons.eq(0).addClass('btn-primary').prepend('<i class="ace-icon fa fa-check"></i>');
-        buttons.eq(1).prepend('<i class="ace-icon fa fa-times"></i>')
+        buttons.eq(0).addClass('btn-primary').prepend('<i class="fa fa-check"></i>');
+        buttons.eq(1).prepend('<i class="fa fa-times"></i>')
 
         buttons = form.next().find('.navButton a');
         buttons.find('.ui-icon').hide();
@@ -278,8 +278,8 @@
     function style_delete_form(form) {
         var buttons = form.next().find('.EditButton .fm-button');
         buttons.addClass('btn btn-sm btn-white btn-round').find('[class*="-icon"]').hide();//ui-icon, s-icon
-        buttons.eq(0).addClass('btn-danger').prepend('<i class="ace-icon fa fa-trash-o"></i>');
-        buttons.eq(1).addClass('btn-default').prepend('<i class="ace-icon fa fa-times"></i>')
+        buttons.eq(0).addClass('btn-danger').prepend('<i class="fa fa-trash-o"></i>');
+        buttons.eq(1).addClass('btn-default').prepend('<i class="fa fa-times"></i>')
     }
 
     function style_search_filters(form) {
@@ -291,9 +291,9 @@
     function style_search_form(form) {
         var dialog = form.closest('.ui-jqdialog');
         var buttons = dialog.find('.EditTable')
-        buttons.find('.EditButton a[id*="_reset"]').addClass('btn btn-sm btn-info').find('.ui-icon').attr('class', 'ace-icon fa fa-retweet');
-        buttons.find('.EditButton a[id*="_query"]').addClass('btn btn-sm btn-inverse').find('.ui-icon').attr('class', 'ace-icon fa fa-comment-o');
-        buttons.find('.EditButton a[id*="_search"]').addClass('btn btn-sm btn-purple').find('.ui-icon').attr('class', 'ace-icon fa fa-search');
+        buttons.find('.EditButton a[id*="_reset"]').addClass('btn btn-sm btn-info').find('.ui-icon').attr('class', 'fa fa-retweet');
+        buttons.find('.EditButton a[id*="_query"]').addClass('btn btn-sm btn-inverse').find('.ui-icon').attr('class', 'fa fa-comment-o');
+        buttons.find('.EditButton a[id*="_search"]').addClass('btn btn-sm btn-purple').find('.ui-icon').attr('class', 'fa fa-search');
     }
 
     function beforeDeleteCallback(e) {

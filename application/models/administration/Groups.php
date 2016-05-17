@@ -12,8 +12,8 @@ class Groups extends Abstract_model {
 
     public $fields          = array(
                                 'id'             => array('pkey' => true, 'type' => 'int', 'nullable' => false, 'unique' => true, 'display' => 'ID Group'),
-                                'name'           => array('nullable' => false, 'type' => 'str', 'unique' => true, 'display' => 'Name'),
-                                'description'    => array('nullable' => true, 'type' => 'str', 'unique' => false, 'display' => 'Description'),
+                                'name'           => array('nullable' => false, 'type' => 'str', 'unique' => true, 'display' => 'Nama Group'),
+                                'description'    => array('nullable' => true, 'type' => 'str', 'unique' => false, 'display' => 'Keterangan'),
                             );
 
     public $selectClause    = "grp.*";
