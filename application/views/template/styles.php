@@ -14,4 +14,10 @@
 <link href="<?php echo base_url(); ?>assets/layouts/layout/css/themes/light2.min.css" rel="stylesheet" type="text/css" id="style_color" />
 <link href="<?php echo base_url(); ?>assets/layouts/layout/css/custom.min.css" rel="stylesheet" type="text/css" />
 <!-- END THEME LAYOUT STYLES -->
+
+<link href="<?php echo base_url(); ?>assets/global/plugins/bootstrap-datepicker/css/bootstrap-datepicker3.min.css" rel="stylesheet" type="text/css" />
+
+<!-- jqgrid -->
+<link href="<?php echo base_url(); ?>assets/css/ui.jqgrid.css" rel="stylesheet" type="text/css" />
+<link rel="stylesheet" href="<?php echo base_url(); ?>assets/swal/sweetalert.css"/>
 <link rel="shortcut icon" href="favicon.ico" />

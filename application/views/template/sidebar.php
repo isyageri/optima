@@ -8,31 +8,31 @@
         </div>
         <!-- END SIDEBAR TOGGLER BUTTON -->
     </li>
-    <li class="nav-item">
+    <li class="nav-item active" data-source="dashboard">
         <a href="#" class="nav-link nav-toggle">
             <i class="icon-home"></i>
             <span class="title">Dashboard</span>
         </a>
     </li>
-    <li class="nav-item  active open">
+    <li class="nav-item" data-source="">
         <a href="#" class="nav-link nav-toggle">
             <i class="icon-user"></i>
             <span class="title">Administration</span>
             <span class="arrow"></span>
         </a>
         <ul class="sub-menu">
-            <li class="nav-item active open">
-                <a href="#" class="nav-link ">
+            <li class="nav-item" data-source="administration.user">
+                <a href="#" class="nav-link">
                     <span class="title">User</span>
                 </a>
             </li>
-            <li class="nav-item  ">
-                <a href="#" class="nav-link ">
+            <li class="nav-item" data-source="administration.group">
+                <a href="#" class="nav-link">
                     <span class="title">Role</span>
                 </a>
             </li>
-            <li class="nav-item  ">
-                <a href="#" class="nav-link ">
+            <li class="nav-item" data-source="administration.permission">
+                <a href="#" class="nav-link">
                     <span class="title">Permission</span>
                 </a>
             </li>

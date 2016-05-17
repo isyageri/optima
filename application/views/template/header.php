@@ -86,4 +86,4 @@
             <div class="page-content-wrapper">
                 <!-- BEGIN CONTENT BODY -->
                 <!-- START PAGE CONTENT -->
-                <div class="page-content">
+                <div class="page-content" id="main-content">
