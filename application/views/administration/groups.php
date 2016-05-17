@@ -254,14 +254,6 @@
     }
 
     function style_edit_form(form) {
-        //enable datepicker on "sdate" field and switches for "stock" field
-        form.find('input[name=sdate]').datepicker({format: 'yyyy-mm-dd', autoclose: true})
-
-        form.find('input[name=stock]').addClass('ace ace-switch ace-switch-5').after('<span class="lbl"></span>');
-        form.find('input[name=stock]').addClass('ace ace-switch ace-switch-5').after('<span class="lbl"></span>');
-        //don't wrap inside a label element, the checkbox value won't be submitted (POST'ed)
-        //.addClass('ace ace-switch ace-switch-5').wrap('<label class="inline" />').after('<span class="lbl"></span>');
-
 
         //update buttons classes
         var buttons = form.next().find('.EditButton .fm-button');
