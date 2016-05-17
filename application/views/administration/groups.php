@@ -39,14 +39,14 @@
             mtype: "POST",
             colModel: [
                 {label: 'ID', name: 'id', key: true, width: 5, sorttype: 'number', editable: true, hidden: true},
-                {label: 'Nama Group',name: 'name',width: 150, align: "left",editable: true,
+                {label: 'Role Name',name: 'name',width: 150, align: "left",editable: true,
                     editoptions: {
                         size: 30,
                         maxlength:32
                     },
                     editrules: {required: true}
                 },
-                {label: 'Keterangan',name: 'description',width: 200, align: "left",editable: true,
+                {label: 'Description',name: 'description',width: 200, align: "left",editable: true,
                     edittype:'textarea',
                     editoptions: {
                         rows: 2,
@@ -79,7 +79,7 @@
             },
             loadComplete: function (response) {
                 if(response.success == false) {
-                    swal('Error', response.message, 'error');
+                    swal({title: 'Attention', text: response.message, html: true, type: "warning"});
                 }
 
                 var table = this;
@@ -90,7 +90,7 @@
             },
             //memanggil controller jqgrid yang ada di controller crud
             editurl: '<?php echo WS_JQGRID."administration.groups_controller/crud"; ?>',
-            caption: "Group"
+            caption: "Roles"
 
         });
 
