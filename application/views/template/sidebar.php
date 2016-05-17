@@ -21,17 +21,17 @@
             <span class="arrow"></span>
         </a>
         <ul class="sub-menu">
-            <li class="nav-item" data-source="administration.user">
+            <li class="nav-item" data-source="administration.users">
                 <a href="#" class="nav-link">
                     <span class="title">User</span>
                 </a>
             </li>
-            <li class="nav-item" data-source="administration.group">
+            <li class="nav-item" data-source="administration.groups">
                 <a href="#" class="nav-link">
                     <span class="title">Role</span>
                 </a>
             </li>
-            <li class="nav-item" data-source="administration.permission">
+            <li class="nav-item" data-source="administration.permissions">
                 <a href="#" class="nav-link">
                     <span class="title">Permission</span>
                 </a>
