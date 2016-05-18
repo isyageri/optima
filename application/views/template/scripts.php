@@ -8,7 +8,7 @@
 <script src="<?php echo base_url(); ?>assets/global/plugins/js.cookie.min.js" type="text/javascript"></script>
 <script src="<?php echo base_url(); ?>assets/global/plugins/bootstrap-hover-dropdown/bootstrap-hover-dropdown.min.js" type="text/javascript"></script>
 <script src="<?php echo base_url(); ?>assets/global/plugins/jquery-slimscroll/jquery.slimscroll.min.js" type="text/javascript"></script>
-<script src="<?php echo base_url(); ?>assets/global/plugins/jquery.blockui.min.js" type="text/javascript"></script>
+<script src="<?php echo base_url(); ?>assets/js/jquery.blockUI.js" type="text/javascript"></script>
 <script src="<?php echo base_url(); ?>assets/global/plugins/bootstrap-switch/js/bootstrap-switch.min.js" type="text/javascript"></script>
 <!-- END CORE PLUGINS -->
 <!-- BEGIN THEME GLOBAL SCRIPTS -->
@@ -56,8 +56,8 @@
                 color: '#fff'
             }
 
-        }))
-    }).ajaxStop($.unblockUI);
+        })).ajaxStop($.unblockUI);
+    });
 
     function loadContentWithParams(id, params) {
         $.post( "<?php echo base_url().'home/load_content/'; ?>" + id,

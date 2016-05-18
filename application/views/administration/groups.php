@@ -10,7 +10,7 @@
             <i class="fa fa-circle"></i>
         </li>
         <li>
-            <span>Role</span>
+            <span>Roles</span>
         </li>
     </ul>
 </div>

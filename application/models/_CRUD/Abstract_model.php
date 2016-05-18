@@ -73,6 +73,8 @@ class Abstract_model extends  CI_Model {
 	function __construct() {
 
 		parent::__construct();
+        $this->db->_escape_char = ' ';
+        $this->db->_protect_identifiers = false;
 
 		if( strtolower($this->db->platform()) == 'mysql' ) {
 		    $this->likeOperator = " LIKE ";
@@ -88,7 +90,6 @@ class Abstract_model extends  CI_Model {
     public function afterWrite(){} // <-- tobe implemented
 
 	public function getAll($start = 0, $limit = 30, $orderby = '', $ordertype = 'ASC') {
-		//$this->db->_protect_identifiers = false;
 
 		$this->db->select($this->selectClause);
 		$this->db->from($this->fromClause);
