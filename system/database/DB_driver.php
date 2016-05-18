@@ -305,7 +305,7 @@ abstract class CI_DB_driver {
 	 *
 	 * @var	bool
 	 */
-	public $_protect_identifiers		= TRUE;
+	protected $_protect_identifiers		= TRUE;
 
 	/**
 	 * List of reserved identifiers
