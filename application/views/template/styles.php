@@ -20,6 +20,7 @@
 <!-- jqgrid -->
 <link href="<?php echo base_url(); ?>assets/css/ui.jqgrid.css" rel="stylesheet" type="text/css" />
 <link href="<?php echo base_url(); ?>assets/css/ace.css" rel="stylesheet" type="text/css" />
+<link href="<?php echo base_url(); ?>assets/css/styles.css" rel="stylesheet" type="text/css" />
 
 <link rel="stylesheet" href="<?php echo base_url(); ?>assets/swal/sweetalert.css"/>
 <link rel="shortcut icon" href="favicon.ico" />
