@@ -324,3 +324,8 @@ th[aria-selected="true"] .ui-jqgrid-sortable {
     cursor: pointer;
     background: none !important;
 }
+
+.ui-jqgrid .ui-jqgrid-titlebar-close span {
+    display: block;
+    margin: 5px;
+}

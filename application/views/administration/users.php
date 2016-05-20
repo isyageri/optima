@@ -157,22 +157,22 @@
         jQuery('#grid-table').jqGrid('navGrid', '#grid-pager',
             {   //navbar options
                 edit: true,
-                editicon: 'fa fa-pencil blue',
+                editicon: 'fa fa-pencil blue bigger-120',
                 add: true,
-                addicon: 'fa fa-plus-circle purple',
+                addicon: 'fa fa-plus-circle purple bigger-120',
                 del: true,
-                delicon: 'fa fa-trash-o red',
+                delicon: 'fa fa-trash-o red bigger-120',
                 search: true,
-                searchicon: 'fa fa-search orange',
+                searchicon: 'fa fa-search orange bigger-120',
                 refresh: true,
                 afterRefresh: function () {
                     // some code here
                     $("#detail_placeholder").hide();
                 },
 
-                refreshicon: 'fa fa-refresh green',
+                refreshicon: 'fa fa-refresh green bigger-120',
                 view: false,
-                viewicon: 'fa fa-search-plus grey'
+                viewicon: 'fa fa-search-plus grey bigger-120'
             },
 
             {
@@ -367,21 +367,21 @@
         jQuery('#grid-table-detail').jqGrid('navGrid', '#grid-pager-detail',
             {   //navbar options
                 edit: true,
-                editicon: 'fa fa-pencil blue',
+                editicon: 'fa fa-pencil blue bigger-120',
                 add: true,
-                addicon: 'fa fa-plus-circle purple',
+                addicon: 'fa fa-plus-circle purple bigger-120',
                 del: true,
-                delicon: 'fa fa-trash-o red',
+                delicon: 'fa fa-trash-o red bigger-120',
                 search: true,
-                searchicon: 'fa fa-search orange',
+                searchicon: 'fa fa-search orange bigger-120',
                 refresh: true,
                 afterRefresh: function () {
                     // some code here
                 },
 
-                refreshicon: 'fa fa-refresh green',
+                refreshicon: 'fa fa-refresh green bigger-120',
                 view: false,
-                viewicon: 'fa fa-search-plus grey'
+                viewicon: 'fa fa-search-plus grey bigger-120'
             },
 
             {
