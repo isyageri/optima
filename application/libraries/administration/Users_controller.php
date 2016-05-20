@@ -294,6 +294,53 @@ class Users_controller {
             exit;
         }
     }
+
+
+    function updateProfile() {
+
+        $data = array('rows' => array(), 'page' => 1, 'records' => 0, 'total' => 1, 'success' => false, 'message' => '');
+        $id = getVarClean('id','int',0);
+        $email = getVarClean('email','str','');
+        $password = getVarClean('password','str','');
+        $password_confirmation = getVarClean('password_confirmation','str','');
+
+        try {
+            $ci = & get_instance();
+            $ci->load->model('administration/users');
+            $table = $ci->users;
+
+            if(empty($id)) throw new Exception('ID tidak boleh kosong');
+            if(empty($email)) throw new Exception('Email tidak boleh kosong');
+
+            $item = $table->get($id);
+            if($item == null) throw new Exception('ID tidak ditemukan');
+
+            $record = array();
+            if(!empty($password)) {
+                if(strlen($password) < 8) throw new Exception('Min.Password 8 Karakter');
+                if($password != $password_confirmation) throw new Exception('Password tidak cocok');
+
+                $record['password'] = $ci->ion_auth_model->hash_password($password);
+            }
+            $record['email'] = $email;
+            $record['id'] = $id;
+
+            $table->actionType = 'UPDATE';
+            $table->db->trans_begin(); //Begin Trans
+                $table->setRecord($record);
+                $table->update();
+            $table->db->trans_commit(); //Commit Trans
+
+
+            $data['success'] = true;
+            $data['message'] = 'Data profile berhasil diupdate';
+        }catch (Exception $e) {
+            $table->db->trans_rollback(); //Rollback Trans
+            $data['message'] = $e->getMessage();
+        }
+
+        return $data;
+    }
 }
 
 /* End of file Users_controller.php */

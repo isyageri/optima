@@ -21,30 +21,33 @@
 
             <div class="portlet-body form">
                 <!-- BEGIN FORM-->
-                <form method="post" action="" class="form-horizontal">
+                <form method="post" action="" class="form-horizontal" id="form-profile">
+                    <input type="hidden" name="<?php echo $this->security->get_csrf_token_name(); ?>" value="<?php echo $this->security->get_csrf_hash(); ?>">
                     <input type="hidden" name="id" value="<?php echo $this->ion_auth->user()->row()->id; ?>">
                     <div class="form-body">
 
                         <div class="form-group">
                             <label class="col-md-3 control-label" for="username">Username</label>
                             <div class="col-md-4">
-                                <input type="text" name="username" class="form-control" value="<?php  echo $this->ion_auth->user()->row()->username; ?>">
+                                <input type="text" name="username" readonly="" class="form-control" value="<?php  echo $this->ion_auth->user()->row()->username; ?>">
                             </div>
                         </div>
 
                         <div class="form-group">
                             <label class="col-md-3 control-label" for="email">Email</label>
                             <div class="col-md-4">
-                                <input type="text" name="email" class="form-control" value="<?php  echo $this->ion_auth->user()->row()->email; ?>">
+                                <input type="text" name="email" class="form-control required" value="<?php  echo $this->ion_auth->user()->row()->email; ?>">
                             </div>
                         </div>
 
 
                         <div class="form-group">
-                            <label class="col-md-3 control-label" for="password">Password</label>
+                            <label class="col-md-3 control-label" for="password">New Password</label>
                             <div class="col-md-4">
                                 <input type="password" class="form-control" name="password" value="">
+                                <i class="orange">Min.8 Characters</i>
                             </div>
+
                         </div>
 
                         <div class="form-group">
@@ -67,3 +70,33 @@
         </div>
     </div>
 </div>
+
+<script>
+
+$("#form-profile").on('submit', (function (e) {
+
+    e.preventDefault();
+
+    var data = $(this).serializeArray();
+    $.ajax({
+        url: "<?php echo WS_JQGRID."administration.users_controller/updateProfile"; ?>",
+        type: "POST",
+        data: data,
+        dataType: "json",
+        success: function (data) {
+            if (data.success == true) {
+                swal("Sukses",data.message,"success");
+                loadContentWithParams('profile',{});
+            } else {
+                swal("Perhatian",data.message,"warning");
+            }
+        },
+        error: function (xhr, status, error) {
+            swal({title: "Error!", text: xhr.responseText, html: true, type: "error"});
+        }
+    });
+
+    return false;
+}));
+
+</script>
