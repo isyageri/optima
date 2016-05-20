@@ -339,3 +339,8 @@ th[aria-selected="true"] .ui-jqgrid-sortable {
 .ui-jqgrid .table-responsive {
   margin-bottom: 0px !important;
 }
+
+.ui-jqgrid-warning {
+  padding:5px;
+  color: #dd5a43;
+}
