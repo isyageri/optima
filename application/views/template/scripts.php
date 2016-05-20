@@ -9,23 +9,19 @@
 <script src="<?php echo base_url(); ?>assets/global/plugins/bootstrap-hover-dropdown/bootstrap-hover-dropdown.min.js" type="text/javascript"></script>
 <script src="<?php echo base_url(); ?>assets/global/plugins/jquery-slimscroll/jquery.slimscroll.min.js" type="text/javascript"></script>
 <script src="<?php echo base_url(); ?>assets/js/jquery.blockUI.js" type="text/javascript"></script>
-<script src="<?php echo base_url(); ?>assets/global/plugins/bootstrap-switch/js/bootstrap-switch.min.js" type="text/javascript"></script>
 <!-- END CORE PLUGINS -->
 <!-- BEGIN THEME GLOBAL SCRIPTS -->
 <script src="<?php echo base_url(); ?>assets/global/scripts/app.min.js" type="text/javascript"></script>
 <!-- END THEME GLOBAL SCRIPTS -->
 <!-- BEGIN THEME LAYOUT SCRIPTS -->
 <script src="<?php echo base_url(); ?>assets/layouts/layout/scripts/layout.min.js" type="text/javascript"></script>
-<script src="<?php echo base_url(); ?>assets/layouts/layout/scripts/demo.min.js" type="text/javascript"></script>
-<script src="<?php echo base_url(); ?>assets/layouts/global/scripts/quick-sidebar.min.js" type="text/javascript"></script>
 <!-- END THEME LAYOUT SCRIPTS -->
 
 <script src="<?php echo base_url(); ?>assets/global/plugins/bootstrap-datepicker/js/bootstrap-datepicker.min.js" type="text/javascript"></script>
 
 <!-- begin jqgrid -->
-<script src="<?php echo base_url(); ?>assets/js/jqGrid/jquery.jqGrid.src.js" type="text/javascript"></script>
-<script src="<?php echo base_url(); ?>assets/js/jqGrid/i18n/grid.locale-en.js" type="text/javascript"></script>
-<!-- end jqgrid -->
+<script src="<?php echo base_url(); ?>assets/jqgrid/js/i18n/grid.locale-en.js" type="text/javascript"></script>
+<script src="<?php echo base_url(); ?>assets/jqgrid/js/jquery.jqGrid.min.js" type="text/javascript"></script>
 
 <!-- begin swal -->
 <script src="<?php echo base_url(); ?>assets/swal/sweetalert.min.js"></script>
@@ -80,6 +76,15 @@
         loadContentWithParams(menu_id,{});
     });
 
+
+    $("#my-profile").click(function(event){
+        event.stopPropagation();
+        $(".nav-item").removeClass("active");
+        loadContentWithParams('profile',{});
+    });
+
+    $.jgrid.defaults.responsive = true;
+    $.jgrid.defaults.styleUI = 'Bootstrap';
     jQuery.fn.center = function () {
 
         if(this.width() > $(window).width()) {

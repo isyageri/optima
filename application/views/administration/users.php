@@ -25,7 +25,7 @@
 <div class="space-4"></div>
 <div class="row" id="detail_placeholder" style="display:none;">
     <input type="hidden" id="temp_user_id">
-    <div class="col-xs-12">
+    <div class="col-md-12" >
         <table id="grid-table-detail"></table>
         <div id="grid-pager-detail"></div>
     </div>
@@ -34,13 +34,9 @@
 <script>
 
     jQuery(function($) {
+
         var grid_selector = "#grid-table";
         var pager_selector = "#grid-pager";
-
-        $(window).on("resize", function () {
-            responsive_jqgrid(grid_selector, pager_selector);
-            responsive_jqgrid('#grid-table-detail', '#grid-pager-detail');
-        });
 
         jQuery("#grid-table").jqGrid({
             url: '<?php echo WS_JQGRID."administration.users_controller/read"; ?>',
@@ -137,12 +133,10 @@
                     $("#grid-table-detail").trigger("reloadGrid");
                     $("#detail_placeholder").show();
 
-                    responsive_jqgrid('#grid-table-detail', '#grid-pager-detail');
                 }
+                responsive_jqgrid("#grid-table-detail", "#grid-pager-detail");
             },
             sortorder:'',
-            onSortCol: clearSelection,
-            onPaging: clearSelection,
             pager: '#grid-pager',
             jsonReader: {
                 root: 'rows',
@@ -153,12 +147,6 @@
                 if(response.success == false) {
                     swal({title: 'Attention', text: response.message, html: true, type: "warning"});
                 }
-
-                var table = this;
-                setTimeout(function () {
-                    updatePagerIcons(table);
-                }, 0);
-
             },
             //memanggil controller jqgrid yang ada di controller crud
             editurl: '<?php echo WS_JQGRID."administration.users_controller/crud"; ?>',
@@ -199,7 +187,6 @@
                 },
                 beforeShowForm: function (e, form) {
                     var form = $(e[0]);
-                    form.closest('.ui-jqdialog').find('.ui-jqdialog-titlebar').wrapInner('<div class="widget-header" />')
                     style_edit_form(form);
                     /*form.css({"height": 0.50*screen.height+"px"});
                     form.css({"width": 0.60*screen.width+"px"});*/
@@ -232,8 +219,6 @@
                 viewPagerButtons: false,
                 beforeShowForm: function (e, form) {
                     var form = $(e[0]);
-                    var form = $(e[0]);
-                    form.closest('.ui-jqdialog').find('.ui-jqdialog-titlebar').wrapInner('<div class="widget-header" />')
                     style_edit_form(form);
                     /*form.css({"height": 0.50*screen.height+"px"});
                     form.css({"width": 0.60*screen.width+"px"});*/
@@ -249,7 +234,7 @@
                         return [false,response.message,response.responseText];
                     }
 
-                    $(".topinfo").html('<div class="ui-state-success">' + response.message + '</div>');
+                    $(".tinfo").html('<div class="ui-state-success">' + response.message + '</div>');
                     var tinfoel = $(".tinfo").show();
                     tinfoel.delay(3000).fadeOut();
 
@@ -262,12 +247,8 @@
                 recreateForm: true,
                 beforeShowForm: function (e) {
                     var form = $(e[0]);
-                    if (form.data('styled')) return false;
-
-                    form.closest('.ui-jqdialog').find('.ui-jqdialog-titlebar').wrapInner('<div class="widget-header" />')
                     style_delete_form(form);
 
-                    form.data('styled', true);
                 },
                 afterShowForm: function(form) {
                     form.closest('.ui-jqdialog').center();
@@ -289,7 +270,6 @@
                 recreateForm: true,
                 afterShowSearch: function (e) {
                     var form = $(e[0]);
-                    form.closest('.ui-jqdialog').find('.ui-jqdialog-title').wrap('<div class="widget-header" />')
                     style_search_form(form);
 
                     form.closest('.ui-jqdialog').center();
@@ -303,7 +283,7 @@
                 recreateForm: true,
                 beforeShowForm: function (e) {
                     var form = $(e[0]);
-                    form.closest('.ui-jqdialog').find('.ui-jqdialog-title').wrap('<div class="widget-header" />')
+
                 }
             }
         );
@@ -352,7 +332,8 @@
                 {label: 'Group Name', name: 'group_name', width: 120, align: "left", editable: false}
             ],
             height: '100%',
-            autowidth: true,
+            //autowidth: false,
+            width:500,
             viewrecords: true,
             rowNum: 5,
             rowList: [5, 10, 20],
@@ -365,8 +346,6 @@
                 /*do something when selected*/
             },
             sortorder:'',
-            onSortCol: clearSelection,
-            onPaging: clearSelection,
             pager: '#grid-pager-detail',
             jsonReader: {
                 root: 'rows',
@@ -378,15 +357,10 @@
                     swal({title: 'Attention', text: response.message, html: true, type: "warning"});
                 }
 
-                var table = this;
-                setTimeout(function () {
-                    updatePagerIcons(table);
-                }, 0);
-
             },
             //memanggil controller jqgrid yang ada di controller crud
             editurl: '<?php echo WS_JQGRID."administration.users_groups_controller/crud"; ?>',
-            caption: "Users"
+            caption: "Mapping Users"
 
         });
 
@@ -423,7 +397,6 @@
                 },
                 beforeShowForm: function (e, form) {
                     var form = $(e[0]);
-                    form.closest('.ui-jqdialog').find('.ui-jqdialog-titlebar').wrapInner('<div class="widget-header" />')
                     style_edit_form(form);
                 },
                 afterShowForm: function(form) {
@@ -460,8 +433,6 @@
                 viewPagerButtons: false,
                 beforeShowForm: function (e, form) {
                     var form = $(e[0]);
-                    var form = $(e[0]);
-                    form.closest('.ui-jqdialog').find('.ui-jqdialog-titlebar').wrapInner('<div class="widget-header" />')
                     style_edit_form(form);
 
                 },
@@ -474,7 +445,7 @@
                         return [false,response.message,response.responseText];
                     }
 
-                    $(".topinfo").html('<div class="ui-state-success">' + response.message + '</div>');
+                    $(".tinfo").html('<div class="ui-state-success">' + response.message + '</div>');
                     var tinfoel = $(".tinfo").show();
                     tinfoel.delay(3000).fadeOut();
 
@@ -487,12 +458,8 @@
                 recreateForm: true,
                 beforeShowForm: function (e) {
                     var form = $(e[0]);
-                    if (form.data('styled')) return false;
-
-                    form.closest('.ui-jqdialog').find('.ui-jqdialog-titlebar').wrapInner('<div class="widget-header" />')
                     style_delete_form(form);
 
-                    form.data('styled', true);
                 },
                 afterShowForm: function(form) {
                     form.closest('.ui-jqdialog').center();
@@ -514,7 +481,6 @@
                 recreateForm: true,
                 afterShowSearch: function (e) {
                     var form = $(e[0]);
-                    form.closest('.ui-jqdialog').find('.ui-jqdialog-title').wrap('<div class="widget-header" />')
                     style_search_form(form);
 
                     form.closest('.ui-jqdialog').center();
@@ -528,7 +494,7 @@
                 recreateForm: true,
                 beforeShowForm: function (e) {
                     var form = $(e[0]);
-                    form.closest('.ui-jqdialog').find('.ui-jqdialog-title').wrap('<div class="widget-header" />')
+
                 }
             }
         );
@@ -553,30 +519,23 @@
         return jsondata;
     }
 
-    function clearSelection() {
-
-        return null;
-    }
 
     function style_edit_form(form) {
 
         //update buttons classes
         var buttons = form.next().find('.EditButton .fm-button');
         buttons.addClass('btn btn-sm').find('[class*="-icon"]').hide();//ui-icon, s-icon
-        buttons.eq(0).addClass('btn-primary').prepend('<i class="fa fa-check"></i>');
-        buttons.eq(1).prepend('<i class="fa fa-times"></i>')
+        buttons.eq(0).addClass('btn-primary');
+        buttons.eq(1).addClass('btn-danger');
 
-        buttons = form.next().find('.navButton a');
-        buttons.find('.ui-icon').hide();
-        buttons.eq(0).append('<i class="ace-icon fa fa-chevron-left"></i>');
-        buttons.eq(1).append('<i class="ace-icon fa fa-chevron-right"></i>');
+
     }
 
     function style_delete_form(form) {
         var buttons = form.next().find('.EditButton .fm-button');
         buttons.addClass('btn btn-sm btn-white btn-round').find('[class*="-icon"]').hide();//ui-icon, s-icon
-        buttons.eq(0).addClass('btn-danger').prepend('<i class="fa fa-trash-o"></i>');
-        buttons.eq(1).addClass('btn-default').prepend('<i class="fa fa-times"></i>')
+        buttons.eq(0).addClass('btn-danger');
+        buttons.eq(1).addClass('btn-default');
     }
 
     function style_search_filters(form) {
@@ -585,44 +544,13 @@
         form.find('.add-group').addClass('btn btn-xs btn-success');
         form.find('.delete-group').addClass('btn btn-xs btn-danger');
     }
+
     function style_search_form(form) {
         var dialog = form.closest('.ui-jqdialog');
         var buttons = dialog.find('.EditTable')
         buttons.find('.EditButton a[id*="_reset"]').addClass('btn btn-sm btn-info').find('.ui-icon').attr('class', 'fa fa-retweet');
         buttons.find('.EditButton a[id*="_query"]').addClass('btn btn-sm btn-inverse').find('.ui-icon').attr('class', 'fa fa-comment-o');
-        buttons.find('.EditButton a[id*="_search"]').addClass('btn btn-sm btn-purple').find('.ui-icon').attr('class', 'fa fa-search');
-    }
-
-    function beforeDeleteCallback(e) {
-        var form = $(e[0]);
-        if (form.data('styled')) return false;
-
-        form.closest('.ui-jqdialog').find('.ui-jqdialog-titlebar').wrapInner('<div class="widget-header" />')
-        style_delete_form(form);
-
-        form.data('styled', true);
-    }
-
-    function beforeEditCallback(e) {
-        var form = $(e[0]);
-        form.closest('.ui-jqdialog').find('.ui-jqdialog-titlebar').wrapInner('<div class="widget-header" />')
-        style_edit_form(form);
-    }
-
-    function updatePagerIcons(table) {
-        var replacement =
-        {
-            'ui-icon-seek-first': 'ace-icon fa fa-angle-double-left bigger-140',
-            'ui-icon-seek-prev': 'ace-icon fa fa-angle-left bigger-140',
-            'ui-icon-seek-next': 'ace-icon fa fa-angle-right bigger-140',
-            'ui-icon-seek-end': 'ace-icon fa fa-angle-double-right bigger-140'
-        };
-        $('.ui-pg-table:not(.navtable) > tbody > tr > .ui-pg-button > .ui-icon').each(function () {
-            var icon = $(this);
-            var $class = $.trim(icon.attr('class').replace('ui-icon', ''));
-
-            if ($class in replacement) icon.attr('class', 'ui-icon ' + replacement[$class]);
-        })
+        buttons.find('.EditButton a[id*="_search"]').addClass('btn btn-sm btn-success').find('.ui-icon').attr('class', 'fa fa-search');
     }
 
     function responsive_jqgrid(grid_selector, pager_selector) {

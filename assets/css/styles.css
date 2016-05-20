@@ -1,3 +1,23 @@
 .page-header.navbar.navbar-fixed-top, .page-header.navbar.navbar-static-top {
     z-index:12;
 }
+
+.space-1 {
+    margin-top:5px;
+}
+
+.space-2 {
+    margin-top:10px;
+}
+
+.space-3 {
+    margin-top:15;
+}
+
+.space-4 {
+    margin-top:20px;
+}
+
+.space-5 {
+    margin-top:25px;
+}
