@@ -221,3 +221,7 @@ th[aria-selected="true"] .ui-jqgrid-sortable {
     border: 1px solid #fad42e !important;
     color: #363636 !important;
 }
+
+.FormGrid .form-control {
+    border-radius:0px;
+}
