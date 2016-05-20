@@ -21,7 +21,7 @@
 
 <!-- begin jqgrid -->
 <script src="<?php echo base_url(); ?>assets/jqgrid/js/i18n/grid.locale-en.js" type="text/javascript"></script>
-<script src="<?php echo base_url(); ?>assets/jqgrid/js/jquery.jqGrid.min.js" type="text/javascript"></script>
+<script src="<?php echo base_url(); ?>assets/jqgrid/src/jquery.jqGrid.js" type="text/javascript"></script>
 
 <!-- begin swal -->
 <script src="<?php echo base_url(); ?>assets/swal/sweetalert.min.js"></script>

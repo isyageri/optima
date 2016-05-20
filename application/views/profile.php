@@ -11,3 +11,59 @@
     </ul>
 </div>
 <!-- end breadcrumb -->
+<div class="space-4"></div>
+<div class="row">
+    <div class="col-md-12">
+        <div class="portlet box green">
+            <div class="portlet-title">
+                <div class="caption">Form Profile</div>
+            </div>
+
+            <div class="portlet-body form">
+                <!-- BEGIN FORM-->
+                <form method="post" action="" class="form-horizontal">
+                    <input type="hidden" name="id" value="<?php echo $this->ion_auth->user()->row()->id; ?>">
+                    <div class="form-body">
+
+                        <div class="form-group">
+                            <label class="col-md-3 control-label" for="username">Username</label>
+                            <div class="col-md-4">
+                                <input type="text" name="username" class="form-control" value="<?php  echo $this->ion_auth->user()->row()->username; ?>">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-md-3 control-label" for="email">Email</label>
+                            <div class="col-md-4">
+                                <input type="text" name="email" class="form-control" value="<?php  echo $this->ion_auth->user()->row()->email; ?>">
+                            </div>
+                        </div>
+
+
+                        <div class="form-group">
+                            <label class="col-md-3 control-label" for="password">Password</label>
+                            <div class="col-md-4">
+                                <input type="password" class="form-control" name="password" value="">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-md-3 control-label" for="password_confirmation">Confirm Password</label>
+                            <div class="col-md-4">
+                                <input type="password" class="form-control" name="password_confirmation" value="">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-actions">
+                        <div class="row">
+                            <div class="col-md-offset-3 col-md-9">
+                                <input type="submit" name="submit" value="Save Changes" class="btn btn-success">
+                            </div>
+                        </div>
+                    </div>
+                </form>
+                <!-- END FORM-->
+            </div>
+        </div>
+    </div>
+</div>

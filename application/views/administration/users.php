@@ -528,7 +528,6 @@
         buttons.eq(0).addClass('btn-primary');
         buttons.eq(1).addClass('btn-danger');
 
-
     }
 
     function style_delete_form(form) {
