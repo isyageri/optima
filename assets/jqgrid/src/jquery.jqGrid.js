@@ -9938,7 +9938,7 @@ $.jgrid.extend({
 					o.alerttop = o.alerttop/2-25;
 				}
 				$.jgrid.createModal(alertIDs,
-					"<div>"+o.alerttext+"</div><span tabindex='0'><span tabindex='-1' id='jqg_alrt'></span></span>",
+					"<div class=ui-jqgrid-warning>"+o.alerttext+"</div><span tabindex='0'><span tabindex='-1' id='jqg_alrt'></span></span>",
 					{
 						gbox:"#gbox_"+$.jgrid.jqID($t.p.id),
 						jqModal:true,
