@@ -225,3 +225,7 @@ th[aria-selected="true"] .ui-jqgrid-sortable {
 .FormGrid .form-control {
     border-radius:0px;
 }
+
+.searchFilter .form-control {
+    border-radius:0px;
+}
