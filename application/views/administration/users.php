@@ -127,7 +127,7 @@
                         url: '<?php echo WS_JQGRID."administration.users_groups_controller/read"; ?>',
                         postData: {user_id: rowid}
                     });
-                    var strCaption = 'Mapping Roles :: ' + celCode;
+                    var strCaption = 'Mapping Groups :: ' + celCode;
                     grid_detail.jqGrid('setCaption', strCaption);
                     $("#temp_user_id").val(celValue);
                     $("#grid-table-detail").trigger("reloadGrid");
@@ -329,7 +329,7 @@
                         }
                     }
                 },
-                {label: 'Group Name', name: 'group_name', width: 120, align: "left", editable: false}
+                {label: 'Group Name', name: 'name', width: 120, align: "left", editable: false}
             ],
             height: '100%',
             //autowidth: false,
@@ -360,7 +360,7 @@
             },
             //memanggil controller jqgrid yang ada di controller crud
             editurl: '<?php echo WS_JQGRID."administration.users_groups_controller/crud"; ?>',
-            caption: "Mapping Users"
+            caption: "Mapping Groups"
 
         });
 

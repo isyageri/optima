@@ -16,7 +16,7 @@ class Users_groups extends Abstract_model {
                                 'group_id'    => array('nullable' => false, 'type' => 'int', 'unique' => false, 'display' => 'Group ID')
                             );
 
-    public $selectClause    = "ug.*, grp.name as group_name";
+    public $selectClause    = "ug.*, grp.name";
     public $fromClause      = "users_groups as ug
                                 LEFT JOIN groups as grp ON ug.group_id = grp.id";
 

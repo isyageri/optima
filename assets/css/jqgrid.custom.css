@@ -67,6 +67,11 @@
     text-decoration: none;
 }
 
+.ui-jqgrid .ui-jqgrid-titlebar-close span {
+    display: block;
+    margin-top: 5px;
+}
+
 .ui-jqdialog-content input.FormElement {
     width: auto !important;
 }
