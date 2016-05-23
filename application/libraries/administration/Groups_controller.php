@@ -252,8 +252,8 @@ class Groups_controller {
             if (is_array($items)){
                 foreach ($items as $key => $value){
                     if (empty($value)) throw new Exception('Empty parameter');
-
-                    $table->remove($value);
+					print_r($value);exit;
+                    // $table->remove($value);
                     $data['rows'][] = array($table->pkey => $value);
                     $total++;
                 }
@@ -262,8 +262,9 @@ class Groups_controller {
                 if (empty($items)){
                     throw new Exception('Empty parameter');
                 }
-
-                $table->remove($items);
+				// print_r($items);exit;
+				$table->remove_foreign_primary($items);
+                // $table->remove($items);
                 $data['rows'][] = array($table->pkey => $items);
                 $data['total'] = $total = 1;
             }
