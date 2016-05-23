@@ -18,7 +18,7 @@ class Users_groups extends Abstract_model {
 
     public $selectClause    = "ug.*, grp.name";
     public $fromClause      = "users_groups as ug
-                                LEFT JOIN groups as grp ON ug.group_id = grp.id";
+                               LEFT JOIN groups as grp ON ug.group_id = grp.id";
 
     public $refs            = array();
 
