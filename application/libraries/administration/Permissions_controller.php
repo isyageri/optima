@@ -261,9 +261,10 @@ class Permissions_controller {
                 $items = (int) $items;
                 if (empty($items)){
                     throw new Exception('Empty parameter');
-                }
-
-                $table->remove($items);
+                };
+				// print_r($items);exit;
+				$table->remove_foreign_primary($items);
+                // $table->remove($items);
                 $data['rows'][] = array($table->pkey => $items);
                 $data['total'] = $total = 1;
             }
