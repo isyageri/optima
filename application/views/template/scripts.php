@@ -56,16 +56,21 @@
     });
 
     function loadContentWithParams(id, params) {
-        $.post( "<?php echo base_url().'home/load_content/'; ?>" + id,
-            params,
-            function( data ) {
+        $.ajax({
+            url: "<?php echo base_url().'home/load_content/'; ?>" + id,
+            type: "POST",
+            data: params,
+            success: function (data) {
                 $( "#main-content" ).html( data );
+            },
+            error: function (xhr, status, error) {
+                swal({title: "Error!", text: xhr.responseText, html: true, type: "error"});
             }
-        );
+        });
+        return;
     }
 
-    $(".nav-item").click(function(event){
-        //event.stopPropagation();
+    $(".nav-item").on('click', function(){
         $(".nav-item").removeClass("active");
 
         $(this).addClass("active");
