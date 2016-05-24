@@ -81,6 +81,16 @@
                     editoptions: {defaultValue: '0', readonly: 'readonly'}
                 },
                 {
+                    label: 'No. Urut', 
+                    name: 'listing_no', 
+                    width: 90,  
+                    editable: true,
+                    editoptions: {
+                        size: 10,
+                        maxlength:2
+                    },
+                },
+                {
                     label: 'Icon', 
                     name: 'menu_icon', 
                     width: 145, 
@@ -309,6 +319,16 @@
                         size: 30,
                         maxlength:128
                     },
+                },
+                {
+                    label: 'No. Urut', 
+                    name: 'listing_no', 
+                    width: 90,  
+                    editable: true,
+                    editoptions: {
+                        size: 10,
+                        maxlength:2
+                    },
                 }
             ],
             // autowidth: true,
@@ -320,9 +340,8 @@
             rownumbers: true,
             rownumWidth: 35, // the width of the row numbers columns
             viewrecords: true,
-            sortname: 'menu_name ', // default sorting ID
+            sortorder:'', // default sorting ID
             caption: 'Menu Child',
-            sortorder: 'asc',
             pager: "#jqGridDetailsPager",
             jsonReader: {
                 root: 'rows',

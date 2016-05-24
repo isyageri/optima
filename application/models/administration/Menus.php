@@ -17,7 +17,8 @@ class Menus extends Abstract_model {
                                 'menu_icon'    => array('nullable' => true, 'type' => 'str', 'unique' => false, 'display' => 'Icon'),
                                 'menu_desc'    => array('nullable' => true, 'type' => 'str', 'unique' => false, 'display' => 'Description'),
                                 'menu_link'    => array('nullable' => true, 'type' => 'str', 'unique' => false, 'display' => 'Link'),
-                                'file_name'    => array('nullable' => true, 'type' => 'str', 'unique' => false, 'display' => 'Filename')
+                                'file_name'    => array('nullable' => true, 'type' => 'str', 'unique' => false, 'display' => 'Filename'),
+                                'listing_no'    => array('nullable' => true, 'type' => 'str', 'unique' => false, 'display' => 'No. Urut')
                             );
 
     public $selectClause    = "mn.*";
@@ -53,7 +54,7 @@ class Menus extends Abstract_model {
                 WHERE a.menu_id = b.menu_id 
                 AND b.group_id = c.group_id 
                 AND a.menu_parent = 0
-                AND c.user_id = $user_id order by menu_id ASC";
+                AND c.user_id = $user_id order by listing_no ASC";
 
         $q = $this->db->query($sql);
         if($q->num_rows() > 0) $result = $q->result();
@@ -63,7 +64,7 @@ class Menus extends Abstract_model {
 
     function groupChildMenus($menu_id){
         $result = array();
-        $sql = "SELECT * FROM app_menu WHERE menu_parent = $menu_id";
+        $sql = "SELECT * FROM app_menu WHERE menu_parent = $menu_id order by listing_no ASC";
 
         $q = $this->db->query($sql);
         if($q->num_rows() > 0) $result = $q->result();

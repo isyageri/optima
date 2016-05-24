@@ -10,8 +10,8 @@ class Menus_controller {
 
         $page = getVarClean('page','int',1);
         $limit = getVarClean('rows','int',5);
-        $sidx = getVarClean('sidx','str','menu_id');
-        $sord = getVarClean('sord','str','desc');
+        $sidx = getVarClean('sidx','str','mn.listing_no');
+        $sord = getVarClean('sord','str','asc');
 
         $data = array('rows' => array(), 'page' => 1, 'records' => 0, 'total' => 1, 'success' => false, 'message' => '');
 
@@ -74,8 +74,8 @@ class Menus_controller {
 
         $page = getVarClean('page','int',1);
         $limit = getVarClean('rows','int',5);
-        $sidx = getVarClean('sidx','str','menu_id');
-        $sord = getVarClean('sord','str','desc');
+        $sidx = getVarClean('sidx','str','mn.listing_no');
+        $sord = getVarClean('sord','str','asc');
         $id = getVarClean('parent_id','int', 0);
 
         $data = array('rows' => array(), 'page' => 1, 'records' => 0, 'total' => 1, 'success' => false, 'message' => '');
