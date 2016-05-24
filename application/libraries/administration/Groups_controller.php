@@ -263,8 +263,8 @@ class Groups_controller {
                     throw new Exception('Empty parameter');
                 }
 				// print_r($items);exit;
-				$table->remove_foreign_primary($items);
-                // $table->remove($items);
+				//$table->remove_foreign_primary($items);
+                $table->remove($items);
                 $data['rows'][] = array($table->pkey => $items);
                 $data['total'] = $total = 1;
             }

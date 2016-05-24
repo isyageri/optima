@@ -40,7 +40,16 @@ class Permissions extends Abstract_model {
         }
         return true;
     }
-
+	function remove_foreign_primary($f_key){
+		$sql ="DELETE FROM GROUPS_PERMISSIONS
+				WHERE PERMISSION_ID = ". $f_key;
+		$query = $this->db->query($sql);
+		$sql ="DELETE FROM PERMISSIONS
+				WHERE PERMISSION_ID = ". $f_key;
+		$query = $this->db->query($sql);
+	    
+		return true;
+	}
 }
 
 /* End of file Groups.php */

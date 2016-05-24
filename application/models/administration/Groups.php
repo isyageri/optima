@@ -19,7 +19,8 @@ class Groups extends Abstract_model {
     public $selectClause    = "grp.*";
     public $fromClause      = "groups as grp";
 
-    public $refs            = array('users_groups' => 'group_id');
+    public $refs            = array('users_groups' => 'group_id',
+									'groups_permissions' => 'group_id');
 
     function __construct() {
         parent::__construct();
@@ -40,6 +41,17 @@ class Groups extends Abstract_model {
         }
         return true;
     }
+	
+	function remove_foreign_primary($f_key){
+		$sql ="DELETE FROM GROUPS_PERMISSIONS
+				WHERE GROUP_ID = ". $f_key;
+		$query = $this->db->query($sql);
+		$sql ="DELETE FROM GROUPS
+				WHERE ID = ". $f_key;
+		$query = $this->db->query($sql);
+	    
+		return true;
+	}
 
 }
 
