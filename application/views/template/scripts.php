@@ -72,8 +72,12 @@
 
     $(".nav-item").on('click', function(){
         var nav = $(this).attr('data-source');
-        if(!nav){
 
+        if(!nav){
+            $(".nav-item").removeClass("open");
+            //$(".arrow").removeClass("open");
+            //$(".sub-menu").css('display', 'none');
+            
         }else{
             $(".nav-item").removeClass("active");
 
