@@ -53,6 +53,60 @@ class Groups extends Abstract_model {
 		return true;
 	}
 
+    function getMenuGroup($menu, $group){
+        $sql = "SELECT * FROM APP_MENU_GROUPS WHERE MENU_ID = $menu AND GROUP_ID = $group";
+        $query = $this->db->query($sql);
+        $row = $query->row_array();
+
+        return $row;
+    }
+
+    function insMenuProf(){
+        $menu_id = $this->input->post('check_val');
+        $menu_id2 = $this->input->post('uncheck_val');
+        $group_id = $this->input->post('group_id');
+
+        $this->db->trans_begin();
+        if ($group_id != "" || $group_id != null) {
+            $user = $this->session->userdata('d_user_name');
+
+            // Check List
+            if($menu_id){               
+                for ($i = 0; $i < count($menu_id); $i++) {
+                    $cek = $this->getMenuGroup($menu_id[$i], $group_id);
+                    if($cek == 0){
+                        $data = array(
+                            "menu_id" => $menu_id[$i],
+                            "group_id" => $group_id
+                        );
+
+                        $this->db->insert("app_menu_groups", $data);
+                    }
+                }
+            }
+
+            if($menu_id2){               
+                for ($j = 0; $j < count($menu_id2); $j++) {
+                    $cek = $this->getMenuGroup($menu_id2[$j], $group_id);
+                    if($cek > 0){
+                         $this->db->where("menu_id", $menu_id2[$j]);
+                        $this->db->where("group_id", $group_id);
+                        $this->db->delete("app_menu_groups");
+
+                    }
+                }
+            }
+        }
+
+        if ($this->db->trans_status() === FALSE) {
+            $this->db->trans_rollback();
+
+        } else {
+            $this->db->trans_commit();
+        }
+
+    }
+
 }
 
 /* End of file Groups.php */

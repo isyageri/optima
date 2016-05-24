@@ -10,7 +10,50 @@ class Home extends CI_Controller
 
     function index() {
         check_login();
-        $this->load->view('home/index');
+        $ci = & get_instance();
+        $ci->load->model('administration/menus');
+        $result = $ci->menus->groupParentMenus($this->ion_auth->user()->row()->id);
+
+        $menu = '';
+        foreach($result as $data){
+            $menu .= $this->get_menu($data);
+        }
+
+        $this->menu = $menu;
+        
+        $this->load->view('home/index', $data);
+    }
+
+    function get_menu($data){
+        $html = "";
+        if(isset($data)){
+            $html .= "<li class='nav-item' data-source=''>";
+            $html .= "<a href='".$data->menu_link."' class='nav-link nav-toggle'>";
+            $html .= "<i class='".$data->menu_icon."'></i>";
+            $html .= "<span class='title'> ".$data->menu_name."</span>";
+            $html .= "<span class='arrow'></span>";
+            $html .= "</a>";
+
+            $ci = & get_instance();
+            $ci->load->model('administration/menus');
+            $result = $ci->menus->groupChildMenus($data->menu_id);
+
+            $html .= "<ul class='sub-menu'>";
+            foreach ($result as $row) {
+                $html .= "<li class='nav-item' data-source='".$row->file_name."'>";
+                $html .= "<a href='#' class='nav-link'>";
+                $html .= "<span class='title'> ".$row->menu_name."</span>";
+                $html .= "</a>";
+                $html .= "</li>";
+            }
+            $html .= "</ul>";
+            $html .= "</li>";
+
+            return $html;
+        }else{
+            return false;
+        }
+            
     }
 
     function load_content($id) {

@@ -14,29 +14,8 @@
             <span class="title">Dashboard</span>
         </a>
     </li>
-    <li class="nav-item" data-source="">
-        <a href="#" class="nav-link nav-toggle">
-            <i class="icon-user"></i>
-            <span class="title">Administration</span>
-            <span class="arrow"></span>
-        </a>
-        <ul class="sub-menu">
-            <li class="nav-item" data-source="administration.users">
-                <a href="#" class="nav-link">
-                    <span class="title">User</span>
-                </a>
-            </li>
-            <li class="nav-item" data-source="administration.groups">
-                <a href="#" class="nav-link">
-                    <span class="title">Role</span>
-                </a>
-            </li>
-            <li class="nav-item" data-source="administration.permissions">
-                <a href="#" class="nav-link">
-                    <span class="title">Permission</span>
-                </a>
-            </li>
-        </ul>
-    </li>
+    <?php
+        echo $this->menu;
+    ?>
 </ul>
 <!-- END SIDEBAR MENU -->
