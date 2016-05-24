@@ -88,7 +88,7 @@
                 }
             },
             sortorder:'',
-            pager: '#grid-pager',
+            pager: '#grid-pager' ,
             jsonReader: {
                 root: 'rows',
                 id: 'id',
