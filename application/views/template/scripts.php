@@ -71,14 +71,18 @@
     }
 
     $(".nav-item").on('click', function(){
-        $(".nav-item").removeClass("active");
+        var nav = $(this).attr('data-source');
+        if(!nav){
 
-        $(this).addClass("active");
-        $(this).parent("ul").parent("li").addClass("active");
+        }else{
+            $(".nav-item").removeClass("active");
 
-        var menu_id = $(this).attr('data-source');
-        if(menu_id == "") return;
-        loadContentWithParams(menu_id,{});
+            $(this).addClass("active");
+            $(this).parent("ul").parent("li").addClass("active");
+
+            loadContentWithParams(nav,{});
+        }
+        
     });
 
 
