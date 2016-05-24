@@ -65,7 +65,7 @@
     }
 
     $(".nav-item").click(function(event){
-        event.stopPropagation();
+        //event.stopPropagation();
         $(".nav-item").removeClass("active");
 
         $(this).addClass("active");
