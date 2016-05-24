@@ -14,15 +14,15 @@ class Groups_permissions_controller {
         $sord = getVarClean('sord','str','asc');
 
         $data = array('rows' => array(), 'page' => 1, 'records' => 0, 'total' => 1, 'success' => false, 'message' => '');
-		
+
 		$group_id = getVarClean('group_id','int',0);
         try {
 
             $ci = & get_instance();
             $ci->load->model('administration/groups_permissions');
-			
+
             $table = new Groups_permissions($group_id);
-			
+
 
             $req_param = array(
                 "sort_by" => $sidx,
@@ -88,6 +88,10 @@ class Groups_permissions_controller {
 
             case 'del' :
                 $data = $this->destroy();
+            break;
+
+            default :
+                $data = $this->read();
             break;
         }
 
@@ -187,7 +191,7 @@ class Groups_permissions_controller {
         if (isset($items[0])){
             $errors = array();
             $numItems = count($items);
-						
+
             for($i=0; $i < $numItems; $i++){
                 try{
                     $table->db->trans_begin(); //Begin Trans
@@ -196,7 +200,7 @@ class Groups_permissions_controller {
                         $table->update();
 
                     $table->db->trans_commit(); //Commit Trans
-                    $items[$i] = $table->get($items[$i][$table->pkey]);			
+                    $items[$i] = $table->get($items[$i][$table->pkey]);
                 }catch(Exception $e){
                     $table->db->trans_rollback(); //Rollback Trans
 
@@ -213,31 +217,31 @@ class Groups_permissions_controller {
             }
             $data['rows'] =$items;
         }else {
-			
+
 			$check_id = explode(".",$items['groups_permissions_id']);
 			if($check_id[0] == 0){
-				
 
-				
+
+
 				try{
-					
+
 					$table->actionType = 'CREATE';
-					
+
 					$table->db->trans_begin(); //Begin Trans
 						$table->setRecord($items);
 						$table->create();
 
 						$data['success'] = true;
 						$data['message'] = 'Data added successfully';
-					
+
 					$table->db->trans_commit(); //Commit Trans
-					
+
 				}catch(Exception $e){
 					$table->db->trans_rollback(); //Rollback Trans
 					$errors[] = $e->getMessage();
-				}	
-				
-			} else{				
+				}
+
+			} else{
 				try{
 					$id = explode(".",$items['id']);
 					$items['id'] = $id[1];
@@ -248,7 +252,7 @@ class Groups_permissions_controller {
 						$table->setRecord($items);
 					$table->update_groups_permissions($items['permission_id'],$items['group_id'],$items['status']);
 					$table->db->trans_commit(); //Commit Trans
-					
+
 					$data['success'] = true;
 					$data['message'] = 'Data update successfully';
 					$data['rows'] = $table->get($items[$table->pkey]);
@@ -261,22 +265,22 @@ class Groups_permissions_controller {
 			}
 					/* cek $items nya */
 					// print_r($items);exit;
-					
-					/* 
+
+					/*
 						explode(items['groups_permissions_id'])
-						kalau prefix groups_permission_id == 0 
+						kalau prefix groups_permission_id == 0
 						maka lakukan insert :
-						
+
 						jgn lupa unset($items['id'])
 						$table->actionType = 'CREATE';
 						$table->setRecord($items);
 						$table->create();
-						
+
 					*/
-					
-					/* jika prefix groups_permission_id != 0 
+
+					/* jika prefix groups_permission_id != 0
 						maka update
-					*/		
+					*/
         }
         return $data;
 
@@ -332,7 +336,7 @@ class Groups_permissions_controller {
         }
         return $data;
     }
-	
+
 }
 
 /* End of file Groups_controller.php */

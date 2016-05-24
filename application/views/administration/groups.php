@@ -34,9 +34,9 @@
     jQuery(function($) {
         var grid_selector = "#grid-table";
         var pager_selector = "#grid-pager";
-        
+
         jQuery("#grid-table").jqGrid({
-            url: '<?php echo WS_JQGRID."administration.groups_controller/read"; ?>',
+            url: '<?php echo WS_JQGRID."administration.groups_controller/crud"; ?>',
             datatype: "json",
             mtype: "POST",
             colModel: [
@@ -45,7 +45,7 @@
                     editoptions: {
                         size: 30,
                         maxlength:32,
-						
+
                     },
                     editrules: {required: true}
                 },
@@ -75,7 +75,7 @@
                 var grid_detail = jQuery("#grid-table-detail");
                 if (rowid != null) {
                     grid_detail.jqGrid('setGridParam', {
-                        url: '<?php echo WS_JQGRID."administration.groups_permissions_controller/read"; ?>',
+                        url: '<?php echo WS_JQGRID."administration.groups_permissions_controller/crud"; ?>',
                         postData: {group_id: rowid}
                     });
                     var strCaption = 'Mapping Permissions';
@@ -89,7 +89,7 @@
             },
             sortorder:'',
             pager: '#grid-pager' ,
-            jsonReader: {
+            jsoncruder: {
                 root: 'rows',
                 id: 'id',
                 repeatitems: false
@@ -231,7 +231,7 @@
         );
 
     });
-	
+
 	/* ------------------------------  detail grid --------------------------------*/
         jQuery("#grid-table-detail").jqGrid({
             datatype: "json",
@@ -246,8 +246,8 @@
 					editoptions: {
 						value: ":;Y:Yes;N:No",
 						dataInit: function(elem) {
-                        $(elem).width(250);  // set the width which you need                        
-                    }                    
+                        $(elem).width(250);  // set the width which you need
+                    }
                 }},
 				{label: 'Status', name: 'status_permission', width: 120, align: "left", editable: false}
             ],
@@ -304,7 +304,7 @@
                 viewicon: 'fa fa-search-plus grey bigger-120'
             },
 
-            { 	               
+            {
 				editData: {
 					group_id: function() {
 						var selRowId =  $("#grid-table").jqGrid ('getGridParam', 'selrow');
@@ -322,7 +322,7 @@
                 errorTextFormat: function (data) {
                     return 'Error: ' + data.responseText
                 },
-				
+
                 beforeShowForm: function (e, form) {
                     var form = $(e[0]);
                     style_edit_form(form);
@@ -337,7 +337,7 @@
                     }
                     return [true,"",response.responseText];
                 }
-				
+
             },
             {
                 //new record form
@@ -474,5 +474,5 @@
         $(pager_selector).jqGrid( 'setGridWidth', parent_column.width() );
 
     }
-	
+
 </script>

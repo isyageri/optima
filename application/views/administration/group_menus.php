@@ -40,7 +40,7 @@
     </div>
 
     <div class="col-md-5">
-        
+
         <div id="menutreAjax">
 
         </div>
@@ -63,7 +63,7 @@
         var pager_selector = "#grid-pager";
 
         jQuery("#grid-table").jqGrid({
-            url: '<?php echo WS_JQGRID."administration.groups_controller/read"; ?>',
+            url: '<?php echo WS_JQGRID."administration.groups_controller/crud"; ?>',
             datatype: "json",
             mtype: "POST",
             colModel: [

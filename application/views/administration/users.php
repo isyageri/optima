@@ -39,7 +39,7 @@
         var pager_selector = "#grid-pager";
 
         jQuery("#grid-table").jqGrid({
-            url: '<?php echo WS_JQGRID."administration.users_controller/read"; ?>',
+            url: '<?php echo WS_JQGRID."administration.users_controller/crud"; ?>',
             datatype: "json",
             mtype: "POST",
             colModel: [
@@ -124,7 +124,7 @@
                 var grid_detail = jQuery("#grid-table-detail");
                 if (rowid != null) {
                     grid_detail.jqGrid('setGridParam', {
-                        url: '<?php echo WS_JQGRID."administration.users_groups_controller/read"; ?>',
+                        url: '<?php echo WS_JQGRID."administration.users_groups_controller/crud"; ?>',
                         postData: {user_id: rowid}
                     });
                     var strCaption = 'Mapping Groups :: ' + celCode;

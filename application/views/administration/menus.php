@@ -44,17 +44,17 @@
         // });
 
         jQuery("#grid-table").jqGrid({
-            url: '<?php echo WS_JQGRID."administration.menus_controller/read"; ?>',
+            url: '<?php echo WS_JQGRID."administration.menus_controller/crud"; ?>',
             datatype: "json",
             mtype: "POST",
             colModel: [
                {label: 'ID', name: 'menu_id', key: true, width: 5, sorttype: 'number', editable: true, hidden: true},
                {
-                    label: 'Menu Link', 
-                    name: 'menu_link', 
-                    width: 5, 
-                    editable: true, 
-                    hidden: true, 
+                    label: 'Menu Link',
+                    name: 'menu_link',
+                    width: 5,
+                    editable: true,
+                    hidden: true,
                     editrules: {edithidden: false},
                     editoptions: {defaultValue: '#'}
                 },
@@ -81,9 +81,9 @@
                     editoptions: {defaultValue: '0', readonly: 'readonly'}
                 },
                 {
-                    label: 'No. Urut', 
-                    name: 'listing_no', 
-                    width: 90,  
+                    label: 'No. Urut',
+                    name: 'listing_no',
+                    width: 90,
                     editable: true,
                     editoptions: {
                         size: 10,
@@ -91,10 +91,10 @@
                     },
                 },
                 {
-                    label: 'Icon', 
-                    name: 'menu_icon', 
-                    width: 145, 
-                    align: "left", 
+                    label: 'Icon',
+                    name: 'menu_icon',
+                    width: 145,
+                    align: "left",
                     editable: true,
                     editoptions: {
                         size: 30,
@@ -102,10 +102,10 @@
                     },
                 },
                 {
-                    label: 'Deskripsi', 
-                    name: 'menu_desc', 
-                    width: 165, 
-                    align: "left", 
+                    label: 'Deskripsi',
+                    name: 'menu_desc',
+                    width: 165,
+                    align: "left",
                     editable: true
                 }
             ],
@@ -125,7 +125,7 @@
                 var grid_id = $("#jqGridDetails");
                 if (rowid != null) {
                     grid_id.jqGrid('setGridParam', {
-                        url: "<?php echo WS_JQGRID."administration.menus_controller/read_detail"; ?>",
+                        url: "<?php echo WS_JQGRID."administration.menus_controller/crud_detail"; ?>",
                         datatype: 'json',
                         postData: {parent_id: rowid},
                         userData: {row: rowid}
@@ -300,8 +300,8 @@
                 {label: 'Menu ID', name: 'menu_id', key: true, autowidth: true, editable: true, hidden: true},
                 {label: 'Menu Parent', name: 'menu_parent', width: 5, sorttype: 'number', editable: true, hidden: true},
                 {
-                    label: 'Nama Menu', 
-                    name: 'menu_name', 
+                    label: 'Nama Menu',
+                    name: 'menu_name',
                     editable: true,
                     editrules: {required: true},
                     editoptions: {
@@ -311,8 +311,8 @@
                 },
                 {label: 'Controller', name: 'menu_link', editable: false, hidden: true},
                 {
-                    label: 'View', 
-                    name: 'file_name', 
+                    label: 'View',
+                    name: 'file_name',
                     editable: true,
                     editrules: {required: true},
                     editoptions: {
@@ -321,9 +321,9 @@
                     },
                 },
                 {
-                    label: 'No. Urut', 
-                    name: 'listing_no', 
-                    width: 90,  
+                    label: 'No. Urut',
+                    name: 'listing_no',
+                    width: 90,
                     editable: true,
                     editoptions: {
                         size: 10,
@@ -411,7 +411,7 @@
                     menu_parent: function() {
                         var selRowId =  $("#grid-table").jqGrid ('getGridParam', 'selrow');
                         var menu_parent = $("#grid-table").jqGrid('getCell', selRowId, 'menu_id');
-                
+
                         return menu_parent;
                     }
                 },

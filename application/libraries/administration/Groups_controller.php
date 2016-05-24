@@ -86,6 +86,10 @@ class Groups_controller {
             case 'del' :
                 $data = $this->destroy();
             break;
+
+            default :
+                $data = $this->read();
+            break;
         }
 
         return $data;

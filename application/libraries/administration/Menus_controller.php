@@ -102,7 +102,7 @@ class Menus_controller {
 
             // Filter Table
             $req_param['where'] = array('menu_parent ='. $id);
-            
+
             $table->setJQGridParam($req_param);
             $count = $table->countAll();
 
@@ -151,6 +151,10 @@ class Menus_controller {
             case 'del' :
                 $data = $this->destroy();
             break;
+
+            default :
+                $data = $this->read_detail();
+            break;
         }
 
         return $data;
@@ -171,6 +175,10 @@ class Menus_controller {
 
             case 'del' :
                 $data = $this->destroy();
+            break;
+
+            default :
+                $data = $this->read();
             break;
         }
 

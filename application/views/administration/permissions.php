@@ -30,7 +30,7 @@
         var pager_selector = "#grid-pager";
 
         jQuery("#grid-table").jqGrid({
-            url: '<?php echo WS_JQGRID."administration.permissions_controller/read"; ?>',
+            url: '<?php echo WS_JQGRID."administration.permissions_controller/crud"; ?>',
             datatype: "json",
             mtype: "POST",
             colModel: [
@@ -208,7 +208,7 @@
             }
         );
 
-    });	  
+    });
 
     function serializeJSON(postdata) {
         var items;
