@@ -36,7 +36,7 @@ function permission_check($permission_name='') {
         if($ci->input->is_ajax_request()) { //request from Web Service (ws.php)
             header('Content-Type: application/json');
             echo json_encode(array('success' => false,
-                                    'message' => 'We\'re sorry. You don\'t have permission to access this page'));
+                                    'message' => 'We\'re sorry. You don\'t have permission to access this request'));
             exit;
         }else {
             $ci->load->view('error_401');
