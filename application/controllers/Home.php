@@ -20,7 +20,7 @@ class Home extends CI_Controller
         }
 
         $this->menu = $menu;
-        
+
         $this->load->view('home/index', $data);
     }
 
@@ -36,9 +36,9 @@ class Home extends CI_Controller
             }else{
                 $html .= "<li class='nav-item' data-source='blank'>";
             }
-            
+
             $html .= "<a href='".$data->menu_link."' class='nav-link nav-toggle'>";
-            $html .= "<i class='".$data->menu_icon."'></i>";
+            $html .= "<i class='".(empty($data->menu_icon) ? 'fa fa-folder-o' : $data->menu_icon)."'></i>";
             $html .= "<span class='title'> ".$data->menu_name."</span>";
 
             if($result){
@@ -47,7 +47,7 @@ class Home extends CI_Controller
 
             $html .= "</a>";
 
-            
+
             if($result){
                 $html .= "<ul class='sub-menu'>";
                 foreach ($result as $row) {
@@ -66,7 +66,7 @@ class Home extends CI_Controller
         }else{
             return false;
         }
-            
+
     }
 
     function load_content($id) {
