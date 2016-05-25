@@ -141,18 +141,22 @@ class Menus_controller {
         $oper = getVarClean('oper', 'str', '');
         switch ($oper) {
             case 'add' :
+                permission_check('add-menu');
                 $data = $this->create();
             break;
 
             case 'edit' :
+                permission_check('edit-menu');
                 $data = $this->update();
             break;
 
             case 'del' :
+                permission_check('delete-menu');
                 $data = $this->destroy();
             break;
 
             default :
+                permission_check('view-menu');
                 $data = $this->read_detail();
             break;
         }
@@ -166,18 +170,22 @@ class Menus_controller {
         $oper = getVarClean('oper', 'str', '');
         switch ($oper) {
             case 'add' :
+                permission_check('add-menu');
                 $data = $this->create();
             break;
 
             case 'edit' :
+                permission_check('edit-menu');
                 $data = $this->update();
             break;
 
             case 'del' :
+                permission_check('delete-menu');
                 $data = $this->destroy();
             break;
 
             default :
+                permission_check('view-menu');
                 $data = $this->read();
             break;
         }

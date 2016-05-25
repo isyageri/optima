@@ -76,18 +76,22 @@ class Users_controller {
         $oper = getVarClean('oper', 'str', '');
         switch ($oper) {
             case 'add' :
+                permission_check('add-user');
                 $data = $this->create();
             break;
 
             case 'edit' :
+                permission_check('edit-user');
                 $data = $this->update();
             break;
 
             case 'del' :
+                permission_check('delete-user');
                 $data = $this->destroy();
             break;
 
             default:
+                permission_check('view-user');
                 $data = $this->read();
             break;
         }

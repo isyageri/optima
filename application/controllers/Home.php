@@ -20,8 +20,7 @@ class Home extends CI_Controller
         }
 
         $this->menu = $menu;
-
-        $this->load->view('home/index', $data);
+        $this->load->view('home/index');
     }
 
     function get_menu($data){

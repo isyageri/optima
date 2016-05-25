@@ -76,18 +76,22 @@ class Permissions_controller {
         $oper = getVarClean('oper', 'str', '');
         switch ($oper) {
             case 'add' :
+                permission_check('add-permission');
                 $data = $this->create();
             break;
 
             case 'edit' :
+                permission_check('edit-permission');
                 $data = $this->update();
             break;
 
             case 'del' :
+                permission_check('delete-permission');
                 $data = $this->destroy();
             break;
 
             default :
+                permission_check('view-permission');
                 $data = $this->read();
             break;
         }

@@ -76,18 +76,22 @@ class Groups_controller {
         $oper = getVarClean('oper', 'str', '');
         switch ($oper) {
             case 'add' :
+                permission_check('add-role');
                 $data = $this->create();
             break;
 
             case 'edit' :
+                permission_check('edit-role');
                 $data = $this->update();
             break;
 
             case 'del' :
+                permission_check('delete-role');
                 $data = $this->destroy();
             break;
 
             default :
+                permission_check('view-role');
                 $data = $this->read();
             break;
         }
