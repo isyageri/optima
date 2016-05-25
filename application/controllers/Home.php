@@ -20,6 +20,7 @@ class Home extends CI_Controller
         }
 
         $this->menu = $menu;
+
         $this->load->view('home/index');
     }
 
@@ -28,7 +29,7 @@ class Home extends CI_Controller
         if(isset($data)){
             $ci = & get_instance();
             $ci->load->model('administration/menus');
-            $result = $ci->menus->groupChildMenus($data->menu_id);
+            $result = $ci->menus->groupChildMenus($data->menu_id, $this->ion_auth->user()->row()->id);
 
             if($result){
                 $html .= "<li class='nav-item' data-source=''>";
