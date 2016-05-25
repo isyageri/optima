@@ -244,8 +244,8 @@
 				{label: 'Status',name: 'status',width: 120, align: "left",editable: true, edittype: 'select', hidden:true,
                     editrules: {edithidden: true, required: true},
 					editoptions: {
-						value: ":;Y:Yes;N:No",
-						dataInit: function(elem) {
+					value: "Y:Yes;N:No",
+					dataInit: function(elem) {
                         $(elem).width(250);  // set the width which you need
                     }
                 }},
@@ -255,8 +255,8 @@
 			width:500,
             autowidth: true,
             viewrecords: true,
-            rowNum: 5,
-            rowList: [5, 10, 20],
+            rowNum: 10,
+            rowList: [10,20,50],
             rownumbers: true, // show row numbers
             rownumWidth: 35, // the width of the row numbers columns
             altRows: true,
