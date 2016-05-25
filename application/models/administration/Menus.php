@@ -62,9 +62,14 @@ class Menus extends Abstract_model {
         return $result;
     }
 
-    function groupChildMenus($menu_id){
+    function groupChildMenus($menu_id, $user_id){
         $result = array();
-        $sql = "SELECT * FROM app_menu WHERE menu_parent = $menu_id order by listing_no ASC";
+        $sql = "SELECT DISTINCT a.* 
+                FROM app_menu a, app_menu_groups b, users_groups c 
+                WHERE a.menu_id = b.menu_id 
+                AND b.group_id = c.group_id 
+                AND a.menu_parent = $menu_id
+                AND c.user_id = $user_id order by listing_no ASC";
 
         $q = $this->db->query($sql);
         if($q->num_rows() > 0) $result = $q->result();
