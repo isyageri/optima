@@ -26,13 +26,14 @@ function permission_check($permission_name='') {
                 WHERE pr.permission_name = '".$permission_name."'
                 AND group_id IN (
                     SELECT group_id FROM users_groups
-                    WHERE user_id = ".$user->id.")";
+                    WHERE user_id = ".$user->id.")
+                AND gp.status = 'Y'";
 
     $ci->load->model('administration/permissions');
     $query = $ci->permissions->db->query($sql);
     $row = $query->row_array();
 
-    if( empty($row) or $row['status'] == 'N') {
+    if( empty($row) ) {
         if($ci->input->is_ajax_request()) { //request from Web Service (ws.php)
             header('Content-Type: application/json');
             echo json_encode(array('success' => false,
