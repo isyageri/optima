@@ -81,16 +81,6 @@
                     editoptions: {defaultValue: '0', readonly: 'readonly'}
                 },
                 {
-                    label: 'No. Urut',
-                    name: 'listing_no',
-                    width: 90,
-                    editable: true,
-                    editoptions: {
-                        size: 10,
-                        maxlength:2
-                    },
-                },
-                {
                     label: 'Icon',
                     name: 'menu_icon',
                     width: 145,
@@ -107,6 +97,25 @@
                     width: 165,
                     align: "left",
                     editable: true
+                },
+                {
+                    label: 'No. Urut',
+                    name: 'listing_no',
+                    width: 90,
+                    editable: true,
+                    editrules: {required: true},
+                    editoptions: {
+                        size: 10,
+                        maxlength:2,
+                        defaultValue: '0',
+                        dataInit: function(element) {
+                           $(element).keypress(function(e){
+                                 if (e.which != 8 && e.which != 0 && (e.which < 48 || e.which > 57)) {
+                                    return false;
+                                 }
+                            });                        
+                        }
+                    },
                 }
             ],
             height: '100%',
@@ -325,10 +334,19 @@
                     name: 'listing_no',
                     width: 90,
                     editable: true,
+                    editrules: {required: true},
                     editoptions: {
                         size: 10,
-                        maxlength:2
-                    },
+                        maxlength:2,
+                        defaultValue: '0',
+                        dataInit: function(element) {
+                           $(element).keypress(function(e){
+                                 if (e.which != 8 && e.which != 0 && (e.which < 48 || e.which > 57)) {
+                                    return false;
+                                 }
+                            });                        
+                        }
+                    }
                 }
             ],
             // autowidth: true,
