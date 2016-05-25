@@ -20,14 +20,23 @@ function permission_check($permission_name='') {
     $ci =& get_instance();
     $user = $ci->ion_auth->user()->row();
 
-    $sql = "SELECT gp.status
+
+    /*$sql = "SELECT gp.status
                 FROM groups_permissions gp
                 LEFT JOIN permissions pr ON gp.permission_id = pr.permission_id
                 WHERE pr.permission_name = '".$permission_name."'
                 AND group_id IN (
                     SELECT group_id FROM users_groups
                     WHERE user_id = ".$user->id.")
-                AND gp.status = 'Y'";
+                AND gp.status = 'Y'";*/
+
+    $sql = "SELECT gp.status
+            FROM groups_permissions AS gp
+            LEFT JOIN permissions AS p ON gp.permission_id = p.permission_id
+            LEFT JOIN users_groups AS ug ON ug.group_id = gp.group_id
+            WHERE ug.user_id = ".$user->id."
+            AND p.permission_name = '".$permission_name."'
+            AND gp.status = 'Y'";
 
     $ci->load->model('administration/permissions');
     $query = $ci->permissions->db->query($sql);

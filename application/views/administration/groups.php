@@ -24,7 +24,6 @@
 </div>
 <div class="space-4"></div>
 <div class="row" id="detail_placeholder" style="display:none;">
-    <input type="hidden" id="temp_user_id">
     <div class="col-xs-12">
         <table id="grid-table-detail"></table>
         <div id="grid-pager-detail"></div>
@@ -80,7 +79,6 @@
                     });
                     var strCaption = 'Mapping Permissions';
                     grid_detail.jqGrid('setCaption', strCaption);
-                    $("#temp_user_id").val(celValue);
                     $("#grid-table-detail").trigger("reloadGrid");
                     $("#detail_placeholder").show();
 

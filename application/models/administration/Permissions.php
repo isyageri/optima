@@ -19,7 +19,7 @@ class Permissions extends Abstract_model {
     public $selectClause    = "prms.*";
     public $fromClause      = "permissions as prms";
 
-    // public $refs            = array('users_groups' => 'permissions_id');
+    public $refs            = array('groups_permissions' => 'permission_id');
 
     function __construct() {
         parent::__construct();
@@ -47,7 +47,7 @@ class Permissions extends Abstract_model {
 		$sql ="DELETE FROM PERMISSIONS
 				WHERE PERMISSION_ID = ". $f_key;
 		$query = $this->db->query($sql);
-	    
+
 		return true;
 	}
 }
