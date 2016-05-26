@@ -361,3 +361,28 @@ th[aria-selected="true"] .ui-jqgrid-sortable {
   padding:5px;
   color: #dd5a43;
 }
+
+
+/**
+ * for chrome
+ */
+div.ui-jqgrid-view table.ui-jqgrid-btable
+{
+    border-style:none;
+    border-top-style:none;
+    border-collapse:separate;
+}
+div.ui-jqgrid-view table.ui-jqgrid-btable td
+{
+    border-left-style:none
+}
+div.ui-jqgrid-view table.ui-jqgrid-htable
+{
+    border-style:none;
+    border-top-style:none;
+    border-collapse:separate;
+}
+div.ui-jqgrid-view table.ui-jqgrid-btable th
+{
+    border-left-style:none
+}
