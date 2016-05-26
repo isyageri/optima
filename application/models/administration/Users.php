@@ -37,7 +37,7 @@ class Users extends Abstract_model {
                                     CASE coalesce(usr.active,0) WHEN 0 THEN 'Not Active'
                                         WHEN 1 THEN 'Active'
                                     END as status_active";
-    public $fromClause      = "users as usr";
+    public $fromClause      = "users usr";
 
     public $refs            = array('users_groups' => 'user_id');
 

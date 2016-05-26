@@ -17,7 +17,7 @@ class Groups extends Abstract_model {
                             );
 
     public $selectClause    = "grp.*";
-    public $fromClause      = "groups as grp";
+    public $fromClause      = "groups grp";
 
     public $refs            = array('users_groups' => 'group_id',
 									'groups_permissions' => 'group_id');
@@ -41,7 +41,7 @@ class Groups extends Abstract_model {
         }
         return true;
     }
-	
+
 	function remove_foreign_primary($f_key){
 		$sql ="DELETE FROM GROUPS_PERMISSIONS
 				WHERE GROUP_ID = ". $f_key;
@@ -49,7 +49,7 @@ class Groups extends Abstract_model {
 		$sql ="DELETE FROM GROUPS
 				WHERE ID = ". $f_key;
 		$query = $this->db->query($sql);
-	    
+
 		return true;
 	}
 
@@ -71,7 +71,7 @@ class Groups extends Abstract_model {
             $user = $this->session->userdata('d_user_name');
 
             // Check List
-            if($menu_id){               
+            if($menu_id){
                 for ($i = 0; $i < count($menu_id); $i++) {
                     $cek = $this->getMenuGroup($menu_id[$i], $group_id);
                     if($cek == 0){
@@ -85,7 +85,7 @@ class Groups extends Abstract_model {
                 }
             }
 
-            if($menu_id2){               
+            if($menu_id2){
                 for ($j = 0; $j < count($menu_id2); $j++) {
                     $cek = $this->getMenuGroup($menu_id2[$j], $group_id);
                     if($cek > 0){

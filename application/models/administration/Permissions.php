@@ -17,7 +17,7 @@ class Permissions extends Abstract_model {
                             );
 
     public $selectClause    = "prms.*";
-    public $fromClause      = "permissions as prms";
+    public $fromClause      = "permissions prms";
 
     public $refs            = array('groups_permissions' => 'permission_id');
 

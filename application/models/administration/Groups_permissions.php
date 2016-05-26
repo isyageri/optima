@@ -19,19 +19,19 @@ class Groups_permissions extends Abstract_model {
 
     public $selectClause    = " (coalesce(gp.group_id,0) || '.' || pr.permission_id) AS groups_permissions_id,
 								pr.permission_id, gp.group_id, pr.permission_name, pr.permission_description, gp.id, gp.status,
-								CASE gp.status 
+								CASE gp.status
 									WHEN 'Y' THEN 'Yes'
 									WHEN 'N' THEN 'No'
 									ELSE ''
 								END AS status_permission
 								";
-    public $fromClause      = "permissions AS pr
-							   LEFT JOIN groups_permissions AS gp ON pr.permission_id = gp.permission_id %s
+    public $fromClause      = "permissions pr
+							   LEFT JOIN groups_permissions gp ON pr.permission_id = gp.permission_id %s
 							   ";
 							   //AND gp.group_id =1
 
     public $refs            = array();
-	
+
     function __construct($group_id = ''){
 		if (!empty($group_id)){
 			$this->group_id = (int) $group_id;
@@ -40,9 +40,9 @@ class Groups_permissions extends Abstract_model {
 			$this->fromClause = sprintf($this->fromClause, '');
 		}
 
-		parent::__construct();        
+		parent::__construct();
    }
-	   
+
     function validate() {
 
         if($this->actionType == 'CREATE') {
@@ -58,23 +58,23 @@ class Groups_permissions extends Abstract_model {
         }
         return true;
     }
-	
+
 	function getItem($permission_id = '', $group_id = '') {
-		
+
 	}
-	
+
 	function update_groups_permissions($permission_id, $group_id, $status) {
         $sql = "UPDATE GROUPS_PERMISSIONS SET STATUS = '". $status ."'
-				WHERE GROUP_ID = ". $group_id ." AND 
+				WHERE GROUP_ID = ". $group_id ." AND
 				PERMISSION_ID = ". $permission_id ;
         $query = $this->db->query($sql);
 
 		return true;
     }
-	
+
 	function delete_groups_permissions($permission_id, $group_id) {
-        $sql = "DELETE FROM GROUPS_PERMISSIONS 
-				WHERE GROUP_ID = ". $group_id ." AND 
+        $sql = "DELETE FROM GROUPS_PERMISSIONS
+				WHERE GROUP_ID = ". $group_id ." AND
 				PERMISSION_ID = ". $permission_id ;
         $query = $this->db->query($sql);
 
