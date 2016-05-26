@@ -72,26 +72,35 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 */
 $active_group = 'default';
 $query_builder = TRUE;
+$active_group = 'default';
+$active_record = TRUE;
 
-$db['default'] = array(
-	'dsn'	=> '',
-	'hostname' => 'localhost',
-	'port' 	   => 5444,
-	'username' => 'optima',
-	'password' => 'optima',
-	'database' => 'optima_db',
-	'dbdriver' => 'postgre',
-	'dbprefix' => '',
-	'pconnect' => FALSE,
-	'db_debug' => (ENVIRONMENT !== 'production'),
-	'cache_on' => FALSE,
-	'cachedir' => '',
-	'char_set' => 'utf8',
-	'dbcollat' => 'utf8_general_ci',
-	'swap_pre' => '',
-	'encrypt' => FALSE,
-	'compress' => FALSE,
-	'stricton' => FALSE,
-	'failover' => array(),
-	'save_queries' => TRUE
-);
+
+$db['default']['hostname'] ='
+(DESCRIPTION=
+(ADDRESS=
+(PROTOCOL=TCP)
+(HOST=10.62.185.22)
+(PORT=1521)
+)
+(CONNECT_DATA=
+(SERVER=dedicated)
+(SID=TIBSDEV)
+)
+)';
+
+$db['default']['username'] = 'optimal';
+$db['default']['password'] = 'telkom135';
+$db['default']['database'] = 'global_dev';
+$db['default']['dbdriver'] = 'oci8';
+$db['default']['dbprefix'] = '';
+$db['default']['pconnect'] = FALSE;
+$db['default']['db_debug'] = TRUE;
+$db['default']['cache_on'] = FALSE;
+$db['default']['cachedir'] = '';
+$db['default']['char_set'] = 'utf8';
+$db['default']['dbcollat'] = 'utf8_general_ci';
+$db['default']['swap_pre'] = '';
+$db['default']['autoinit'] = TRUE;
+$db['default']['stricton'] = FALSE;
+

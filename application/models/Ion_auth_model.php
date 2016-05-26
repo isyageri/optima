@@ -1270,7 +1270,7 @@ class Ion_auth_model extends CI_Model
 			//default selects
 			$this->db->select(array(
 			    $this->tables['users'].'.*',
-			    $this->tables['users'].'.id as id',
+			    //$this->tables['users'].'.id as id',
 			    $this->tables['users'].'.id as user_id'
 			));
 		}

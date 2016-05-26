@@ -31,8 +31,8 @@ class Users extends Abstract_model {
 
                             );
 
-    public $selectClause    = "usr.id, usr.ip_address, usr.username, usr.email, to_char(to_timestamp(created_on),'dd-mm-yyyy HH24:MI:SS')  as created_on,
-                                    to_char(to_timestamp(last_login),'dd-mm-yyyy HH24:MI:SS')  as last_login,
+    public $selectClause    = "usr.id, usr.ip_address, usr.username, usr.email, to_char(to_timestamp_num(created_on),'dd-mm-yyyy HH24:MI:SS')  as created_on,
+                                    to_char(to_timestamp_num(last_login),'dd-mm-yyyy HH24:MI:SS')  as last_login,
                                     coalesce(usr.active,0) active, usr.first_name, usr.last_name, usr.company, usr.phone,
                                     CASE coalesce(usr.active,0) WHEN 0 THEN 'Not Active'
                                         WHEN 1 THEN 'Active'

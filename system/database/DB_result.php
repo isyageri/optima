@@ -260,7 +260,12 @@ class CI_DB_result {
 		is_null($this->row_data) OR $this->data_seek(0);
 		while ($row = $this->_fetch_object())
 		{
-			$this->result_object[] = $row;
+			$new_row = array();
+            foreach ($row as $key => $value) {
+				$new_row[strtolower($key)] = $value;
+            }
+            $this->result_object[] = (object) $new_row;
+			
 		}
 
 		return $this->result_object;
@@ -301,7 +306,13 @@ class CI_DB_result {
 		is_null($this->row_data) OR $this->data_seek(0);
 		while ($row = $this->_fetch_assoc())
 		{
-			$this->result_array[] = $row;
+			$new_row = array();
+            foreach ($row as $key => $value) {
+				$new_row[strtolower($key)] = $value;
+            }
+            
+            $this->result_array[] = $new_row;
+			
 		}
 
 		return $this->result_array;
