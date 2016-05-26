@@ -23,7 +23,7 @@
 }
 
 .ui-jqgrid-titlebar {
-    background: #307ecc none repeat scroll 0 0;
+    background: rgba(244, 205, 63, 0.98) none repeat scroll 0 0;
     color: #fff;
     font-size: 15px;
     height: 40px;
