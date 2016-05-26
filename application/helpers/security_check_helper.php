@@ -31,9 +31,9 @@ function permission_check($permission_name='') {
                 AND gp.status = 'Y'";*/
 
     $sql = "SELECT gp.status
-            FROM groups_permissions AS gp
-            LEFT JOIN permissions AS p ON gp.permission_id = p.permission_id
-            LEFT JOIN users_groups AS ug ON ug.group_id = gp.group_id
+            FROM groups_permissions gp
+            LEFT JOIN permissions p ON gp.permission_id = p.permission_id
+            LEFT JOIN users_groups ug ON ug.group_id = gp.group_id
             WHERE ug.user_id = ".$user->id."
             AND p.permission_name = '".$permission_name."'
             AND gp.status = 'Y'";
