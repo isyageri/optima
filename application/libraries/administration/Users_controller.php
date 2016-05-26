@@ -325,7 +325,7 @@ class Users_controller {
 
             $record = array();
             if(!empty($password)) {
-                if(strlen($password) < 8) throw new Exception('Min.Password 8 Karakter');
+                if(strlen($password) < 4) throw new Exception('Min.Password 4 Karakter');
                 if($password != $password_confirmation) throw new Exception('Password tidak cocok');
 
                 $record['password'] = $ci->ion_auth_model->hash_password($password);

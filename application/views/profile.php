@@ -45,7 +45,7 @@
                             <label class="col-md-3 control-label" for="password">New Password</label>
                             <div class="col-md-4">
                                 <input type="password" class="form-control" name="password" value="">
-                                <i class="orange">Min.8 Characters</i>
+                                <i class="orange">Min.4 Characters</i>
                             </div>
 
                         </div>

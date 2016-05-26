@@ -74,7 +74,7 @@ class Abstract_model extends  CI_Model {
 
 		parent::__construct();
         $this->db->_escape_char = ' ';
-		if( strtolower($this->db->platform()) == 'mysql' ) {
+		if( strtolower($this->db->platform()) == 'mysql' or strtolower($this->db->platform()) == 'oci8' ) {
 		    $this->likeOperator = " LIKE ";
 		}else if (strtolower($this->db->platform()) == 'postgre') {
 		    $this->likeOperator = " ILIKE ";
