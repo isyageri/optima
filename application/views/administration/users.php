@@ -68,7 +68,7 @@
                     },
                     editrules: {required: false},
                     formoptions: {
-                        elmsuffix:'<i data-placement="left" class="orange"> Min.8 Characters</i>'
+                        elmsuffix:'<i data-placement="left" class="orange"> Min.4 Characters</i>'
                     }
                 },
                 {label: 'Status Active', name: 'active', width: 120, align: "left", editable: true, hidden:true,

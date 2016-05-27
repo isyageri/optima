@@ -558,12 +558,14 @@ class Abstract_model extends  CI_Model {
         return false;
     }
 
-    public function generate_id($owner, $table_name, $col_name) {
-        $sql = "SELECT (coalesce(MAX($col_name),0) + 1) AS generated_id FROM $owner.$table_name";
+    public function generate_id($table_name) {
+        $seq_name = strtoupper($table_name)."_"."SEQ";
+
+        $sql = "SELECT $seq_name.NEXTVAL AS seq FROM DUAL";
         $query = $this->db->query($sql);
 		$row = $query->row_array();
 
-		return $row['generated_id'];
+		return $row['seq'];
 
     }
 

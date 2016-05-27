@@ -11,7 +11,7 @@ class Menus extends Abstract_model {
     public $alias           = "mn";
 
     public $fields          = array(
-                                'menu_id'      => array('pkey' => true, 'type' => 'int', 'nullable' => false, 'unique' => true, 'display' => 'Menu ID'),
+                                'menu_id'      => array('pkey' => true, 'type' => 'int', 'nullable' => true, 'unique' => true, 'display' => 'Menu ID'),
                                 'menu_parent'  => array('nullable' => true, 'type' => 'int', 'unique' => false, 'display' => 'Menu Parent'),
                                 'menu_name'    => array('nullable' => true, 'type' => 'str', 'unique' => false, 'display' => 'Nama Menu'),
                                 'menu_icon'    => array('nullable' => true, 'type' => 'str', 'unique' => false, 'display' => 'Icon'),
@@ -38,6 +38,8 @@ class Menus extends Abstract_model {
             // example :
             //$this->record['created_date'] = date('Y-m-d');
             //$this->record['updated_date'] = date('Y-m-d');
+
+            $this->record[$this->pkey] = $this->generate_id($this->table);
         }else {
             //do something
             //example:

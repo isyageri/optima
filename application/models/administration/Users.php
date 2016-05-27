@@ -11,7 +11,7 @@ class Users extends Abstract_model {
     public $alias           = "usr";
 
     public $fields          = array(
-                                'id'                => array('pkey' => true, 'type' => 'int', 'nullable' => false, 'unique' => true, 'display' => 'ID User'),
+                                'id'                => array('pkey' => true, 'type' => 'int', 'nullable' => true, 'unique' => true, 'display' => 'ID User'),
                                 'ip_address'        => array('nullable' => true, 'type' => 'str', 'unique' => false, 'display' => 'IP Address'),
                                 'username'          => array('nullable' => false, 'type' => 'str', 'unique' => true, 'display' => 'Username'),
                                 'password'          => array('nullable' => true, 'type' => 'str', 'unique' => false, 'display' => 'Password'),
@@ -60,6 +60,7 @@ class Users extends Abstract_model {
                 $this->record['password'] = $ci->ion_auth_model->hash_password($this->record['password']);
             }
 
+            $this->record[$this->pkey] = $this->generate_id($this->table);
             $this->record['created_on'] = time();
         }else {
             //do something

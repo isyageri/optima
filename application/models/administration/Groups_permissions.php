@@ -50,6 +50,7 @@ class Groups_permissions extends Abstract_model {
             // example :
             //$this->record['created_date'] = date('Y-m-d');
             //$this->record['updated_date'] = date('Y-m-d');
+            $this->record[$this->pkey] = $this->generate_id($this->table);
         }else {
             //do something
             //example:

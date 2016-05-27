@@ -11,7 +11,7 @@ class Users_groups extends Abstract_model {
     public $alias           = "ug";
 
     public $fields          = array(
-                                'id'          => array('pkey' => true, 'type' => 'int', 'nullable' => false, 'unique' => true, 'display' => 'ID Group'),
+                                'id'          => array('pkey' => true, 'type' => 'int', 'nullable' => true, 'unique' => true, 'display' => 'ID Group'),
                                 'user_id'     => array('nullable' => false, 'type' => 'int', 'unique' => false, 'display' => 'User ID'),
                                 'group_id'    => array('nullable' => false, 'type' => 'int', 'unique' => false, 'display' => 'Group ID')
                             );
@@ -34,6 +34,7 @@ class Users_groups extends Abstract_model {
             // example :
             //$this->record['created_date'] = date('Y-m-d');
             //$this->record['updated_date'] = date('Y-m-d');
+            $this->record[$this->pkey] = $this->generate_id($this->table);
         }else {
             //do something
             //example:

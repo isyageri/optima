@@ -11,7 +11,7 @@ class Permissions extends Abstract_model {
     public $alias           = "prms";
 
     public $fields          = array(
-                                'permission_id'             => array('pkey' => true, 'type' => 'int', 'nullable' => false, 'unique' => true, 'display' => 'ID Permissions'),
+                                'permission_id'             => array('pkey' => true, 'type' => 'int', 'nullable' => true, 'unique' => true, 'display' => 'ID Permissions'),
                                 'permission_name'           => array('nullable' => false, 'type' => 'str', 'unique' => true, 'display' => 'Permission Name'),
                                 'permission_description'    => array('nullable' => true, 'type' => 'str', 'unique' => false, 'display' => 'Description'),
                             );
@@ -32,6 +32,8 @@ class Permissions extends Abstract_model {
             // example :
             //$this->record['created_date'] = date('Y-m-d');
             //$this->record['updated_date'] = date('Y-m-d');
+
+            $this->record[$this->pkey] = $this->generate_id($this->table);
         }else {
             //do something
             //example:

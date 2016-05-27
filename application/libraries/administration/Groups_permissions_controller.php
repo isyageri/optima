@@ -11,7 +11,7 @@ class Groups_permissions_controller {
         $page = getVarClean('page','int',1);
         $limit = getVarClean('rows','int',5);
         $sidx = getVarClean('sidx','str','permission_id');
-        $sord = getVarClean('sord','str','asc');
+        $sord = getVarClean('sord','str','desc');
 
         $data = array('rows' => array(), 'page' => 1, 'records' => 0, 'total' => 1, 'success' => false, 'message' => '');
 
@@ -224,8 +224,6 @@ class Groups_permissions_controller {
 
 			$check_id = explode(".",$items['groups_permissions_id']);
 			if($check_id[0] == 0){
-
-
 
 				try{
 
