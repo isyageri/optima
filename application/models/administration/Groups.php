@@ -67,6 +67,8 @@ class Groups extends Abstract_model {
         $menu_id2 = $this->input->post('uncheck_val');
         $group_id = $this->input->post('group_id');
 
+        $this->load->model('administration/Menus');
+
         $this->db->trans_begin();
         if ($group_id != "" || $group_id != null) {
             $user = $this->session->userdata('d_user_name');
@@ -77,6 +79,7 @@ class Groups extends Abstract_model {
                     $cek = $this->getMenuGroup($menu_id[$i], $group_id);
                     if($cek == 0){
                         $data = array(
+                            "app_menu_group_id" => $this->menus->generate_id('app_menu_groups'),
                             "menu_id" => $menu_id[$i],
                             "group_id" => $group_id
                         );
