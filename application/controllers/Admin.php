@@ -24,12 +24,12 @@ class Admin extends CI_Controller
         $ci->load->model('administration/menus');
         $table = $ci->menus;
         $result = $table->getAll();
-        
+
 
         $i = 0;
         $data = array();
         foreach ($result as $menu) {
-            
+
             $tmp = array(
                 'id' => $menu['menu_id'],
                 'parentid' => $menu['menu_parent'],
@@ -71,5 +71,5 @@ class Admin extends CI_Controller
         $this->load->view('administration/menu_tree', $data);
     }
 
-    
+
 }

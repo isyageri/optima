@@ -67,7 +67,7 @@ class Groups extends Abstract_model {
         $menu_id2 = $this->input->post('uncheck_val');
         $group_id = $this->input->post('group_id');
 
-        $this->load->model('administration/Menus');
+        $this->load->model('administration/menus');
 
         $this->db->trans_begin();
         if ($group_id != "" || $group_id != null) {
