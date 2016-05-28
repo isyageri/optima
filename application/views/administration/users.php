@@ -125,7 +125,7 @@
                 if (rowid != null) {
                     grid_detail.jqGrid('setGridParam', {
                         url: '<?php echo WS_JQGRID."administration.users_groups_controller/crud"; ?>',
-                        postData: {user_id: rowid}
+                        postData: {user_id: celValue}
                     });
                     var strCaption = 'Mapping Groups :: ' + celCode;
                     grid_detail.jqGrid('setCaption', strCaption);

@@ -171,7 +171,9 @@ th[aria-selected="true"] .ui-jqgrid-sortable {
 }
 
 #nData, #pData {
-    padding: 4px 14px !important;
+    border-radius: 100%;
+    color: #669fc7;
+    padding: 6px 12px !important;
 }
 
 

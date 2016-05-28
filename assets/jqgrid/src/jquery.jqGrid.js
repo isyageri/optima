@@ -1070,8 +1070,8 @@ $.extend($.jgrid,{
 				icon_end: "glyphicon-step-forward",
 				icon_asc : "glyphicon-triangle-top",
 				icon_desc : "glyphicon-triangle-bottom",
-				icon_caption_open : "glyphicon-circle-arrow-up",
-				icon_caption_close : "glyphicon-circle-arrow-down"
+				icon_caption_open : "fa fa-chevron-up",
+				icon_caption_close : "fa fa-chevron-down"
 			},
 			modal : {
 				modal : "modal-content",
@@ -1079,7 +1079,7 @@ $.extend($.jgrid,{
 				title : "modal-title",
 				content :"modal-body",
 				resizable : "ui-resizable-handle ui-resizable-se",
-				icon_close : "glyphicon-remove-circle",
+				icon_close : "fa fa-close red",
 				icon_resizable : "glyphicon-import"
 			},
 			celledit : {
@@ -1094,12 +1094,12 @@ $.extend($.jgrid,{
 			},
 			formedit : {
 				inputClass : "form-control",
-				icon_prev : "glyphicon-step-backward",
-				icon_next : "glyphicon-step-forward",
-				icon_save : "glyphicon-save",
-				icon_close : "glyphicon-remove-circle",
+				icon_prev : "fa fa-chevron-left",
+				icon_next : "fa fa-chevron-right",
+				icon_save : "fa fa-check",
+				icon_close : "fa fa-close",
 				icon_del : "glyphicon-trash",
-				icon_cancel : "glyphicon-remove-circle"
+				icon_cancel : "fa fa-close"
 			},
 			navigator : {
 				icon_edit_nav : "glyphicon-edit",
