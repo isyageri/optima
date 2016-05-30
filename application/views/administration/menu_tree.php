@@ -90,42 +90,7 @@
             }
 
         });
-        $('#jqxTree').on('checkChange', function (event) {
-
-            var args = event.args;
-            var checked = args.checked;
-            var element = args.element;
-            var items_check = $('#jqxTree').jqxTree('getCheckedItems');
-            var items_uncheck = $('#jqxTree').jqxTree('getUncheckedItems');
-            var item = items_check[0];
-            var checkString = checked ? 1 :  0; // 1:checked , 0:unchecked
-
-
-           // alert(checkString + ''  + items_check);
-            return false;
-            if(checkString == '1'){
-
-                item = items_check[0].value;
-            }else{
-
-                item = items_uncheck[0].value;
-            }
-
-
-            $.ajax({
-                type: 'POST',
-                url: '<?php echo site_url('Admin/updateProfile');?>',
-                data: {
-                        check:checkString,
-                        check_val:item, 
-                        group_id:<?= $group_id;?>
-                },
-                timeout: 10000,
-                success: function(data) {
-                    $("#menutreAjax").html(data);
-                }
-            })
-        });
+       
 
     });
 </script>
