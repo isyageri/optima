@@ -78,7 +78,7 @@
                         </div>
                     </div>
                     <input type="hidden" value="<?= site_url();?>" id="host">
-<!--                    <input type="hidden" id="token" name="--><?//=$this->security->get_csrf_token_name();?><!--" value="--><?//=$this->security->get_csrf_hash();?><!--" style="display: none">-->
+
                 </form>
                 <?php //echo form_close(); ?>
                 <!-- BEGIN FORGOT PASSWORD FORM -->
