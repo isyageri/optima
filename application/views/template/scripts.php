@@ -28,6 +28,8 @@
 <script src="<?php echo base_url(); ?>assets/swal/sweetalert-dev.js"></script>
 <!-- end swal -->
 
+<script src="<?php echo base_url(); ?>assets/bootgrid/jquery.bootgrid.min.js"></script>
+
 <script type="text/javascript">
     $(document).ready(function () {
         // Ajax setup csrf token.

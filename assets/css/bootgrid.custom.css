@@ -1,0 +1,13 @@
+.bootgrid-footer .pagination {
+    font-size: 11px;
+}
+
+.bootgrid-header .actionBar, .bootgrid-footer .infoBar {
+    font-size: 11px;
+    text-align: right;
+    font-weight:bold;
+}
+
+.bootgrid-table {
+    font-size:11px !important;
+}
