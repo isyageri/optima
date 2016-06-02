@@ -142,7 +142,7 @@
                                           </label>
                                           <div class="col-md-4">
                                             <div class="input-group">
-                                               <input type="text" class="form-control required" id="nipnas" name="nipnas" placeholder="Nipnas" />
+                                               <input type="text" class="form-control required" readonly="" id="nipnas" name="nipnas" placeholder="Nipnas" />
                                                <span class="input-group-btn">
                                                  <button class="btn btn-success" type="button" id="btn-lov-nipnas">
                                                     <i class="fa fa-search"></i>
@@ -161,7 +161,7 @@
                                           </label>
                                           <div class="col-md-4">
                                              <div class="input-group">
-                                                 <input type="text" class="form-control required" id="account_num" name="account_num" placeholder="Account Number" />
+                                                 <input type="text" class="form-control required" readonly="" id="account_num" name="account_num" placeholder="Account Number" />
                                                  <span class="input-group-btn">
                                                    <button class="btn btn-success" type="button" id="btn-lov-account">
                                                       <i class="fa fa-search"></i>
