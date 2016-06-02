@@ -1,5 +1,5 @@
 <div id="modal_lov_nipnas" class="modal fade" tabindex="-1" style="overflow-y: scroll;">
-    <div class="modal-dialog">
+    <div class="modal-dialog" style="width:700px;">
         <div class="modal-content">
             <!-- modal title -->
             <div class="modal-header no-padding">

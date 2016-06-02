@@ -142,7 +142,7 @@
                                           </label>
                                           <div class="col-md-4">
                                             <div class="input-group">
-                                               <input type="text" class="form-control required" id="nipnas" name="nipnos" placeholder="Nipnas" />
+                                               <input type="text" class="form-control required" id="nipnas" name="nipnas" placeholder="Nipnas" />
                                                <span class="input-group-btn">
                                                  <button class="btn btn-success" type="button" id="btn-lov-nipnas">
                                                     <i class="fa fa-search"></i>
@@ -161,16 +161,16 @@
                                           </label>
                                           <div class="col-md-4">
                                              <div class="input-group">
-                                                 <input type="text" class="form-control required" id="account_number" name="account_number" placeholder="Account Number" />
+                                                 <input type="text" class="form-control required" id="account_num" name="account_num" placeholder="Account Number" />
                                                  <span class="input-group-btn">
-                                                   <button class="btn btn-success" type="button" id="btn-lov-accountnum">
+                                                   <button class="btn btn-success" type="button" id="btn-lov-account">
                                                       <i class="fa fa-search"></i>
                                                    </button>
                                                  </span>
                                              </div>
                                          </div>
                                          <div class="col-md-3">
-                                            <input type="text" class="form-control" id="customer_name2" readonly="" placeholder="Customer Name"  />
+                                            <input type="text" class="form-control" id="account_name" readonly="" placeholder="Account Name"  />
                                          </div>
                                       </div>
 
@@ -236,6 +236,7 @@
 </div>
 
 <?php $this->load->view('lov/lov_nipnas2.php'); ?>
+<?php $this->load->view('lov/lov_account.php'); ?>
 
 <script src="<?php echo base_url(); ?>assets/global/plugins/select2/js/select2.full.min.js" type="text/javascript"></script>
 <script src="<?php echo base_url(); ?>assets/global/plugins/jquery-validation/js/jquery.validate.min.js" type="text/javascript"></script>
@@ -255,8 +256,18 @@
           modal_lov_nipnas_show('nipnas','customer_name');
       });
 
-      $('#btn-lov-accountnum').on('click',function() {
-          modal_lov_nipnas_show('account_number','customer_name2');
+      $('#nipnas').on('change', function() {
+          $('#account_num').val('');
+          $('#account_name').val('');
+      });
+
+      $('#btn-lov-account').on('click',function() {
+          if($('#nipnas').val().length == 0) {
+              swal("Info","NIPNAS harus diisi","info");
+              return false;
+          }
+
+          modal_lov_account_show('account_num','account_name', $('#nipnas').val());
       });
   })
 
