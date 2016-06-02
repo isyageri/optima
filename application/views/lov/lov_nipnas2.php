@@ -1,28 +1,28 @@
-<div id="modal_lov_nipsos" class="modal fade" tabindex="-1" style="overflow-y: scroll;">
+<div id="modal_lov_nipnas" class="modal fade" tabindex="-1" style="overflow-y: scroll;">
     <div class="modal-dialog">
         <div class="modal-content">
             <!-- modal title -->
             <div class="modal-header no-padding">
                 <div class="table-header">
-                    <span class="form-add-edit-title"> Data Nipsos</span>
+                    <span class="form-add-edit-title"> Data Nipnas</span>
                 </div>
             </div>
-            <input type="hidden" id="modal_lov_nipsos_id_val" value="" />
-            <input type="hidden" id="modal_lov_nipsos_code_val" value="" />
+            <input type="hidden" id="modal_lov_nipnas_id_val" value="" />
+            <input type="hidden" id="modal_lov_nipnas_code_val" value="" />
 
             <!-- modal body -->
             <div class="modal-body">
                 <div>
-                  <button type="button" class="btn btn-sm btn-success" id="modal_lov_nipsos_btn_blank">
+                  <button type="button" class="btn btn-sm btn-success" id="modal_lov_nipnas_btn_blank">
                     <span class="fa fa-pencil-square-o" aria-hidden="true"></span> BLANK
                   </button>
                 </div>
-                <table id="modal_lov_nipsos_grid_selection" class="table table-striped table-bordered table-hover">
+                <table id="modal_lov_nipnas_grid_selection" class="table table-striped table-bordered table-hover">
                 <thead>
                   <tr>
-                     <th data-column-id="customer_ref" data-sortable="false" data-visible="false">ID Nipsos</th>
+                     <th data-column-id="customer_ref" data-sortable="false" data-visible="false">ID nipnas</th>
                      <th data-header-align="center" data-align="center" data-formatter="opt-edit" data-sortable="false" data-width="100">Options</th>
-                     <th data-column-id="customer_ref">NIPSAS</th>
+                     <th data-column-id="customer_ref">NIPNAS</th>
                      <th data-column-id="first_name">Customer Name</th>
                      <th data-column-id="account_num">Account Number</th>
                   </tr>
@@ -48,38 +48,38 @@
 <script>
 
     jQuery(function($) {
-        $("#modal_lov_nipsos_btn_blank").on('click', function() {
-            $("#"+ $("#modal_lov_nipsos_id_val").val()).val("");
-            $("#"+ $("#modal_lov_nipsos_code_val").val()).val("");
-            $("#modal_lov_nipsos").modal("toggle");
+        $("#modal_lov_nipnas_btn_blank").on('click', function() {
+            $("#"+ $("#modal_lov_nipnas_id_val").val()).val("");
+            $("#"+ $("#modal_lov_nipnas_code_val").val()).val("");
+            $("#modal_lov_nipnas").modal("toggle");
         });
     });
 
-    function modal_lov_nipsos_show(the_id_field, the_code_field) {
-        modal_lov_nipsos_set_field_value(the_id_field, the_code_field);
-        $("#modal_lov_nipsos").modal({backdrop: 'static'});
-        modal_lov_nipsos_prepare_table();
+    function modal_lov_nipnas_show(the_id_field, the_code_field) {
+        modal_lov_nipnas_set_field_value(the_id_field, the_code_field);
+        $("#modal_lov_nipnas").modal({backdrop: 'static'});
+        modal_lov_nipnas_prepare_table();
     }
 
 
-    function modal_lov_nipsos_set_field_value(the_id_field, the_code_field) {
-         $("#modal_lov_nipsos_id_val").val(the_id_field);
-         $("#modal_lov_nipsos_code_val").val(the_code_field);
+    function modal_lov_nipnas_set_field_value(the_id_field, the_code_field) {
+         $("#modal_lov_nipnas_id_val").val(the_id_field);
+         $("#modal_lov_nipnas_code_val").val(the_code_field);
     }
 
-    function modal_lov_nipsos_set_value(the_id_val, the_code_val) {
-         $("#"+ $("#modal_lov_nipsos_id_val").val()).val(the_id_val);
-         $("#"+ $("#modal_lov_nipsos_code_val").val()).val(the_code_val);
-         $("#modal_lov_nipsos").modal("toggle");
+    function modal_lov_nipnas_set_value(the_id_val, the_code_val) {
+         $("#"+ $("#modal_lov_nipnas_id_val").val()).val(the_id_val);
+         $("#"+ $("#modal_lov_nipnas_code_val").val()).val(the_code_val);
+         $("#modal_lov_nipnas").modal("toggle");
 
-         $("#"+ $("#modal_lov_nipsos_id_val").val()).change();
+         $("#"+ $("#modal_lov_nipnas_id_val").val()).change();
     }
 
-    function modal_lov_nipsos_prepare_table() {
-        $("#modal_lov_nipsos_grid_selection").bootgrid({
+    function modal_lov_nipnas_prepare_table() {
+        $("#modal_lov_nipnas_grid_selection").bootgrid({
              formatters: {
                 "opt-edit" : function(col, row) {
-                    return '<a href="javascript:;" title="Set Value" onclick="modal_lov_nipsos_set_value(\''+ row.customer_ref +'\', \''+ row.first_name +'\')" class="blue"><i class="fa fa-pencil-square-o bigger-130"></i></a>';
+                    return '<a href="javascript:;" title="Set Value" onclick="modal_lov_nipnas_set_value(\''+ row.customer_ref +'\', \''+ row.first_name +'\')" class="blue"><i class="fa fa-pencil-square-o bigger-130"></i></a>';
                 }
              },
              rowCount:[5,10],

@@ -137,14 +137,14 @@
                                  <div class="tab-pane active" id="tab1">
                                       <!--- TAB 1 -->
                                       <div class="form-group">
-                                          <label class="control-label col-md-3">Nipnos
+                                          <label class="control-label col-md-3">Nipnas
                                              <span> * </span>
                                           </label>
                                           <div class="col-md-4">
                                             <div class="input-group">
-                                               <input type="text" class="form-control required" id="nipsos" name="nipnos" placeholder="Nipnos" />
+                                               <input type="text" class="form-control required" id="nipnas" name="nipnos" placeholder="Nipnas" />
                                                <span class="input-group-btn">
-                                                 <button class="btn btn-success" type="button" id="btn-lov-nipsos">
+                                                 <button class="btn btn-success" type="button" id="btn-lov-nipnas">
                                                     <i class="fa fa-search"></i>
                                                  </button>
                                                </span>
@@ -235,7 +235,7 @@
     </div>
 </div>
 
-<?php $this->load->view('lov/lov_nipsos2.php'); ?>
+<?php $this->load->view('lov/lov_nipnas2.php'); ?>
 
 <script src="<?php echo base_url(); ?>assets/global/plugins/select2/js/select2.full.min.js" type="text/javascript"></script>
 <script src="<?php echo base_url(); ?>assets/global/plugins/jquery-validation/js/jquery.validate.min.js" type="text/javascript"></script>
@@ -251,12 +251,12 @@
 
 <script>
   $(document).ready(function(){
-      $('#btn-lov-nipsos').on('click',function() {
-          modal_lov_nipsos_show('nipsos','customer_name');
+      $('#btn-lov-nipnas').on('click',function() {
+          modal_lov_nipnas_show('nipnas','customer_name');
       });
 
       $('#btn-lov-accountnum').on('click',function() {
-          modal_lov_nipsos_show('account_number','customer_name2');
+          modal_lov_nipnas_show('account_number','customer_name2');
       });
   })
 

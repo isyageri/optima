@@ -18,7 +18,7 @@ class Customer_controller {
         try {
 
             $ci = & get_instance();
-            $ci->load->model('schema/customer');
+            $ci->load->model('customer/customer');
             $table = $ci->customer;
 
             $req_param = array(
@@ -87,7 +87,7 @@ class Customer_controller {
             permission_check('view-customer');
 
             $ci = & get_instance();
-            $ci->load->model('schema/customer');
+            $ci->load->model('customer/customer');
             $table = $ci->customer;
 
             //Set default criteria. You can override this if you want
@@ -153,7 +153,7 @@ class Customer_controller {
     function create() {
 
         $ci = & get_instance();
-        $ci->load->model('schema/customer');
+        $ci->load->model('customer/customer');
         $table = $ci->customer;
 
         $data = array('rows' => array(), 'page' => 1, 'records' => 0, 'total' => 1, 'success' => false, 'message' => '');
@@ -224,7 +224,7 @@ class Customer_controller {
     function update() {
 
         $ci = & get_instance();
-        $ci->load->model('schema/customer');
+        $ci->load->model('customer/customer');
         $table = $ci->customer;
 
         $data = array('rows' => array(), 'page' => 1, 'records' => 0, 'total' => 1, 'success' => false, 'message' => '');
@@ -295,7 +295,7 @@ class Customer_controller {
 
     function destroy() {
         $ci = & get_instance();
-        $ci->load->model('schema/customer');
+        $ci->load->model('customer/customer');
         $table = $ci->customer;
 
         $data = array('rows' => array(), 'page' => 1, 'records' => 0, 'total' => 1, 'success' => false, 'message' => '');
