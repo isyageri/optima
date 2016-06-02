@@ -146,10 +146,10 @@
 												<div class="col-md-8">
 													<div class="input-group">
 														<div class="input-icon">															
-															<input id="NIPNAS" class="form-control required" type="text" name="find_NIPNAS" readonly="">
+															<input id="nipnas" class="form-control required" type="text" name="find_NIPNAS" readonly="">
 														</div>
 														<span class="input-group-btn">
-														<button id="btn-lov-NIPNAS" class="btn btn-success" type="button">Find NIPNAS</button>
+														<button id="btn-lov-nipnas" class="btn btn-success" type="button">Find NIPNAS</button>
 														</span>
 													</div>
 												</div>
@@ -177,10 +177,8 @@
 												<div class="col-md-8">															
 													<select class="form-control">
 														<option>PT Telkom Taxable</option>
-														<option>PT Alibaba</option>
-														<option>PT Telkomsel Taxable</option>
-														<option>PT Air Jordan</option>
-														<option>Bangkok Network Dept</option>
+														<option>PT Telkom Nontaxable</option>
+														<option>PT Telkom for 5% Tax Set</option>
 													</select>
 													<span class="help-block">
 													</span>
@@ -191,10 +189,7 @@
 												<div class="col-md-8">
 													<select class="form-control">
 														<option>Tax Exclusive</option>
-														<option>Tax Non Exclusive</option>
-														<option>Taxable Receipt</option>
-														<option>Dept Tax</option>
-														<option>Vendor Tax</option>
+														<option>Tax Inclusive</option>
 													</select>															
 													<span class="help-block">
 													</span>
@@ -212,10 +207,8 @@
 													<div class="col-md-8">
 														<select class="form-control">
 															<option>IDR - Indonesian Rupiah</option>
-															<option>USD - United States Dollar</option>
-															<option>CHY - China Yuan</option>
-															<option>EUR - Euro</option>
-															<option>HKD - Hong Kong Dollar</option>
+															<option>USD - US Dollar</option>															
+															<option>EUR - Euro</option>															
 														</select>
 														<span class="help-block">
 														</span>
@@ -226,10 +219,8 @@
 													<div class="col-md-8">
 														<select class="form-control">
 															<option>IDR - Indonesian Rupiah</option>
-															<option>USD - United States Dollar</option>
-															<option>CHY - China Yuan</option>
+															<option>USD - US Dollar</option>															
 															<option>EUR - Euro</option>
-															<option>HKD - Hong Kong Dollar</option>
 														</select>
 														<span class="help-block">
 														</span>
@@ -315,10 +306,9 @@
 														<div class="col-md-8">
 															<select class="form-control">
 															<option>Billing</option>
-															<option>Development</option>
-															<option>Rent</option>
-															<option>Financing</option>
-															<option>Billing View</option>
+															<option>Contract</option>
+															<option>Directory</option>
+															<option>INTERNAL</option>															
 														</select>
 															<span class="help-block">
 															</span>
@@ -494,10 +484,10 @@
 														</div>
 														<div class="col-md-4">
 														<select class="form-control">
+															<option>Default</option>
 															<option>Daily</option>
 															<option>Weekly</option>
-															<option>Monthly</option>
-															<option>Yearly</option>
+															<option>Monthly</option>															
 														</select>
 															<span class="help-block">
 															</span>
@@ -507,10 +497,7 @@
 														<label class="col-md-2 control-label">Accounting Method</label>
 														<div class="col-md-10">
 															<select class="form-control">
-																<option>Balance Forward</option>
-																<option>Balance Backward</option>
-																<option>Non-Balance Forward</option>
-																<option>Non-Balance Backward</option>
+																<option>Balance Forward</option>																
 															</select>
 														</div>
 													</div>
@@ -518,10 +505,7 @@
 														<label class="col-md-2 control-label">Payment Method</label>
 														<div class="col-md-10">
 															<select class="form-control">
-																<option>Normal</option>
-																<option>Fast</option>
-																<option>Slow</option>
-																<option>Ultra Fast</option>
+																<option>Normal</option>																
 															</select>
 														</div>
 													</div>
@@ -531,10 +515,7 @@
 														<label class="col-md-2 control-label">Bill Style</label>
 														<div class="col-md-8">
 															<select class="form-control">
-																<option>Normal Billing</option>
-																<option>Fast Billing</option>
-																<option>Slow Billing</option>
-																<option>Ultra Fast Billing</option>
+																<option>Normal Billing</option>																
 															</select>
 														</div>
 													</div>
@@ -543,9 +524,8 @@
 														<div class="col-md-8">
 															<select class="form-control">
 																<option>Account Single Billing</option>
-																<option>Account Multiple Billing</option>
-																<option>User Billing</option>
-																<option>Vendor Single Billing</option>
+																<option>Invoice Detail View</option>
+																<option>Invoice Group View</option>																
 															</select>
 														</div>
 													</div>
@@ -554,9 +534,6 @@
 														<div class="col-md-8">
 															<select class="form-control">
 																<option>IDR Standard Interface</option>
-																<option>IDR Premium Interface</option>
-																<option>USD Standard Interface</option>
-																<option>USD Premium Interface</option>
 															</select>
 														</div>
 													</div>
@@ -594,7 +571,7 @@
 		</div>
 	</div>
 </div>
-<?php $this->load->view('account/lov_addNIPNAS.php'); ?>
+<?php $this->load->view('lov/lov_nipnas2.php'); ?>
 <script>
 	jQuery(function($) {
         var grid_selector = "#grid-table";
@@ -855,10 +832,14 @@
 
 <script>
   $(document).ready(function(){
-	  $('#wizard_form').hide();
-      $('#btn-lov-NIPNAS').on('click',function() {
-          modal_lov_addNIPNAS_show('NIPNAS','customer_name');
-      });
+		$('#btn-lov-nipnas').on('click',function() {
+			modal_lov_nipnas_show('nipnas','customer_name');
+		});
+
+		$('#btn-lov-accountnum').on('click',function() {
+			modal_lov_nipnas_show('account_number','customer_name2');
+		});
+		$('#wizard_form').hide();
   })
   $(function (){
 		$('#datetimepicker1').datetimepicker({

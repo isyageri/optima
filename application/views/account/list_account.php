@@ -87,25 +87,19 @@
         var pager_selector = "#grid-pager-account";
 
         jQuery("#grid-table-account").jqGrid({
-            url: '<?php echo WS_JQGRID."administration.permissions_controller/crud"; ?>',
+            url: '<?php echo WS_JQGRID."account.Account_controller/crud"; ?>',
             datatype: "json",
             mtype: "POST",
             colModel: [
-                {label: 'ID', name: 'permission_id', key: true, width: 5, sorttype: 'number', editable: true, hidden: true},
-                {label: 'Permissions Name',name: 'permission_name',width: 150, align: "left",editable: true,
-                    editoptions: {
-                        size: 30,
-                        maxlength:32
-                    },
-                    editrules: {required: true}
-                },
-                {label: 'Description',name: 'permission_description',width: 200, align: "left",editable: true,
-                    edittype:'textarea',
-                    editoptions: {
-                        rows: 2,
-                        cols:50
-                    }
-                }
+                {label: 'Account Number', name: 'ACCNUM', hidden: false},                
+                {label: 'Action', name: 'ACCNUM', hidden: false},                
+                {label: 'Account Name', name: 'ACCNAME', hidden: false},                
+                {label: 'Account Status', name: 'ACCSTAT', hidden: false},                
+                {label: 'Currency Code', name: 'CRCODE', hidden: false},                
+                {label: 'Deposit MNY', name: 'DP_NM', hidden: false},                
+                {label: 'End Date', name: 'EN_DT', hidden: false},                
+                {label: 'Go Live DTM Number', name: 'ACCNUM', hidden: false},                
+                {label: 'Account Number', name: 'ACCNUM', hidden: false},                
             ],
             height: '100%',
             autowidth: true,
@@ -135,7 +129,7 @@
 
             },
             //memanggil controller jqgrid yang ada di controller crud
-            editurl: '<?php echo WS_JQGRID."administration.permissions_controller/crud"; ?>',
+            editurl: '<?php echo WS_JQGRID."account.Account_controller/crud"; ?>',
             caption: "Permissions"
 
         });
