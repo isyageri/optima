@@ -42,10 +42,12 @@ function permission_check($permission_name='') {
     $query = $ci->permissions->db->query($sql);
     $row = $query->row_array();
 
-    if( empty($row) ) {
+    if( empty($row['status']) or $row == null ) {
         if($ci->input->is_ajax_request()) { //request from Web Service (ws.php)
             header('Content-Type: application/json');
             echo json_encode(array('success' => false,
+                                    'rows' => array(),
+                                    'total' => 0,
                                     'message' => 'We\'re sorry. You don\'t have permission to access this request'));
             exit;
         }else {

@@ -84,6 +84,7 @@ class Customer_controller {
         $data = array('rows' => array(), 'success' => false, 'message' => '', 'current' => $start, 'rowCount' => $limit, 'total' => 0);
 
         try {
+            permission_check('view-customer');
 
             $ci = & get_instance();
             $ci->load->model('schema/customer');
