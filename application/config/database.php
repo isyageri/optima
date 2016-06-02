@@ -75,7 +75,6 @@ $query_builder = TRUE;
 $active_group = 'default';
 $active_record = TRUE;
 
-
 $db['default']['hostname'] ='
 (DESCRIPTION=
 (ADDRESS=
@@ -103,3 +102,37 @@ $db['default']['dbcollat'] = 'utf8_general_ci';
 $db['default']['swap_pre'] = '';
 $db['default']['autoinit'] = TRUE;
 $db['default']['stricton'] = FALSE;
+
+/*-----------------------------------------------*/
+/*  CCPBB Connection
+/*
+/*-----------------------------------------------*/
+
+$db['ccpbb']['hostname'] ='
+(DESCRIPTION =
+    (ADDRESS_LIST =
+      (ADDRESS =
+        (PROTOCOL = TCP)
+        (HOST = 10.60.185.108)
+        (PORT = 1521)
+      )
+    )
+    (CONNECT_DATA =
+      (SID = TIBSNP)
+    )
+  )';
+
+$db['ccpbb']['username'] = 'ccpbb';
+$db['ccpbb']['password'] = 'telkom_2013';
+$db['ccpbb']['database'] = 'tibs_nonpots';
+$db['ccpbb']['dbdriver'] = 'oci8';
+$db['ccpbb']['dbprefix'] = '';
+$db['ccpbb']['pconnect'] = FALSE;
+$db['ccpbb']['db_debug'] = TRUE;
+$db['ccpbb']['cache_on'] = FALSE;
+$db['ccpbb']['cachedir'] = '';
+$db['ccpbb']['char_set'] = 'utf8';
+$db['ccpbb']['dbcollat'] = 'utf8_general_ci';
+$db['ccpbb']['swap_pre'] = '';
+$db['ccpbb']['autoinit'] = TRUE;
+$db['ccpbb']['stricton'] = FALSE;

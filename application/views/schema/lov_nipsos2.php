@@ -20,9 +20,11 @@
                 <table id="modal_lov_nipsos_grid_selection" class="table table-striped table-bordered table-hover">
                 <thead>
                   <tr>
-                     <th data-column-id="permission_id" data-sortable="false" data-visible="false">ID Nipsos</th>
+                     <th data-column-id="customer_ref" data-sortable="false" data-visible="false">ID Nipsos</th>
                      <th data-header-align="center" data-align="center" data-formatter="opt-edit" data-sortable="false" data-width="100">Options</th>
-                     <th data-column-id="permission_name">Permission</th>
+                     <th data-column-id="customer_ref">NIPSAS</th>
+                     <th data-column-id="first_name">Customer Name</th>
+                     <th data-column-id="account_num">Account Number</th>
                   </tr>
                 </thead>
                 </table>
@@ -77,7 +79,7 @@
         $("#modal_lov_nipsos_grid_selection").bootgrid({
              formatters: {
                 "opt-edit" : function(col, row) {
-                    return '<a href="javascript:;" title="Set Value" onclick="modal_lov_nipsos_set_value(\''+ row.permission_id +'\', \''+ row.permission_name +'\')" class="blue"><i class="fa fa-pencil-square-o bigger-130"></i></a>';
+                    return '<a href="javascript:;" title="Set Value" onclick="modal_lov_nipsos_set_value(\''+ row.customer_ref +'\', \''+ row.first_name +'\')" class="blue"><i class="fa fa-pencil-square-o bigger-130"></i></a>';
                 }
              },
              rowCount:[5,10],
@@ -98,7 +100,7 @@
                 }
                 return response;
              },
-             url: '<?php echo WS_URL."schema.pembuatan_schema_controller/readLov"; ?>',
+             url: '<?php echo WS_URL."customer.customer_controller/readLov"; ?>',
              selection: true,
              sorting:true
         });
