@@ -102,7 +102,7 @@ class Customer_controller {
             }
 
             if(!empty($searchPhrase)) {
-                $table->setCriteria("(cust.customer_ref ".$table->likeOperator." '%".$searchPhrase."%')");
+                $table->setCriteria("(upper(cust.customer_ref) ".$table->likeOperator." upper('%".$searchPhrase."%') OR upper(ct.first_name) ".$table->likeOperator." upper('%".$searchPhrase."%'))");
             }
 
             $start = ($start-1) * $limit;
