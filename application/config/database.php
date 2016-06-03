@@ -136,3 +136,37 @@ $db['ccpbb']['dbcollat'] = 'utf8_general_ci';
 $db['ccpbb']['swap_pre'] = '';
 $db['ccpbb']['autoinit'] = TRUE;
 $db['ccpbb']['stricton'] = FALSE;
+
+
+/*-----------------------------------------------*/
+/*  SIN_CORE Connection
+/*
+/*-----------------------------------------------*/
+
+$db['corecrm']['hostname'] ='
+(DESCRIPTION=
+    (ADDRESS=
+      (PROTOCOL=TCP)
+      (HOST=10.62.185.22)
+      (PORT=1521)
+    )
+    (CONNECT_DATA=
+      (SERVER=dedicated)
+      (SERVICE_NAME=tibsdev)
+    )
+  )';
+
+$db['corecrm']['username'] = 'sin_core';
+$db['corecrm']['password'] = 'telkom';
+$db['corecrm']['database'] = 'global_dev';
+$db['corecrm']['dbdriver'] = 'oci8';
+$db['corecrm']['dbprefix'] = '';
+$db['corecrm']['pconnect'] = FALSE;
+$db['corecrm']['db_debug'] = TRUE;
+$db['corecrm']['cache_on'] = FALSE;
+$db['corecrm']['cachedir'] = '';
+$db['corecrm']['char_set'] = 'utf8';
+$db['corecrm']['dbcollat'] = 'utf8_general_ci';
+$db['corecrm']['swap_pre'] = '';
+$db['corecrm']['autoinit'] = TRUE;
+$db['corecrm']['stricton'] = FALSE;

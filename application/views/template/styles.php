@@ -24,4 +24,8 @@
 <link rel="stylesheet" href="<?php echo base_url(); ?>assets/swal/sweetalert.css"/>
 <link rel="stylesheet" href="<?php echo base_url(); ?>assets/bootgrid/jquery.bootgrid.css"/>
 <link rel="stylesheet" href="<?php echo base_url(); ?>assets/css/bootgrid.custom.css"/>
- <link rel="shortcut icon" href="<?php echo base_url(); ?>favicon.png"/>
+<link rel="shortcut icon" href="<?php echo base_url(); ?>favicon.png"/>
+<link rel="stylesheet" href="<?php echo base_url(); ?>assets/css/datepicker.css" />
+<link rel="stylesheet" href="<?php echo base_url(); ?>assets/css/bootstrap-timepicker.css" />
+<link rel="stylesheet" href="<?php echo base_url(); ?>assets/css/daterangepicker.css" />
+<link rel="stylesheet" href="<?php echo base_url(); ?>assets/css/bootstrap-datetimepicker.css" />
