@@ -13,6 +13,13 @@
         </div>
         <!-- END FOOTER -->
         <?php $this->load->view('template/scripts.php'); ?>
+
+                <script>
+                    jQuery(document).ready(function () {
+                         $('.datepicker').datepicker();
+                    });
+
+                </script>
     </body>
 
 </html>

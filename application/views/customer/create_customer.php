@@ -330,7 +330,7 @@
                                                     <span class="required"> * </span>
                                                 </label>
                                                 <div class="col-md-8">
-                                                    <input class="form-control date-picker" type="text" value="">
+                                                    <input class="form-control datepicker" type="text" value="" id="datepicker">
                                                 </div>
                                             </div>
 
@@ -593,7 +593,7 @@
                         $('#form_wizard_1').find('.button-next').show();
                         $('#form_wizard_1').find('.button-submit').hide();
                     }
-                    App.scrollTo($('.page-title'));
+                    //App.scrollTo($('.page-title'));
                 }
 
                 // default form wizard
@@ -655,4 +655,6 @@
     jQuery(document).ready(function () {
         FormWizard.init();
     });
+
+    $('.datepicker').datepicker();
 </script>

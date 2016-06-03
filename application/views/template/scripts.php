@@ -18,7 +18,6 @@
 <!-- END THEME LAYOUT SCRIPTS -->
 
 <script src="<?php echo base_url(); ?>assets/global/plugins/bootstrap-datepicker/js/bootstrap-datepicker.min.js" type="text/javascript"></script>
-
 <!-- begin jqgrid -->
 <script src="<?php echo base_url(); ?>assets/jqgrid/js/i18n/grid.locale-en.js" type="text/javascript"></script>
 <script src="<?php echo base_url(); ?>assets/jqgrid/src/jquery.jqGrid.js" type="text/javascript"></script>
@@ -138,6 +137,7 @@
             }
         });
     });
+
 
 
 </script>
