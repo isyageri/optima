@@ -55,21 +55,21 @@
   					<div class="col-md-8">
   						<div class="col-md-6">
   							<div class="form-group form-md-line-input">
-  								<input type="text" class="form-control" id="form_control_1" readonly>
+  								<input type="text" class="form-control" id="form_control_1" readonly value="<?php echo strtoupper($this->session->userdata('username')); ?>">
   								<div class="form-control-focus"> </div>
   								<label for="form_control_1">Petugas</label>
   							</div>
   						</div>
   						<div class="col-md-6">
   							<div class="form-group form-md-line-input">
-  								<input type="text" class="form-control" id="form_control_1" readonly>
+  								<input type="text" class="form-control" id="form_control_1" readonly value="TELKOM">
   								<div class="form-control-focus"> </div>
   								<label for="form_control_1">Lokasi</label>
   							</div>
   						</div>
   						<div class="col-md-4">
   							<div class="form-group form-md-line-input">
-  								<input type="text" class="form-control" id="form_control_1" readonly>
+  								<input type="text" class="form-control" id="form_control_1" readonly value="NEW TRANSACTION">
   								<div class="form-control-focus"> </div>
   								<label for="form_control_1">Status</label>
   							</div>
@@ -142,7 +142,7 @@
                                           </label>
                                           <div class="col-md-4">
                                             <div class="input-group">
-                                               <input type="text" class="form-control required" readonly="" id="nipnas" name="nipnas" placeholder="Nipnas" />
+                                               <input type="text" class="form-control required"  id="nipnas" name="nipnas" placeholder="Nipnas" />
                                                <span class="input-group-btn">
                                                  <button class="btn btn-success" type="button" id="btn-lov-nipnas">
                                                     <i class="fa fa-search"></i>
@@ -161,7 +161,7 @@
                                           </label>
                                           <div class="col-md-4">
                                              <div class="input-group">
-                                                 <input type="text" class="form-control required" readonly="" id="account_num" name="account_num" placeholder="Account Number" />
+                                                 <input type="text" class="form-control required" id="account_num" name="account_num" placeholder="Account Number" />
                                                  <span class="input-group-btn">
                                                    <button class="btn btn-success" type="button" id="btn-lov-account">
                                                       <i class="fa fa-search"></i>
@@ -186,9 +186,23 @@
                                       </div>
                                       <div class="space-4"></div>
                                       <div class="row">
-                                          <div class="col-md-8">
-                                              <table id="grid-table"></table>
-                                              <div id="grid-pager"></div>
+                                          <div class="col-md-12">
+                                              <table class="table">
+                                                <tr>
+                                                  <th>Fastel</th>
+                                                  <th>Amount(IDR)</th>
+                                                  <th>Location</th>
+                                                  <th>Status</th>
+                                                  <th>Action</th>
+                                                </tr>
+                                                <tr>
+                                                  <td>&nbsp;</td>
+                                                  <td>&nbsp;</td>
+                                                  <td>&nbsp;</td>
+                                                  <td>&nbsp;</td>
+                                                  <td>&nbsp;</td>
+                                                </tr>
+                                              </table>
                                           </div>
                                       </div>
 
@@ -196,19 +210,147 @@
                                  <div class="tab-pane" id="tab3">
                                       <div class="space-4"></div>
                                       <div class="row">
-                                          <div class="col-md-8">
-                                              <table id="grid-table-trend"></table>
-                                              <div id="grid-pager-trend"></div>
+                                          <div class="col-md-12">
+                                              <div class="form-group form-md-line-input form-md-floating-label">
+                                                    <label class="col-md-3 control-label" for="trend">Trend:</label>
+                                                    <div class="col-md-4">
+                                                        <input type="text" name="trend" id="trend" class="form-control">
+                                                    </div>
+                                              </div>
                                           </div>
+                                      </div>
+                                      <div class="row">
+                                        <div class="col-md-12">
+                                              <table class="table">
+                                                  <tr>
+                                                    <th>Keterangan</th>
+                                                    <th>Maret</th>
+                                                    <th>April</th>
+                                                    <th>Mei</th>
+                                                    <th>Juni</th>
+                                                    <th>Juli</th>
+                                                  </tr>
+                                                  <tr>
+                                                    <td>TOTAL TAGIHAN</td>
+                                                    <td>&nbsp;</td>
+                                                    <td>&nbsp;</td>
+                                                    <td>&nbsp;</td>
+                                                    <td>&nbsp;</td>
+                                                    <td>&nbsp;</td>
+                                                  </tr>
+                                                  <tr>
+                                                    <td>TELKOM_22</td>
+                                                    <td>&nbsp;</td>
+                                                    <td>&nbsp;</td>
+                                                    <td>&nbsp;</td>
+                                                    <td>&nbsp;</td>
+                                                    <td>&nbsp;</td>
+                                                  </tr>
+                                                  <tr>
+                                                    <td>TELKOM_L_K</td>
+                                                    <td>&nbsp;</td>
+                                                    <td>&nbsp;</td>
+                                                    <td>&nbsp;</td>
+                                                    <td>&nbsp;</td>
+                                                    <td>&nbsp;</td>
+                                                  </tr>
+                                                  <tr>
+                                                    <td>TELKOMSEL</td>
+                                                    <td>&nbsp;</td>
+                                                    <td>&nbsp;</td>
+                                                    <td>&nbsp;</td>
+                                                    <td>&nbsp;</td>
+                                                    <td>&nbsp;</td>
+                                                  </tr>
+                                                  <tr>
+                                                    <td>TAGIHAN ON NET</td>
+                                                    <td>&nbsp;</td>
+                                                    <td>&nbsp;</td>
+                                                    <td>&nbsp;</td>
+                                                    <td>&nbsp;</td>
+                                                    <td>&nbsp;</td>
+                                                  </tr>
+                                                  <tr>
+                                                    <td>TAGIHAN NON ON NET</td>
+                                                    <td>&nbsp;</td>
+                                                    <td>&nbsp;</td>
+                                                    <td>&nbsp;</td>
+                                                    <td>&nbsp;</td>
+                                                    <td>&nbsp;</td>
+                                                  </tr>
+                                              </table>
+                                        </div>
                                       </div>
                                  </div>
                                  <div class="tab-pane" id="tab4">
+                                      <div class="row">
+                                          <div class="col-md-12">
+                                              <div class="form-group form-md-line-input form-md-floating-label">
+                                                    <label class="col-md-3 control-label" for="trend">Trend:</label>
+                                                    <div class="col-md-4">
+                                                        <input type="text" name="trend" id="trend" class="form-control">
+                                                    </div>
+                                              </div>
+                                              <div class="form-group form-md-line-input form-md-floating-label">
+                                                    <label class="col-md-3 control-label" for="trend">Operator:</label>
+                                                    <div class="col-md-9">
+                                                        <div class="mt-radio-inline">
+                                                            <label class="mt-radio">
+                                                              <input id="telkom_only" type="radio" checked="" value="telkom_only" name="operator">
+                                                              Telkom Only
+                                                              <span></span>
+                                                            </label>
 
-                                      <div class="form-group form-md-line-input form-md-floating-label">
-                                            <label class="col-md-3 control-label" for="trend">Trend:</label>
-                                            <div class="col-md-4">
-                                                <input type="text" name="trend" id="trend" class="form-control">
-                                            </div>
+                                                            <label class="mt-radio">
+                                                              <input id="multi_operator" type="radio" checked="" value="multi_operator" name="operator">
+                                                              Multi Operator
+                                                              <span></span>
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                              </div>
+                                              <div class="form-group form-md-line-input form-md-floating-label">
+                                                    <label class="col-md-3 control-label" for="trend">Kuadran:</label>
+                                                      <div class="col-md-4">
+                                                        <select class="form-control input-sm">
+                                                          <option>Acquisition</option>
+                                                          <option>Leverage</option>
+                                                          <option>Win Back</option>
+                                                          <option>Defend</option>
+                                                        </select>
+                                                      </div>
+
+                                                      <div class="col-md-4">
+                                                        <select class="form-control input-sm">
+                                                          <option>Tiering Model</option>
+                                                          <option>Volume Commitment</option>
+                                                          <option>Cost Cap</option>
+                                                        </select>
+                                                      </div>
+                                              </div>
+                                          </div>
+                                      </div>
+                                      <div class="space-4"></div>
+                                      <div class="row">
+                                        <div class="col-md-12">
+                                            <h4>Skema Pembayaran</h4>
+                                            <table class="table">
+                                                <tr>
+                                                  <th>Method</th>
+                                                  <th>Model</th>
+                                                  <th>Trafik Trend</th>
+                                                  <th>Discount</th>
+                                                  <th>Action</th>
+                                                </tr>
+                                                <tr>
+                                                  <td>&nbsp;</td>
+                                                  <td>&nbsp;</td>
+                                                  <td>&nbsp;</td>
+                                                  <td>&nbsp;</td>
+                                                  <td>&nbsp;</td>
+                                                </tr>
+                                            </table>
+                                        </div>
                                       </div>
 
                                  </div>
@@ -271,426 +413,4 @@
       });
   })
 
-  jQuery(function($) {
-        var grid_selector = "#grid-table";
-        var pager_selector = "#grid-pager";
-
-        jQuery("#grid-table").jqGrid({
-            url: '<?php echo WS_JQGRID."administration.permissions_controller/crud"; ?>',
-            datatype: "json",
-            mtype: "POST",
-            colModel: [
-                {label: 'ID', name: 'permission_id', key: true, width: 5, sorttype: 'number', editable: true, hidden: true},
-                {label: 'Permissions Name',name: 'permission_name',width: 150, align: "left",editable: true,
-                    editoptions: {
-                        size: 30,
-                        maxlength:32
-                    },
-                    editrules: {required: true}
-                },
-                {label: 'Description',name: 'permission_description',width: 200, align: "left",editable: true,
-                    edittype:'textarea',
-                    editoptions: {
-                        rows: 2,
-                        cols:50
-                    }
-                }
-            ],
-            height: '100%',
-            autowidth: true,
-            viewrecords: true,
-            rowNum: 10,
-            rowList: [10,20,50],
-            rownumbers: true, // show row numbers
-            rownumWidth: 35, // the width of the row numbers columns
-            altRows: true,
-            shrinkToFit: true,
-            multiboxonly: true,
-            onSelectRow: function (rowid) {
-                /*do something when selected*/
-
-            },
-            sortorder:'',
-            pager: '#grid-pager',
-            jsonReader: {
-                root: 'rows',
-                id: 'id',
-                repeatitems: false
-            },
-            loadComplete: function (response) {
-                if(response.success == false) {
-                    swal({title: 'Attention', text: response.message, html: true, type: "warning"});
-                }
-                responsive_jqgrid(grid_selector, pager_selector)
-            },
-            //memanggil controller jqgrid yang ada di controller crud
-            editurl: '<?php echo WS_JQGRID."administration.permissions_controller/crud"; ?>',
-            caption: "Permissions"
-
-        });
-
-        jQuery('#grid-table').jqGrid('navGrid', '#grid-pager',
-            {   //navbar options
-                edit: true,
-                editicon: 'fa fa-pencil blue bigger-120',
-                add: true,
-                addicon: 'fa fa-plus-circle purple bigger-120',
-                del: true,
-                delicon: 'fa fa-trash-o red bigger-120',
-                search: true,
-                searchicon: 'fa fa-search orange bigger-120',
-                refresh: true,
-                afterRefresh: function () {
-                    // some code here
-                    jQuery("#detailsPlaceholder").hide();
-                },
-
-                refreshicon: 'fa fa-refresh green bigger-120',
-                view: false,
-                viewicon: 'fa fa-search-plus grey bigger-120'
-            },
-
-            {
-                // options for the Edit Dialog
-                closeAfterEdit: true,
-                closeOnEscape:true,
-                recreateForm: true,
-                serializeEditData: serializeJSON,
-                width: 'auto',
-                errorTextFormat: function (data) {
-                    return 'Error: ' + data.responseText
-                },
-                beforeShowForm: function (e, form) {
-                    var form = $(e[0]);
-                    style_edit_form(form);
-
-                },
-                afterShowForm: function(form) {
-                    form.closest('.ui-jqdialog').center();
-                },
-                afterSubmit:function(response,postdata) {
-                    var response = jQuery.parseJSON(response.responseText);
-                    if(response.success == false) {
-                        return [false,response.message,response.responseText];
-                    }
-                    return [true,"",response.responseText];
-                }
-            },
-            {
-                //new record form
-                closeAfterAdd: false,
-                clearAfterAdd : true,
-                closeOnEscape:true,
-                recreateForm: true,
-                width: 'auto',
-                errorTextFormat: function (data) {
-                    return 'Error: ' + data.responseText
-                },
-                serializeEditData: serializeJSON,
-                viewPagerButtons: false,
-                beforeShowForm: function (e, form) {
-                    var form = $(e[0]);
-                    style_edit_form(form);
-                },
-                afterShowForm: function(form) {
-                    form.closest('.ui-jqdialog').center();
-                },
-                afterSubmit:function(response,postdata) {
-                    var response = jQuery.parseJSON(response.responseText);
-                    if(response.success == false) {
-                        return [false,response.message,response.responseText];
-                    }
-
-                    $(".tinfo").html('<div class="ui-state-success">' + response.message + '</div>');
-                    var tinfoel = $(".tinfo").show();
-                    tinfoel.delay(3000).fadeOut();
-
-
-                    return [true,"",response.responseText];
-                }
-            },
-            {
-                //delete record form
-                serializeDelData: serializeJSON,
-                recreateForm: true,
-                beforeShowForm: function (e) {
-                    var form = $(e[0]);
-                    style_delete_form(form);
-
-                },
-                afterShowForm: function(form) {
-                    form.closest('.ui-jqdialog').center();
-                },
-                onClick: function (e) {
-                    //alert(1);
-                },
-                afterSubmit:function(response,postdata) {
-                    var response = jQuery.parseJSON(response.responseText);
-                    if(response.success == false) {
-                        return [false,response.message,response.responseText];
-                    }
-                    return [true,"",response.responseText];
-                }
-            },
-            {
-                //search form
-                closeAfterSearch: false,
-                recreateForm: true,
-                afterShowSearch: function (e) {
-                    var form = $(e[0]);
-                    style_search_form(form);
-                    form.closest('.ui-jqdialog').center();
-                },
-                afterRedraw: function () {
-                    style_search_filters($(this));
-                }
-            },
-            {
-                //view record form
-                recreateForm: true,
-                beforeShowForm: function (e) {
-                    var form = $(e[0]);
-                }
-            }
-        );
-
-
-        jQuery("#grid-table-trend").jqGrid({
-            url: '<?php echo WS_JQGRID."administration.permissions_controller/crud"; ?>',
-            datatype: "json",
-            mtype: "POST",
-            colModel: [
-                {label: 'ID', name: 'permission_id', key: true, width: 5, sorttype: 'number', editable: true, hidden: true},
-                {label: 'Permissions Name',name: 'permission_name',width: 150, align: "left",editable: true,
-                    editoptions: {
-                        size: 30,
-                        maxlength:32
-                    },
-                    editrules: {required: true}
-                },
-                {label: 'Description',name: 'permission_description',width: 200, align: "left",editable: true,
-                    edittype:'textarea',
-                    editoptions: {
-                        rows: 2,
-                        cols:50
-                    }
-                }
-            ],
-            height: '100%',
-            autowidth: true,
-            viewrecords: true,
-            rowNum: 10,
-            rowList: [10,20,50],
-            rownumbers: true, // show row numbers
-            rownumWidth: 35, // the width of the row numbers columns
-            altRows: true,
-            shrinkToFit: true,
-            multiboxonly: true,
-            onSelectRow: function (rowid) {
-                /*do something when selected*/
-
-            },
-            sortorder:'',
-            pager: '#grid-pager-trend',
-            jsonReader: {
-                root: 'rows',
-                id: 'id',
-                repeatitems: false
-            },
-            loadComplete: function (response) {
-                if(response.success == false) {
-                    swal({title: 'Attention', text: response.message, html: true, type: "warning"});
-                }
-                responsive_jqgrid('#grid-table-trend', '#grid-pager-trend');
-            },
-            //memanggil controller jqgrid yang ada di controller crud
-            editurl: '<?php echo WS_JQGRID."administration.permissions_controller/crud"; ?>',
-            caption: "Permissions"
-
-        });
-
-        jQuery('#grid-table-trend').jqGrid('navGrid', '#grid-pager-trend',
-            {   //navbar options
-                edit: true,
-                editicon: 'fa fa-pencil blue bigger-120',
-                add: true,
-                addicon: 'fa fa-plus-circle purple bigger-120',
-                del: true,
-                delicon: 'fa fa-trash-o red bigger-120',
-                search: true,
-                searchicon: 'fa fa-search orange bigger-120',
-                refresh: true,
-                afterRefresh: function () {
-                    // some code here
-
-                },
-
-                refreshicon: 'fa fa-refresh green bigger-120',
-                view: false,
-                viewicon: 'fa fa-search-plus grey bigger-120'
-            },
-
-            {
-                // options for the Edit Dialog
-                closeAfterEdit: true,
-                closeOnEscape:true,
-                recreateForm: true,
-                serializeEditData: serializeJSON,
-                width: 'auto',
-                errorTextFormat: function (data) {
-                    return 'Error: ' + data.responseText
-                },
-                beforeShowForm: function (e, form) {
-                    var form = $(e[0]);
-                    style_edit_form(form);
-
-                },
-                afterShowForm: function(form) {
-                    form.closest('.ui-jqdialog').center();
-                },
-                afterSubmit:function(response,postdata) {
-                    var response = jQuery.parseJSON(response.responseText);
-                    if(response.success == false) {
-                        return [false,response.message,response.responseText];
-                    }
-                    return [true,"",response.responseText];
-                }
-            },
-            {
-                //new record form
-                closeAfterAdd: false,
-                clearAfterAdd : true,
-                closeOnEscape:true,
-                recreateForm: true,
-                width: 'auto',
-                errorTextFormat: function (data) {
-                    return 'Error: ' + data.responseText
-                },
-                serializeEditData: serializeJSON,
-                viewPagerButtons: false,
-                beforeShowForm: function (e, form) {
-                    var form = $(e[0]);
-                    style_edit_form(form);
-                },
-                afterShowForm: function(form) {
-                    form.closest('.ui-jqdialog').center();
-                },
-                afterSubmit:function(response,postdata) {
-                    var response = jQuery.parseJSON(response.responseText);
-                    if(response.success == false) {
-                        return [false,response.message,response.responseText];
-                    }
-
-                    $(".tinfo").html('<div class="ui-state-success">' + response.message + '</div>');
-                    var tinfoel = $(".tinfo").show();
-                    tinfoel.delay(3000).fadeOut();
-
-
-                    return [true,"",response.responseText];
-                }
-            },
-            {
-                //delete record form
-                serializeDelData: serializeJSON,
-                recreateForm: true,
-                beforeShowForm: function (e) {
-                    var form = $(e[0]);
-                    style_delete_form(form);
-
-                },
-                afterShowForm: function(form) {
-                    form.closest('.ui-jqdialog').center();
-                },
-                onClick: function (e) {
-                    //alert(1);
-                },
-                afterSubmit:function(response,postdata) {
-                    var response = jQuery.parseJSON(response.responseText);
-                    if(response.success == false) {
-                        return [false,response.message,response.responseText];
-                    }
-                    return [true,"",response.responseText];
-                }
-            },
-            {
-                //search form
-                closeAfterSearch: false,
-                recreateForm: true,
-                afterShowSearch: function (e) {
-                    var form = $(e[0]);
-                    style_search_form(form);
-                    form.closest('.ui-jqdialog').center();
-                },
-                afterRedraw: function () {
-                    style_search_filters($(this));
-                }
-            },
-            {
-                //view record form
-                recreateForm: true,
-                beforeShowForm: function (e) {
-                    var form = $(e[0]);
-                }
-            }
-        );
-    });
-
-    function serializeJSON(postdata) {
-        var items;
-        if(postdata.oper != 'del') {
-            items = JSON.stringify(postdata, function(key,value){
-                if (typeof value === 'function') {
-                    return value();
-                } else {
-                  return value;
-                }
-            });
-        }else {
-            items = postdata.id;
-        }
-
-        var jsondata = {items:items, oper:postdata.oper, '<?php echo $this->security->get_csrf_token_name(); ?>' : '<?php echo $this->security->get_csrf_hash(); ?>'};
-        return jsondata;
-    }
-
-    function style_edit_form(form) {
-
-        //update buttons classes
-        var buttons = form.next().find('.EditButton .fm-button');
-        buttons.addClass('btn btn-sm').find('[class*="-icon"]').hide();//ui-icon, s-icon
-        buttons.eq(0).addClass('btn-primary');
-        buttons.eq(1).addClass('btn-danger');
-
-
-    }
-
-    function style_delete_form(form) {
-        var buttons = form.next().find('.EditButton .fm-button');
-        buttons.addClass('btn btn-sm btn-white btn-round').find('[class*="-icon"]').hide();//ui-icon, s-icon
-        buttons.eq(0).addClass('btn-danger');
-        buttons.eq(1).addClass('btn-default');
-    }
-
-    function style_search_filters(form) {
-        form.find('.delete-rule').val('X');
-        form.find('.add-rule').addClass('btn btn-xs btn-primary');
-        form.find('.add-group').addClass('btn btn-xs btn-success');
-        form.find('.delete-group').addClass('btn btn-xs btn-danger');
-    }
-
-    function style_search_form(form) {
-        var dialog = form.closest('.ui-jqdialog');
-        var buttons = dialog.find('.EditTable')
-        buttons.find('.EditButton a[id*="_reset"]').addClass('btn btn-sm btn-info').find('.ui-icon').attr('class', 'fa fa-retweet');
-        buttons.find('.EditButton a[id*="_query"]').addClass('btn btn-sm btn-inverse').find('.ui-icon').attr('class', 'fa fa-comment-o');
-        buttons.find('.EditButton a[id*="_search"]').addClass('btn btn-sm btn-success').find('.ui-icon').attr('class', 'fa fa-search');
-    }
-
-    function responsive_jqgrid(grid_selector, pager_selector) {
-
-        var parent_column = $(grid_selector).closest('[class*="col-"]');
-        $(grid_selector).jqGrid( 'setGridWidth', $(".portlet-body").width() - 50 );
-        $(pager_selector).jqGrid( 'setGridWidth', parent_column.width() );
-
-    }
 </script>
