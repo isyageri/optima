@@ -34,65 +34,7 @@ var FormWizard = function () {
                 errorClass: 'help-block help-block-error', // default input error message class
                 focusInvalid: false, // do not focus the last invalid input
                 rules: {
-                    //account
-                    username: {
-                        minlength: 5,
-                        required: true
-                    },
-                    password: {
-                        minlength: 5,
-                        required: true
-                    },
-                    rpassword: {
-                        minlength: 5,
-                        required: true,
-                        equalTo: "#submit_form_password"
-                    },
-                    //profile
-                    fullname: {
-                        required: true
-                    },
-                    email: {
-                        required: true,
-                        email: true
-                    },
-                    phone: {
-                        required: true
-                    },
-                    gender: {
-                        required: true
-                    },
-                    address: {
-                        required: true
-                    },
-                    city: {
-                        required: true
-                    },
-                    country: {
-                        required: true
-                    },
-                    //payment
-                    card_name: {
-                        required: true
-                    },
-                    card_number: {
-                        minlength: 16,
-                        maxlength: 16,
-                        required: true
-                    },
-                    card_cvc: {
-                        digits: true,
-                        required: true,
-                        minlength: 3,
-                        maxlength: 4
-                    },
-                    card_expiry_date: {
-                        required: true
-                    },
-                    'payment[]': {
-                        required: true,
-                        minlength: 1
-                    }
+
                 },
 
                 messages: { // custom messages for radio buttons and checkboxes

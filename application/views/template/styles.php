@@ -7,7 +7,7 @@
 <link href="<?php echo base_url(); ?>assets/global/plugins/bootstrap-switch/css/bootstrap-switch.min.css" rel="stylesheet" type="text/css" />
 <!-- END GLOBAL MANDATORY STYLES -->
 <!-- BEGIN THEME GLOBAL STYLES -->
-<link href="<?php echo base_url(); ?>assets/global/css/components-md.min.css" rel="stylesheet" id="style_components" type="text/css" />
+<link href="<?php echo base_url(); ?>assets/global/css/components-md.css" rel="stylesheet" id="style_components" type="text/css" />
 <link href="<?php echo base_url(); ?>assets/global/css/plugins-md.min.css" rel="stylesheet" type="text/css" />
 <!-- END THEME GLOBAL STYLES -->
 <!-- BEGIN THEME LAYOUT STYLES -->
