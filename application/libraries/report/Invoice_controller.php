@@ -92,7 +92,7 @@ class Invoice_controller {
             break;
 
             default :
-                //permission_check('view-role');
+                permission_check('view-invoice');
                 $data = $this->read();
             break;
         }
