@@ -1,108 +1,124 @@
-<div id="list_acc">
-	<div class="portlet box green ">
-		<div class="portlet-title">
-			<div class="caption">
-				<i class="fa fa-gift"></i> Daftar Account
-			</div>
-			<div class="tools">
-				<a href="" class="collapse" data-original-title="" title="">
-				</a>				
-			</div>
-		</div>
-		<div class="portlet-body form">
-			<form class="form-horizontal" role="form">
-				<div class="form-body">
-					<div class="row">
-						<div class="col-md-6">
-							<div class="form-group">
-								<label class="col-md-2 control-label">Tax Status</label>
-								<div class="col-md-8">
-									<select class="form-control">
-										<option>Account Number</option>
-										<option>NIPNAS</option>
-									</select>															
-									<span class="help-block">
-									</span>
+<!-- breadcrumb -->
+<div class="page-bar">
+    <ul class="page-breadcrumb">
+        <li>
+            <a href="<?php base_url();?>">Home</a>
+            <i class="fa fa-circle"></i>
+        </li>
+        <li>
+            <a href="#">Account</a>
+            <i class="fa fa-circle"></i>
+        </li>
+        <li>
+            <span>List Account</span>
+        </li>
+    </ul>
+</div>
+<!-- end breadcrumb -->
+<div class="space-4"></div>
+<div class="row">
+	<div class="col-md-12">
+		<div id="list_acc">
+			<div class="portlet box green ">
+				<div class="portlet-title">
+					<div class="caption">
+						<i class="fa fa-gift"></i> Daftar Account
+					</div>
+					<div class="tools">
+						<a href="" class="collapse" data-original-title="" title="">
+						</a>				
+					</div>
+				</div>
+				<div class="portlet-body form">
+					<form class="form-horizontal" role="form">
+						<div class="form-body">
+							<div class="row">
+								<div class="col-md-6">
+									<div class="form-group">
+										<label class="col-md-2 control-label">Tax Status</label>
+										<div class="col-md-8">
+										<select class="form-control">
+											<option>Account Number</option>
+											<option>NIPNAS</option>
+										</select>
+										<span class="help-block">
+										</span>
+										</div>
+									</div>
+									<div class="form-group">
+										<label class="col-md-2 control-label">Kata Kunci</label>
+										<div class="col-md-8">
+										<input type="text" class="form-control" placeholder="Masukkan kata kunci">
+										<span class="help-block">
+										</span>
+										</div>
+									</div>
 								</div>
 							</div>
-							<div class="form-group">
-								<label class="col-md-2 control-label">Kata Kunci</label>
-								<div class="col-md-8">
-									<input type="text" class="form-control" placeholder="Masukkan kata kunci">
-									<span class="help-block">
-									</span>
+						</div>
+						<div class="form-actions">
+						<div class="row">
+							<div class="col-md-1">
+								<button type="submit" class="btn green">Cari</button>
+							</div>
+						</div>
+						</div>
+					</form>
+				</div>
+			</div>
+			<div class="portlet box green ">
+				<div class="portlet-title">
+					<div class="caption">
+						<i class="fa fa-gift"></i> Tambah Account
+					</div>
+					<div class="tools">
+						<a href="" class="collapse" data-original-title="" title="">
+						</a>				
+					</div>
+				</div>
+				<div class="portlet-body form">
+					<form class="form-horizontal" role="form">
+						<div class="form-body">	
+							<div class="row">
+								<div class="col-md-1">
+									<button type="submit" class="btn green" id="btn-add-account">Tambah Account</button>
 								</div>
-							</div>							
-						</div>						
-					</div>					
-				</div>
-				<div class="form-actions">
-					<div class="row">
-						<div class="col-md-offset-11 col-md-10">
-							<button type="submit" class="btn green">Cari</button>
+							</div>
+							<div class="space-4"></div>
+							<div class="row">
+								<div class="col-md-12">
+									<table id="grid-table-account"></table>
+									<div id="grid-pager-account"></div>
+								</div>
+							</div>
 						</div>
-					</div>
+					</form>
 				</div>
-			</form>
-		</div>
-	</div>
-	<div class="portlet box green ">
-		<div class="portlet-title">
-			<div class="caption">
-				<i class="fa fa-gift"></i> Tambah Account
 			</div>
-			<div class="tools">
-				<a href="" class="collapse" data-original-title="" title="">
-				</a>				
-			</div>
-		</div>
-		<div class="portlet-body form">
-			<form class="form-horizontal" role="form">
-				<div class="form-actions">
-					<div class="row">
-						<div class="col-md-1">
-							<button type="submit" class="btn green" id="show_form">Tambah Account</button>
-						</div>
-					</div>
-					<p>
-						&nbsp;
-					</p>
-					<div class="row">
-						<div class="col-md-10">										
-							<table id="grid-table-account"></table>
-							<div id="grid-pager-account"></div>
-						</div>
-					</div>
-				</div>
-				<div class="form-body">										
-				</div>				
-			</form>
 		</div>
 	</div>
 </div>
-
 <script>
 	jQuery(function($) {
         var grid_selector = "#grid-table-account";
         var pager_selector = "#grid-pager-account";
 
         jQuery("#grid-table-account").jqGrid({
-            url: '<?php echo WS_JQGRID."account.Account_controller/crud"; ?>',
+            url: '<?php echo WS_JQGRID."account.account_controller/crud"; ?>',
             datatype: "json",
             mtype: "POST",
             colModel: [
-                {label: 'Account Number', name: 'ACCNUM', hidden: false},                
-                {label: 'Action', name: 'ACCNUM', hidden: false},                
-                {label: 'Account Name', name: 'ACCNAME', hidden: false},                
-                {label: 'Account Status', name: 'ACCSTAT', hidden: false},                
-                {label: 'Currency Code', name: 'CRCODE', hidden: false},                
-                {label: 'Deposit MNY', name: 'DP_NM', hidden: false},                
-                {label: 'End Date', name: 'EN_DT', hidden: false},                
-                {label: 'Go Live DTM Number', name: 'ACCNUM', hidden: false},                
-                {label: 'Account Number', name: 'ACCNUM', hidden: false},                
+                {label: 'Account Number', name: 'account_num', hidden: false},                
+                {label: 'Action', name: 'action', hidden: false},                
+                {label: 'Account Name', name: 'account_name', hidden: false},                
+                {label: 'Account Status', name: 'account_status', hidden: false},                
+                {label: 'Currency Code', name: 'currency_code', hidden: false},                
+                {label: 'Email', name: 'email', hidden: false},                
+                {label: 'NPWP', name: 'npwp', hidden: false},                
+                {label: 'Address', name: 'address', hidden: false}               
             ],
             height: '100%',
-            autowidth: true,
+            autowidth: false,
             viewrecords: true,
             rowNum: 10,
             rowList: [10,20,50],
@@ -126,21 +142,21 @@
                 if(response.success == false) {
                     swal({title: 'Attention', text: response.message, html: true, type: "warning"});
                 }
-
+				responsive_jqgrid(grid_selector,pager_selector);
             },
             //memanggil controller jqgrid yang ada di controller crud
-            editurl: '<?php echo WS_JQGRID."account.Account_controller/crud"; ?>',
+            editurl: '<?php echo WS_JQGRID."account.account_controller/crud"; ?>',
             caption: "Permissions"
 
         });
 
         jQuery('#grid-table-account').jqGrid('navGrid', '#grid-pager-account',
             {   //navbar options
-                edit: true,
+                edit: false,
                 editicon: 'fa fa-pencil blue bigger-120',
-                add: true,
+                add: false,
                 addicon: 'fa fa-plus-circle purple bigger-120',
-                del: true,
+                del: false,
                 delicon: 'fa fa-trash-o red bigger-120',
                 search: true,
                 searchicon: 'fa fa-search orange bigger-120',
@@ -315,14 +331,13 @@
     function responsive_jqgrid(grid_selector, pager_selector) {
 
         var parent_column = $(grid_selector).closest('[class*="col-"]');
-        $(grid_selector).jqGrid( 'setGridWidth', $(".page-content").width() );
+        $(grid_selector).jqGrid( 'setGridWidth', $(".form-body").width() );
         $(pager_selector).jqGrid( 'setGridWidth', parent_column.width() );
 
     }
 </script>
 <script>
-	$( "#show_form" ).click(function() {
-		$("#list_acc").hide(1000);
-		$("#wizard_form").show(1000);
+	$( "#btn-add-account" ).click(function() {
+		loadContentWithParams('account.add_account',{});
 	});
 </script>

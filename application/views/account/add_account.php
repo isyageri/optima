@@ -1,572 +1,594 @@
-<link rel="stylesheet" href="<?php echo base_url();?>assets/js/daterangepicker.min.js" />
-<link href="<?php echo base_url(); ?>assets/global/plugins/bootstrap-switch/css/bootstrap-switch.min.css" rel="stylesheet" type="text/css" />
 <link href="<?php echo base_url(); ?>assets/global/plugins/select2/css/select2.min.css" rel="stylesheet" type="text/css" />
 <link href="<?php echo base_url(); ?>assets/global/plugins/select2/css/select2-bootstrap.min.css" rel="stylesheet" type="text/css" />
 
-<?php $this->load->view('account/list_account.php'); ?>
-<div id="wizard_form">
-	<div class="portlet box green ">
-		<div class="portlet-title">
-			<div class="caption">
-				<i class="fa fa-gift"></i> Data Transaksi
-			</div>
-			<div class="tools">
-				<a href="" class="collapse" data-original-title="" title="">
-				</a>				
-			</div>
-		</div>
-		<div class="portlet-body form">
-			<form class="form-horizontal" role="form">
-				<div class="form-body">
-					<div class="row">
-						<div class="col-md-6">
-							<div class="form-group">
-								<label class="col-md-2 control-label">No Transaksi</label>
-								<div class="col-md-8">
-									<input type="text" class="form-control" placeholder="Enter text">
-									<span class="help-block">
-									</span>
-								</div>
-							</div>
-							<div class="form-group">
-								<label class="col-md-2 control-label">Tanggal Transaksi</label>
-								<div class="col-md-8">
-									<input type="text" class="form-control" placeholder="Enter text">
-									<span class="help-block">
-									</span>
-								</div>
-							</div>
-						</div>
-						<div class="col-md-6">
-							<div class="form-group">
-								<label class="col-md-2 control-label">Status Transaksi</label>
-								<div class="col-md-8">
-									<input type="text" class="form-control" placeholder="Enter text">
-									<span class="help-block">
-									</span>
-								</div>
-							</div>					
-							<div class="form-group">
-								<label class="col-md-2 control-label">Petugas</label>
-								<div class="col-md-8">
-									<input type="text" class="form-control" placeholder="Enter text">
-									<span class="help-block">
-									</span>
-								</div>
-							</div>
-							<div class="form-group">
-								<label class="col-md-2 control-label">Lokasi</label>
-								<div class="col-md-8">
-									<input type="text" class="form-control" placeholder="Enter text">
-									<span class="help-block">
-									</span>
-								</div>
-							</div>
-						</div>
-					</div>					
-				</div>
-				<div class="form-actions">
-					<div class="row">
-						<div class="col-md-offset-10 col-md-9">
-							<button type="submit" class="btn green">Submit</button>
-							<button type="button" class="btn default">Cancel</button>
-						</div>
+<!-- breadcrumb -->
+<div class="page-bar">
+    <ul class="page-breadcrumb">
+        <li>
+            <a href="<?php base_url();?>">Home</a>
+            <i class="fa fa-circle"></i>
+        </li>
+        <li>
+            <a href="#" id="back-manage-account">Account</a>
+            <i class="fa fa-circle"></i>
+        </li>
+        <li>
+            <span>Tambah Account</span>
+        </li>
+    </ul>
+</div>
+<!-- end breadcrumb -->
+<div class="space-4"></div>
+
+<div class="row">
+	<div class="col-md-12">
+		<div id="wizard_form">
+			<div class="portlet box green ">
+				<div class="portlet-title">
+					<div class="caption">
+						<i class="fa fa-gift"></i> Data Transaksi
+					</div>
+					<div class="tools">
+						<a href="" class="collapse" data-original-title="" title="">
+						</a>				
 					</div>
 				</div>
-			</form>
-		</div>
-	</div>
-	<div class="col-md-12">
-		<div class="portlet light bordered" id="form_wizard_1">
-			<div class="portlet-title">
-				<div class="caption">
-					<i class=" icon-layers font-red"></i>
-					<span class="caption-subject font-red bold uppercase"> Penambahan Account -
-						<span class="step-title"> Step 1 of 5 </span>
-					</span>
-				</div>				
+				<div class="portlet-body form">
+					<form class="form-horizontal" role="form">
+						<div class="form-body">
+						<div class="row">
+							<div class="col-md-6">
+								<div class="form-group">
+									<label class="col-md-2 control-label">No Transaksi</label>
+									<div class="col-md-8">
+									<input type="text" class="form-control" placeholder="Enter text">
+									<span class="help-block">
+									</span>
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="col-md-2 control-label">Tanggal Transaksi</label>
+									<div class="col-md-8">
+									<input type="text" class="form-control" placeholder="Enter text">
+									<span class="help-block">
+									</span>
+									</div>
+								</div>
+							</div>
+							<div class="col-md-6">
+								<div class="form-group">
+									<label class="col-md-2 control-label">Status Transaksi</label>
+									<div class="col-md-8">
+									<input type="text" class="form-control" placeholder="Enter text">
+									<span class="help-block">
+									</span>
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="col-md-2 control-label">Petugas</label>
+									<div class="col-md-8">
+									<input type="text" class="form-control" placeholder="Enter text">
+									<span class="help-block">
+									</span>
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="col-md-2 control-label">Lokasi</label>
+									<div class="col-md-8">
+									<input type="text" class="form-control" placeholder="Enter text">
+									<span class="help-block">
+									</span>
+									</div>
+								</div>
+							</div>
+						</div>
+						</div>
+						<div class="form-actions">
+						<div class="row">
+							<div class="col-md-9">
+								<button type="submit" class="btn green">Submit</button>
+								<button type="button" class="btn default">Cancel</button>
+							</div>
+						</div>
+						</div>
+					</form>
+				</div>
 			</div>
-			<div class="portlet-body form">
-				<form class="form-horizontal" action="#" id="submit_form" method="POST">
-					<div class="form-wizard">
+			<div class="portlet light bordered" id="form_wizard_1">
+				<div class="portlet-title">
+					<div class="caption">
+						<i class=" icon-layers font-red"></i>
+						<span class="caption-subject font-red bold uppercase"> Penambahan Account -
+						<span class="step-title"> Step 1 of 5 </span>
+						</span>
+					</div>
+				</div>
+					<div class="portlet-body form">
+					<form class="form-horizontal" action="#" id="submit_form" method="POST">
+						<div class="form-wizard">
 						<div class="form-body">
 							<ul class="nav nav-pills nav-justified steps">
 								<li>
 									<a href="#tab1" data-toggle="tab" class="step">
-										<span class="number"> 1 </span>
-										<span class="desc">
-											<i class="fa fa-check"></i> Account and Tax </span>
+									<span class="number"> 1 </span>
+									<span class="desc">
+									<i class="fa fa-check"></i> Account and Tax </span>
 									</a>
 								</li>
 								<li>
 									<a href="#tab2" data-toggle="tab" class="step">
-										<span class="number"> 2 </span>
-										<span class="desc">
-											<i class="fa fa-check"></i> Finance </span>
+									<span class="number"> 2 </span>
+									<span class="desc">
+									<i class="fa fa-check"></i> Finance </span>
 									</a>
 								</li>
 								<li>
 									<a href="#tab3" data-toggle="tab" class="step">
-										<span class="number"> 3 </span>
-										<span class="desc">
-											<i class="fa fa-check"></i> Billing Contact </span>
+									<span class="number"> 3 </span>
+									<span class="desc">
+									<i class="fa fa-check"></i> Billing Contact </span>
 									</a>
 								</li>
 								<li>
 									<a href="#tab4" data-toggle="tab" class="step">
-										<span class="number"> 4 </span>
-										<span class="desc">
-											<i class="fa fa-check"></i> Billing Detail </span>
+									<span class="number"> 4 </span>
+									<span class="desc">
+									<i class="fa fa-check"></i> Billing Detail </span>
 									</a>
 								</li>
 								<li>
 									<a href="#tab5" data-toggle="tab" class="step">
-										<span class="number"> 5 </span>
-										<span class="desc">
-											<i class="fa fa-check"></i> Additional Information </span>
+									<span class="number"> 5 </span>
+									<span class="desc">
+									<i class="fa fa-check"></i> Additional Information </span>
 									</a>
 								</li>
-								
 							</ul>
 							<div id="bar" class="progress progress-striped active" role="progressbar">
 								<div class="progress-bar progress-bar-success"> </div>
 							</div>
 							<div class="tab-content">
 								<div class="alert alert-danger display-none">
-									<button class="close" data-dismiss="alert"></button> You have some form errors. Please check below. </div>
+									<button class="close" data-dismiss="alert"></button> You have some form errors. Please check below. 
+								</div>
 								<div class="alert alert-success display-none">
-									<button class="close" data-dismiss="alert"></button> Your form validation is successful! </div>													
-								<div class="tab-pane" id="tab1">																	
+									<button class="close" data-dismiss="alert"></button> Your form validation is successful! 
+								</div>
+								<div class="tab-pane" id="tab1">
 									<div class="row">
-										<div class="col-md-6">
-											<div class="form-group">
-												<label class="control-label col-md-2">NIPNAS
-													<span> * </span>
-												</label>														
-												<div class="col-md-8">
-													<div class="input-group">
-														<div class="input-icon">															
-															<input id="nipnas" class="form-control required" type="text" name="find_NIPNAS" readonly="">
-														</div>
-														<span class="input-group-btn">
-														<button id="btn-lov-nipnas" class="btn btn-success" type="button">Find NIPNAS</button>
-														</span>
-													</div>
-												</div>
-											</div>
-											<div class="form-group">
-												<label class="col-md-2 control-label">Account Name</label>
-												<div class="col-md-8">
-													<input type="text" class="form-control" placeholder="Insert Name Here">
-													<span class="help-block">
-													</span>
-												</div>
-											</div>
+									<div class="col-md-6">
 										<div class="form-group">
-												<label class="col-md-2 control-label">Account To Go Live</label>
-												<div class="col-md-8">
-													<input type="text" class="form-control" placeholder="MM/DD/YYYY" id="datetimepicker1">
-													<span class="help-block">
-													</span>
+											<label class="control-label col-md-2">NIPNAS
+											<span> * </span>
+											</label>														
+											<div class="col-md-8">
+												<div class="input-group">
+												<div class="input-icon">															
+													<input id="nipnas" class="form-control required" type="text" name="find_NIPNAS" readonly="">
+												</div>
+												<span class="input-group-btn">
+													<button id="btn-lov-nipnas" class="btn btn-success" type="button">
+														<i class="fa fa-search"></i>
+													</button>
+												</span>
 												</div>
 											</div>
 										</div>
-										<div class="col-md-6">			
+										<div class="form-group">
+											<label class="col-md-2 control-label">Account Name</label>
+											<div class="col-md-8">
+												<input type="text" class="form-control" placeholder="Insert Name Here">
+												<span class="help-block">
+												</span>
+											</div>
+										</div>
+										<div class="form-group">
+											<label class="col-md-2 control-label">Account To Go Live</label>
+											<div class="col-md-8">
+												<input type="text" class="form-control" placeholder="MM/DD/YYYY" id="datetimepicker1">
+												<span class="help-block">
+												</span>
+											</div>
+										</div>
+									</div>
+									<div class="col-md-6">
+										<div class="form-group">
+											<label class="col-md-2 control-label">Contracted Point of Supply</label>
+											<div class="col-md-8">
+												<select class="form-control">
+												<option>PT Telkom Taxable</option>
+												<option>PT Telkom Nontaxable</option>
+												<option>PT Telkom for 5% Tax Set</option>
+												</select>
+												<span class="help-block">
+												</span>
+											</div>
+										</div>
+										<div class="form-group">
+											<label class="col-md-2 control-label">Tax Status</label>
+											<div class="col-md-8">
+												<select class="form-control">
+												<option>Tax Exclusive</option>
+												<option>Tax Inclusive</option>
+												</select>
+												<span class="help-block">
+												</span>
+											</div>
+										</div>
+									</div>
+									</div>
+								</div>
+								<div class="tab-pane" id="tab2">
+									<div class="portlet-body form">
+									<div class="form-body">
+										<div class="col-md-6">
 											<div class="form-group">
-												<label class="col-md-2 control-label">Contracted Point of Supply</label>
-												<div class="col-md-8">															
+												<label class="col-md-2 control-label">Account Currency</label>
+												<div class="col-md-8">
+												<select class="form-control">
+													<option>IDR - Indonesian Rupiah</option>
+													<option>USD - US Dollar</option>
+													<option>EUR - Euro</option>
+												</select>
+												<span class="help-block">
+												</span>
+												</div>
+											</div>
+											<div class="form-group">
+												<label class="col-md-2 control-label">Information Currency</label>
+												<div class="col-md-8">
+												<select class="form-control">
+													<option>IDR - Indonesian Rupiah</option>
+													<option>USD - US Dollar</option>
+													<option>EUR - Euro</option>
+												</select>
+												<span class="help-block">
+												</span>
+												</div>
+											</div>
+											<div class="form-group">
+												<label class="col-md-2 control-label">Next Bill Date
+												<span> * </span>
+												</label>
+												<div class="col-md-8">
+												<input type="text" class="form-control required" placeholder="MM/DD/YYYY">
+												<span class="help-block">
+												</span>
+												</div>
+											</div>
+										</div>
+									</div>
+									</div>
+								</div>
+								<div class="tab-pane" id="tab3">
+									<div class="portlet-body form">
+									<div class="form-body">
+										<div class="row">
+											<div class="col-md-6">
+												<div class="form-group">
+												<label class="col-md-2 control-label">Account Number</label>
+												<div class="col-md-8">
+													<input type="text" class="form-control" placeholder="Enter Account Number">
+													<span class="help-block">
+													</span>
+												</div>
+												</div>
+												<div class="form-group">
+												<label class="col-md-2 control-label">First Name</label>
+												<div class="col-md-8">
+													<input type="text" class="form-control" placeholder="Enter first Name">
+													<span class="help-block">
+													</span>
+												</div>
+												</div>
+												<div class="form-group">
+												<label class="col-md-2 control-label">Last Name</label>
+												<div class="col-md-8">
+													<input type="text" class="form-control" placeholder="Enter last name">
+													<span class="help-block">
+													</span>
+												</div>
+												</div>
+												<div class="form-group">
+												<label class="col-md-2 control-label">Company Name</label>
+												<div class="col-md-8">
+													<input type="text" class="form-control" placeholder="Enter company name">
+													<span class="help-block">
+													</span>
+												</div>
+												</div>
+												<div class="form-group">
+												<label class="col-md-2 control-label">NPWP</label>
+												<div class="col-md-8">
+													<input type="text" class="form-control" placeholder="Enter NPWP">
+													<span class="help-block">
+													</span>
+												</div>
+												</div>
+												<div class="form-group">
+												<label class="col-md-2 control-label">Email</label>
+												<div class="col-md-8">
+													<input type="text" class="form-control" placeholder="Enter Email Address">
+													<span class="help-block">
+													</span>
+												</div>
+												</div>
+												<div class="form-group">
+												<label class="col-md-2 control-label">Mobile Number</label>
+												<div class="col-md-8">
+													<input type="text" class="form-control" placeholder="Enter Mobile Number">
+													<span class="help-block">
+													</span>
+												</div>
+												</div>
+												<div class="form-group">
+												<label class="col-md-2 control-label">Contact Type</label>
+												<div class="col-md-8">
 													<select class="form-control">
-														<option>PT Telkom Taxable</option>
-														<option>PT Telkom Nontaxable</option>
-														<option>PT Telkom for 5% Tax Set</option>
+														<option>Billing</option>
+														<option>Contract</option>
+														<option>Directory</option>
+														<option>INTERNAL</option>
 													</select>
 													<span class="help-block">
 													</span>
 												</div>
-											</div>
-											<div class="form-group">
-												<label class="col-md-2 control-label">Tax Status</label>
+												</div>
+												<div class="form-group">
+												<label class="col-md-2 control-label">Contact Start Date</label>
 												<div class="col-md-8">
-													<select class="form-control">
-														<option>Tax Exclusive</option>
-														<option>Tax Inclusive</option>
-													</select>															
+													<input type="text" class="form-control" placeholder="Enter Contact Start Date">
 													<span class="help-block">
 													</span>
 												</div>
+												</div>
+												<p>
+												&nbsp;
+												</p>
+												<div class="form-group">
+												<label class="col-md-2 control-label">Contact IT</label>
+												<div class="col-md-8">
+													<input type="text" class="form-control" placeholder="Enter Contact IT">
+													<span class="help-block">
+													</span>
+												</div>
+												</div>
+												<div class="form-group">
+												<label class="col-md-2 control-label">Phone Number</label>
+												<div class="col-md-8">
+													<input type="text" class="form-control" placeholder="Enter Phone Number">
+													<span class="help-block">
+													</span>
+												</div>
+												</div>
+												<div class="form-group">
+												<label class="col-md-2 control-label">Email</label>
+												<div class="col-md-8">
+													<input type="text" class="form-control" placeholder="Enter Email">
+													<span class="help-block">
+													</span>
+												</div>
+												</div>
+												<div class="form-group">
+												<label class="col-md-2 control-label">Contact Finance</label>
+												<div class="col-md-8">
+													<input type="text" class="form-control" placeholder="Enter Contact Finance">
+													<span class="help-block">
+													</span>
+												</div>
+												</div>
+												<div class="form-group">
+												<label class="col-md-2 control-label">Phone Number</label>
+												<div class="col-md-8">
+													<input type="text" class="form-control" placeholder="Enter Phone Number">
+													<span class="help-block">
+													</span>
+												</div>
+												</div>
+												<div class="form-group">
+												<label class="col-md-2 control-label">Email</label>
+												<div class="col-md-8">
+													<input type="text" class="form-control" placeholder="Enter Email">
+													<span class="help-block">
+													</span>
+												</div>
+												</div>
 											</div>
-										</div>
-									</div>																										
-								</div>
-								<div class="tab-pane" id="tab2">
-									<div class="portlet-body form">										
-										<div class="form-body">												
 											<div class="col-md-6">
 												<div class="form-group">
-													<label class="col-md-2 control-label">Account Currency</label>
-													<div class="col-md-8">
-														<select class="form-control">
-															<option>IDR - Indonesian Rupiah</option>
-															<option>USD - US Dollar</option>															
-															<option>EUR - Euro</option>															
-														</select>
-														<span class="help-block">
-														</span>
-													</div>
+												<label class="col-md-2 control-label">Street Name</label>
+												<div class="col-md-8">
+													<input type="text" class="form-control" placeholder="Enter text">
+													<span class="help-block">
+													</span>
+												</div>
 												</div>
 												<div class="form-group">
-													<label class="col-md-2 control-label">Information Currency</label>
-													<div class="col-md-8">
-														<select class="form-control">
-															<option>IDR - Indonesian Rupiah</option>
-															<option>USD - US Dollar</option>															
-															<option>EUR - Euro</option>
-														</select>
-														<span class="help-block">
-														</span>
-													</div>
-												</div>										
+												<label class="col-md-2 control-label">Block Name</label>
+												<div class="col-md-8">
+													<input type="text" class="form-control" placeholder="Enter text">
+													<span class="help-block">
+													</span>
+												</div>
+												</div>
 												<div class="form-group">
-													<label class="col-md-2 control-label">Next Bill Date
-														<span> * </span>
-													</label>
-													<div class="col-md-8">
-														<input type="text" class="form-control required" placeholder="MM/DD/YYYY">
-														<span class="help-block">
-														</span>
-													</div>
-												</div>						
-											</div>															
-										</div>										
+												<label class="col-md-2 control-label">District Name</label>
+												<div class="col-md-8">
+													<input type="text" class="form-control" placeholder="Enter text">
+													<span class="help-block">
+													</span>
+												</div>
+												</div>
+												<div class="form-group">
+												<label class="col-md-2 control-label">City</label>
+												<div class="col-md-8">
+													<input type="text" class="form-control" placeholder="Enter text">
+													<span class="help-block">
+													</span>
+												</div>
+												</div>
+												<div class="form-group">
+												<label class="col-md-2 control-label">Province</label>
+												<div class="col-md-8">
+													<input type="text" class="form-control" placeholder="Enter text">
+													<span class="help-block">
+													</span>
+												</div>
+												</div>
+												<div class="form-group">
+												<label class="col-md-2 control-label">Zip Code</label>
+												<div class="col-md-8">
+													<input type="text" class="form-control" placeholder="Enter text">
+													<span class="help-block">
+													</span>
+												</div>
+												</div>
+												<div class="form-group">
+												<label class="col-md-2 control-label">Contact AM</label>
+												<div class="col-md-8">
+													<input type="text" class="form-control" placeholder="Enter text">
+													<span class="help-block">
+													</span>
+												</div>
+												</div>
+												<div class="form-group">
+												<label class="col-md-2 control-label">Phone Number</label>
+												<div class="col-md-8">
+													<input type="text" class="form-control" placeholder="Enter text">
+													<span class="help-block">
+													</span>
+												</div>
+												</div>
+												<div class="form-group">
+												<label class="col-md-2 control-label">Email</label>
+												<div class="col-md-8">
+													<input type="text" class="form-control" placeholder="Enter text">
+													<span class="help-block">
+													</span>
+												</div>
+												</div>
+												<div class="form-group">
+												<label class="col-md-2 control-label">Document Name</label>
+												<div class="col-md-8">
+													<input type="text" class="form-control" placeholder="Enter text">
+													<span class="help-block">
+													</span>
+												</div>
+												</div>
+												<div class="form-group">
+												<label class="col-md-2 control-label">Document Address
+												<span> * </span>
+												</label>
+												<div class="col-md-8">
+													<textarea class="form-control required" rows="3"></textarea>
+													<span class="help-block">
+													</span>
+												</div>
+												</div>
+											</div>
+										</div>
 									</div>
-								</div>
-								<div class="tab-pane" id="tab3">
-									<div class="portlet-body form">										
-										<div class="form-body">
-											<div class="row">
-												<div class="col-md-6">
-													<div class="form-group">
-														<label class="col-md-2 control-label">Account Number</label>
-														<div class="col-md-8">
-															<input type="text" class="form-control" placeholder="Enter Account Number">
-															<span class="help-block">
-															</span>
-														</div>
-													</div>
-													<div class="form-group">
-														<label class="col-md-2 control-label">First Name</label>
-														<div class="col-md-8">
-															<input type="text" class="form-control" placeholder="Enter first Name">
-															<span class="help-block">
-															</span>
-														</div>
-													</div>
-													<div class="form-group">
-														<label class="col-md-2 control-label">Last Name</label>
-														<div class="col-md-8">
-															<input type="text" class="form-control" placeholder="Enter last name">
-															<span class="help-block">
-															</span>
-														</div>
-													</div>
-													<div class="form-group">
-														<label class="col-md-2 control-label">Company Name</label>
-														<div class="col-md-8">
-															<input type="text" class="form-control" placeholder="Enter company name">
-															<span class="help-block">
-															</span>
-														</div>
-													</div>
-													<div class="form-group">
-														<label class="col-md-2 control-label">NPWP</label>
-														<div class="col-md-8">
-															<input type="text" class="form-control" placeholder="Enter NPWP">
-															<span class="help-block">
-															</span>
-														</div>
-													</div>
-													<div class="form-group">
-														<label class="col-md-2 control-label">Email</label>
-														<div class="col-md-8">
-															<input type="text" class="form-control" placeholder="Enter Email Address">
-															<span class="help-block">
-															</span>
-														</div>
-													</div>
-													<div class="form-group">
-														<label class="col-md-2 control-label">Mobile Number</label>
-														<div class="col-md-8">
-															<input type="text" class="form-control" placeholder="Enter Mobile Number">
-															<span class="help-block">
-															</span>
-														</div>
-													</div>
-													<div class="form-group">
-														<label class="col-md-2 control-label">Contact Type</label>
-														<div class="col-md-8">
-															<select class="form-control">
-															<option>Billing</option>
-															<option>Contract</option>
-															<option>Directory</option>
-															<option>INTERNAL</option>															
-														</select>
-															<span class="help-block">
-															</span>
-														</div>
-													</div>
-													<div class="form-group">
-														<label class="col-md-2 control-label">Contact Start Date</label>
-														<div class="col-md-8">
-															<input type="text" class="form-control" placeholder="Enter Contact Start Date">
-															<span class="help-block">
-															</span>
-														</div>
-													</div>
-													<p>
-													&nbsp;
-													</p>
-													<div class="form-group">
-														<label class="col-md-2 control-label">Contact IT</label>
-														<div class="col-md-8">
-															<input type="text" class="form-control" placeholder="Enter Contact IT">
-															<span class="help-block">
-															</span>
-														</div>
-													</div>
-													<div class="form-group">
-														<label class="col-md-2 control-label">Phone Number</label>
-														<div class="col-md-8">
-															<input type="text" class="form-control" placeholder="Enter Phone Number">
-															<span class="help-block">
-															</span>
-														</div>
-													</div>
-													<div class="form-group">
-														<label class="col-md-2 control-label">Email</label>
-														<div class="col-md-8">
-															<input type="text" class="form-control" placeholder="Enter Email">
-															<span class="help-block">
-															</span>
-														</div>
-													</div>
-													<div class="form-group">
-														<label class="col-md-2 control-label">Contact Finance</label>
-														<div class="col-md-8">
-															<input type="text" class="form-control" placeholder="Enter Contact Finance">
-															<span class="help-block">
-															</span>
-														</div>
-													</div>
-													<div class="form-group">
-														<label class="col-md-2 control-label">Phone Number</label>
-														<div class="col-md-8">
-															<input type="text" class="form-control" placeholder="Enter Phone Number">
-															<span class="help-block">
-															</span>
-														</div>
-													</div>
-													<div class="form-group">
-														<label class="col-md-2 control-label">Email</label>
-														<div class="col-md-8">
-															<input type="text" class="form-control" placeholder="Enter Email">
-															<span class="help-block">
-															</span>
-														</div>
-													</div>
-												</div>
-												<div class="col-md-6">
-													<div class="form-group">
-														<label class="col-md-2 control-label">Street Name</label>
-														<div class="col-md-8">
-															<input type="text" class="form-control" placeholder="Enter text">
-															<span class="help-block">
-															</span>
-														</div>
-													</div>					
-													<div class="form-group">
-														<label class="col-md-2 control-label">Block Name</label>
-														<div class="col-md-8">
-															<input type="text" class="form-control" placeholder="Enter text">
-															<span class="help-block">
-															</span>
-														</div>
-													</div>
-													<div class="form-group">
-														<label class="col-md-2 control-label">District Name</label>
-														<div class="col-md-8">
-															<input type="text" class="form-control" placeholder="Enter text">
-															<span class="help-block">
-															</span>
-														</div>
-													</div>
-													<div class="form-group">
-														<label class="col-md-2 control-label">City</label>
-														<div class="col-md-8">
-															<input type="text" class="form-control" placeholder="Enter text">
-															<span class="help-block">
-															</span>
-														</div>
-													</div>
-													<div class="form-group">
-														<label class="col-md-2 control-label">Province</label>
-														<div class="col-md-8">
-															<input type="text" class="form-control" placeholder="Enter text">
-															<span class="help-block">
-															</span>
-														</div>
-													</div>
-													<div class="form-group">
-														<label class="col-md-2 control-label">Zip Code</label>
-														<div class="col-md-8">
-															<input type="text" class="form-control" placeholder="Enter text">
-															<span class="help-block">
-															</span>
-														</div>
-													</div>
-													<div class="form-group">
-														<label class="col-md-2 control-label">Contact AM</label>
-														<div class="col-md-8">
-															<input type="text" class="form-control" placeholder="Enter text">
-															<span class="help-block">
-															</span>
-														</div>
-													</div>
-													<div class="form-group">
-														<label class="col-md-2 control-label">Phone Number</label>
-														<div class="col-md-8">
-															<input type="text" class="form-control" placeholder="Enter text">
-															<span class="help-block">
-															</span>
-														</div>
-													</div>
-													<div class="form-group">
-														<label class="col-md-2 control-label">Email</label>
-														<div class="col-md-8">
-															<input type="text" class="form-control" placeholder="Enter text">
-															<span class="help-block">
-															</span>
-														</div>
-													</div>
-													<div class="form-group">
-														<label class="col-md-2 control-label">Document Name</label>
-														<div class="col-md-8">
-															<input type="text" class="form-control" placeholder="Enter text">
-															<span class="help-block">
-															</span>
-														</div>
-													</div>
-													<div class="form-group">
-														<label class="col-md-2 control-label">Document Address
-															<span> * </span>
-														</label>
-														<div class="col-md-8">
-															<textarea class="form-control required" rows="3"></textarea>
-															<span class="help-block">
-															</span>
-														</div>
-													</div>
-												</div>
-											</div>					
-										</div>												
 									</div>
 								</div>
 								<div class="tab-pane" id="tab4">
-									<div class="portlet-body form">										
-										<div class="form-body">
-											<div class="row">
+									<div class="portlet-body form">
+									<div class="form-body">
+										<div class="row">
+											<div class="col-md-6">
+												<div class="form-group">
+												<label class="col-md-2 control-label">Bill Periode</label>
 												<div class="col-md-6">
-													<div class="form-group">
-														<label class="col-md-2 control-label">Bill Periode</label>
-														<div class="col-md-6">
-															<input type="text" class="form-control" placeholder="">
-															<span class="help-block">
-															</span>
-														</div>
-														<div class="col-md-4">
-														<select class="form-control">
-															<option>Default</option>
-															<option>Daily</option>
-															<option>Weekly</option>
-															<option>Monthly</option>															
-														</select>
-															<span class="help-block">
-															</span>
-														</div>														
-													</div>
-													<div class="form-group">
-														<label class="col-md-2 control-label">Accounting Method</label>
-														<div class="col-md-10">
-															<select class="form-control">
-																<option>Balance Forward</option>																
-															</select>
-														</div>
-													</div>
-													<div class="form-group">
-														<label class="col-md-2 control-label">Payment Method</label>
-														<div class="col-md-10">
-															<select class="form-control">
-																<option>Normal</option>																
-															</select>
-														</div>
-													</div>
+													<input type="text" class="form-control" placeholder="">
+													<span class="help-block">
+													</span>
 												</div>
-												<div class="col-md-6">																
-													<div class="form-group">
-														<label class="col-md-2 control-label">Bill Style</label>
-														<div class="col-md-8">
-															<select class="form-control">
-																<option>Normal Billing</option>																
-															</select>
-														</div>
-													</div>
-													<div class="form-group">
-														<label class="col-md-2 control-label">Bill Handling Code</label>
-														<div class="col-md-8">
-															<select class="form-control">
-																<option>Account Single Billing</option>
-																<option>Invoice Detail View</option>
-																<option>Invoice Group View</option>																
-															</select>
-														</div>
-													</div>
-													<div class="form-group">
-														<label class="col-md-2 control-label">Credit Class</label>
-														<div class="col-md-8">
-															<select class="form-control">
-																<option>IDR Standard Interface</option>
-															</select>
-														</div>
-													</div>
+												<div class="col-md-4">
+													<select class="form-control">
+														<option>Default</option>
+														<option>Daily</option>
+														<option>Weekly</option>
+														<option>Monthly</option>
+													</select>
+													<span class="help-block">
+													</span>
 												</div>
-											</div>					
-										</div>											
+												</div>
+												<div class="form-group">
+												<label class="col-md-2 control-label">Accounting Method</label>
+												<div class="col-md-10">
+													<select class="form-control">
+														<option>Balance Forward</option>
+													</select>
+												</div>
+												</div>
+												<div class="form-group">
+												<label class="col-md-2 control-label">Payment Method</label>
+												<div class="col-md-10">
+													<select class="form-control">
+														<option>Normal</option>
+													</select>
+												</div>
+												</div>
+											</div>
+											<div class="col-md-6">
+												<div class="form-group">
+												<label class="col-md-2 control-label">Bill Style</label>
+												<div class="col-md-8">
+													<select class="form-control">
+														<option>Normal Billing</option>
+													</select>
+												</div>
+												</div>
+												<div class="form-group">
+												<label class="col-md-2 control-label">Bill Handling Code</label>
+												<div class="col-md-8">
+													<select class="form-control">
+														<option>Account Single Billing</option>
+														<option>Invoice Detail View</option>
+														<option>Invoice Group View</option>
+													</select>
+												</div>
+												</div>
+												<div class="form-group">
+												<label class="col-md-2 control-label">Credit Class</label>
+												<div class="col-md-8">
+													<select class="form-control">
+														<option>IDR Standard Interface</option>
+													</select>
+												</div>
+												</div>
+											</div>
+										</div>
+									</div>
 									</div>
 								</div>
 								<div class="tab-pane" id="tab5">
 									<div class="row">
-										<div class="col-md-10">										
-											<table id="grid-table"></table>
-											<div id="grid-pager"></div>
-										</div>
+									<div class="col-md-10">
+										<table id="grid-table"></table>
+										<div id="grid-pager"></div>
+									</div>
 									</div>
 								</div>
-						</div>
-						<div class="form-actions">
-							<div class="row">
-								<div class="col-md-offset-3 col-md-9">
+							</div>
+							<div class="form-actions">
+								<div class="row">
+									<div class="col-md-offset-3 col-md-9">
 									<a href="javascript:;" class="btn default button-previous">
-										<i class="fa fa-angle-left"></i> Back </a>
+									<i class="fa fa-angle-left"></i> Back </a>
 									<a href="javascript:;" class="btn btn-outline green button-next"> Continue
-										<i class="fa fa-angle-right"></i>
+									<i class="fa fa-angle-right"></i>
 									</a>
 									<a href="javascript:;" class="btn green button-submit"> Submit
-										<i class="fa fa-check"></i>
+									<i class="fa fa-check"></i>
 									</a>
+									</div>
 								</div>
 							</div>
 						</div>
+					</form>
 					</div>
-				</form>
+				</div>
 			</div>
 		</div>
 	</div>
@@ -821,8 +843,6 @@
 <script src="<?php echo base_url(); ?>assets/global/plugins/jquery-validation/js/jquery.validate.min.js" type="text/javascript"></script>
 <script src="<?php echo base_url(); ?>assets/global/plugins/jquery-validation/js/additional-methods.min.js" type="text/javascript"></script>
 <script src="<?php echo base_url(); ?>assets/global/plugins/bootstrap-wizard/jquery.bootstrap.wizard.min.js" type="text/javascript"></script>
-<script src="<?php echo base_url(); ?>assets/js/bootstrap-datepicker.min.js" type="text/javascript"></script>
-<script src="<?php echo base_url(); ?>assets/js/bootstrap-datetimepicker.min.js" type="text/javascript"></script>
 <script src="<?php echo base_url(); ?>assets/global/plugins/bootstrap-switch/js/bootstrap-switch.min.js" type="text/javascript"></script>
 
 
@@ -839,13 +859,14 @@
 		$('#btn-lov-accountnum').on('click',function() {
 			modal_lov_nipnas_show('account_number','customer_name2');
 		});
-		$('#wizard_form').hide();
+		
+		$('#back-manage-account').on('click', function() {
+			loadContentWithParams('account.list_account',{});
+		});
   })
   $(function (){
-		$('#datetimepicker1').datetimepicker({
-			viewMode: 'days',
-			format: 'DD/MM/YYYY'
-		}
-		);
+		$('#datetimepicker1').datepicker({
+			format: 'dd/mm/yyyy'
+		});
   });
 </script>
