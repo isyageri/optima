@@ -449,9 +449,6 @@
         </div>
     </div>
 </div>
-<!--<script type="text/javascript" src="--><?php //echo base_url(); ?><!--assets/global/plugins/bootstrap-wizard/jquery.bootstrap.wizard.min.js"></script>-->
-<!--<script src="--><?php //echo base_url(); ?><!--assets/pages/scripts/form-wizard.js" type="text/javascript"></script>-->
-<?php $this->load->view('schema/lov_nipsos2.php'); ?>
 
 <script>
     $(document).ready(function () {

@@ -1,6 +1,6 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-class Customer_controller {
+class Create_customer_controller {
 
     function read() {
 
