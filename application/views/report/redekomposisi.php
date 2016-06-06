@@ -10,7 +10,7 @@
             <i class="fa fa-circle"></i>
         </li>
         <li>
-            <span>Report Invoice</span>
+            <span>Report Redekomposisi</span>
         </li>
     </ul>
 </div>
@@ -57,6 +57,7 @@
 
 <script>
 
+
     jQuery(function($) {
         var grid_selector = "#grid-table";
         var pager_selector = "#grid-pager";
@@ -73,7 +74,7 @@
                 return false;
             }
 			jQuery("#grid-table").jqGrid('setGridParam', {
-                        url: '<?php echo WS_JQGRID."report.invoice_controller/crud"; ?>',
+                        url: '<?php echo WS_JQGRID."report.redekomposisi_controller/crud"; ?>',
                         datatype: 'json',
                         postData: {period: prd},
                     });
@@ -97,6 +98,13 @@
             mtype: "POST",
             colModel: [
                 {
+                    label: 'Keterangan',
+                    name: 'keterangan',
+                    width: 150, 
+                    align: "left",
+                    editable: false,
+                },
+                {
                     label: 'Account Num',
                     name: 'account_num',
                     width: 150, 
@@ -104,92 +112,99 @@
                     editable: false,
                 },
                 {
-                    label: 'Account Lama',
-                    name: 'account_lama',
+                    label: 'Divre',
+                    name: 'divre',
                     width: 150, 
                     align: "center",
                     editable: false,
                 },
                 {
-                    label: 'Nama',
-                    name: 'nama',
+                    label: 'Period',
+                    name: 'period',
+                    width: 150, 
+                    align: "center",
+                    editable: false,
+                },
+                {
+                    label: 'Notel',
+                    name: 'notel',
+                    width: 150, 
+                    align: "center",
+                    editable: false,
+                },
+                {
+                    label: 'Event Filter Name',
+                    name: 'event_filter_name',
+                    width: 150, 
+                    align: "center",
+                    editable: false,
+                },
+                {
+                    label: 'D SLJJ PSTN',
+                    name: 'd_sljj_pstn',
+                    width: 150, 
+                    align: "right",
+                    editable: false,
+                },
+                {
+                    label: 'D SLJJ Seluler',
+                    name: 'd_sljj_seluler',
+                    width: 150, 
+                    align: "right",
+                    editable: false,
+                },
+                {
+                    label: 'D Lokal Seluler',
+                    name: 'd_lokal_seluler',
+                    width: 150, 
+                    align: "right",
+                    editable: false,
+                },
+                {
+                    label: 'D Lokal PSTN',
+                    name: 'd_lokal_pstn',
+                    width: 150, 
+                    align: "right",
+                    editable: false,
+                },
+                {
+                    label: 'D SLI 007',
+                    name: 'd_sli_007',
+                    width: 150, 
+                    align: "right",
+                    editable: false,
+                },
+                {
+                    label: 'D Abonemen',
+                    name: 'd_abonemen',
+                    width: 150, 
+                    align: "right",
+                    editable: false,
+                },
+                {
+                    label: 'Ket',
+                    name: 'ket',
                     width: 150, 
                     align: "left",
                     editable: false,
                 },
                 {
-                    label: 'Alamat',
-                    name: 'alamat',
-                    width: 150, 
-                    align: "left",
-                    editable: false,
-                },
-                {
-                    label: 'Bill Period',
-                    name: 'bill_period',
-                    width: 150, 
-                    align: "center",
-                    editable: false,
-                },
-                {
-                    label: 'SST Before Bill',
-                    name: 'fastel_before_bill',
-                    width: 150, 
-                    align: "center",
-                    editable: false,
-                },
-                {
-                    label: 'SST After Bill',
-                    name: 'fastel_bill',
-                    width: 150, 
-                    align: "center",
-                    editable: false,
-                },
-                {
-                    label: 'Commitment',
-                    name: 'commitment',
+                    label: 'NCLI',
+                    name: 'ncli',
                     width: 150, 
                     align: "right",
                     editable: false,
                 },
                 {
-                    label: 'Allowance',
-                    name: 'allowance',
+                    label: 'NDOS',
+                    name: 'ndos',
                     width: 150, 
                     align: "right",
                     editable: false,
                 },
                 {
-                    label: 'Disc Prec',
-                    name: 'disc_perc',
-                    width: 150, 
-                    align: "right",
-                    editable: false,
-                },
-                {
-                    label: 'Tagihan',
-                    name: 'tagihan',
-                    width: 150, 
-                    align: "right",
-                    editable: false,
-                },
-                {
-                    label: 'Eligible',
-                    name: 'eligible',
-                    width: 150, 
-                    align: "right",
-                    editable: false,
-                },
-                {
-                    label: 'Diskon AMN',
-                    name: 'disc_amn',
-                    width: 150, 
-                    align: "right",
-                    editable: false,
-                },
-                {
-                    label: 'Tag Diskon',
-                    name: 'tag_diskon',
+                    label: 'BA',
+                    name: 'ba',
                     width: 150, 
                     align: "right",
                     editable: false,
@@ -199,34 +214,6 @@
                     name: 'ppn',
                     width: 150, 
                     align: "right",
-                    editable: false,
-                },
-                {
-                    label: 'Total Bill',
-                    name: 'total_bill',
-                    width: 150, 
-                    align: "right",
-                    editable: false,
-                },
-                {
-                    label: 'Paket',
-                    name: 'paket',
-                    width: 150, 
-                    align: "left",
-                    editable: false,
-                },
-                {
-                    label: 'Prosses',
-                    name: 'proses',
-                    width: 150, 
-                    align: "left",
-                    editable: false,
-                },
-                {
-                    label: 'DIV',
-                    name: 'div',
-                    width: 150, 
-                    align: "left",
                     editable: false,
                 }
             ],
@@ -260,7 +247,7 @@
                 responsive_jqgrid('#grid-table', '#grid-pager');
             },
             //memanggil controller jqgrid yang ada di controller crud
-            caption: "Report Invoice"
+            caption: "Report Redekomposisi"
 
         });
 
@@ -453,7 +440,7 @@
     }
 
     function exportToExcel() {
-        var url = "<?php echo base_url();?>report/excelInvoice?";
+        var url = "<?php echo base_url();?>report/excelRedekomposisi?";
         url += "period=" + $('#period').val();
         url += "&<?php echo $this->security->get_csrf_token_name(); ?>=<?php echo $this->security->get_csrf_hash(); ?>";
         window.location = url;

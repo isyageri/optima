@@ -170,3 +170,35 @@ $db['corecrm']['dbcollat'] = 'utf8_general_ci';
 $db['corecrm']['swap_pre'] = '';
 $db['corecrm']['autoinit'] = TRUE;
 $db['corecrm']['stricton'] = FALSE;
+
+/*-----------------------------------------------*/
+/*  TOSDB Connection
+/*
+/*-----------------------------------------------*/
+
+$db['tosdb']['hostname'] ='
+(DESCRIPTION=
+    (ADDRESS=
+      (PROTOCOL=TCP)
+      (HOST=10.60.185.108)
+      (PORT=1521)
+    )
+    (CONNECT_DATA=
+      (SID=TIBSNP)
+    )
+)';
+
+$db['tosdb']['username'] = 'tosdb';
+$db['tosdb']['password'] = 'tosdb';
+$db['tosdb']['database'] = 'tibs_nonpots';
+$db['tosdb']['dbdriver'] = 'oci8';
+$db['tosdb']['dbprefix'] = '';
+$db['tosdb']['pconnect'] = FALSE;
+$db['tosdb']['db_debug'] = TRUE;
+$db['tosdb']['cache_on'] = FALSE;
+$db['tosdb']['cachedir'] = '';
+$db['tosdb']['char_set'] = 'utf8';
+$db['tosdb']['dbcollat'] = 'utf8_general_ci';
+$db['tosdb']['swap_pre'] = '';
+$db['tosdb']['autoinit'] = TRUE;
+$db['tosdb']['stricton'] = FALSE;
