@@ -53,24 +53,52 @@
         var pager_selector = "#grid-pager";
 
         jQuery("#grid-table").jqGrid({
-            url: '<?php echo WS_JQGRID."administration.permissions_controller/crud"; ?>',
+            url: '<?php echo WS_JQGRID."schema.schema_controller/crud"; ?>',
             datatype: "json",
             mtype: "POST",
             colModel: [
-                {label: 'ID', name: 'permission_id', key: true, width: 5, sorttype: 'number', editable: true, hidden: true},
-                {label: 'Permissions Name',name: 'permission_name',width: 150, align: "left",editable: true,
+                {label: 'ID', name: 'event_source', key: true, width: 5, sorttype: 'number', editable: true, hidden: true},
+                {label: 'Nama schema',name: 'tariff_name',width: 250, align: "left",editable: true,
                     editoptions: {
                         size: 30,
                         maxlength:32
                     },
                     editrules: {required: true}
                 },
-                {label: 'Description',name: 'permission_description',width: 200, align: "left",editable: true,
-                    edittype:'textarea',
+                {label: 'NIPNAS',name: 'customer_ref',width: 150, align: "left",editable: true,
                     editoptions: {
-                        rows: 2,
-                        cols:50
-                    }
+                        size: 30,
+                        maxlength:32
+                    },
+                    editrules: {required: true}
+                },
+                {label: 'Nama Customer',name: 'address_name',width: 250, align: "left",editable: true,
+                    editoptions: {
+                        size: 30,
+                        maxlength:32
+                    },
+                    editrules: {required: true}
+                },
+                {label: 'Nomor Account',name: 'event_source',width: 150, align: "left",editable: true,
+                    editoptions: {
+                        size: 30,
+                        maxlength:32
+                    },
+                    editrules: {required: true}
+                },
+                {label: 'Tgl Mulai',name: 'sales_start_dat',width: 150, align: "center",editable: true,
+                    editoptions: {
+                        size: 30,
+                        maxlength:32
+                    },
+                    editrules: {required: true}
+                },
+                {label: 'Tgl Berakhir',name: 'sales_end_dat',width: 150, align: "center",editable: true,
+                    editoptions: {
+                        size: 30,
+                        maxlength:32
+                    },
+                    editrules: {required: true}
                 }
             ],
             height: '100%',
@@ -81,7 +109,7 @@
             rownumbers: true, // show row numbers
             rownumWidth: 35, // the width of the row numbers columns
             altRows: true,
-            shrinkToFit: true,
+            shrinkToFit: false,
             multiboxonly: true,
             onSelectRow: function (rowid) {
                 /*do something when selected*/
@@ -101,8 +129,8 @@
 
             },
             //memanggil controller jqgrid yang ada di controller crud
-            editurl: '<?php echo WS_JQGRID."administration.permissions_controller/crud"; ?>',
-            caption: "Permissions"
+            editurl: '<?php echo WS_JQGRID."schema.schema_controller/crud"; ?>',
+            caption: "List Schema"
 
         });
 
