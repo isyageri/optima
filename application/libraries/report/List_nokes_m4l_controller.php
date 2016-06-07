@@ -4,7 +4,7 @@
 * @class Groups_controller
 * @version 07/05/2015 12:18:00
 */
-class Redekomposisi_controller {
+class List_nokes_m4l_controller {
 
     function read() {
 
@@ -12,16 +12,18 @@ class Redekomposisi_controller {
         $limit = getVarClean('rows','int',5);
         $sidx = getVarClean('sidx','str','');
         $sord = getVarClean('sord','str','asc');
+
+        $filter_by = getVarClean('filter_by','str','');
+        $filter_name = getVarClean('filter_name','str','');
         $period = getVarClean('period','str','');
 
         $data = array('rows' => array(), 'page' => 1, 'records' => 0, 'total' => 1, 'success' => false, 'message' => '');
 
         try {
 
-            $ci = &get_instance();
-
-            $ci->load->model('report/redekomposisi');
-            $table = $ci->redekomposisi;
+            $ci = & get_instance();
+            $ci->load->model('report/list_nokes_m4l');
+            $table = $ci->list_nokes_m4l;
 
             $req_param = array(
                 "sort_by" => $sidx,
@@ -37,8 +39,28 @@ class Redekomposisi_controller {
                 "search_str" => isset($_REQUEST['searchString']) ? $_REQUEST['searchString'] : null
             );
 
+            switch ($filter_by) {
+                case "1":
+                    $req_param['where'][] = "sa.customer_ref like '%".$filter_name."%' ";
+                    break;
+                case "2":
+                    $req_param['where'][] = "sa.account_num like '%".$filter_name."%' ";
+                    break;
+                case "3":
+                    $req_param['where'][] = "sa.nama like '%".$filter_name."%' ";
+                    break;    
+                default:
+                    $req_param['where'] = array();
+                    break;
+
+            }
+
+            if(!empty($period)) {
+                $req_param['where'][] = "sa.bill_period = '".$period."' ";
+            }
+
             // Filter Table
-            $req_param['where'] = array('period = '.$period);
+            // $req_param['where'] = array();
 
             $table->setJQGridParam($req_param);
             $count = $table->countAll();
@@ -93,7 +115,7 @@ class Redekomposisi_controller {
             break;
 
             default :
-                permission_check('view-redekomposisi');
+                permission_check('view-list-nokes-m4l');
                 $data = $this->read();
             break;
         }

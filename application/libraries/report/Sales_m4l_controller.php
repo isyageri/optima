@@ -4,7 +4,7 @@
 * @class Groups_controller
 * @version 07/05/2015 12:18:00
 */
-class Redekomposisi_controller {
+class Sales_m4l_controller {
 
     function read() {
 
@@ -12,16 +12,19 @@ class Redekomposisi_controller {
         $limit = getVarClean('rows','int',5);
         $sidx = getVarClean('sidx','str','');
         $sord = getVarClean('sord','str','asc');
-        $period = getVarClean('period','str','');
+
+        $filter_by = getVarClean('filter_by','str','');
+        $filter_name = getVarClean('filter_name','str','');
+        $start_date = getVarClean('start_date','str','');
+        $end_date = getVarClean('end_date','str','');
 
         $data = array('rows' => array(), 'page' => 1, 'records' => 0, 'total' => 1, 'success' => false, 'message' => '');
 
         try {
 
-            $ci = &get_instance();
-
-            $ci->load->model('report/redekomposisi');
-            $table = $ci->redekomposisi;
+            $ci = & get_instance();
+            $ci->load->model('report/sales_m4l');
+            $table = $ci->sales_m4l;
 
             $req_param = array(
                 "sort_by" => $sidx,
@@ -37,8 +40,31 @@ class Redekomposisi_controller {
                 "search_str" => isset($_REQUEST['searchString']) ? $_REQUEST['searchString'] : null
             );
 
+            switch ($filter_by) {
+                case "1":
+                    $req_param['where'][] = "sa.customer_ref like '%".$filter_name."%' ";
+                    break;
+                case "2":
+                    $req_param['where'][] = "sa.account_num like '%".$filter_name."%' ";
+                    break;
+                case "3":
+                    $req_param['where'][] = "sa.address_name like '%".$filter_name."%' ";
+                    break;    
+                default:
+                    $req_param['where'] = array();
+                    break;
+
+            }
+
+            if(!empty($start_date)) {
+                $req_param['where'][] = "sa.start_dat >= trunc(to_date('".$start_date."', 'mm/dd/yyyy'))";
+            }
+
+            if(!empty($end_date)) {
+                $req_param['where'][] = "sa.end_dat <= trunc(to_date('".$end_date."', 'mm/dd/yyyy'))";
+            }
             // Filter Table
-            $req_param['where'] = array('period = '.$period);
+            // $req_param['where'] = array();
 
             $table->setJQGridParam($req_param);
             $count = $table->countAll();
@@ -93,7 +119,7 @@ class Redekomposisi_controller {
             break;
 
             default :
-                permission_check('view-redekomposisi');
+                permission_check('view-sales-m4l');
                 $data = $this->read();
             break;
         }

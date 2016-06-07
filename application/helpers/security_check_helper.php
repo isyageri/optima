@@ -57,4 +57,25 @@ function permission_check($permission_name='') {
 
 }
 
+function permission_check_v2($permission_name='') {
+    if(empty($permission_name)) return;
+
+    $ci =& get_instance();
+    $user = $ci->ion_auth->user()->row();
+
+    $sql = "SELECT gp.status
+            FROM groups_permissions gp
+            LEFT JOIN permissions p ON gp.permission_id = p.permission_id
+            LEFT JOIN users_groups ug ON ug.group_id = gp.group_id
+            WHERE ug.user_id = ".$user->id."
+            AND p.permission_name = '".$permission_name."'
+            AND gp.status = 'Y'";
+
+    $ci->load->model('administration/permissions');
+    $query = $ci->permissions->db->query($sql);
+    $row = $query->row_array();
+
+    return count($row);
+}
+
 ?>

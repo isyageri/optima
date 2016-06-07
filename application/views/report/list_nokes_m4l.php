@@ -10,7 +10,7 @@
             <i class="fa fa-circle"></i>
         </li>
         <li>
-            <span>Report Redekomposisi</span>
+            <span>Report List NOKES M4L</span>
         </li>
     </ul>
 </div>
@@ -33,14 +33,41 @@
                 <div class="row">
                     <div class="col-md-9">
                         <div class="form-group">
-                            <label class="control-label col-md-2">Period</label>
+                            <label class="control-label col-md-2">Filter By</label>
                             <div class="col-md-4">
-                                <input type="text" name="period" id="period" class="form-control date-picker" data-date-format="yyyymm" placeholder="yyyymm">
+                                <select name="filterBy" id="filterBy" class="form-control">
+                                    <option value="0" selected="">All</option>
+                                    <option value="1">Customer Ref</option>
+                                    <option value="2">Account Number</option>
+                                    <option value="3">Customer Name</option>
+                                </select>
                             </div>
                             <div class="col-md-4" style="padding-left: 0px;">
                                 <button type="submit" id="findFilter" class="btn blue"><i class="fa fa-search"></i> Search</button>
                                 <button type="submit" id="btn_export_excel" class="btn green-haze"><i class="fa fa-file-excel-o"></i> Save to Excel</button>
                             </div>                             
+                        </div>
+                        </div>
+                </div>
+                <!-- <div style="padding-bottom:5px;"></div> -->
+                <div class="row">
+                    <div class="col-md-9">
+                        <div class="form-group">
+                            <label class="control-label col-md-2">Value</label>
+                            <div class="col-md-4">
+                                <input name="filterName" id="filterName" type="text" class="form-control" placeholder="Value">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- <div style="padding-bottom:5px;"></div> -->
+                <div class="row">
+                    <div class="col-md-9">
+                        <div class="form-group">
+                            <label class="control-label col-md-2">Period</label>
+                            <div class="col-md-3">
+                                <input type="text" name="period" id="period" class="form-control date-picker" data-date-format="yyyymm" placeholder="yyyymm">
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -59,7 +86,6 @@
 
 <script>
 
-
     jQuery(function($) {
         var grid_selector = "#grid-table";
         var pager_selector = "#grid-pager";
@@ -70,15 +96,18 @@
 		});
 
 		jQuery('#findFilter').click(function(){
-			var prd = jQuery('#period').val();
-            if(prd.length == 0){
-                swal("Perhatian", "Period tidak boleh kosong", "warning");
-                return false;
-            }
+            var filterBy = jQuery('#filterBy').val();
+            var filterName = jQuery('#filterName').val();
+            var prd = jQuery('#period').val();
+            
 			jQuery("#grid-table").jqGrid('setGridParam', {
-                        url: '<?php echo WS_JQGRID."report.redekomposisi_controller/crud"; ?>',
+                        url: '<?php echo WS_JQGRID."report.list_nokes_m4l_controller/crud"; ?>',
                         datatype: 'json',
-                        postData: {period: prd},
+                        postData: {
+                                    filter_by : filterBy,
+                                    filter_name : filterName,
+                                    period : prd
+                                  }
                     });
 			// alert(period);
 			jQuery('#grid-tbl').show();
@@ -87,11 +116,6 @@
 		});
 
         jQuery('#btn_export_excel').on('click', function (e) {   
-            var prd = jQuery('#period').val();         
-            if(prd.length == 0){
-                swal("Perhatian", "Period tidak boleh kosong", "warning");
-                return false;
-            }
             exportToExcel();        
         });
 
@@ -100,10 +124,24 @@
             mtype: "POST",
             colModel: [
                 {
-                    label: 'Keterangan',
-                    name: 'keterangan',
-                    width: 150, 
+                    label: 'Divisi',
+                    name: 'company_name',
+                    width: 300, 
                     align: "left",
+                    editable: false,
+                },
+                {
+                    label: 'Period',
+                    name: 'bill_period',
+                    width: 150, 
+                    align: "center",
+                    editable: false,
+                },
+                {
+                    label: 'Customer',
+                    name: 'customer_ref',
+                    width: 150, 
+                    align: "center",
                     editable: false,
                 },
                 {
@@ -114,106 +152,85 @@
                     editable: false,
                 },
                 {
-                    label: 'Divre',
-                    name: 'divre',
-                    width: 150, 
-                    align: "center",
-                    editable: false,
-                },
-                {
-                    label: 'Period',
-                    name: 'period',
-                    width: 150, 
-                    align: "center",
-                    editable: false,
-                },
-                {
-                    label: 'Notel',
-                    name: 'notel',
-                    width: 150, 
-                    align: "center",
-                    editable: false,
-                },
-                {
-                    label: 'Event Filter Name',
-                    name: 'event_filter_name',
-                    width: 150, 
-                    align: "center",
-                    editable: false,
-                },
-                {
-                    label: 'D SLJJ PSTN',
-                    name: 'd_sljj_pstn',
-                    width: 150, 
-                    align: "right",
-                    editable: false,
-                },
-                {
-                    label: 'D SLJJ Seluler',
-                    name: 'd_sljj_seluler',
-                    width: 150, 
-                    align: "right",
-                    editable: false,
-                },
-                {
-                    label: 'D Lokal Seluler',
-                    name: 'd_lokal_seluler',
-                    width: 150, 
-                    align: "right",
-                    editable: false,
-                },
-                {
-                    label: 'D Lokal PSTN',
-                    name: 'd_lokal_pstn',
-                    width: 150, 
-                    align: "right",
-                    editable: false,
-                },
-                {
-                    label: 'D SLI 007',
-                    name: 'd_sli_007',
-                    width: 150, 
-                    align: "right",
-                    editable: false,
-                },
-                {
-                    label: 'D Abonemen',
-                    name: 'd_abonemen',
-                    width: 150, 
-                    align: "right",
-                    editable: false,
-                },
-                {
-                    label: 'Ket',
-                    name: 'ket',
-                    width: 150, 
+                    label: 'Name',
+                    name: 'nama',
+                    width: 300, 
                     align: "left",
                     editable: false,
                 },
                 {
-                    label: 'NCLI',
-                    name: 'ncli',
+                    label: 'Skema',
+                    name: 'paket',
+                    width: 150, 
+                    align: "center",
+                    editable: false,
+                },
+                {
+                    label: 'Paket',
+                    name: 'offering_name',
+                    width: 150, 
+                    align: "center",
+                    editable: false,
+                },
+                {
+                    label: 'Start Date Schema',
+                    name: 'start_dat',
+                    width: 150, 
+                    align: "center",
+                    editable: false,
+                },
+                {
+                    label: 'End Date Schema',
+                    name: 'end_dat',
+                    width: 150, 
+                    align: "center",
+                    editable: false,
+                },
+                {
+                    label: 'Commitment Rev',
+                    name: 'commitment',
                     width: 150, 
                     align: "right",
                     editable: false,
                 },
                 {
-                    label: 'NDOS',
-                    name: 'ndos',
+                    label: 'Rev Reference',
+                    name: 'rev_ref',
                     width: 150, 
                     align: "right",
                     editable: false,
                 },
                 {
-                    label: 'BA',
-                    name: 'ba',
+                    label: 'Tgl. Transaksi',
+                    name: 'tanggal_transaksi',
+                    width: 150, 
+                    align: "center",
+                    editable: false,
+                },
+                {
+                    label: 'Rev',
+                    name: 'tagihan',
                     width: 150, 
                     align: "right",
                     editable: false,
                 },
                 {
-                    label: 'PPN',
-                    name: 'ppn',
+                    label: 'Eligible Rev',
+                    name: 'eligible',
+                    width: 150, 
+                    align: "right",
+                    editable: false,
+                },
+                {
+                    label: 'Discount',
+                    name: 'disc_amn',
+                    width: 150, 
+                    align: "right",
+                    editable: false,
+                },
+                {
+                    label: 'Rev. After Disc',
+                    name: 'total_bill',
                     width: 150, 
                     align: "right",
                     editable: false,
@@ -249,7 +266,7 @@
                 responsive_jqgrid('#grid-table', '#grid-pager');
             },
             //memanggil controller jqgrid yang ada di controller crud
-            caption: "Report Redekomposisi"
+            caption: "Report List NOKES M4L"
 
         });
 
@@ -442,8 +459,11 @@
     }
 
     function exportToExcel() {
-        var url = "<?php echo base_url();?>report/excelRedekomposisi?";
+        
+        var url = "<?php echo base_url();?>report/excelListNokesM4L?";
         url += "period=" + $('#period').val();
+        url += "&filter_by=" + $('#filterBy').val();
+        url += "&filter_name=" + $('#filterName').val();
         url += "&<?php echo $this->security->get_csrf_token_name(); ?>=<?php echo $this->security->get_csrf_hash(); ?>";
         window.location = url;
     }

@@ -10,7 +10,7 @@
             <i class="fa fa-circle"></i>
         </li>
         <li>
-            <span>Report Redekomposisi</span>
+            <span>Report Sales M4L</span>
         </li>
     </ul>
 </div>
@@ -33,14 +33,45 @@
                 <div class="row">
                     <div class="col-md-9">
                         <div class="form-group">
-                            <label class="control-label col-md-2">Period</label>
+                            <label class="control-label col-md-3">Filter By</label>
                             <div class="col-md-4">
-                                <input type="text" name="period" id="period" class="form-control date-picker" data-date-format="yyyymm" placeholder="yyyymm">
+                                <select name="filterBy" id="filterBy" class="form-control">
+                                    <option value="0" selected="">All</option>
+                                    <option value="1">Customer Ref</option>
+                                    <option value="2">Account Number</option>
+                                    <option value="3">Account Name</option>
+                                </select>
                             </div>
                             <div class="col-md-4" style="padding-left: 0px;">
                                 <button type="submit" id="findFilter" class="btn blue"><i class="fa fa-search"></i> Search</button>
                                 <button type="submit" id="btn_export_excel" class="btn green-haze"><i class="fa fa-file-excel-o"></i> Save to Excel</button>
                             </div>                             
+                        </div>
+                        </div>
+                </div>
+                <!-- <div style="padding-bottom:5px;"></div> -->
+                <div class="row">
+                    <div class="col-md-9">
+                        <div class="form-group">
+                            <label class="control-label col-md-3">Value</label>
+                            <div class="col-md-4">
+                                <input name="filterName" id="filterName" type="text" class="form-control" placeholder="Value">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- <div style="padding-bottom:5px;"></div> -->
+                <div class="row">
+                    <div class="col-md-9">
+                        <div class="form-group">
+                            <label class="control-label col-md-3">Star Date Schema</label>
+                            <div class="col-md-3">
+                                <input type="text" name="start" id="start" class="form-control date-picker" data-date-format="mm/dd/yyyy" placeholder="mm/dd/yyyy">
+                            </div>
+                            <div class="col-md-2" style="padding-top: 7px;text-align:center;width:18%;">End Date Schema</div>
+                            <div class="col-md-3">
+                                <input type="text" name="end" id="end" class="form-control date-picker" data-date-format="mm/dd/yyyy" placeholder="mm/dd/yyyy">
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -59,7 +90,6 @@
 
 <script>
 
-
     jQuery(function($) {
         var grid_selector = "#grid-table";
         var pager_selector = "#grid-pager";
@@ -70,15 +100,20 @@
 		});
 
 		jQuery('#findFilter').click(function(){
-			var prd = jQuery('#period').val();
-            if(prd.length == 0){
-                swal("Perhatian", "Period tidak boleh kosong", "warning");
-                return false;
-            }
+            var filterBy = jQuery('#filterBy').val();
+            var filterName = jQuery('#filterName').val();
+            var start = jQuery('#start').val();
+			var end = jQuery('#end').val();
+            
 			jQuery("#grid-table").jqGrid('setGridParam', {
-                        url: '<?php echo WS_JQGRID."report.redekomposisi_controller/crud"; ?>',
+                        url: '<?php echo WS_JQGRID."report.sales_m4l_controller/crud"; ?>',
                         datatype: 'json',
-                        postData: {period: prd},
+                        postData: {
+                                    filter_by : filterBy,
+                                    filter_name : filterName,
+                                    start_date : start,
+                                    end_date : end,
+                                  },
                     });
 			// alert(period);
 			jQuery('#grid-tbl').show();
@@ -87,11 +122,6 @@
 		});
 
         jQuery('#btn_export_excel').on('click', function (e) {   
-            var prd = jQuery('#period').val();         
-            if(prd.length == 0){
-                swal("Perhatian", "Period tidak boleh kosong", "warning");
-                return false;
-            }
             exportToExcel();        
         });
 
@@ -100,10 +130,10 @@
             mtype: "POST",
             colModel: [
                 {
-                    label: 'Keterangan',
-                    name: 'keterangan',
+                    label: 'Customer Ref',
+                    name: 'customer_ref',
                     width: 150, 
-                    align: "left",
+                    align: "center",
                     editable: false,
                 },
                 {
@@ -114,108 +144,52 @@
                     editable: false,
                 },
                 {
-                    label: 'Divre',
-                    name: 'divre',
+                    label: 'Account Name',
+                    name: 'address_name',
+                    width: 300, 
+                    align: "left",
+                    editable: false,
+                },
+                {
+                    label: 'Nokes',
+                    name: 'nokes',
                     width: 150, 
                     align: "center",
                     editable: false,
                 },
                 {
-                    label: 'Period',
-                    name: 'period',
+                    label: 'Tanggal Transaksi',
+                    name: 'tanggal_trans',
                     width: 150, 
                     align: "center",
                     editable: false,
                 },
                 {
-                    label: 'Notel',
-                    name: 'notel',
+                    label: 'Divisi',
+                    name: 'company_name',
+                    width: 300, 
+                    align: "left",
+                    editable: false,
+                },
+                {
+                    label: 'Skema M4L',
+                    name: 'schema_type_name',
                     width: 150, 
                     align: "center",
                     editable: false,
                 },
                 {
-                    label: 'Event Filter Name',
-                    name: 'event_filter_name',
-                    width: 150, 
-                    align: "center",
-                    editable: false,
-                },
-                {
-                    label: 'D SLJJ PSTN',
-                    name: 'd_sljj_pstn',
-                    width: 150, 
-                    align: "right",
-                    editable: false,
-                },
-                {
-                    label: 'D SLJJ Seluler',
-                    name: 'd_sljj_seluler',
-                    width: 150, 
-                    align: "right",
-                    editable: false,
-                },
-                {
-                    label: 'D Lokal Seluler',
-                    name: 'd_lokal_seluler',
-                    width: 150, 
-                    align: "right",
-                    editable: false,
-                },
-                {
-                    label: 'D Lokal PSTN',
-                    name: 'd_lokal_pstn',
-                    width: 150, 
-                    align: "right",
-                    editable: false,
-                },
-                {
-                    label: 'D SLI 007',
-                    name: 'd_sli_007',
-                    width: 150, 
-                    align: "right",
-                    editable: false,
-                },
-                {
-                    label: 'D Abonemen',
-                    name: 'd_abonemen',
-                    width: 150, 
-                    align: "right",
-                    editable: false,
-                },
-                {
-                    label: 'Ket',
-                    name: 'ket',
+                    label: 'Paket',
+                    name: 'offering_name',
                     width: 150, 
                     align: "left",
                     editable: false,
                 },
                 {
-                    label: 'NCLI',
-                    name: 'ncli',
+                    label: 'Status TRX',
+                    name: 'status_trx',
                     width: 150, 
-                    align: "right",
-                    editable: false,
-                },
-                {
-                    label: 'NDOS',
-                    name: 'ndos',
-                    width: 150, 
-                    align: "right",
-                    editable: false,
-                },
-                {
-                    label: 'BA',
-                    name: 'ba',
-                    width: 150, 
-                    align: "right",
-                    editable: false,
-                },
-                {
-                    label: 'PPN',
-                    name: 'ppn',
-                    width: 150, 
-                    align: "right",
+                    align: "left",
                     editable: false,
                 }
             ],
@@ -249,7 +223,7 @@
                 responsive_jqgrid('#grid-table', '#grid-pager');
             },
             //memanggil controller jqgrid yang ada di controller crud
-            caption: "Report Redekomposisi"
+            caption: "Report Sales M4L"
 
         });
 
@@ -442,10 +416,19 @@
     }
 
     function exportToExcel() {
-        var url = "<?php echo base_url();?>report/excelRedekomposisi?";
-        url += "period=" + $('#period').val();
+        var url = "<?php echo base_url();?>report/excelSalesM4L?";
+        url += "filter_by=" + $('#filterBy').val();
+        url += "&filter_name=" + $('#filterName').val();
+        url += "&start=" + $('#start').val();
+        url += "&end=" + $('#end').val();
         url += "&<?php echo $this->security->get_csrf_token_name(); ?>=<?php echo $this->security->get_csrf_hash(); ?>";
         window.location = url;
+    }
+
+    function viewDoc(surl){
+        //alert(url);
+        location.href = 'http://'+surl;
+        return false;
     }
 
 </script>

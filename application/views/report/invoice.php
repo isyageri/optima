@@ -28,18 +28,20 @@
     </div>
     <div class="portlet-body form">
         <!-- BEGIN FORM-->
-        <form action="javascript:;" class="horizontal-form">
+        <form action="javascript:;" class="form-horizontal">
             <div class="form-body">
                 <div class="row">
-                    <div class="form-group">
-                        <label class="control-label col-md-1">Period</label>
-                        <div class="col-md-4">
-                            <input type="text" name="period" id="period" class="form-control date-picker" data-date-format="yyyymm" placeholder="yyyymm">
+                    <div class="col-md-9">
+                        <div class="form-group">
+                            <label class="control-label col-md-2">Period</label>
+                            <div class="col-md-4">
+                                <input type="text" name="period" id="period" class="form-control date-picker" data-date-format="yyyymm" placeholder="yyyymm">
+                            </div>
+                            <div class="col-md-4" style="padding-left: 0px;">
+                                <button type="submit" id="findFilter" class="btn blue"><i class="fa fa-search"></i> Search</button>
+                                <button type="submit" id="btn_export_excel" class="btn green-haze"><i class="fa fa-file-excel-o"></i> Save to Excel</button>
+                            </div>                             
                         </div>
-                        <div class="col-md-4" style="padding-left: 0px;">
-                            <button type="submit" id="findFilter" class="btn blue"><i class="fa fa-search"></i> Search</button>
-                            <button type="submit" id="btn_export_excel" class="btn green-haze"><i class="fa fa-file-excel-o"></i> Save to Excel</button>
-                        </div>                             
                     </div>
                 </div>
             </div>
