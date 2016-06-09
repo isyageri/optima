@@ -10,7 +10,7 @@
             <i class="fa fa-circle"></i>
         </li>
         <li>
-            <span>Report List NOKES M4L</span>
+            <span>Report More For Less</span>
         </li>
     </ul>
 </div>
@@ -33,44 +33,49 @@
                 <div class="row">
                     <div class="col-md-9">
                         <div class="form-group">
-                            <label class="control-label col-md-2">Filter By</label>
-                            <div class="col-md-4">
-                                <select name="filterBy" id="filterBy" class="form-control">
-                                    <option value="0" selected="">All</option>
-                                    <option value="1">Customer Ref</option>
-                                    <option value="2">Account Number</option>
-                                    <option value="3">Customer Name</option>
-                                </select>
-                            </div>
-                            <div class="col-md-4" style="padding-left: 0px;">
-                                <button type="submit" id="findFilter" class="btn blue"><i class="fa fa-search"></i> Search</button>
-                                <button type="submit" id="btn_export_excel" class="btn green-haze"><i class="fa fa-file-excel-o"></i> Save to Excel</button>
-                            </div>                             
-                        </div>
-                        </div>
-                </div>
-                <!-- <div style="padding-bottom:5px;"></div> -->
-                <div class="row">
-                    <div class="col-md-9">
-                        <div class="form-group">
-                            <label class="control-label col-md-2">Value</label>
-                            <div class="col-md-4">
-                                <input name="filterName" id="filterName" type="text" class="form-control" placeholder="Value">
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <!-- <div style="padding-bottom:5px;"></div> -->
-                <div class="row">
-                    <div class="col-md-9">
-                        <div class="form-group">
                             <label class="control-label col-md-2">Period</label>
                             <div class="col-md-3">
                                 <input type="text" name="period" id="period" class="form-control date-picker" data-date-format="yyyymm" placeholder="yyyymm">
                             </div>
+                            <div class="col-md-4" style="padding-left: 0px;">
+                                <button type="submit" id="findFilter" class="btn blue"><i class="fa fa-search"></i> Search</button>
+                                <button type="submit" id="btn_export_excel" class="btn green-haze"><i class="fa fa-file-excel-o"></i> Save to Excel</button>
+                            </div>       
                         </div>
                     </div>
                 </div>
+
+                <div class="row">
+                    <div class="col-md-9">
+                        <div class="form-group">
+                            <label class="control-label col-md-2">Divisi</label>
+                            <div class="col-md-4">
+                                <select name="divisi" id="divisi" class="form-control">
+                                </select>
+                            </div>                                                  
+                        </div>
+                    </div>
+                </div>
+                <!-- <div style="padding-bottom:5px;"></div> -->
+                <div class="row">
+                    <div class="col-md-9">
+                        <div class="form-group">
+                            <label class="control-label col-md-2">Filter</label>
+                            <div class="col-md-4">
+                                <select name="filter" id="filter" class="form-control">
+                                    <option value="0" selected="">All</option>
+                                    <option value="1">Aktif</option>
+                                    <option value="2">Schema Terminated</option>
+                                    <option value="3">Schema Terminated N+2</option>
+                                    <option value="4">Anomali End Date</option>
+                                    <option value="5">Error Transaction</option>
+                                </select>
+                            </div>                                                  
+                        </div>
+                    </div>
+                </div>
+                <!-- <div style="padding-bottom:5px;"></div> -->
+                
             </div>
 
         </form>
@@ -95,17 +100,26 @@
 			todayHighlight: true
 		});
 
+        $.ajax({
+            type: 'POST',
+            url: '<?php echo "report/list_divisi"; ?>',
+            timeout: 10000,
+            success: function(data) {
+                 $("#divisi").html(data);
+            }
+        });
+
 		jQuery('#findFilter').click(function(){
-            var filterBy = jQuery('#filterBy').val();
-            var filterName = jQuery('#filterName').val();
+            var div = jQuery('#divisi').val();
+            var flt = jQuery('#filter').val();
             var prd = jQuery('#period').val();
             
 			jQuery("#grid-table").jqGrid('setGridParam', {
-                        url: '<?php echo WS_JQGRID."report.list_nokes_m4l_controller/crud"; ?>',
+                        url: '<?php echo WS_JQGRID."report.more_for_less_controller/crud"; ?>',
                         datatype: 'json',
                         postData: {
-                                    filter_by : filterBy,
-                                    filter_name : filterName,
+                                    divisi : div,
+                                    filter : flt,
                                     period : prd
                                   }
                     });
@@ -124,21 +138,28 @@
             mtype: "POST",
             colModel: [
                 {
-                    label: 'Divisi',
-                    name: 'company_name',
+                    label: 'Trans Type',
+                    name: 'transaction_type',
                     width: 300, 
                     align: "left",
                     editable: false,
                 },
                 {
-                    label: 'Period',
-                    name: 'bill_period',
-                    width: 150, 
-                    align: "center",
+                    label: 'Name',
+                    name: 'user_name',
+                    width: 200, 
+                    align: "left",
                     editable: false,
                 },
                 {
-                    label: 'Customer',
+                    label: 'Location',
+                    name: 'company_name',
+                    width: 150, 
+                    align: "left",
+                    editable: false,
+                },
+                {
+                    label: 'Customer Ref',
                     name: 'customer_ref',
                     width: 150, 
                     align: "center",
@@ -152,87 +173,199 @@
                     editable: false,
                 },
                 {
-                    label: 'Name',
-                    name: 'nama',
-                    width: 300, 
+                    label: 'Customer Name',
+                    name: 'customer_name',
+                    width: 200, 
                     align: "left",
                     editable: false,
                 },
                 {
-                    label: 'Skema',
-                    name: 'paket',
+                    label: 'Account Name',
+                    name: 'account_name',
+                    width: 200, 
+                    align: "left",
+                    editable: false,
+                },
+                {
+                    label: 'Address',
+                    name: 'address',
+                    width: 250, 
+                    align: "left",
+                    editable: false,
+                },
+                {
+                    label: 'NPWP',
+                    name: 'npwp',
                     width: 150, 
                     align: "center",
                     editable: false,
                 },
                 {
-                    label: 'Paket',
-                    name: 'offering_name',
-                    width: 150, 
+                    label: 'Document Name',
+                    name: 'nama_dokumen',
+                    width: 200, 
+                    align: "left",
+                    editable: false,
+                },
+                {
+                    label: 'Invoice Address',
+                    name: 'alamat_invoice',
+                    width: 200, 
+                    align: "left",
+                    editable: false,
+                },
+                {
+                    label: 'Tariff ID',
+                    name: 'tariff_id',
+                    width: 100, 
                     align: "center",
                     editable: false,
                 },
                 {
-                    label: 'Start Date Schema',
-                    name: 'start_dat',
+                    label: 'Tariff Name',
+                    name: 'tariff_name',
                     width: 150, 
+                    align: "left",
+                    editable: false,
+                },
+                {
+                    label: 'Start Date',
+                    name: 'cpdstart_dat',
+                    width: 100, 
                     align: "center",
                     editable: false,
                 },
                 {
-                    label: 'End Date Schema',
-                    name: 'end_dat',
-                    width: 150, 
+                    label: 'End Date',
+                    name: 'cpdend_dat',
+                    width: 100, 
                     align: "center",
                     editable: false,
                 },
                 {
-                    label: 'Commitment Rev',
-                    name: 'commitment',
+                    label: 'Sales Start Date',
+                    name: 'sales_start_dat',
+                    width: 100, 
+                    align: "center",
+                    editable: false,
+                },
+                {
+                    label: 'Sales End Date',
+                    name: 'sales_end_dat',
+                    width: 100, 
+                    align: "center",
+                    editable: false,
+                },
+                {
+                    label: 'Recurring Number',
+                    name: 'recurring_number',
                     width: 150, 
                     align: "right",
                     editable: false,
                 },
                 {
-                    label: 'Rev Reference',
-                    name: 'rev_ref',
+                    label: 'S Min',
+                    name: 's_min',
                     width: 150, 
                     align: "right",
                     editable: false,
                 },
                 {
-                    label: 'Tgl. Transaksi',
-                    name: 'tanggal_transaksi',
-                    width: 150, 
-                    align: "center",
-                    editable: false,
-                },
-                {
-                    label: 'Rev',
-                    name: 'tagihan',
-                    width: 150, 
-                    align: "right",
-                    editable: false,
-                },
-                {
-                    label: 'Eligible Rev',
-                    name: 'eligible',
+                    label: 'S Max',
+                    name: 's_max',
                     width: 150, 
                     align: "right",
                     editable: false,
                 },
                 {
                     label: 'Discount',
-                    name: 'disc_amn',
+                    name: 'discount',
                     width: 150, 
                     align: "right",
                     editable: false,
                 },
                 {
-                    label: 'Rev. After Disc',
-                    name: 'total_bill',
+                    label: 'Filter Name',
+                    name: 'filter_name',
+                    width: 200, 
+                    align: "left",
+                    editable: false,
+                },
+                {
+                    label: 'Schema Type',
+                    name: 'schema_type',
                     width: 150, 
-                    align: "right",
+                    align: "left",
+                    editable: false,
+                },
+                {
+                    label: 'Contact Name AM',
+                    name: 'contact_name_am',
+                    width: 150, 
+                    align: "left",
+                    editable: false,
+                },
+                {
+                    label: 'Contact Phone AM',
+                    name: 'contact_phone_am',
+                    width: 150, 
+                    align: "left",
+                    editable: false,
+                },
+                {
+                    label: 'Contact Email AM',
+                    name: 'contact_email_am',
+                    width: 150, 
+                    align: "left",
+                    editable: false,
+                },
+                {
+                    label: 'Contact Name IT',
+                    name: 'contact_name_it',
+                    width: 150, 
+                    align: "left",
+                    editable: false,
+                },
+                {
+                    label: 'Contact Phone IT',
+                    name: 'contact_phone_it',
+                    width: 150, 
+                    align: "left",
+                    editable: false,
+                },
+                {
+                    label: 'Contact Email IT',
+                    name: 'contact_email_it',
+                    width: 150, 
+                    align: "left",
+                    editable: false,
+                },
+                {
+                    label: 'Contact Name Finance',
+                    name: 'contact_name_finance',
+                    width: 150, 
+                    align: "left",
+                    editable: false,
+                },
+                {
+                    label: 'Contact Phone Finance',
+                    name: 'contact_phone_finance',
+                    width: 150, 
+                    align: "left",
+                    editable: false,
+                },
+                {
+                    label: 'Contact Email Finance',
+                    name: 'contact_email_finance',
+                    width: 150, 
+                    align: "left",
+                    editable: false,
+                },
+                {
+                    label: 'Keterangan',
+                    name: 'status',
+                    width: 150, 
+                    align: "left",
                     editable: false,
                 }
             ],
@@ -266,7 +399,7 @@
                 responsive_jqgrid('#grid-table', '#grid-pager');
             },
             //memanggil controller jqgrid yang ada di controller crud
-            caption: "Report List NOKES M4L"
+            caption: "Report More For Less"
 
         });
 
@@ -462,8 +595,8 @@
         
         var url = "<?php echo base_url();?>report/excelListNokesM4L?";
         url += "period=" + $('#period').val();
-        url += "&filter_by=" + $('#filterBy').val();
-        url += "&filter_name=" + $('#filterName').val();
+        url += "&divisi=" + $('#divisi').val();
+        url += "&filter=" + $('#filter').val();
         url += "&<?php echo $this->security->get_csrf_token_name(); ?>=<?php echo $this->security->get_csrf_hash(); ?>";
         window.location = url;
     }

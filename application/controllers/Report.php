@@ -369,5 +369,21 @@ class Report extends CI_Controller
 
         return $output;
     }
+
+    function list_divisi() {
+        $sql = "SELECT id AS loc_id, ('['||code||']'||' '||company_name)AS loc_name FROM LOCATION ORDER BY id ASC";
+
+        $this->db = $this->load->database('corecrm', TRUE);
+        $this->db->_escape_char = ' ';      
+        $query = $this->db->query($sql);
+        $items = $query->result_array();
+
+        
+        foreach ($items as $row) {
+            // print_r($row);
+            echo "<option value='".$row['loc_id']."'>".$row['loc_name']."</option>";    
+        }
+        
+    }
     
 }

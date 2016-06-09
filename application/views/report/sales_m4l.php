@@ -19,7 +19,7 @@
 <div class="portlet light bordered">
     <div class="portlet-title">
         <div class="caption">
-            <span class="caption-subject font-blue-hoki bold uppercase">Period</span>
+            <span class="caption-subject font-blue-hoki bold uppercase">Filter</span>
         </div>
         <div class="tools">
             <a href="" class="collapse">
