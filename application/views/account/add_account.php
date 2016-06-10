@@ -1,6 +1,12 @@
 <link href="<?php echo base_url(); ?>assets/global/plugins/select2/css/select2.min.css" rel="stylesheet" type="text/css" />
 <link href="<?php echo base_url(); ?>assets/global/plugins/select2/css/select2-bootstrap.min.css" rel="stylesheet" type="text/css" />
 
+<style>
+input.uppercase {
+    text-transform: uppercase;
+}
+</style>
+
 <!-- breadcrumb -->
 <div class="page-bar">
     <ul class="page-breadcrumb">
@@ -19,7 +25,6 @@
 </div>
 <!-- end breadcrumb -->
 <div class="space-4"></div>
-
 <div class="row">
 	<div class="col-md-12">
 		<div id="wizard_form">
@@ -41,7 +46,7 @@
 								<div class="form-group">
 									<label class="col-md-2 control-label">No Transaksi</label>
 									<div class="col-md-8">
-									<input type="text" class="form-control" placeholder="Enter text">
+									<input type="text" class="form-control" placeholder="TELKOM-ACC/VI/03/16-??" readonly="" id="no_transaksi">
 									<span class="help-block">
 									</span>
 									</div>
@@ -49,25 +54,25 @@
 								<div class="form-group">
 									<label class="col-md-2 control-label">Tanggal Transaksi</label>
 									<div class="col-md-8">
-									<input type="text" class="form-control" placeholder="Enter text">
+									<input type="text" class="form-control" placeholder="<?php echo date("F j, Y") ?>" readonly="">
+									<span class="help-block">
+									</span>
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="col-md-2 control-label">Status Transaksi</label>
+									<div class="col-md-8">
+									<input type="text" class="form-control" placeholder="New Transaction" readonly="">
 									<span class="help-block">
 									</span>
 									</div>
 								</div>
 							</div>
-							<div class="col-md-6">
-								<div class="form-group">
-									<label class="col-md-2 control-label">Status Transaksi</label>
-									<div class="col-md-8">
-									<input type="text" class="form-control" placeholder="Enter text">
-									<span class="help-block">
-									</span>
-									</div>
-								</div>
+							<div class="col-md-6">								
 								<div class="form-group">
 									<label class="col-md-2 control-label">Petugas</label>
 									<div class="col-md-8">
-									<input type="text" class="form-control" placeholder="Enter text">
+									<input type="text" class="form-control" value="<?php  echo $this->ion_auth->user()->row()->username; ?>" readonly="">
 									<span class="help-block">
 									</span>
 									</div>
@@ -75,22 +80,14 @@
 								<div class="form-group">
 									<label class="col-md-2 control-label">Lokasi</label>
 									<div class="col-md-8">
-									<input type="text" class="form-control" placeholder="Enter text">
+									<input type="text" class="form-control" placeholder="TELKOM" readonly="">
 									<span class="help-block">
 									</span>
 									</div>
 								</div>
 							</div>
 						</div>
-						</div>
-						<div class="form-actions">
-						<div class="row">
-							<div class="col-md-9">
-								<button type="submit" class="btn green">Submit</button>
-								<button type="button" class="btn default">Cancel</button>
-							</div>
-						</div>
-						</div>
+						</div>						
 					</form>
 				</div>
 			</div>
@@ -158,8 +155,7 @@
 									<div class="row">
 									<div class="col-md-6">
 										<div class="form-group">
-											<label class="control-label col-md-2">NIPNAS
-											<span> * </span>
+											<label class="control-label col-md-2">NIPNAS*
 											</label>														
 											<div class="col-md-8">
 												<div class="input-group">
@@ -175,17 +171,17 @@
 											</div>
 										</div>
 										<div class="form-group">
-											<label class="col-md-2 control-label">Account Name</label>
+											<label class="col-md-2 control-label">Account Name *</label>
 											<div class="col-md-8">
-												<input type="text" class="form-control" placeholder="Insert Name Here">
+												<input type="text" class="form-control required uppercase" placeholder="Insert Name Here" id="acc_name_page1">
 												<span class="help-block">
 												</span>
 											</div>
 										</div>
 										<div class="form-group">
-											<label class="col-md-2 control-label">Account To Go Live</label>
+											<label class="col-md-2 control-label">Account To Go Live *</label>
 											<div class="col-md-8">
-												<input type="text" class="form-control" placeholder="MM/DD/YYYY" id="datetimepicker1">
+												<input type="text" class="form-control required" placeholder="DD/MM/YYYY" id="datetimepicker2" readonly="">
 												<span class="help-block">
 												</span>
 											</div>
@@ -247,13 +243,12 @@
 												</div>
 											</div>
 											<div class="form-group">
-												<label class="col-md-2 control-label">Next Bill Date
-												<span> * </span>
+												<label class="col-md-2 control-label">Next Bill Date*
 												</label>
 												<div class="col-md-8">
-												<input type="text" class="form-control required" placeholder="MM/DD/YYYY">
-												<span class="help-block">
-												</span>
+													<input type="text" class="form-control required" placeholder="DD/MM/YYYY" id="datetimepicker1" readonly="">
+													<span class="help-block">
+													</span>
 												</div>
 											</div>
 										</div>
@@ -268,55 +263,55 @@
 												<div class="form-group">
 												<label class="col-md-2 control-label">Account Number</label>
 												<div class="col-md-8">
-													<input type="text" class="form-control" placeholder="Enter Account Number">
+													<input type="text" class="form-control" placeholder="" readonly="">
 													<span class="help-block">
 													</span>
 												</div>
 												</div>
 												<div class="form-group">
-												<label class="col-md-2 control-label">First Name</label>
+												<label class="col-md-2 control-label">First Name *</label>
 												<div class="col-md-8">
-													<input type="text" class="form-control" placeholder="Enter first Name">
+													<input type="text" class="form-control required uppercase" placeholder="Enter first Name">
 													<span class="help-block">
 													</span>
 												</div>
 												</div>
 												<div class="form-group">
-												<label class="col-md-2 control-label">Last Name</label>
+												<label class="col-md-2 control-label">Last Name *</label>
 												<div class="col-md-8">
-													<input type="text" class="form-control" placeholder="Enter last name">
+													<input type="text" class="form-control required uppercase" placeholder="Enter last name">
 													<span class="help-block">
 													</span>
 												</div>
 												</div>
 												<div class="form-group">
-												<label class="col-md-2 control-label">Company Name</label>
+												<label class="col-md-2 control-label">Company Name *</label>
 												<div class="col-md-8">
-													<input type="text" class="form-control" placeholder="Enter company name">
+													<input type="text" class="form-control uppercase required" id="company_name" name="company_name" value="" readonly="">
 													<span class="help-block">
 													</span>
 												</div>
 												</div>
 												<div class="form-group">
-												<label class="col-md-2 control-label">NPWP</label>
+												<label class="col-md-2 control-label">NPWP *</label>
 												<div class="col-md-8">
-													<input type="text" class="form-control" placeholder="Enter NPWP">
+													<input type="text" class="form-control required" placeholder="Enter NPWP" id="npwp_val">
 													<span class="help-block">
 													</span>
 												</div>
 												</div>
 												<div class="form-group">
-												<label class="col-md-2 control-label">Email</label>
+												<label class="col-md-2 control-label">Email *</label>
 												<div class="col-md-8">
-													<input type="text" class="form-control" placeholder="Enter Email Address">
+													<input type="text" class="form-control required" placeholder="Enter Email Address">
 													<span class="help-block">
 													</span>
 												</div>
 												</div>
 												<div class="form-group">
-												<label class="col-md-2 control-label">Mobile Number</label>
+												<label class="col-md-2 control-label">Mobile Number *</label>
 												<div class="col-md-8">
-													<input type="text" class="form-control" placeholder="Enter Mobile Number">
+													<input type="text" class="form-control required" placeholder="Enter Mobile Number">
 													<span class="help-block">
 													</span>
 												</div>
@@ -335,9 +330,9 @@
 												</div>
 												</div>
 												<div class="form-group">
-												<label class="col-md-2 control-label">Contact Start Date</label>
+												<label class="col-md-2 control-label">Contact Start Date *</label>
 												<div class="col-md-8">
-													<input type="text" class="form-control" placeholder="Enter Contact Start Date">
+													<input type="text" class="form-control required" placeholder="Enter Contact Start Date" readonly="" id="datetimepicker3">
 													<span class="help-block">
 													</span>
 												</div>
@@ -396,9 +391,9 @@
 											</div>
 											<div class="col-md-6">
 												<div class="form-group">
-												<label class="col-md-2 control-label">Street Name</label>
+												<label class="col-md-2 control-label">Street Name *</label>
 												<div class="col-md-8">
-													<input type="text" class="form-control" placeholder="Enter text">
+													<input type="text" class="form-control required uppercase" placeholder="Enter Street Name" id="street_name" name="street_name" value="">
 													<span class="help-block">
 													</span>
 												</div>
@@ -406,7 +401,7 @@
 												<div class="form-group">
 												<label class="col-md-2 control-label">Block Name</label>
 												<div class="col-md-8">
-													<input type="text" class="form-control" placeholder="Enter text">
+													<input type="text" class="form-control uppercase" placeholder="Enter Block Name" id="block_name" name="block_name" value="">
 													<span class="help-block">
 													</span>
 												</div>
@@ -414,7 +409,7 @@
 												<div class="form-group">
 												<label class="col-md-2 control-label">District Name</label>
 												<div class="col-md-8">
-													<input type="text" class="form-control" placeholder="Enter text">
+													<input type="text" class="form-control uppercase" placeholder="Enter District Name" id="district" name="district" value="">
 													<span class="help-block">
 													</span>
 												</div>
@@ -422,7 +417,7 @@
 												<div class="form-group">
 												<label class="col-md-2 control-label">City</label>
 												<div class="col-md-8">
-													<input type="text" class="form-control" placeholder="Enter text">
+													<input type="text" class="form-control uppercase" placeholder="Enter text" id="city_name" name="city_name" value="">
 													<span class="help-block">
 													</span>
 												</div>
@@ -430,7 +425,7 @@
 												<div class="form-group">
 												<label class="col-md-2 control-label">Province</label>
 												<div class="col-md-8">
-													<input type="text" class="form-control" placeholder="Enter text">
+													<input type="text" class="form-control uppercase" placeholder="Enter Province" id="province_name" name="province_name" value="">
 													<span class="help-block">
 													</span>
 												</div>
@@ -438,7 +433,7 @@
 												<div class="form-group">
 												<label class="col-md-2 control-label">Zip Code</label>
 												<div class="col-md-8">
-													<input type="text" class="form-control" placeholder="Enter text">
+													<input type="number" class="form-control" placeholder="Enter ZIP Code" maxlength="5" id="zip_code" name="zip_code">
 													<span class="help-block">
 													</span>
 												</div>
@@ -446,7 +441,7 @@
 												<div class="form-group">
 												<label class="col-md-2 control-label">Contact AM</label>
 												<div class="col-md-8">
-													<input type="text" class="form-control" placeholder="Enter text">
+													<input type="text" class="form-control" placeholder="Enter Contact AM">
 													<span class="help-block">
 													</span>
 												</div>
@@ -454,7 +449,7 @@
 												<div class="form-group">
 												<label class="col-md-2 control-label">Phone Number</label>
 												<div class="col-md-8">
-													<input type="text" class="form-control" placeholder="Enter text">
+													<input type="text" class="form-control" placeholder="Enter Phone Number" id="phone_number" name="phone_number" value="">
 													<span class="help-block">
 													</span>
 												</div>
@@ -462,7 +457,7 @@
 												<div class="form-group">
 												<label class="col-md-2 control-label">Email</label>
 												<div class="col-md-8">
-													<input type="text" class="form-control" placeholder="Enter text">
+													<input type="text" class="form-control" placeholder="Enter Email">
 													<span class="help-block">
 													</span>
 												</div>
@@ -470,7 +465,7 @@
 												<div class="form-group">
 												<label class="col-md-2 control-label">Document Name</label>
 												<div class="col-md-8">
-													<input type="text" class="form-control" placeholder="Enter text">
+													<input type="text" class="form-control" placeholder="Enter Document Name">
 													<span class="help-block">
 													</span>
 												</div>
@@ -480,7 +475,7 @@
 												<span> * </span>
 												</label>
 												<div class="col-md-8">
-													<textarea class="form-control required" rows="3"></textarea>
+													<textarea class="form-control required uppercase" id="document_address" readonly=""></textarea>
 													<span class="help-block">
 													</span>
 												</div>
@@ -597,28 +592,29 @@
 <script>
 	jQuery(function($) {
         var grid_selector = "#grid-table";
-        var pager_selector = "#grid-pager";
-
+        var pager_selector = "#grid-pager";		
+		$("#npwp_val").keyup(function(){
+			$("#4").find('td').eq('2').html($("#npwp_val").val());
+		});
+		var additionalInfo = [
+		{Attribute_Name: "BUSINESS_AREA", 		Attribute_Value: 5001},
+		{Attribute_Name: "BUSINESS_SHARE", 		Attribute_Value: "CC00"},
+		{Attribute_Name: "REFERENSI_ACCOUNT", 	Attribute_Value: ""},
+		{Attribute_Name: "PREFIX_ACCOUNT",		Attribute_Value: ""},
+		{Attribute_Name: "NPWP", 				Attribute_Value: ""},
+		{Attribute_Name: "NPPKP", 				Attribute_Value: ""},		
+		{Attribute_Name: "BILL2PARTY", 			Attribute_Value: ""},		
+		{Attribute_Name: "REGION", 				Attribute_Value: "1"},		
+		];
         jQuery("#grid-table").jqGrid({
-            url: '<?php echo WS_JQGRID."administration.permissions_controller/crud"; ?>',
-            datatype: "json",
-            mtype: "POST",
-            colModel: [
-                {label: 'ID', name: 'permission_id', key: true, width: 5, sorttype: 'number', editable: true, hidden: true},
-                {label: 'Permissions Name',name: 'permission_name',width: 150, align: "left",editable: true,
-                    editoptions: {
-                        size: 30,
-                        maxlength:32
-                    },
-                    editrules: {required: true}
-                },
-                {label: 'Description',name: 'permission_description',width: 200, align: "left",editable: true,
-                    edittype:'textarea',
-                    editoptions: {
-                        rows: 2,
-                        cols:50
-                    }
-                }
+            // url: '<?php echo WS_JQGRID."administration.permissions_controller/crud"; ?>',
+            data: additionalInfo,
+			datatype: "local",
+            // mtype: "POST",
+			colNames:['Attribute Name','Attribute Value'],
+            colModel:[
+                {name: 'Attribute_Name', index:'Attribute_Name', width: 450, editable: true, hidden: false},
+                {name: 'Attribute_Value', index:'Attribute_Value', width: 150, editable: true, hidden: false}                          
             ],
             height: '100%',
             autowidth: true,
@@ -649,17 +645,18 @@
             },
             //memanggil controller jqgrid yang ada di controller crud
             editurl: '<?php echo WS_JQGRID."administration.permissions_controller/crud"; ?>',
-            caption: "Permissions"
+            caption: "Additional Informations"
 
         });
 
         jQuery('#grid-table').jqGrid('navGrid', '#grid-pager',
             {   //navbar options
-                edit: true,
+                edit: false,
+				excel: true,
                 editicon: 'fa fa-pencil blue bigger-120',
-                add: true,
+                add: false,
                 addicon: 'fa fa-plus-circle purple bigger-120',
-                del: true,
+                del: false,
                 delicon: 'fa fa-trash-o red bigger-120',
                 search: true,
                 searchicon: 'fa fa-search orange bigger-120',
@@ -776,10 +773,32 @@
                     var form = $(e[0]);
                 }
             }
-        );
+        )
+		.navButtonAdd('#grid-pager',{
+            caption:"Export To Excel",
+            buttonicon:"fa fa-file-excel-o green",
+            position:"last",
+            title: "Export To Excel",
+            cursor: "pointer",
+            onClickButton: toExcelAccountDetails,
+			id :"reset"
+		});
+
+		
 
     });
-
+	
+	function toExcelAccountDetails() {
+		// alert("Convert to Excel");
+        var c = confirm('Export to Excel ?')
+        if(c == true){
+            var url = "<?php echo base_url();?>Account/excelAccountReport?";
+			url += "&npwp_val=" + $('#npwp_val').val();
+			// url += "&<?php echo $this->security->get_csrf_token_name(); ?>=<?php echo $this->security->get_csrf_hash(); ?>";
+			window.location = url;
+        }
+    }
+	
     function serializeJSON(postdata) {
         var items;
         if(postdata.oper != 'del') {
@@ -852,6 +871,7 @@
 
 <script>
   $(document).ready(function(){
+	  $('#acc_name_page1').attr('autocomplete','off');
 		$('#btn-lov-nipnas').on('click',function() {
 			modal_lov_nipnas_show('nipnas','customer_name');
 		});
@@ -863,10 +883,41 @@
 		$('#back-manage-account').on('click', function() {
 			loadContentWithParams('account.list_account',{});
 		});
+		$('#no_transaksi').val('TELKOM-ACC/'+ romanize(<?php echo date("m")?>) +'/'+ <?php echo date("d")?> +'/'+ <?php echo date("y")?> +'-??');
   })
+	function romanize(num) {
+		var lookup = {M:1000,CM:900,D:500,CD:400,C:100,XC:90,L:50,XL:40,X:10,IX:9,V:5,IV:4,I:1},roman = '',i;
+		for ( i in lookup ) {
+			while ( num >= lookup[i] ) {
+			roman += i;
+			num -= lookup[i];
+			}
+		}
+		return roman;
+	}	
   $(function (){
 		$('#datetimepicker1').datepicker({
 			format: 'dd/mm/yyyy'
 		});
+		$('#datetimepicker2').datepicker({
+			format: 'dd/mm/yyyy'
+		});
+		$('#datetimepicker3').datepicker({
+			format: 'dd/mm/yyyy'
+		});
   });
+  $("#street_name,#block_name,#district,#city_name,#province_name,#phone_number,#zip_code").keyup(function(){
+	  $("#document_address").text($("#street_name").val()+" "+$("#block_name").val()
+	  +" "+$("#district").val()+" "+$("#city_name").val()+" "+$("#province_name").val()
+	  +" "+$("#phone_number").val()+" "+$("#zip_code").val());
+  });
+  
+  $("#acc_name_page1").keyup(function(){
+	  // $("#company_name").text($("#acc_name_page1").val());
+	  $("#company_name").val($("#acc_name_page1").val());
+	  // $("#company_name").val($("#acc_name_page1").text());
+  });
+  // function update_address_name(){
+	  
+  // }
 </script>

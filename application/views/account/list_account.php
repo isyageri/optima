@@ -22,53 +22,6 @@
 			<div class="portlet box green ">
 				<div class="portlet-title">
 					<div class="caption">
-						<i class="fa fa-gift"></i> Daftar Account
-					</div>
-					<div class="tools">
-						<a href="" class="collapse" data-original-title="" title="">
-						</a>				
-					</div>
-				</div>
-				<div class="portlet-body form">
-					<form class="form-horizontal" role="form">
-						<div class="form-body">
-							<div class="row">
-								<div class="col-md-6">
-									<div class="form-group">
-										<label class="col-md-2 control-label">Tax Status</label>
-										<div class="col-md-8">
-										<select class="form-control">
-											<option>Account Number</option>
-											<option>NIPNAS</option>
-										</select>
-										<span class="help-block">
-										</span>
-										</div>
-									</div>
-									<div class="form-group">
-										<label class="col-md-2 control-label">Kata Kunci</label>
-										<div class="col-md-8">
-										<input type="text" class="form-control" placeholder="Masukkan kata kunci">
-										<span class="help-block">
-										</span>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-						<div class="form-actions">
-						<div class="row">
-							<div class="col-md-1">
-								<button type="submit" class="btn green">Cari</button>
-							</div>
-						</div>
-						</div>
-					</form>
-				</div>
-			</div>
-			<div class="portlet box green ">
-				<div class="portlet-title">
-					<div class="caption">
 						<i class="fa fa-gift"></i> Tambah Account
 					</div>
 					<div class="tools">
@@ -86,7 +39,7 @@
 							</div>
 							<div class="space-4"></div>
 							<div class="row">
-								<div class="col-md-12">
+								<div class="col-md-12 green">
 									<table id="grid-table-account"></table>
 									<div id="grid-pager-account"></div>
 								</div>
@@ -146,15 +99,16 @@
             },
             //memanggil controller jqgrid yang ada di controller crud
             editurl: '<?php echo WS_JQGRID."account.account_controller/crud"; ?>',
-            caption: "Permissions"
+            caption: "Account Details"
 
         });
 
         jQuery('#grid-table-account').jqGrid('navGrid', '#grid-pager-account',
             {   //navbar options
                 edit: false,
+				excel: true,
                 editicon: 'fa fa-pencil blue bigger-120',
-                add: false,
+                add: false,				
                 addicon: 'fa fa-plus-circle purple bigger-120',
                 del: false,
                 delicon: 'fa fa-trash-o red bigger-120',
@@ -273,10 +227,62 @@
                     var form = $(e[0]);
                 }
             }
-        );
-
+        )
+		.navButtonAdd('#grid-pager-account',{
+            caption:"",
+            buttonicon:"fa fa-file-excel-o green bigger-120",
+            position:"last",
+            title: "Export To Excel",
+            cursor: "pointer",
+            onClickButton: toExcelAccount,
+			id :"excel"
+		});
+		
+		
     });
-
+	
+	function toExcelAccount() {
+		// alert("Convert to Excel");
+				
+		var url = "<?php echo WS_JQGRID."account.account_controller/excelAccountList/?"; ?>";
+		url += "<?php echo $this->security->get_csrf_token_name(); ?>=<?php echo $this->security->get_csrf_hash(); ?>";
+		url += "&_search="+$("#grid-table-account").getGridParam("postData")._search;
+		url += "&searchField="+$("#grid-table-account").getGridParam("postData").searchField;
+		url += "&searchOper="+$("#grid-table-account").getGridParam("postData").searchOper;
+		url += "&searchString="+$("#grid-table-account").getGridParam("postData").searchString;		
+		window.location = url;		
+	}
+	
+	$('#cari_account').click(function()
+		{
+		alert();
+		var myGrid = jQuery("#grid-table-account").jqGrid({
+			url: '<?php echo WS_JQGRID."account.account_controller/crud"; ?>',
+			postData: {
+				account_number: function() { return jQuery("#kata_kunci").val(); }
+			}
+		// ...
+		});
+		var myReload = function() {
+			myGrid.trigger('reloadGrid');
+		};
+			var keyupHandler = function (e,refreshFunction,obj) {
+				var keyCode = e.keyCode || e.which;
+					if (keyCode === 33 /*page up*/|| keyCode === 34 /*page down*/||
+						keyCode === 35 /*end*/|| keyCode === 36 /*home*/||
+						keyCode === 38 /*up arrow*/|| keyCode === 40 /*down arrow*/) {
+				
+						if (typeof refreshFunction === "function") {
+							refreshFunction(obj);
+					}
+				}
+			};
+			$("#kata_kunci").change(myReload).keyup(function (e) {
+				keyupHandler(e,myReload,this);
+			})
+		}
+	)
+	
     function serializeJSON(postdata) {
         var items;
         if(postdata.oper != 'del') {
@@ -340,4 +346,5 @@
 	$( "#btn-add-account" ).click(function() {
 		loadContentWithParams('account.add_account',{});
 	});
+	
 </script>
