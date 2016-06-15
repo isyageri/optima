@@ -565,7 +565,7 @@ class Abstract_model extends  CI_Model {
         $query = $this->db->query($sql);
 		$row = $query->row_array();
 
-		return $row['seq'];
+		return (int)$row['seq'];
 
     }
 

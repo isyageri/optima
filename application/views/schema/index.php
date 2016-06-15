@@ -6,11 +6,11 @@
             <i class="fa fa-circle"></i>
         </li>
         <li>
-            <a href="#">Administration</a>
+            <a href="#">Skema</a>
             <i class="fa fa-circle"></i>
         </li>
         <li>
-            <span>Pembuatan Skema</span>
+            <span>List Skema</span>
         </li>
     </ul>
 </div>
@@ -53,12 +53,12 @@
         var pager_selector = "#grid-pager";
 
         jQuery("#grid-table").jqGrid({
-            url: '<?php echo WS_JQGRID."schema.schema_controller/crud"; ?>',
+            url: '<?php echo WS_JQGRID."schema.sc_schema_controller/crud"; ?>',
             datatype: "json",
             mtype: "POST",
             colModel: [
-                {label: 'ID', name: 'event_source', key: true, width: 5, sorttype: 'number', editable: true, hidden: true},
-                {label: 'Nama schema',name: 'tariff_name',width: 250, align: "left",editable: true,
+                {label: 'ID', name: 'schema_id', key: true, width: 5, sorttype: 'number', editable: true, hidden: true},
+                {label: 'Nama schema',name: 'schema_name',width: 250, align: "left",editable: true,
                     editoptions: {
                         size: 30,
                         maxlength:32
@@ -72,28 +72,21 @@
                     },
                     editrules: {required: true}
                 },
-                {label: 'Nama Customer',name: 'address_name',width: 250, align: "left",editable: true,
+                {label: 'Nomor Account',name: 'account_num',width: 150, align: "left",editable: true,
                     editoptions: {
                         size: 30,
                         maxlength:32
                     },
                     editrules: {required: true}
                 },
-                {label: 'Nomor Account',name: 'event_source',width: 150, align: "left",editable: true,
+                {label: 'Tgl Mulai',name: 'start_dat',width: 150, align: "center",editable: true,
                     editoptions: {
                         size: 30,
                         maxlength:32
                     },
                     editrules: {required: true}
                 },
-                {label: 'Tgl Mulai',name: 'sales_start_dat',width: 150, align: "center",editable: true,
-                    editoptions: {
-                        size: 30,
-                        maxlength:32
-                    },
-                    editrules: {required: true}
-                },
-                {label: 'Tgl Berakhir',name: 'sales_end_dat',width: 150, align: "center",editable: true,
+                {label: 'Tgl Berakhir',name: 'end_dat',width: 150, align: "center",editable: true,
                     editoptions: {
                         size: 30,
                         maxlength:32
@@ -109,7 +102,7 @@
             rownumbers: true, // show row numbers
             rownumWidth: 35, // the width of the row numbers columns
             altRows: true,
-            shrinkToFit: false,
+            shrinkToFit: true,
             multiboxonly: true,
             onSelectRow: function (rowid) {
                 /*do something when selected*/
@@ -129,8 +122,8 @@
 
             },
             //memanggil controller jqgrid yang ada di controller crud
-            editurl: '<?php echo WS_JQGRID."schema.schema_controller/crud"; ?>',
-            caption: "List Schema"
+            editurl: '<?php echo WS_JQGRID."schema.sc_schema_controller/crud"; ?>',
+            caption: "List Skema"
 
         });
 
