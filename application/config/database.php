@@ -202,3 +202,37 @@ $db['tosdb']['dbcollat'] = 'utf8_general_ci';
 $db['tosdb']['swap_pre'] = '';
 $db['tosdb']['autoinit'] = TRUE;
 $db['tosdb']['stricton'] = FALSE;
+
+
+/*-----------------------------------------------*/
+/*  TOSDB Connection
+/*
+/*-----------------------------------------------*/
+
+$db['geneva']['hostname'] ='
+(DESCRIPTION =
+  (ADDRESS =
+    (PROTOCOL = TCP)
+    (HOST = 10.62.160.135)
+    (PORT = 1521)
+  )
+  (CONNECT_DATA =
+    (SERVER = dedicated)
+    (SERVICE_NAME = tibsdev)
+  )
+)';
+
+$db['geneva']['username'] = 'geneva_custom_npots';
+$db['geneva']['password'] = 'geneva_custom_npots';
+$db['geneva']['database'] = 'tibs_dev';
+$db['geneva']['dbdriver'] = 'oci8';
+$db['geneva']['dbprefix'] = '';
+$db['geneva']['pconnect'] = FALSE;
+$db['geneva']['db_debug'] = TRUE;
+$db['geneva']['cache_on'] = FALSE;
+$db['geneva']['cachedir'] = '';
+$db['geneva']['char_set'] = 'utf8';
+$db['geneva']['dbcollat'] = 'utf8_general_ci';
+$db['geneva']['swap_pre'] = '';
+$db['geneva']['autoinit'] = TRUE;
+$db['geneva']['stricton'] = FALSE;

@@ -41,7 +41,7 @@ class Sc_schema extends Abstract_model {
             //$this->record['updated_date'] = date('Y-m-d');
             $this->record[$this->pkey] = $this->generate_id($this->table);
             if(empty($this->record['end_dat'])) {
-                $this->record['end_dat'] = null;
+                $this->db->set('end_dat', NULL);
             }else {
                 $this->db->set('end_dat',"to_date('".$this->record['end_dat']."','yyyy-mm-dd')",false);
             }

@@ -14,7 +14,7 @@ class Fastel_controller {
         $sord = getVarClean('sord','str','desc');
 
         $data = array('rows' => array(), 'page' => 1, 'records' => 0, 'total' => 1, 'success' => false, 'message' => '');
-        $schema_id = getVarClean('schema_id','int',0);
+        $schema_id = getVarClean('schema_id','str',-1);
 
         try {
 
@@ -37,7 +37,7 @@ class Fastel_controller {
             );
 
             // Filter Table
-            $req_param['where'] = array('schema_id = '.$schema_id);
+            $req_param['where'] = array("schema_id = '".$schema_id."'");
 
             $table->setJQGridParam($req_param);
             $count = $table->countAll();
