@@ -221,6 +221,14 @@
                                           </div>
                                       </div>
                                       <div class="row">
+                                        <div class="col-md-12">
+                                            <button type="button" class="btn green" id="btn-excel-trend-info">
+                                                Download Excel
+                                                <i class="fa file-excel-o"></i>
+                                            </button>
+                                            <div class="space-4"></div>
+                                        </div>
+
                                         <div class="col-md-12" id="table-trend-info">
 
                                         </div>
@@ -600,6 +608,12 @@
           return false;
       }));
 
+
+      $('#btn-excel-trend-info').on('click',function(e) {
+          var url = "<?php echo WS_JQGRID.'schema.sc_schema_controller/excelTableTrendInfo?schema_id='; ?>" + $("#schema_id").val() + '&';
+          url += "<?php echo $this->security->get_csrf_token_name(); ?>=<?php echo $this->security->get_csrf_hash(); ?>";
+          window.location = url;
+      });
   })
 
 
@@ -611,7 +625,6 @@
       }
 
       if(index == 2) {
-        alert('test');
         loadTableTrendInfo();
       }
   }

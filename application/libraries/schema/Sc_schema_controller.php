@@ -327,10 +327,12 @@ class Sc_schema_controller {
         $ci->load->model('schema/sc_schema');
         $table = $ci->sc_schema;
 
+        $schema_id = getVarClean('schema_id','int',0);
+
         $result = array();
         $periode = array();
 
-        $items = $table->getTrendInfo();
+        $items = $table->getTrendInfo($schema_id);
         foreach($items as $item) {
 
             $periode[$item['periode']] = getMonth((int)substr($item['periode'], (strlen($item['periode'])-2)+1));
@@ -346,6 +348,13 @@ class Sc_schema_controller {
                 $result['TELKOM_JJ']['items'][$item['periode']] + $result['TELKOM_LK']['items'][$item['periode']] +
                 $result['TELKOMSEL']['items'][$item['periode']] + $result['LAINNYA']['items'][$item['periode']] +
                 $result['TAGIHAN_ON_NET']['items'][$item['periode']] + $result['TAGIHAN_NON_ON_NET']['items'][$item['periode']];
+        }
+
+        if(count($periode) == 0) {
+            $max_month = 3;
+            for($i = $max_month; $i >= 0; $i--) {
+                $periode[$i] = getMonth((int)date('m', strtotime('-'.$i.' month')));
+            }
         }
 
         $html  = '<table class="table">';
@@ -367,6 +376,70 @@ class Sc_schema_controller {
         $html .= '</table>';
 
         echo $html;
+        exit;
+    }
+
+    public function excelTableTrendInfo() {
+
+        $ci = & get_instance();
+        $ci->load->model('schema/sc_schema');
+        $table = $ci->sc_schema;
+
+        $schema_id = getVarClean('schema_id','int',0);
+
+        $result = array();
+        $periode = array();
+
+        $items = $table->getTrendInfo($schema_id);
+        foreach($items as $item) {
+
+            $periode[$item['periode']] = getMonth((int)substr($item['periode'], (strlen($item['periode'])-2)+1));
+
+            $result['TELKOM_JJ']['items'][$item['periode']] = $item['telkom_jj'];
+            $result['TELKOM_LK']['items'][$item['periode']]  = $item['telkom_lk'];
+            $result['TELKOMSEL']['items'][$item['periode']] = $item['telkomsel'];
+            $result['LAINNYA']['items'][$item['periode']] = $item['lainnya'];
+            $result['TAGIHAN_ON_NET']['items'][$item['periode']] = $item['tagihan_on_net'];
+            $result['TAGIHAN_NON_ON_NET']['items'][$item['periode']] = $item['tagihan_non_on_net'];
+
+            $result['TOTAL_TAGIHAN']['items'][$item['periode']] =
+                $result['TELKOM_JJ']['items'][$item['periode']] + $result['TELKOM_LK']['items'][$item['periode']] +
+                $result['TELKOMSEL']['items'][$item['periode']] + $result['LAINNYA']['items'][$item['periode']] +
+                $result['TAGIHAN_ON_NET']['items'][$item['periode']] + $result['TAGIHAN_NON_ON_NET']['items'][$item['periode']];
+        }
+
+        if(count($periode) == 0) {
+            $max_month = 3;
+            for($i = $max_month; $i >= 0; $i--) {
+                $periode[$i] = getMonth((int)date('m', strtotime('-'.$i.' month')));
+            }
+        }
+
+        $html  = '<table border="1">';
+        $html .= '<tr>';
+        $html .= '<th>Keterangan</th>';
+        foreach($periode as $pr) {
+            $html .= '<th>'.$pr.'</th>';
+        }
+        $html .= '</tr>';
+
+        foreach($result as $keterangan => $nilai_per_periode) {
+            $html .= '<tr>';
+            $html .= '<td>'.str_replace('_',' ',$keterangan).'</td>';
+            foreach($nilai_per_periode['items'] as $val) {
+                $html .= '<td align="right">'.numberFormat($val).'</td>';
+            }
+            $html .= '</tr>';
+        }
+        $html .= '</table>';
+
+        startExcel('schema_trend_info.xls');
+        echo '<html>';
+        echo '<head><title>Excel Trend & Info</title></head>';
+        echo '<body>';
+        echo $html;
+        echo '</body>';
+        echo '</html>';
         exit;
     }
 

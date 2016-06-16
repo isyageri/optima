@@ -20,7 +20,9 @@ class Sc_schema extends Abstract_model {
                                 'end_dat'        => array('nullable' => true, 'type' => 'date', 'unique' => false, 'display' => 'End Date'),
                             );
 
-    public $selectClause    = "sc.*";
+    public $selectClause    = "sc.schema_id, sc.schema_name, sc.customer_ref,
+                                sc.account_num, sc.discount_id, to_char(sc.start_dat,'yyyy-mm-dd') as start_dat, to_char(sc.end_dat,'yyyy-mm-dd') as end_dat,
+                                to_char(sc.start_dat,'yyyymm') as start_periode,";
     public $fromClause      = "sc_schema sc";
 
     public $refs            = array();
@@ -60,7 +62,9 @@ class Sc_schema extends Abstract_model {
         return true;
     }
 
-    function getTrendInfo() {
+    function getTrendInfo($schema_id) {
+
+        $item = $this->get($schema_id);
 
         $sql = "select max(P_CUST_ID) p_cust_id,
                     b.PERIODE,
@@ -73,8 +77,8 @@ class Sc_schema extends Abstract_model {
                     from CC_DATAREF_02_NETEZA a,
                     V_TAGIHAN_AGREGAT_M4L b
                     where A.P_NOTEL = B.ND
-                    and a.P_CUST_ACCOUNT = '8000001428'
-                    and to_number(b.PERIODE) between 201512 and 201603
+                    and a.P_CUST_ACCOUNT = '".$item['account_num']."'
+                    and to_number(b.PERIODE) between ".date('m', strtotime('-3 month'))." and ".date('m')."
                     group by b.PERIODE
                     order by b.PERIODE";
 
