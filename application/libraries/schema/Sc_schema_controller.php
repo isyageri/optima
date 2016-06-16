@@ -319,6 +319,57 @@ class Sc_schema_controller {
         }
         return $data;
     }
+
+
+    public function getTableTrendInfo() {
+
+        $ci = & get_instance();
+        $ci->load->model('schema/sc_schema');
+        $table = $ci->sc_schema;
+
+        $result = array();
+        $periode = array();
+
+        $items = $table->getTrendInfo();
+        foreach($items as $item) {
+
+            $periode[$item['periode']] = getMonth((int)substr($item['periode'], (strlen($item['periode'])-2)+1));
+
+            $result['TELKOM_JJ']['items'][$item['periode']] = $item['telkom_jj'];
+            $result['TELKOM_LK']['items'][$item['periode']]  = $item['telkom_lk'];
+            $result['TELKOMSEL']['items'][$item['periode']] = $item['telkomsel'];
+            $result['LAINNYA']['items'][$item['periode']] = $item['lainnya'];
+            $result['TAGIHAN_ON_NET']['items'][$item['periode']] = $item['tagihan_on_net'];
+            $result['TAGIHAN_NON_ON_NET']['items'][$item['periode']] = $item['tagihan_non_on_net'];
+
+            $result['TOTAL_TAGIHAN']['items'][$item['periode']] =
+                $result['TELKOM_JJ']['items'][$item['periode']] + $result['TELKOM_LK']['items'][$item['periode']] +
+                $result['TELKOMSEL']['items'][$item['periode']] + $result['LAINNYA']['items'][$item['periode']] +
+                $result['TAGIHAN_ON_NET']['items'][$item['periode']] + $result['TAGIHAN_NON_ON_NET']['items'][$item['periode']];
+        }
+
+        $html  = '<table class="table">';
+        $html .= '<tr>';
+        $html .= '<th>Keterangan</th>';
+        foreach($periode as $pr) {
+            $html .= '<th>'.$pr.'</th>';
+        }
+        $html .= '</tr>';
+
+        foreach($result as $keterangan => $nilai_per_periode) {
+            $html .= '<tr>';
+            $html .= '<td>'.str_replace('_',' ',$keterangan).'</td>';
+            foreach($nilai_per_periode['items'] as $val) {
+                $html .= '<td align="right">'.numberFormat($val).'</td>';
+            }
+            $html .= '</tr>';
+        }
+        $html .= '</table>';
+
+        echo $html;
+        exit;
+    }
+
 }
 
 /* End of file Scema_controller.php */

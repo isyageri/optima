@@ -221,65 +221,8 @@
                                           </div>
                                       </div>
                                       <div class="row">
-                                        <div class="col-md-12">
-                                              <table class="table">
-                                                  <tr>
-                                                    <th>Keterangan</th>
-                                                    <th>Maret</th>
-                                                    <th>April</th>
-                                                    <th>Mei</th>
-                                                    <th>Juni</th>
-                                                    <th>Juli</th>
-                                                  </tr>
-                                                  <tr>
-                                                    <td>TOTAL TAGIHAN</td>
-                                                    <td>&nbsp;</td>
-                                                    <td>&nbsp;</td>
-                                                    <td>&nbsp;</td>
-                                                    <td>&nbsp;</td>
-                                                    <td>&nbsp;</td>
-                                                  </tr>
-                                                  <tr>
-                                                    <td>TELKOM_22</td>
-                                                    <td>&nbsp;</td>
-                                                    <td>&nbsp;</td>
-                                                    <td>&nbsp;</td>
-                                                    <td>&nbsp;</td>
-                                                    <td>&nbsp;</td>
-                                                  </tr>
-                                                  <tr>
-                                                    <td>TELKOM_L_K</td>
-                                                    <td>&nbsp;</td>
-                                                    <td>&nbsp;</td>
-                                                    <td>&nbsp;</td>
-                                                    <td>&nbsp;</td>
-                                                    <td>&nbsp;</td>
-                                                  </tr>
-                                                  <tr>
-                                                    <td>TELKOMSEL</td>
-                                                    <td>&nbsp;</td>
-                                                    <td>&nbsp;</td>
-                                                    <td>&nbsp;</td>
-                                                    <td>&nbsp;</td>
-                                                    <td>&nbsp;</td>
-                                                  </tr>
-                                                  <tr>
-                                                    <td>TAGIHAN ON NET</td>
-                                                    <td>&nbsp;</td>
-                                                    <td>&nbsp;</td>
-                                                    <td>&nbsp;</td>
-                                                    <td>&nbsp;</td>
-                                                    <td>&nbsp;</td>
-                                                  </tr>
-                                                  <tr>
-                                                    <td>TAGIHAN NON ON NET</td>
-                                                    <td>&nbsp;</td>
-                                                    <td>&nbsp;</td>
-                                                    <td>&nbsp;</td>
-                                                    <td>&nbsp;</td>
-                                                    <td>&nbsp;</td>
-                                                  </tr>
-                                              </table>
+                                        <div class="col-md-12" id="table-trend-info">
+
                                         </div>
                                       </div>
                                  </div>
@@ -666,6 +609,28 @@
       if(index == 1 && !skemaAdded) {
         return addSkema(tab, navigation, index);
       }
+
+      if(index == 2) {
+        alert('test');
+        loadTableTrendInfo();
+      }
+  }
+
+  function loadTableTrendInfo() {
+      var schema_id = $("#schema_id").val();
+
+      $.ajax({
+          url: "<?php echo WS_JQGRID.'schema.sc_schema_controller/getTableTrendInfo'; ?>",
+          type: "POST",
+          data: { schema_id: schema_id },
+          success: function (data) {
+              $('#table-trend-info').html(data);
+          },
+          error: function (xhr, status, error) {
+              swal({title: "Error!", text: xhr.responseText, html: true, type: "error"});
+              return false;
+          }
+      });
   }
 
   function addSkema(tab, navigation, index) {
@@ -704,8 +669,6 @@
               return false;
           }
       });
-
-
   }
 
 

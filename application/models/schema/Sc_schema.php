@@ -60,6 +60,29 @@ class Sc_schema extends Abstract_model {
         return true;
     }
 
+    function getTrendInfo() {
+
+        $sql = "select max(P_CUST_ID) p_cust_id,
+                    b.PERIODE,
+                    sum(b.TELKOM_JJ) TELKOM_JJ,
+                    sum(b.TELKOM_LK) TELKOM_LK,
+                    sum(b.TELKOMSEL) TELKOMSEL,
+                    sum(b.LAINNYA) LAINNYA,
+                    sum(b.ON_NET) TAGIHAN_ON_NET ,
+                    sum(b.NON_ON_NET) TAGIHAN_NON_ON_NET
+                    from CC_DATAREF_02_NETEZA a,
+                    V_TAGIHAN_AGREGAT_M4L b
+                    where A.P_NOTEL = B.ND
+                    and a.P_CUST_ACCOUNT = '8000001428'
+                    and to_number(b.PERIODE) between 201512 and 201603
+                    group by b.PERIODE
+                    order by b.PERIODE";
+
+        $query = $this->db->query($sql);
+        $row = $query->result_array();
+        return $row;
+    }
+
 }
 
 /* End of file Users.php */
