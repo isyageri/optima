@@ -130,10 +130,9 @@ class Fastel_controller {
             while(!feof($fastelfile)) {
 
                 $row = fgets($fastelfile);
-                $arr_row = explode("|", $row);
 
                 if(count($arr_row) == 2) {
-                    $datainsert[$loop]['p_notel'] = $arr_row[0];
+                    $datainsert[$loop]['p_notel'] = $row;
                     $datainsert[$loop]['p_cust_id'] = $p_cust_id;
                     $datainsert[$loop]['p_cust_account'] = $p_cust_account;
                     $datainsert[$loop]['flag'] = null;
