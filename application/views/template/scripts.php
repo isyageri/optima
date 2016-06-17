@@ -138,6 +138,72 @@
         });
     });
 
+    $.ajax({
+        url: "<?php echo base_url().'home/message/'; ?>",
+        type: "POST",
+        data: {
+            '<?php echo $this->security->get_csrf_token_name(); ?>' : '<?php echo $this->security->get_csrf_hash(); ?>'
+        },
+        global: false,
+        success: function (data) {
+            $( "#header_inbox_bar" ).html( data );
+        },
+        error: function (xhr, status, error) {
+            swal({title: "Error!", text: xhr.responseText, html: true, type: "error"});
+        }
+    });
 
+    setInterval(function() {
+        $.ajax({
+                url: "<?php echo base_url().'home/message/'; ?>",
+                type: "POST",
+                data: {
+                    '<?php echo $this->security->get_csrf_token_name(); ?>' : '<?php echo $this->security->get_csrf_hash(); ?>'
+                },
+                global: false,
+                success: function (data) {
+                    $( "#header_inbox_bar" ).html( data );
+                },
+                error: function (xhr, status, error) {
+                    swal({title: "Error!", text: xhr.responseText, html: true, type: "error"});
+                }
+            });
+    }, 5000); //5 detik
+
+    function viewAllMsg(){
+        loadContentWithParams('message.list_message',{});
+    }
+
+    function msg(id, cd, sts, trx, flag){
+
+        if(flag == '0'){
+            $.ajax({
+                    url: '<?php echo WS_JQGRID."message.message_controller/update_flag"; ?>',
+                    type: "POST",
+                    data: {
+                        trx_id: id
+                    },
+                    global: false
+                });
+        }
+
+        loadContentWithParams('message.form_message',{trx_id : id, code : cd, status_name : sts, trx_name: trx});
+
+         $.ajax({
+                url: "<?php echo base_url().'home/message/'; ?>",
+                type: "POST",
+                data: {
+                    '<?php echo $this->security->get_csrf_token_name(); ?>' : '<?php echo $this->security->get_csrf_hash(); ?>'
+                },
+                global: false,
+                success: function (data) {
+                    $( "#header_inbox_bar" ).html( data );
+                },
+                error: function (xhr, status, error) {
+                    swal({title: "Error!", text: xhr.responseText, html: true, type: "error"});
+                }
+            });
+    }
+    
 
 </script>

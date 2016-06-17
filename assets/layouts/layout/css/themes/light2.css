@@ -4,7 +4,8 @@
     ***********/
 /* Header search bar, toggler button & top menu */
 .page-header.navbar {
-  background-color: rgba(228, 58, 69, 0.78);
+  /*background-color: rgba(228, 58, 69, 0.78);*/
+  background-color: #747f8c;
   /* Top notification menu/bar */
   /* Header seaech box */
   /* Toggler button for sidebar expand/collapse and responsive sidebar menu */ }

@@ -118,4 +118,44 @@ class Home extends CI_Controller
         }
     }
 
+    function message(){
+        $html = "";
+        $ci = & get_instance();
+        $ci->load->model('message/message');
+        $table = $ci->message;
+
+        $rows = $table->getAll(0, -1, 'cn_trans.trx_id', 'desc');
+        $count = $table->countAll();
+        $NewMsg = $ci->message->countNewMsg();
+        $countNewMsg = count($NewMsg);
+
+        $html .= "<a href='javascript:;' class='dropdown-toggle' data-toggle='dropdown' data-hover='dropdown' data-close-others='true'> ";
+        $html .= "<i class='icon-envelope-open'></i>";
+        $html .= "<span class='badge badge-default'> ".$countNewMsg." </span> </a>";
+        $html .= "<ul class='dropdown-menu'>";
+        $html .= "<li class='external'>";
+        $html .= "<h3>You have  <span class='bold'>".$countNewMsg." New Messages</span></h3>";
+        $html .= "<a href='#' onClick='viewAllMsg()'>view all</a></li>";
+        $html .= "<li>";
+        $html .= "<ul class='dropdown-menu-list scroller' style='height: 275px;' data-handle-color='#637283'>";
+
+        foreach ($rows as $data) {
+            $html .= "<li>";
+            $html .= '<a href="#" onClick="msg('.$data['trx_id'].',\''.$data['code'].'\',\''.$data['status_name'].'\',\''.$data['trx_name'].'\',\''.$data['flag'].'\')" >';
+            if($data['flag'] == 0){
+                $html .= "<strong>".$data['trx_name']."</strong>";
+            }else{
+                $html .= $data['trx_name'];
+            }
+            $html .= "</a>";
+            $html .= "</li>";
+        }
+
+        $html .= "</ul>";
+        $html .= "</li>";
+        $html .= "</ul>";
+
+        echo $html;
+    }
+
 }
