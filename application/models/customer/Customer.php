@@ -30,6 +30,9 @@ class Customer extends Abstract_model {
         parent::__construct();
         $this->db = $this->load->database('ccpbb', TRUE);
         $this->db->_escape_char = ' ';
+
+        $this->db_crm = $this->load->database('corecrm', TRUE);
+        $this->db_crm->_escape_char = ' ';
     }
 
     function validate() {
@@ -49,6 +52,37 @@ class Customer extends Abstract_model {
 
         }
         return true;
+    }
+
+    public function genCustReff(){
+
+        $prefix = (int)$this->input->post('prefix');
+        //print_r($prefix);
+        //exit;
+        $sql = " DECLARE " .
+            "  BEGIN " .
+            "  SIN_CORE.SINCUSTOMER.GENCUSTOMERREF(:params1,:cursor); END;";
+
+        $params = array(
+            array('name' => ':params1', 'value' => $prefix, 'type' => SQLT_INT, 'length' => 11),
+        );
+
+        // Bind the output parameter
+        $stmt = oci_parse($this->db_crm->conn_id, $sql);
+        foreach ($params as $p) {
+            // Bind Input
+            oci_bind_by_name($stmt, $p['name'], $p['value'], $p['length']);
+        }
+
+        $cursor = oci_new_cursor($this->db_crm->conn_id);
+
+        oci_bind_by_name($stmt, ":cursor", $cursor, -1, OCI_B_CURSOR);
+
+        oci_execute($stmt, OCI_DEFAULT);
+        oci_execute($cursor, OCI_DEFAULT);
+
+        oci_fetch_all($cursor, $res);
+        echo json_encode($res);
     }
 
 }

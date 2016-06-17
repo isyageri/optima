@@ -32,7 +32,8 @@
                     <div class="col-md-3">
                         <div class="col-md-12">
                             <div class="form-group form-md-line-input">
-                                <input type="text" class="form-control" value="TELKOM-CUST/VI/02/16-???" disabled>
+                                <input type="text" class="form-control" id="trx_no" value="TELKOM-CUST/VI/02/16-???"
+                                       disabled>
                                 <div class="form-control-focus"></div>
                                 <label for="form_control_1">Nomor Transaksi</label>
                             </div>
@@ -64,13 +65,17 @@
                                 <label for="form_control_1">Lokasi</label>
                             </div>
                         </div>
-                        <div class="col-md-4">
+                        <div class="col-md-6">
                             <div class="form-group form-md-line-input">
                                 <input type="text" class="form-control" id="form_control_1" value="NEW TRANSACTION"
                                        readonly>
                                 <div class="form-control-focus"></div>
                                 <label for="form_control_1">Status</label>
                             </div>
+                        </div>
+                        <div class="col-md-6">
+                            <br>
+                            <span style="color:#ff0000" id="txt_cusReff"></span>
                         </div>
                     </div>
                 </div>
@@ -91,7 +96,7 @@
                 </div>
             </div>
             <div class="portlet-body form">
-                <form class="form-horizontal" action="#" id="submit_form" method="POST">
+                <form class="form-horizontal" action="#" id="submit_form" method="post">
                     <div class="form-wizard">
                         <div class="form-body">
                             <ul class="nav nav-pills nav-justified steps">
@@ -132,54 +137,70 @@
                                 </div>
                                 <div class="tab-pane active" id="tab1">
                                     <!--- TAB 1 -->
-                                    <div class="form-group">
-                                        <label class="control-label col-md-3">NIPNAS
-                                        </label>
-                                        <div class="col-md-4">
-                                            <input type="text" class="form-control" name="nipnas" readonly>
-                                        </div>
-                                    </div>
-                                    <!--<div class="form-group">
-                                        <label class="control-label col-md-3">NIPNAS
-                                        </label>
-                                        <div class="col-md-4">
-                                            <div class="input-group">
-                                                <input type="text" class="form-control required" id="nipsos" name="nipnos" placeholder="Nipnos" />
-                                              <span class="input-group-btn">
-                                                <button class="btn btn-success" type="button" id="btn-lov-nipsos">
-                                                    <i class="fa fa-search"></i>
-                                                </button>
-                                              </span>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="control-label col-md-4">NIPNAS
+                                                </label>
+                                                <div class="col-md-8">
+                                                    <input type="text" class="form-control" name="nipnas" readonly>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label class="control-label col-md-4">Customer Type
+                                                    <span class="required">  * </span>
+                                                </label>
+                                                <div class="col-md-8">
+                                                    <?php echo buatcombo('in_CustomerType',
+                                                        'in_CustomerType',
+                                                        'gparams',
+                                                        'name',
+                                                        'rfid',
+                                                        array('rfen' => 'CUSTOMERTYPE'),
+                                                        'Y',
+                                                        '- Pilih Customer Type -'
+                                                    ); ?>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="control-label col-md-4">Market Segment
+                                                    <span class="required"> * </span>
+                                                </label>
+                                                <div class="col-md-8">
+                                                    <?php echo buatcombo('in_MarketSegment',
+                                                        'in_MarketSegment',
+                                                        'gparams',
+                                                        'name',
+                                                        'rfid',
+                                                        array('rfen' => 'MARKETSEGMENT'),
+                                                        'Y',
+                                                        '- Pilih Market Segment -'
+                                                    ); ?>
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>-->
-                                    <div class="form-group">
-                                        <label class="control-label col-md-3">Customer Type
-                                            <span class="required">  * </span>
-                                        </label>
-                                        <div class="col-md-4">
-                                            <select class="form-control required" required>
-                                                <option>- Pilih Customer -</option>
-                                                <option>Customer : Coorporate 1</option>
-                                                <option>Customer : Private</option>
-                                            </select>
-                                        </div>
-                                    </div>
-
-                                    <div class="form-group">
-                                        <label class="control-label col-md-3">Market Segment
-                                            <span class="required"> * </span>
-                                        </label>
-                                        <div class="col-md-4">
-                                            <select class="form-control required" required>
-                                                <option>- Pilih Market Segment -</option>
-                                                <option>DES</option>
-                                                <option>DBS</option>
-                                            </select>
-                                        </div>
                                     </div>
 
 
+
+                                    <span class="">
+                                         <input type="hidden" value="22" name="groupId" id="groupId">
+                                         <input type="hidden" value="<?php echo $this->session->userdata('user_id'); ?>"
+                                                name="userId" id="userId">
+                                         <input type="hidden"
+                                                value="<?php echo $this->session->userdata('location'); ?>" name="locId"
+                                                id="locId">
+                                         <input type="hidden" value="" name="idTD" id="idTD">
+                                         <input type="hidden" value="" name="idTH" id="idTH">
+                                         <br>
+                                     </span>
+                                    <input type="hidden" name="<?php echo $this->security->get_csrf_token_name(); ?>"
+                                           value="<?php echo
+                                           $this->security->get_csrf_hash(); ?>">
+                                    <input type="hidden" id="custReff" name="custReff" value="">
+                                    <input type="hidden" id="prefix" name="prefix"
+                                           value="<?php echo $this->session->userdata('location'); ?>">
                                 </div>
                                 <div class="tab-pane" id="tab2">
                                     <div class="row">
@@ -188,7 +209,7 @@
                                                 <label class="control-label col-md-4">Title
                                                 </label>
                                                 <div class="col-md-8">
-                                                    <input type="text" class="form-control" name="title"/>
+                                                    <input type="text" class="form-control" name="in_Title"/>
                                                 </div>
 
                                             </div>
@@ -197,7 +218,7 @@
                                                 <label class="control-label col-md-4">First Name
                                                 </label>
                                                 <div class="col-md-8">
-                                                    <input type="text" class="form-control" name="firstname"/>
+                                                    <input type="text" class="form-control" name="in_FirstName"/>
                                                 </div>
 
                                             </div>
@@ -206,7 +227,7 @@
                                                 <label class="control-label col-md-4">Inititals
                                                 </label>
                                                 <div class="col-md-8">
-                                                    <input type="text" class="form-control" name="initials"/>
+                                                    <input type="text" class="form-control" name="in_Initials"/>
                                                 </div>
 
                                             </div>
@@ -215,7 +236,7 @@
                                                 <label class="control-label col-md-4">Last Name
                                                 </label>
                                                 <div class="col-md-8">
-                                                    <input type="text" class="form-control" name="lastname"/>
+                                                    <input type="text" class="form-control" name="in_LastName"/>
                                                 </div>
 
                                             </div>
@@ -225,7 +246,7 @@
                                                     <span class="required"> * </span>
                                                 </label>
                                                 <div class="col-md-8">
-                                                    <input type="text" class="form-control required" name="address"
+                                                    <input type="text" class="form-control required" name="in_AddressName"
                                                            required/>
                                                 </div>
                                             </div>
@@ -235,7 +256,7 @@
 
                                                 </label>
                                                 <div class="col-md-8">
-                                                    <input type="text" class="form-control" name="salutation_name"/>
+                                                    <input type="text" class="form-control" name="in_SalutationName"/>
                                                 </div>
                                             </div>
 
@@ -244,11 +265,15 @@
                                                     <span class="required"> * </span>
                                                 </label>
                                                 <div class="col-md-8">
-                                                    <select class="form-control required" required>
-                                                        <option>- Pilih Market Segment -</option>
-                                                        <option>DES</option>
-                                                        <option>DBS</option>
-                                                    </select>
+                                                    <?php echo buatcombo('in_ContactType',
+                                                        'in_ContactType',
+                                                        'gparams',
+                                                        'name',
+                                                        'rfid',
+                                                        array('rfen' => 'CONTACTTYPE'),
+                                                        'Y',
+                                                        '- Pilih Contact Type -'
+                                                    ); ?>
                                                 </div>
 
 
@@ -259,7 +284,7 @@
                                                     <span class="required"> * </span>
                                                 </label>
                                                 <div class="col-md-8">
-                                                    <input type="text" class="form-control required" name="email"/>
+                                                    <input type="text" class="form-control required" name="in_Email"/>
                                                 </div>
                                             </div>
                                         </div>
@@ -270,7 +295,7 @@
                                                     <span class="required"> * </span>
                                                 </label>
                                                 <div class="col-md-8">
-                                                    <input type="text" class="form-control required" name="street"
+                                                    <input type="text" class="form-control required" name="in_StreetName"
                                                            required/>
                                                 </div>
                                             </div>
@@ -279,7 +304,7 @@
                                                 <label class="control-label col-md-4">Block Name
                                                 </label>
                                                 <div class="col-md-8">
-                                                    <input type="text" class="form-control" name="block_name"/>
+                                                    <input type="text" class="form-control" name="in_BlockName"/>
                                                 </div>
                                             </div>
 
@@ -287,7 +312,7 @@
                                                 <label class="control-label col-md-4">District Name
                                                 </label>
                                                 <div class="col-md-8">
-                                                    <input type="text" class="form-control" name="district"/>
+                                                    <input type="text" class="form-control" name="in_DistrictName"/>
                                                 </div>
                                             </div>
 
@@ -295,7 +320,7 @@
                                                 <label class="control-label col-md-4">City
                                                 </label>
                                                 <div class="col-md-8">
-                                                    <input type="text" class="form-control" name="city"/>
+                                                    <input type="text" class="form-control" name="in_City"/>
                                                 </div>
                                             </div>
 
@@ -304,7 +329,7 @@
 
                                                 </label>
                                                 <div class="col-md-8">
-                                                    <input type="text" class="form-control" name="province"/>
+                                                    <input type="text" class="form-control" name="in_Province"/>
                                                 </div>
                                             </div>
 
@@ -313,7 +338,8 @@
                                                     <span class="required"> * </span>
                                                 </label>
                                                 <div class="col-md-8">
-                                                    <input type="text" class="form-control required" name="zip_code" required/>
+                                                    <input type="text" class="form-control required" name="in_ZipCode"
+                                                           required/>
                                                 </div>
                                             </div>
 
@@ -321,16 +347,17 @@
                                                 <label class="control-label col-md-4">Mobile Number
                                                 </label>
                                                 <div class="col-md-8">
-                                                    <input type="text" class="form-control" name="phone"/>
+                                                    <input type="text" class="form-control" name="in_Phone"/>
                                                 </div>
                                             </div>
 
                                             <div class="form-group">
-                                                <label class="control-label col-md-4">Contact Start Date
+                                                <label class="control-label col-md-4">Contact Start Date (mm/dd/yyyy)
                                                     <span class="required"> * </span>
                                                 </label>
                                                 <div class="col-md-8">
-                                                    <input class="form-control datepicker" type="text" value="" id="datepicker">
+                                                    <input class="form-control datepicker required" type="text" value=""
+                                                           id="datepicker" name="in_ContactStartDate" required>
                                                 </div>
                                             </div>
 
@@ -339,93 +366,54 @@
 
                                 </div>
                                 <div class="tab-pane" id="tab3">
-                                    <h4 class="form-section">Account</h4>
-                                    <div class="form-group">
-                                        <label class="control-label col-md-3">Username:</label>
-                                        <div class="col-md-4">
-                                            <p class="form-control-static" data-display="username"></p>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="control-label col-md-4">Customer Category
+                                                </label>
+                                                <div class="col-md-8">
+                                                    <input type="text" class="form-control" name="in_CustomerCategory">
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label class="control-label col-md-4">Market Group
+                                                </label>
+                                                <div class="col-md-8">
+                                                    <input type="text" class="form-control" name="in_MarketGroup">
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label class="control-label col-md-4">REG ID
+                                                </label>
+                                                <div class="col-md-8">
+                                                    <input type="text" class="form-control" name="in_RegID">
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label class="control-label col-md-4">CC Cluster
+                                                </label>
+                                                <div class="col-md-8">
+                                                    <input type="text" class="form-control" name="in_CCCluster">
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label class="control-label col-md-4">Referensi NIPNAS
+                                                    <span class="required"> * </span>
+                                                </label>
+
+                                                <div class="col-md-8">
+                                                    <input type="text" class="form-control required" name="in_RefNipnas"
+                                                           required>
+                                                </div>
+                                            </div>
                                         </div>
+
                                     </div>
-                                    <div class="form-group">
-                                        <label class="control-label col-md-3">Email:</label>
-                                        <div class="col-md-4">
-                                            <p class="form-control-static" data-display="email"></p>
-                                        </div>
-                                    </div>
-                                    <h4 class="form-section">Profile</h4>
-                                    <div class="form-group">
-                                        <label class="control-label col-md-3">Fullname:</label>
-                                        <div class="col-md-4">
-                                            <p class="form-control-static" data-display="fullname"></p>
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="control-label col-md-3">Gender:</label>
-                                        <div class="col-md-4">
-                                            <p class="form-control-static" data-display="gender"></p>
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="control-label col-md-3">Phone:</label>
-                                        <div class="col-md-4">
-                                            <p class="form-control-static" data-display="phone"></p>
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="control-label col-md-3">Address:</label>
-                                        <div class="col-md-4">
-                                            <p class="form-control-static" data-display="address"></p>
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="control-label col-md-3">City/Town:</label>
-                                        <div class="col-md-4">
-                                            <p class="form-control-static" data-display="city"></p>
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="control-label col-md-3">Country:</label>
-                                        <div class="col-md-4">
-                                            <p class="form-control-static" data-display="country"></p>
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="control-label col-md-3">Remarks:</label>
-                                        <div class="col-md-4">
-                                            <p class="form-control-static" data-display="remarks"></p>
-                                        </div>
-                                    </div>
-                                    <h4 class="form-section">Billing</h4>
-                                    <div class="form-group">
-                                        <label class="control-label col-md-3">Card Holder Name:</label>
-                                        <div class="col-md-4">
-                                            <p class="form-control-static" data-display="card_name"></p>
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="control-label col-md-3">Card Number:</label>
-                                        <div class="col-md-4">
-                                            <p class="form-control-static" data-display="card_number"></p>
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="control-label col-md-3">CVC:</label>
-                                        <div class="col-md-4">
-                                            <p class="form-control-static" data-display="card_cvc"></p>
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="control-label col-md-3">Expiration:</label>
-                                        <div class="col-md-4">
-                                            <p class="form-control-static" data-display="card_expiry_date"></p>
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="control-label col-md-3">Payment Options:</label>
-                                        <div class="col-md-4">
-                                            <p class="form-control-static" data-display="payment[]"></p>
-                                        </div>
-                                    </div>
+
                                 </div>
                             </div>
                         </div>
@@ -437,9 +425,9 @@
                                     <a href="javascript:;" class="btn btn-outline green button-next"> Continue
                                         <i class="fa fa-angle-right"></i>
                                     </a>
-                                    <a href="javascript:;" class="btn green button-submit"> Submit
+                                    <button type="submit" class="btn green button-submit"> Submit
                                         <i class="fa fa-check"></i>
-                                    </a>
+                                    </button>
                                 </div>
                             </div>
                         </div>
@@ -449,13 +437,12 @@
         </div>
     </div>
 </div>
-
 <script>
     $(document).ready(function () {
         $('#btn-lov-nipsos').on('click', function () {
             modal_lov_nipsos_show('nipsos', 'customer_name');
         });
-    })
+    });
 
     var FormWizard = function () {
         return {
@@ -465,21 +452,6 @@
                     return;
                 }
 
-                function format(state) {
-                    if (!state.id) return state.text; // optgroup
-                    return "<img class='flag' src='../../assets/global/img/flags/" + state.id.toLowerCase() + ".png'/>&nbsp;&nbsp;" + state.text;
-                }
-
-                $("#country_list").select2({
-                    placeholder: "Select",
-                    allowClear: true,
-                    formatResult: format,
-                    width: 'auto',
-                    formatSelection: format,
-                    escapeMarkup: function (m) {
-                        return m;
-                    }
-                });
 
                 var form = $('#submit_form');
                 var error = $('.alert-danger', form);
@@ -540,32 +512,19 @@
                     submitHandler: function (form) {
                         success.show();
                         error.hide();
+                        /*if (form.valid() == true) {
+                            alert('tes');
+                            return false;
+                            form.submit();
+                        }*/
+
+
                         //add here some ajax code to submit your form or just call form.submit() if you want to submit the form without ajax
+
                     }
 
                 });
 
-                var displayConfirm = function () {
-                    $('#tab4 .form-control-static', form).each(function () {
-                        var input = $('[name="' + $(this).attr("data-display") + '"]', form);
-                        if (input.is(":radio")) {
-                            input = $('[name="' + $(this).attr("data-display") + '"]:checked', form);
-                        }
-                        if (input.is(":text") || input.is("textarea")) {
-                            $(this).html(input.val());
-                        } else if (input.is("select")) {
-                            $(this).html(input.find('option:selected').text());
-                        } else if (input.is(":radio") && input.is(":checked")) {
-                            $(this).html(input.attr("data-title"));
-                        } else if ($(this).attr("data-display") == 'payment[]') {
-                            var payment = [];
-                            $('[name="payment[]"]:checked', form).each(function () {
-                                payment.push($(this).attr('data-title'));
-                            });
-                            $(this).html(payment.join("<br>"));
-                        }
-                    });
-                }
 
                 var handleTitle = function (tab, navigation, index) {
                     var total = navigation.find('li').length;
@@ -588,13 +547,60 @@
                     if (current >= total) {
                         $('#form_wizard_1').find('.button-next').hide();
                         $('#form_wizard_1').find('.button-submit').show();
-                        displayConfirm();
                     } else {
                         $('#form_wizard_1').find('.button-next').show();
                         $('#form_wizard_1').find('.button-submit').hide();
+
+                        var custReff = $('#custReff').val();
+                        var prefix = $('#prefix').val();
+                        var userId = $('#userId').val();
+                        var idTD = $('#idTD').val();
+                        var idTH = $('#idTH').val();
+                        var groupId = $('#groupId').val();
+
+                        if (!idTH) {
+                            $.ajax({
+                                url: "<?php echo site_url('customer_cont/initTransaksi'); ?>",
+                                type: "POST",
+                                dataType: "json",
+                                data: {
+                                    custReff: custReff,
+                                    prefix: prefix
+                                },
+                                success: function (data) {
+                                    $("#trx_no").val(data.txt_noTransaksi);
+                                    $("#idTD").val(data.idTD);
+                                    $("#idTH").val(data.idTH);
+                                },
+                                error: function (xhr, status, error) {
+                                    swal({title: "Error!", text: xhr.responseText, html: true, type: "error"});
+                                }
+                            });
+                        }
+
+                        if (!custReff) {
+                            $.ajax({
+                                url: "<?php echo site_url('customer_cont/genCustRef'); ?>",
+                                type: "POST",
+                                dataType: "json",
+                                data: {
+                                    custReff: custReff,
+                                    prefix: prefix
+                                },
+                                success: function (data) {
+                                    $("#txt_cusReff").html(data.strMessage);
+                                    $("#custReff").val(data.txt_custRef);
+                                },
+                                error: function (xhr, status, error) {
+                                    swal({title: "Error!", text: xhr.responseText, html: true, type: "error"});
+                                }
+                            });
+
+                        }
+
                     }
                     //App.scrollTo($('.page-title'));
-                }
+                };
 
                 // default form wizard
                 $('#form_wizard_1').bootstrapWizard({
@@ -639,13 +645,12 @@
 
                 $('#form_wizard_1').find('.button-previous').hide();
                 $('#form_wizard_1 .button-submit').click(function () {
-                    alert('Finished! Hope you like it :)');
+                    /* if(form.valid() == true){
+                     form.submit();
+                     }*/
                 }).hide();
 
-                //apply validation on select2 dropdown value change, this only needed for chosen dropdown integration.
-                $('#country_list', form).change(function () {
-                    form.validate().element($(this)); //revalidate the chosen dropdown value and show error or success message for the input
-                });
+
             }
 
         };
@@ -654,7 +659,34 @@
 
     jQuery(document).ready(function () {
         FormWizard.init();
+
+        $('#submit_form').on('submit', (function (e) {
+            // Stop form from submitting normally
+            e.preventDefault();
+
+            var postData = $('#submit_form').serialize(),
+                url = "<?php echo site_url('Customer_cont/createCustomer');?>";
+
+            // Send the data using post
+            $.ajax({
+                url: url,
+                type: "POST",
+                dataType: "json",
+                data: postData,
+                success: function (data) {
+                    swal('',data.strMessage);
+                },
+                error: function (xhr, status, error) {
+                    swal({title: "Error!", text: xhr.responseText, html: true, type: "error"});
+                }
+            });
+        }));
+
     });
 
-    $('.datepicker').datepicker();
+    $('.datepicker').datepicker({
+        todayHighlight: true,
+        format: "mm/dd/yyyy",
+        autoclose: true
+    });
 </script>
