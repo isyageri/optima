@@ -58,7 +58,7 @@
             mtype: "POST",
             colModel: [
                 {label: 'ID', name: 'schema_id', key: true, width: 5, sorttype: 'number', editable: true, hidden: true},
-                {label: 'Nama schema',name: 'schema_name',width: 250, align: "left",editable: true,
+                {label: 'Nama schema',name: 'schema_id',width: 250, align: "left",editable: true,
                     editoptions: {
                         size: 30,
                         maxlength:32

@@ -98,7 +98,7 @@ class Fastel_controller {
         $ci->load->model('schema/fastel');
         $table = $ci->fastel;
 
-        $schema_id = getVarClean('schema_id', 'int', 0);
+        $schema_id = getVarClean('schema_id', 'str', '');
         $p_cust_id = getVarClean('p_cust_id', 'str', '');
         $p_cust_account = getVarClean('p_cust_account', 'str', '');
 
@@ -125,7 +125,10 @@ class Fastel_controller {
             $fastelfile = fopen("./application/third_party/upload_fastel/".$filedata['file_name'], "r") or die("Unable to open file!");
             // Output one line until end-of-file
             $loop = 0;
+            $batch_id = $table->getNextBatchID();
+
             while(!feof($fastelfile)) {
+
                 $row = fgets($fastelfile);
                 $arr_row = explode("|", $row);
 
@@ -134,17 +137,21 @@ class Fastel_controller {
                     $datainsert[$loop]['p_cust_id'] = $p_cust_id;
                     $datainsert[$loop]['p_cust_account'] = $p_cust_account;
                     $datainsert[$loop]['flag'] = null;
+                    $datainsert[$loop]['batch_id'] = $batch_id;
                     $datainsert[$loop]['schema_id'] = $schema_id;
 
                     $loop++;
                 }
 
             }
+
             fclose($fastelfile);
 
             foreach($datainsert as $rec) {
                 $table->db->insert( $table->table, $rec );
             }
+
+            $table->insertPeriodeExpense($batch_id);
 
             $data['message'] = 'Upload data success';
             $data['success'] = true;

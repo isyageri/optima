@@ -11,7 +11,7 @@ class Sc_schema extends Abstract_model {
     public $alias           = "sc";
 
     public $fields          = array(
-                                'schema_id'      => array('pkey' => true, 'type' => 'int', 'nullable' => true, 'unique' => true, 'display' => 'ID Schema'),
+                                'schema_id'      => array('pkey' => true, 'type' => 'str', 'nullable' => true, 'unique' => true, 'display' => 'ID Schema'),
                                 'schema_name'    => array('nullable' => true, 'type' => 'str', 'unique' => false, 'display' => 'Schema Name'),
                                 'customer_ref'   => array('nullable' => true, 'type' => 'str', 'unique' => false, 'display' => 'Customer Ref'),
                                 'account_num'    => array('nullable' => true, 'type' => 'str', 'unique' => false, 'display' => 'Account Num'),
@@ -41,7 +41,7 @@ class Sc_schema extends Abstract_model {
             // example :
             //$this->record['created_date'] = date('Y-m-d');
             //$this->record['updated_date'] = date('Y-m-d');
-            $this->record[$this->pkey] = $this->generate_id($this->table);
+            $this->record[$this->pkey] = $this->getSchemaID();
             if(empty($this->record['end_dat'])) {
                 $this->db->set('end_dat', NULL);
             }else {
@@ -74,17 +74,36 @@ class Sc_schema extends Abstract_model {
                     sum(b.LAINNYA) LAINNYA,
                     sum(b.ON_NET) TAGIHAN_ON_NET ,
                     sum(b.NON_ON_NET) TAGIHAN_NON_ON_NET
-                    from CC_DATAREF_02_NETEZA a,
+                    from CC_DATAREF_BATCH a,
                     V_TAGIHAN_AGREGAT_M4L b
                     where A.P_NOTEL = B.ND
                     and a.P_CUST_ACCOUNT = '".$item['account_num']."'
-                    and to_number(b.PERIODE) between ".date('m', strtotime('-3 month'))." and ".date('m')."
+                    and to_number(b.PERIODE) between ".date('Ym', strtotime('-3 month'))." and ".date('Ym')."
                     group by b.PERIODE
                     order by b.PERIODE";
 
         $query = $this->db->query($sql);
         $row = $query->result_array();
         return $row;
+    }
+
+
+    function getSchemaID() {
+
+        $format_serial = 'SCM-DATE-XXXX';
+
+        $sql = "select max(to_number(substr(schema_id, nvl(length(schema_id),0)-4 + 1 ))) total from sc_schema
+                    where substr(schema_id,5,8) = '".date('Ymd')."'";
+        $query = $this->db->query($sql);
+        $row = $query->row_array();
+        if(empty($row)) {
+            $row = array('total' => 0);
+        }
+
+        $format_serial = str_replace('XXXX', str_pad(($row['total']+1), 4, '0', STR_PAD_LEFT), $format_serial);
+        $format_serial = str_replace('DATE', date('Ymd'), $format_serial);
+
+        return $format_serial;
     }
 
 }

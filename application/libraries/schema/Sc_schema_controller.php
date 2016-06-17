@@ -327,7 +327,7 @@ class Sc_schema_controller {
         $ci->load->model('schema/sc_schema');
         $table = $ci->sc_schema;
 
-        $schema_id = getVarClean('schema_id','int',0);
+        $schema_id = getVarClean('schema_id','str','');
 
         $result = array();
         $periode = array();
@@ -353,15 +353,17 @@ class Sc_schema_controller {
         if(count($periode) == 0) {
             $max_month = 3;
             for($i = $max_month; $i >= 0; $i--) {
-                $periode[$i] = getMonth((int)date('m', strtotime('-'.$i.' month')));
+                $periode[date('m', strtotime('-'.$i.' month'))] = getMonth((int)date('m', strtotime('-'.$i.' month')));
             }
         }
 
         $html  = '<table class="table">';
         $html .= '<tr>';
         $html .= '<th>Keterangan</th>';
-        foreach($periode as $pr) {
-            $html .= '<th>'.$pr.'</th>';
+        foreach($periode as $key => $pr) {
+            $year = substr($key, 0, 4);
+            $month = (int)substr($key,4);
+            $html .= '<th><a href="javascript:;" onclick="showDetailTrend(\''.$year.'\',\''.$month.'\')">'.$pr.'</th>';
         }
         $html .= '</tr>';
 
@@ -385,7 +387,7 @@ class Sc_schema_controller {
         $ci->load->model('schema/sc_schema');
         $table = $ci->sc_schema;
 
-        $schema_id = getVarClean('schema_id','int',0);
+        $schema_id = getVarClean('schema_id','str','');
 
         $result = array();
         $periode = array();

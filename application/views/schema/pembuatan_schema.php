@@ -224,7 +224,7 @@
                                         <div class="col-md-12">
                                             <button type="button" class="btn green" id="btn-excel-trend-info">
                                                 Download Excel
-                                                <i class="fa file-excel-o"></i>
+                                                <i class="fa fa-file-excel-o"></i>
                                             </button>
                                             <div class="space-4"></div>
                                         </div>
@@ -332,6 +332,7 @@
 <?php $this->load->view('lov/lov_nipnas2.php'); ?>
 <?php $this->load->view('lov/lov_account.php'); ?>
 <?php $this->load->view('lov/lov_upload_fastel.php'); ?>
+<?php $this->load->view('lov/lov_trendinfo_detail.php'); ?>
 
 <script src="<?php echo base_url(); ?>assets/global/plugins/select2/js/select2.full.min.js" type="text/javascript"></script>
 <script src="<?php echo base_url(); ?>assets/global/plugins/jquery-validation/js/jquery.validate.min.js" type="text/javascript"></script>
@@ -544,7 +545,18 @@
 </script>
 
 <script>
+    function showDetailTrend(an_fact, per_fact) {
+        var schema_id = $("#schema_id").val();
+
+        modal_lov_trendinfodetail_show(schema_id, an_fact,per_fact);
+    }
+</script>
+
+<script>
   $(document).ready(function(){
+
+
+
       $('#btn-lov-nipnas').on('click',function() {
           modal_lov_nipnas_show('nipnas','customer_name');
       });
@@ -614,6 +626,8 @@
           url += "<?php echo $this->security->get_csrf_token_name(); ?>=<?php echo $this->security->get_csrf_hash(); ?>";
           window.location = url;
       });
+
+      //$('#form_wizard_1').bootstrapWizard('show',2);
   })
 
 

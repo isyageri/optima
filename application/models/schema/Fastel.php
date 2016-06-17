@@ -52,6 +52,41 @@ class Fastel extends Abstract_model {
         return true;
     }
 
+
+    function getNextBatchID() {
+        $sql = "select nvl(max(batch_id),0)+1 as total from cc_dataref_batch";
+        $query = $this->db->query($sql);
+        $row = $query->row_array();
+
+        return (int)$row['total'];
+    }
+
+    function insertPeriodeExpense($batch_id) {
+        $ci =& get_instance();
+        $userinfo = $ci->ion_auth->user()->row();
+
+        $result = '';
+        $periode = array();
+        $max_month = 3;
+        for($i = 0; $i <= $max_month; $i++) {
+            $periode[] = date('Ym', strtotime('-'.$i.' month'));
+        }
+        $string_periode = join("#", $periode);
+
+        $sql = "  BEGIN ".
+               "  insert_period_expense(:params1, :params2, :params3, :params4); END;";
+
+        $stmt = oci_parse($this->db->conn_id,$sql);
+
+        oci_bind_by_name($stmt,':params1', $string_periode, 255);
+        oci_bind_by_name($stmt,':params2', $userinfo->username, 255);
+        oci_bind_by_name($stmt,':params3', $batch_id, 16);
+        oci_bind_by_name($stmt,':params4', $result, 255);
+
+        oci_execute($stmt);
+
+    }
+
 }
 
 /* End of file Users.php */
