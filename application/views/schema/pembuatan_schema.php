@@ -264,27 +264,13 @@
                                       </div>
                                       <div class="space-4"></div>
                                       <div class="row">
-                                        <div class="col-md-12">
-                                            <h4>Skema Pembayaran</h4>
-                                            <table class="table">
-                                                <tr>
-                                                  <th>Method</th>
-                                                  <th>Model</th>
-                                                  <th>Trafik Trend</th>
-                                                  <th>Discount</th>
-                                                  <th>Action</th>
-                                                </tr>
-                                                <tr>
-                                                  <td>&nbsp;</td>
-                                                  <td>&nbsp;</td>
-                                                  <td>&nbsp;</td>
-                                                  <td>&nbsp;</td>
-                                                  <td>&nbsp;</td>
-                                                </tr>
-                                            </table>
-                                        </div>
-                                      </div>
+                                          <div class="col-md-12">
+                                              <h4> Skema Pembayaran </h4>
+                                          </div>
+                                          <div class="col-md-12" id="table-skema-pembayaran">
 
+                                          </div>
+                                      </div>
                                  </div>
                              </div>
                          </div>
@@ -535,8 +521,6 @@
 <script>
   $(document).ready(function(){
 
-
-
       $('#btn-lov-nipnas').on('click',function() {
           modal_lov_nipnas_show('nipnas','customer_name');
       });
@@ -615,11 +599,15 @@
 
   function onNextTab(tab, navigation, index) {
       if(index == 1 && !skemaAdded) {
-        return addSkema(tab, navigation, index);
+          return addSkema(tab, navigation, index);
       }
 
       if(index == 2) {
-        loadTableTrendInfo();
+          loadTableTrendInfo();
+      }
+
+      if(index == 3) {
+          loadTableSkemaPembayaran();
       }
   }
 
@@ -639,6 +627,24 @@
           }
       });
   }
+
+
+  function loadTableSkemaPembayaran() {
+
+      $.ajax({
+          url: "<?php echo WS_JQGRID.'schema.sc_schema_controller/getTableSkemaPembayaran'; ?>",
+          type: "POST",
+          success: function (data) {
+              $('#table-skema-pembayaran').html(data);
+          },
+          error: function (xhr, status, error) {
+              swal({title: "Error!", text: xhr.responseText, html: true, type: "error"});
+              return false;
+          }
+      });
+
+  }
+
 
   function addSkema(tab, navigation, index) {
 

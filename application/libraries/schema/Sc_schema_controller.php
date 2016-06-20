@@ -445,6 +445,46 @@ class Sc_schema_controller {
         exit;
     }
 
+
+    public function getTableSkemaPembayaran() {
+
+        $ci = & get_instance();
+        $ci->load->model('schema/sc_schema');
+        $table = $ci->sc_schema;
+
+        $result = array();
+        $periode = array();
+
+        $items = $table->getListSkemaPembayaran();
+
+        $html  = '<table class="table">';
+        $html .= '<tr>';
+        $html .= '<th>No</th>';
+        $html .= '<th>Nama Skema</th>';
+        $html .= '<th>Diskon (%)</th>';
+        $html .= '<th>Keterangan Diskon</th>';
+        $html .= '<th>Action</th>';
+        $html .= '</tr>';
+
+        $no = 1;
+        foreach($items as $item) {
+            $html .= '<tr>';
+            $html .= '<td>'.$no++.'</td>';
+            $html .= '<td>'.$item['schem_name'].'</td>';
+            $html .= '<td>'.$item['disc_pct'].'</td>';
+            $html .= '<td>'.$item['disc_description'].'</td>';
+            $html .= '<td>
+                            <button type ="button" class="btn btn-primary"> Simulasi </button>
+                            <button type ="button" class="btn btn-success"> Pilih </button>
+                      </td>';
+            $html .= '</tr>';
+        }
+
+        $html .= '</table>';
+        echo $html;
+        exit;
+    }
+
 }
 
 /* End of file Scema_controller.php */

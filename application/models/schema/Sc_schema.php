@@ -106,6 +106,14 @@ class Sc_schema extends Abstract_model {
         return $format_serial;
     }
 
+
+    function getListSkemaPembayaran() {
+
+        $sql = "select * from v_business_schem_list";
+        $query = $this->db->query($sql);
+        $row = $query->result_array();
+        return $row;
+    }
 }
 
 /* End of file Users.php */
