@@ -37,13 +37,6 @@
   					<div class="col-md-3">
   						<div class="col-md-12">
   							<div class="form-group form-md-line-input">
-  								<input type="text" class="form-control" readonly value="SCHM-001">
-  								<div class="form-control-focus"> </div>
-  								<label for="form_control_1">Schema ID</label>
-  							</div>
-  						</div>
-  						<div class="col-md-12">
-  							<div class="form-group form-md-line-input">
   								<input type="text" class="form-control" readonly value="<?php echo date('d-m-Y');?>">
   								<div class="form-control-focus"> </div>
   								<label for="form_control_1">Tanggal Transaksi</label>
@@ -53,20 +46,7 @@
   					<div class="col-md-1">
   					</div>
   					<div class="col-md-8">
-  						<div class="col-md-6">
-  							<div class="form-group form-md-line-input">
-  								<input type="text" class="form-control" readonly value="<?php echo strtoupper($this->session->userdata('username')); ?>">
-  								<div class="form-control-focus"> </div>
-  								<label for="form_control_1">Petugas</label>
-  							</div>
-  						</div>
-  						<div class="col-md-6">
-  							<div class="form-group form-md-line-input">
-  								<input type="text" class="form-control" readonly value="TELKOM">
-  								<div class="form-control-focus"> </div>
-  								<label for="form_control_1">Lokasi</label>
-  							</div>
-  						</div>
+
   						<div class="col-md-4">
   							<div class="form-group form-md-line-input">
   								<input type="text" class="form-control" readonly value="NEW TRANSACTION">
