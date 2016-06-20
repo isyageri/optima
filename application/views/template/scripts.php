@@ -168,7 +168,7 @@
                     swal({title: "Error!", text: xhr.responseText, html: true, type: "error"});
                 }
             });
-    }, 5000); //5 detik
+    }, 60000); //10 detik
 
     function viewAllMsg(){
         loadContentWithParams('message.list_message',{});
