@@ -280,8 +280,8 @@ class Sc_schema_controller {
 
         $data = array('rows' => array(), 'page' => 1, 'records' => 0, 'total' => 1, 'success' => false, 'message' => '');
 
-        $jsonItems = getVarClean('items', 'str', '');
-        $items = jsonDecode($jsonItems);
+        $items = getVarClean('items', 'str', '');
+       // $items = jsonDecode($jsonItems);
 
         try{
             $table->db->trans_begin(); //Begin Trans
@@ -296,7 +296,7 @@ class Sc_schema_controller {
                     $total++;
                 }
             }else{
-                $items = (int) $items;
+                $items = $items;
                 if (empty($items)){
                     throw new Exception('Empty parameter');
                 };
@@ -474,7 +474,7 @@ class Sc_schema_controller {
             $html .= '<td>'.$item['disc_pct'].'</td>';
             $html .= '<td>'.$item['disc_description'].'</td>';
             $html .= '<td>
-                            <button type ="button" class="btn btn-primary"> Simulasi </button>
+                            <button type ="button" class="btn btn-primary" onclick="showSimulasi(\''.$item['discount_code'].'\')"> Simulasi </button>
                             <button type ="button" class="btn btn-success"> Pilih </button>
                       </td>';
             $html .= '</tr>';
@@ -485,6 +485,64 @@ class Sc_schema_controller {
         exit;
     }
 
+    public function getSimulasiTable() {
+
+        $ci = & get_instance();
+        $ci->load->model('schema/sc_schema');
+        $table = $ci->sc_schema;
+
+        $schema_id = getVarClean('schema_id','str','');
+        $avg_on_net = getVarClean('avg_on_net','int',0);
+        $on_net = getVarClean('on_net','int',0);
+        $non_on_net = getVarClean('non_on_net','int',0);
+        $discount_code = getVarClean('discount_code','int',0);
+
+        $item = $table->get($schema_id);
+
+        $I_ACCOUNT_NUM = $item['account_num'];
+        $I_BILL_PERIOD = date('Ym');
+        $I_AVG_ON_NET = $avg_on_net;
+        $I_ON_NET = $on_net;
+        $I_NON_ON_NET = $non_on_net;
+        $I_DISCOUNT_CODE = $discount_code;
+
+        $curs = oci_new_cursor($table->db->conn_id);
+        $sql = "begin P_M4L_CALCULATE_ADJ_ONLY_C( :I_ACCOUNT_NUM, :I_BILL_PERIOD, :I_AVG_ON_NET, :I_ON_NET, :I_NON_ON_NET, :I_DISCOUNT_CODE, :O_CURSOR ); end;";
+        $stid = oci_parse($table->db->conn_id, $sql);
+
+        oci_bind_by_name($stid, ':I_ACCOUNT_NUM', $I_ACCOUNT_NUM, 255);
+        oci_bind_by_name($stid, ':I_BILL_PERIOD', $I_BILL_PERIOD, 255);
+        oci_bind_by_name($stid, ':I_AVG_ON_NET', $I_AVG_ON_NET, 32);
+        oci_bind_by_name($stid, ':I_ON_NET', $I_ON_NET, 32);
+        oci_bind_by_name($stid, ':I_NON_ON_NET', $I_NON_ON_NET, 32);
+        oci_bind_by_name($stid, ':I_DISCOUNT_CODE', $I_DISCOUNT_CODE, 255);
+
+        oci_bind_by_name($stid, ":O_CURSOR", $curs, -1, OCI_B_CURSOR);
+
+        oci_execute($stid);
+        oci_execute($curs, OCI_DEFAULT);
+        oci_fetch_all($curs, $data, null, null, OCI_FETCHSTATEMENT_BY_ROW);
+
+        $html = '<table class="table table-bordered">';
+        $html .= '<tr>';
+        $html .= '<th>No</th>';
+        $html .= '<th>Keterangan</th>';
+        $html .= '<th>Value</th>';
+        $html .= '</tr>';
+
+        $no = 1;
+        foreach($data as $item) {
+            $html .= '<tr>';
+            $html .= '<td>'.$no++.'</td>';
+            $html .= '<td>'.$item['V1'].'</td>';
+            $html .= '<td align="right">'.$item['V2'].'</td>';
+            $html .= '</tr>';
+        }
+        $html .= '</table>';
+
+        echo $html;
+        exit;
+    }
 }
 
 /* End of file Scema_controller.php */

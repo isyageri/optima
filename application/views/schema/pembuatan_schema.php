@@ -299,6 +299,7 @@
 <?php $this->load->view('lov/lov_account.php'); ?>
 <?php $this->load->view('lov/lov_upload_fastel.php'); ?>
 <?php $this->load->view('lov/lov_trendinfo_detail.php'); ?>
+<?php $this->load->view('lov/lov_simulasi.php'); ?>
 
 <script src="<?php echo base_url(); ?>assets/global/plugins/select2/js/select2.full.min.js" type="text/javascript"></script>
 <script src="<?php echo base_url(); ?>assets/global/plugins/jquery-validation/js/jquery.validate.min.js" type="text/javascript"></script>
@@ -515,6 +516,10 @@
         var schema_id = $("#schema_id").val();
 
         modal_lov_trendinfodetail_show(schema_id, an_fact,per_fact);
+    }
+
+    function showSimulasi(discount_code) {
+        modal_lov_simulasi_show(discount_code);
     }
 </script>
 

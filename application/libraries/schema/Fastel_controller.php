@@ -131,16 +131,16 @@ class Fastel_controller {
 
                 $row = fgets($fastelfile);
 
-                if(count($arr_row) == 2) {
-                    $datainsert[$loop]['p_notel'] = $row;
-                    $datainsert[$loop]['p_cust_id'] = $p_cust_id;
-                    $datainsert[$loop]['p_cust_account'] = $p_cust_account;
-                    $datainsert[$loop]['flag'] = null;
-                    $datainsert[$loop]['batch_id'] = $batch_id;
-                    $datainsert[$loop]['schema_id'] = $schema_id;
 
-                    $loop++;
-                }
+                $datainsert[$loop]['p_notel'] = $row;
+                $datainsert[$loop]['p_cust_id'] = $p_cust_id;
+                $datainsert[$loop]['p_cust_account'] = $p_cust_account;
+                $datainsert[$loop]['flag'] = null;
+                $datainsert[$loop]['batch_id'] = $batch_id;
+                $datainsert[$loop]['schema_id'] = $schema_id;
+
+                $loop++;
+
 
             }
 

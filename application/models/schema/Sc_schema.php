@@ -88,6 +88,7 @@ class Sc_schema extends Abstract_model {
     }
 
 
+
     function getSchemaID() {
 
         $format_serial = 'SCM-DATE-XXXX';
