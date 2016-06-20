@@ -44,8 +44,8 @@
                  height=""/>
             <div class="login-content">
                 <h1>New Optima Login Area</h1>
-                <p> PT. Telekomunikasi Indonesia, Tbk (Telkom) is set to prioritize its agenda in supporting the
-                    creative economy ecosystem based on digital technology.</p>
+                <!--<p> PT. Telekomunikasi Indonesia, Tbk (Telkom) is set to prioritize its agenda in supporting the
+                    creative economy ecosystem based on digital technology.</p>-->
                 <?php //echo form_open("auth/login", array('class' => 'login-form')); ?>
                 <form class="login-form" name="login_form" id="login_form" method="post">
                     <div id="infoMessage"></div>
