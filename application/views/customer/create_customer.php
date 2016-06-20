@@ -674,7 +674,14 @@
                 dataType: "json",
                 data: postData,
                 success: function (data) {
-                    swal('',data.strMessage);
+                    if(data.statusCode == "T"){
+                        swal('',data.strMessage);
+                        $('#submit_form')[0].reset();
+                        // Redirect
+                    }else{
+                        swal('',data.strMessage);
+                    }
+
                 },
                 error: function (xhr, status, error) {
                     swal({title: "Error!", text: xhr.responseText, html: true, type: "error"});

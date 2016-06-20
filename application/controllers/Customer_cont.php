@@ -26,11 +26,15 @@ class Customer_cont extends CI_Controller
 
     public function initTransaksi()
     {
+        //$locId = (int)$this->input->post('locId');
+        $locId = (int)10;
+        $userId = (int)$this->input->post('userId');
+        $group_id = (int)23;
         $pck_name = "SINCUSTOMER.inisialisasicreatecustomer";
         $pIN = array(
-            'pIn_userId' => 1,
-            'pIn_locId' => 1,
-            'pIn_groupId' => 23
+            'pIn_userId' => $userId,
+            'pIn_locId' => $locId,
+            'pIn_groupId' => $group_id
         );
         $conn_db = "corecrm";
         $out = $this->M_helper->exec_cursor($pck_name, $pIN, $conn_db);
@@ -100,15 +104,70 @@ class Customer_cont extends CI_Controller
             'pIn_trxId' => $idTH
         );
 
+        // Untuk pck kedua
+        $pIN2 = array(
+            'pIn_custCustomerRef' => $custReff,
+            'pIn_custCustomerTypeId' => $in_CustomerType,
+            'pIn_custCompanyName' => '',
+            'pIn_custTaxExemptRef' => '',
+            'pIn_custParentRef' => '',
+            'pIn_custProviderId' => NULL,
+            'pIn_custCustomerPassword' => '',
+            'pIn_custBillPeriod' => NULL,
+            'pIn_custBillPeriodUnits' => '',
+            'pIn_custNextBillDTM' => NULL,
+            'pIn_custStatementFreq' => NULL,
+            'pIn_custVatRegNum' => '',
+            'pIn_custPermissionId' => 1,
+            'pIn_custSummaryContactSeq' => NULL,
+            'pIn_custSummaryCurrencyCode' => '',
+            'pIn_custSummaryStyleId' => NULL,
+            'pIn_custConcatenateBillsBoo' => 'F',
+            'pIn_custSummaryBillHandCode' => '',
+            'pIn_custInvoicingCoId' => 2,
+            'pIn_custMarketSegmentId' => $in_MarketSegment,
+            'pIn_custDomainId' => NULL,
+            'pIn_custTemplateRefCustBoo' => 'F',
+            'pIn_cntContactTypeId' => $in_ContactType,
+            'pIn_cntContactNotes' => '',
+            'pIn_cntTitle' => $in_Title,
+            'pIn_cntFirstName' => $in_FirstName,
+            'pIn_cntInitials' => $in_Initials,
+            'pIn_cntNamePostfix' => '',
+            'pIn_cntLastName' => $in_LastName,
+            'pIn_cntAddressName' => $in_AddressName,
+            'pIn_cntSalutationName' => $in_SalutationName,
+            'pIn_cntLanguageId' => '1',
+            'pIn_addrAddresses' => $in_StreetName .'|'.$in_BlockName .'|'.$in_DistrictName.'|'.$in_City.'|'.$in_Province,
+            'pIn_addrPostCode' => $in_ZipCode,
+            'pIn_addrCountryId' => 501,
+            'pIn_addrAddressFormatId' => 1,
+            'pIn_addrJCode' => '',
+            'pIn_addrUstinCityBoo' => '',
+            'pIn_cntdetStartDate' => $in_ContactStartDate,
+            'pIn_cntdetDayTimeTel' => '',
+            'pIn_cntdetDayTimeExt' => '',
+            'pIn_cntdetEveningTel' => '',
+            'pIn_cntdetEveningExt' => '',
+            'pIn_cntdetFaxTel' => '',
+            'pIn_cntdetMobileTel' => $in_Phone,
+            'pIn_cntdetEdi' => '',
+            'pIn_cntdetEmail' => $in_Email,
+            'pIn_cntdetPosition' => '',
+            'pIn_cntdetDepartment' => '',
+            'pIn_custattrValue' => $custAttr
+        );
+
         // Exec Create Customer SIN_CORE
         $conn_db = "corecrm";
         $out = $this->M_helper->exec_cursor($pck_name, $pIN, $conn_db);
 
-        // Exec Create Customer TOSDB
-        $conn_db2 = "tosdb";
-        $pck_name2 = "SINCUSTOMER.createCustomer";
-        $out = $this->M_helper->exec_cursor($pck_name2, $pIN, $conn_db2);
-
+        if($out['statusCode'][0] == "T"){
+            // Exec Create Customer TOSDB
+            $conn_db2 = "tosdb";
+            $pck_name2 = "SINCUSTOMER.createCustomer";
+            $out = $this->M_helper->exec_cursor($pck_name2, $pIN2, $conn_db2);
+        }
 
         echo json_encode($out);
     }

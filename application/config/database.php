@@ -180,17 +180,17 @@ $db['tosdb']['hostname'] ='
 (DESCRIPTION=
     (ADDRESS=
       (PROTOCOL=TCP)
-      (HOST=10.60.185.108)
+      (HOST=10.62.160.135)
       (PORT=1521)
     )
     (CONNECT_DATA=
-      (SID=TIBSNP)
+      (SID=tibsdev)
     )
 )';
 
 $db['tosdb']['username'] = 'tosdb';
 $db['tosdb']['password'] = 'tosdb';
-$db['tosdb']['database'] = 'tibs_nonpots';
+$db['tosdb']['database'] = '';
 $db['tosdb']['dbdriver'] = 'oci8';
 $db['tosdb']['dbprefix'] = '';
 $db['tosdb']['pconnect'] = FALSE;
