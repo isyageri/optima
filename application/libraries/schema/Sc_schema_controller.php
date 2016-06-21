@@ -455,7 +455,10 @@ class Sc_schema_controller {
         $result = array();
         $periode = array();
 
-        $items = $table->getListSkemaPembayaran();
+        $schema_id = getVarClean('schema_id','str','');
+
+        $discount_code = $table->getDiscountCodeAccBusinessSchem($schema_id);
+        $items = $table->getListSkemaPembayaran($discount_code);
 
         $html  = '<table class="table">';
         $html .= '<tr>';
@@ -463,7 +466,7 @@ class Sc_schema_controller {
         $html .= '<th>Nama Skema</th>';
         $html .= '<th>Diskon (%)</th>';
         $html .= '<th>Keterangan Diskon</th>';
-        $html .= '<th>Action</th>';
+        $html .= '<th>'.(empty($discount_code) ? "Action" : "Status").'</th>';
         $html .= '</tr>';
 
         $no = 1;
@@ -473,10 +476,14 @@ class Sc_schema_controller {
             $html .= '<td>'.$item['schem_name'].'</td>';
             $html .= '<td>'.$item['disc_pct'].'</td>';
             $html .= '<td>'.$item['disc_description'].'</td>';
-            $html .= '<td>
-                            <button type ="button" class="btn btn-primary" onclick="showSimulasi(\''.$item['discount_code'].'\')"> Simulasi </button>
-                            <button type ="button" class="btn btn-success"> Pilih </button>
-                      </td>';
+            if(empty($discount_code)) {
+                $html .= '<td>
+                                <button type ="button" class="btn btn-sm btn-primary" onclick="showSimulasi(\''.$item['discount_code'].'\')"> Simulasi </button>
+                                <button type ="button" class="btn btn-sm btn-success pilih-simulasi" onclick="pilihSimulasi(\''.$item['discount_code'].'\','.$item['p_business_schem_id'].')"> Pilih </button>
+                          </td>';
+            }else {
+                $html .= '<td> Dipilih </td>';
+            }
             $html .= '</tr>';
         }
 
@@ -613,6 +620,55 @@ class Sc_schema_controller {
         $html .= '</body>';
         $html .= '</html>';
         echo $html;
+        exit;
+    }
+
+
+
+    public function pilihSimulasiPembayaran() {
+
+        $ci = & get_instance();
+        $ci->load->model('schema/sc_schema');
+        $table = $ci->sc_schema;
+
+        $schema_id = getVarClean('schema_id','str','');
+        $discount_code = getVarClean('discount_code','str','');
+        $p_business_schem_id = getVarClean('p_business_schem_id','int',0);
+
+        $m4l_acc_schema_id = $table->getAccSchemaID($schema_id);
+        $data = array('success' => false, 'message' => '');
+        try{
+
+            if(empty($m4l_acc_schema_id)) throw new Exception('Data belum tersedia, tidak dapat dipilih');
+
+            $item_schema = $table->get($schema_id);
+            $record = array(
+                'M4L_ACC_BUSINESS_SCHEM_ID' => $table->generate_id('M4L_ACC_BUSINESS_SCHEM'),
+                'M4L_ACC_SCHEMA_ID' => $m4l_acc_schema_id,
+                'P_BUSINESS_SCHEM_ID' => $p_business_schem_id,
+                'DISCOUNT_CODE' => $discount_code,
+                'CREATED_BY' => $ci->ion_auth->user()->row()->username,
+                'UPDATED_BY' => $ci->ion_auth->user()->row()->username
+            );
+
+            $table->db->set($record);
+            $table->db->set('VALID_FROM', "to_date('".$item_schema['start_dat']."','yyyy-mm-dd')",false);
+            if(empty($item['end_dat']))
+                $table->db->set('VALID_TO', NULL);
+            else
+                $table->db->set('VALID_TO', "to_date('".$item_schema['end_dat']."','yyyy-mm-dd')",false);
+            $table->db->set('CREATION_DATE','sysdate', false);
+            $table->db->set('UPDATED_DATE','sysdate', false);
+
+            $table->db->insert('M4L_ACC_BUSINESS_SCHEM');
+
+            $data['success'] = true;
+            $data['message'] = 'Data pembayaran dengan discount code : '.$discount_code.' telah dipilih';
+        }catch (Exception $e) {
+            $data['message'] = $e->getMessage();
+        }
+
+        echo json_encode($data);
         exit;
     }
 }

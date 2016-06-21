@@ -108,12 +108,43 @@ class Sc_schema extends Abstract_model {
     }
 
 
-    function getListSkemaPembayaran() {
+    function getListSkemaPembayaran($discount_code = "") {
 
         $sql = "select * from v_business_schem_list";
+        if(!empty($discount_code))
+            $sql .= " where discount_code = '".$discount_code."'";
         $query = $this->db->query($sql);
         $row = $query->result_array();
         return $row;
+    }
+
+
+    function getAccSchemaID($schema_id) {
+
+        $sql = "select b.m4l_acc_schema_id from sc_schema a
+                left join  m4l_acc_schema b on a.account_num = b.account_num
+                where schema_id = '".$schema_id."'";
+
+        $query = $this->db->query($sql);
+        $row = $query->row_array();
+
+        if(empty($row)) return null;
+
+        return $row['m4l_acc_schema_id'];
+    }
+
+    function getDiscountCodeAccBusinessSchem($schema_id) {
+        $m4l_acc_schema_id = $this->getAccSchemaID($schema_id);
+
+        if(empty($m4l_acc_schema_id)) return null;
+
+        $sql = "select discount_code from m4l_acc_business_schem
+                    where m4l_acc_schema_id = ".$m4l_acc_schema_id;
+
+        $query = $this->db->query($sql);
+        $row = $query->row_array();
+
+        return $row['discount_code'];
     }
 }
 

@@ -482,7 +482,9 @@
                 onPrevious: function (tab, navigation, index) {
                     success.hide();
                     error.hide();
-
+                    if(index == 1) {
+                      responsive_jqgrid('#grid-table-fastel', '#grid-pager-fastel');
+                    }
                     handleTitle(tab, navigation, index);
                 },
                 onTabShow: function (tab, navigation, index) {
@@ -520,6 +522,50 @@
 
     function showSimulasi(discount_code) {
         modal_lov_simulasi_show(discount_code);
+    }
+
+    function pilihSimulasi(discount_code, p_business_schem_id) {
+
+        var schema_id = $("#schema_id").val();
+
+        swal({
+            title: "Konfirmasi",
+            text: "Apakah Anda yakin memilih skema pembayaran?",
+            type: "info",
+            showCancelButton: true,
+            showLoaderOnConfirm: true,
+            confirmButtonText: "Ya, Pilih",
+            confirmButtonColor: "#27a4b0",
+            cancelButtonText: "Cancel",
+            closeOnConfirm: false,
+            closeOnCancel: true,
+            html: true
+        },
+        function(isConfirm){
+            if(isConfirm) {
+                $.ajax({
+                    url: "<?php echo WS_JQGRID.'schema.sc_schema_controller/pilihSimulasiPembayaran'; ?>",
+                    type: "POST",
+                    dataType: "json",
+                    data: { schema_id: schema_id,
+                            discount_code: discount_code,
+                            p_business_schem_id : p_business_schem_id },
+                    success: function (data) {
+                        if(data.success) {
+                            loadTableSkemaPembayaran();
+                            swal('Berhasil',data.message,'success');
+                        }else {
+                            swal('Info',data.message,'info');
+                        }
+                    },
+                    error: function (xhr, status, error) {
+                        swal({title: "Error!", text: xhr.responseText, html: true, type: "error"});
+                    }
+                });
+            }else {
+                return false;
+            }
+        });
     }
 </script>
 
@@ -607,6 +653,10 @@
           return addSkema(tab, navigation, index);
       }
 
+      if(index == 1) {
+          responsive_jqgrid('#grid-table-fastel', '#grid-pager-fastel');
+      }
+
       if(index == 2) {
           loadTableTrendInfo();
       }
@@ -635,10 +685,12 @@
 
 
   function loadTableSkemaPembayaran() {
+      var schema_id = $("#schema_id").val();
 
       $.ajax({
           url: "<?php echo WS_JQGRID.'schema.sc_schema_controller/getTableSkemaPembayaran'; ?>",
           type: "POST",
+          data: { schema_id: schema_id },
           success: function (data) {
               $('#table-skema-pembayaran').html(data);
           },
@@ -647,7 +699,6 @@
               return false;
           }
       });
-
   }
 
 
@@ -762,7 +813,7 @@
                 if(response.success == false) {
                     swal({title: 'Attention', text: response.message, html: true, type: "warning"});
                 }
-                responsive_jqgrid('#grid-table-fastel', '#grid-pager-fastel')
+                responsive_jqgrid('#grid-table-fastel', '#grid-pager-fastel');
             },
             //memanggil controller jqgrid yang ada di controller crud
             editurl: '<?php echo WS_JQGRID."schema.fastel_controller/crud"; ?>',
