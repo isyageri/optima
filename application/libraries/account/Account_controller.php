@@ -81,6 +81,91 @@ class Account_controller {
 
         return $data;
     }
+	
+	
+	function excelAccountList() {
+		$sidx = getVarClean('sidx','str','a.account_num');
+        $sord = getVarClean('sord','str','asc');
+        $customer_ref = getVarClean('customer_ref','str','');
+		
+		try {
+
+            $ci = & get_instance();
+            $ci->load->model('account/account');
+            $table = $ci->account;
+
+            $req_param = array(
+                "sort_by" => $sidx,
+                "sord" => $sord,
+                "limit" => null,
+                "field" => null,
+                "where" => null,
+                "where_in" => null,
+                "where_not_in" => null,
+                "search" => getVarClean('_search'),
+                "search_field" => getVarClean('searchField'),
+                "search_operator" => getVarClean('searchOper'),
+                "search_str" => getVarClean('searchString')
+            );
+
+            // Filter Table
+            $req_param['where'] = array(
+                "b.account_status = 'OK'",
+                "c.billing_contact_seq = e.contact_seq",
+                "e.address_seq = f.address_seq",
+                "c.end_dat is null",
+                "e.end_dat is null",
+                "(a.account_num like '90%' or a.account_num like '80%')"
+            );
+
+            if(!empty($customer_ref)) {
+                $req_param['where'][] = "a.customer_ref = '".$customer_ref."'";
+            }
+
+            $table->setJQGridParam($req_param);
+            $items = $table->getAll();
+            
+			startExcel(date("dmy").'_ACCOUNT.xls');
+			echo '<html>';
+			echo '<head><title>Account</title></head>';
+			echo '<body>';
+			echo '<table border="1">';
+			echo '<tr>';
+				echo '<th>No</th>';
+				echo '<th>Account Num</th>';
+				echo '<th>Action</th>';
+				echo '<th>Account Status</th>';
+				echo '<th>Currency</th>';
+				echo '<th>Email</th>';
+				echo '<th>NPWP</th>';
+				echo '<th>Address</th>';
+			echo '</tr>';
+			$i = 1;
+			foreach($items as $item) {
+				echo '<tr>';
+				echo '<td>'.$i++.'</td>';
+				echo '<td>'.$item['account_num'].'</td>';
+				echo '<td>'.$item['action'].'</td>';
+				echo '<td>'.$item['account_name'].'</td>';
+				echo '<td>'.$item['account_status'].'</td>';
+				echo '<td>'.$item['currency_code'].'</td>';
+				echo '<td>'.$item['email'].'</td>';
+				echo '<td>'.$item['npwp'].'</td>';
+				echo '<td>'.$item['address'].'</td>';
+				echo '</tr>';
+			}
+			echo '</table>';
+			echo '</body>';
+			echo '</html>';
+			exit;
+
+        }catch (Exception $e) {
+            echo $e->getMessage();
+			exit;
+        }
+
+		
+	}
 
 
     function readLov() {
