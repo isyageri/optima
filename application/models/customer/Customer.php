@@ -6,7 +6,7 @@
  */
 class Customer extends Abstract_model {
 
-    public $table           = "customer";
+    public $table           = "GENEVA_ADMIN_NPOTS.customer";
     public $pkey            = "customer_ref";
     public $alias           = "cust";
 
@@ -20,15 +20,15 @@ class Customer extends Abstract_model {
                                     ct.first_name,
                                     '-' as account_num,
                                     '-' as account_name";
-    public $fromClause      = "customer cust
-                                    INNER JOIN contact ct ON cust.customer_ref = ct.customer_ref
+    public $fromClause      = "GENEVA_ADMIN_NPOTS.customer cust
+                                    INNER JOIN GENEVA_ADMIN_NPOTS.contact ct ON cust.customer_ref = ct.customer_ref
                                     AND cust.customer_contact_seq = ct.contact_seq";
 
     public $refs            = array();
 
     function __construct() {
         parent::__construct();
-        $this->db = $this->load->database('ccpbb', TRUE);
+        $this->db = $this->load->database('tosdb', TRUE);
         $this->db->_escape_char = ' ';
 
         $this->db_crm = $this->load->database('corecrm', TRUE);
