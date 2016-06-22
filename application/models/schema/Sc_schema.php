@@ -62,6 +62,23 @@ class Sc_schema extends Abstract_model {
         return true;
     }
 
+    function getTrendHeader($schema_id) {
+
+        $sql = "select b.trend_code, a.avg_usage_onnet, a.avg_usage_non_onnet
+                from m4l_acc_schema_reg a
+                left join p_trend_increase b on a.p_trend_increase_id = b.p_trend_increase_id
+                left join sc_schema c on a.account_num = c.account_num
+                where c.schema_id = '".$schema_id."'";
+
+        $query = $this->db->query($sql);
+        $row = $query->row_array();
+
+        if($row == null) return array('trend_code' => '',
+                                      'avg_usage_onnet' => '',
+                                      'avg_usage_non_onnet' => '');
+        return $row;
+    }
+
     function getTrendInfo($schema_id) {
 
         $item = $this->get($schema_id);

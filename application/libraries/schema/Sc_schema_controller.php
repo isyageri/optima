@@ -357,7 +357,29 @@ class Sc_schema_controller {
             }
         }
 
-        $html  = '<table class="table">';
+        $itemheader = $table->getTrendHeader($schema_id);
+
+        $html  = '<div class="col-md-12">
+                      <div class="form-group form-md-line-input form-md-floating-label">
+                            <label class="col-md-3 control-label" for="trend"><b>Trend:</b></label>
+                            <div class="col-md-4">
+                                <input type="text" id="trend-name" class="form-control" value="'.$itemheader['trend_code'].'">
+                            </div>
+                      </div>
+                      <div class="form-group form-md-line-input form-md-floating-label">
+                            <label class="col-md-3 control-label" for="trend"><b>Avg On Net:</b></label>
+                            <div class="col-md-4">
+                                <input type="text" id="trend-avg-usage-onnet" class="form-control" value="'.$itemheader['avg_usage_onnet'].'">
+                            </div>
+                      </div>
+                      <div class="form-group form-md-line-input form-md-floating-label">
+                            <label class="col-md-3 control-label" for="trend"><b>Avg Non On Net:</b></label>
+                            <div class="col-md-4">
+                                <input type="text" id="trend-avg-usage-nononnet" class="form-control" value="'.$itemheader['avg_usage_non_onnet'].'">
+                            </div>
+                      </div>
+                  </div>';
+        $html .= '<table class="table">';
         $html .= '<tr>';
         $html .= '<th>Keterangan</th>';
         foreach($periode as $key => $pr) {
@@ -417,7 +439,11 @@ class Sc_schema_controller {
             }
         }
 
-        $html  = '<table border="1">';
+        $itemheader = $table->getTrendHeader($schema_id);
+        $html  = '<b>Trend</b> : '.$itemheader['trend_code'].'<br>
+                  <b>Avg On Net</b> : '.$itemheader['avg_usage_onnet'].'<br>
+                  <b>Avg Non On Net</b> : '.$itemheader['avg_usage_non_onnet'].'<br><br>';
+        $html .= '<table border="1">';
         $html .= '<tr>';
         $html .= '<th>Keterangan</th>';
         foreach($periode as $pr) {

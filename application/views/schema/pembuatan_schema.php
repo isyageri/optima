@@ -191,16 +191,6 @@
                                  <div class="tab-pane" id="tab3">
                                       <div class="space-4"></div>
                                       <div class="row">
-                                          <div class="col-md-12">
-                                              <div class="form-group form-md-line-input form-md-floating-label">
-                                                    <label class="col-md-3 control-label" for="trend">Trend:</label>
-                                                    <div class="col-md-4">
-                                                        <input type="text" name="trend" id="trend" class="form-control">
-                                                    </div>
-                                              </div>
-                                          </div>
-                                      </div>
-                                      <div class="row">
                                         <div class="col-md-12">
                                             <button type="button" class="btn green" id="btn-excel-trend-info">
                                                 Download Excel
