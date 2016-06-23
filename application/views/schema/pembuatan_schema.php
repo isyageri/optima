@@ -637,7 +637,7 @@
       $('#form-data-contract').on('submit', (function (e) {
         // Stop form from submitting normally
         e.preventDefault();
-alert('test');
+
         var postData = $('#form-data-contract').serializeArray(),
         url = "<?php echo WS_JQGRID.'schema.sc_schema_controller/createDataContract'; ?>";
 
