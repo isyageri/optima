@@ -290,6 +290,7 @@
 <?php $this->load->view('lov/lov_upload_fastel.php'); ?>
 <?php $this->load->view('lov/lov_trendinfo_detail.php'); ?>
 <?php $this->load->view('lov/lov_simulasi.php'); ?>
+<?php $this->load->view('lov/lov_contract.php'); ?>
 
 <script src="<?php echo base_url(); ?>assets/global/plugins/select2/js/select2.full.min.js" type="text/javascript"></script>
 <script src="<?php echo base_url(); ?>assets/global/plugins/jquery-validation/js/jquery.validate.min.js" type="text/javascript"></script>
@@ -517,8 +518,9 @@
     function pilihSimulasi(discount_code, p_business_schem_id) {
 
         var schema_id = $("#schema_id").val();
+        modal_lov_contract_show(schema_id, discount_code, p_business_schem_id);
 
-        swal({
+        /*swal({
             title: "Konfirmasi",
             text: "Apakah Anda yakin memilih skema pembayaran?",
             type: "info",
@@ -555,7 +557,7 @@
             }else {
                 return false;
             }
-        });
+        });*/
     }
 </script>
 
@@ -625,14 +627,38 @@
           return false;
       }));
 
-
       $('#btn-excel-trend-info').on('click',function(e) {
           var url = "<?php echo WS_JQGRID.'schema.sc_schema_controller/excelTableTrendInfo?schema_id='; ?>" + $("#schema_id").val() + '&';
           url += "<?php echo $this->security->get_csrf_token_name(); ?>=<?php echo $this->security->get_csrf_hash(); ?>";
           window.location = url;
       });
 
-      //$('#form_wizard_1').bootstrapWizard('show',2);
+
+      $('#form-data-contract').on('submit', (function (e) {
+        // Stop form from submitting normally
+        e.preventDefault();
+alert('test');
+        var postData = $('#form-data-contract').serializeArray(),
+        url = "<?php echo WS_JQGRID.'schema.sc_schema_controller/createDataContract'; ?>";
+
+        // Send the data using post
+        $.ajax({
+          url: url,
+          type: "POST",
+          dataType: "json",
+          data: postData,
+          success: function (response) {
+              if(response.success) {
+                swal({title: 'Info', text: response.message, html: true, type: "info"});
+                modal_lov_contract_hide();
+                loadTableSkemaPembayaran();
+              }else{
+                  swal({title: 'Attention', text: response.message, html: true, type: "warning"});
+              }
+          }
+        });
+
+      }));
   })
 
 

@@ -649,9 +649,78 @@ class Sc_schema_controller {
         exit;
     }
 
+    public function createDataContract() {
+        $ci = & get_instance();
+        $ci->load->model('schema/schema_contract');
+        $table = $ci->schema_contract;
 
+        $schema_id = getVarClean('schema_id','str','');
+        $nomor1 = getVarClean('nomor1','str','');
+        $nomor2 = getVarClean('nomor2','str','');
+        $hari = getVarClean('hari','str','');
+        $tanggal = getVarClean('tanggal','str','');
+        $bulan = getVarClean('bulan','str','');
+        $tahun = getVarClean('tahun','str','');
+        $lokasi = getVarClean('lokasi','str','');
+        $alamat_t = getVarClean('alamat_t','str','');
+        $alamat_c = getVarClean('alamat_c','str','');
+        $nama_t = getVarClean('nama_t','str','');
+        $nama_c = getVarClean('nama_c','str','');
+        $rek_no = getVarClean('rek_no','str','');
+        $rek_name = getVarClean('rek_name','str','');
+        $jabatan_t = getVarClean('jabatan_t','str','');
+        $jabatan_c = getVarClean('jabatan_c','str','');
+        $nama_pt = getVarClean('nama_pt','str','');
+        $alamat_inv = getVarClean('alamat_inv','str','');
+        $program = getVarClean('program','int',0);
 
-    public function pilihSimulasiPembayaran() {
+        $data = array('success' => false, 'message' => '');
+
+        try{
+
+            $items = [
+                'nomor1' => $nomor1,
+                'nomor2' => $nomor2,
+                'hari' => $hari,
+                'tanggal' => $tanggal,
+                'bulan' => $bulan,
+                'tahun' => $tahun,
+                'lokasi' => $lokasi,
+                'alamat_t' => $alamat_t,
+                'alamat_c' => $alamat_c,
+                'nama_t' => $nama_t,
+                'nama_c' => $nama_c,
+                'rek_no' => $rek_no,
+                'rek_name' => $rek_name,
+                'jabatan_t' => $jabatan_t,
+                'jabatan_c' => $jabatan_c,
+                'nama_pt' => $nama_pt,
+                'alamat_inv' => $alamat_inv,
+                'program' => $program
+            ];
+
+            $this->pilihSimulasiPembayaran($table);
+
+            $table->actionType = 'CREATE';
+            $table->db->trans_begin(); //Begin Trans
+                $table->setRecord($items);
+                $table->db->set('schema_id',$schema_id);
+                $table->create();
+
+            $table->db->trans_commit(); //Commit Trans
+
+            $data['success'] = true;
+            $data['message'] = 'Data berhasil ditambahkan';
+        }catch (Exception $e) {
+            $table->db->trans_rollback(); //Rollback Trans
+            $data['message'] = $e->getMessage();
+        }
+        
+        echo json_encode($data);
+        exit;
+    }
+
+    public function pilihSimulasiPembayaran($tSchemaContract = '') {
 
         $ci = & get_instance();
         $ci->load->model('schema/sc_schema');
@@ -688,14 +757,29 @@ class Sc_schema_controller {
 
             $table->db->insert('M4L_ACC_BUSINESS_SCHEM');
 
+
+            $sqlupdate_schema = "UPDATE sc_schema SET M4L_ACC_SCHEMA_ID = ".$m4l_acc_schema_id."
+                                    WHERE schema_id = ".$schema_id;
+
+            $table->db->query($sqlupdate_schema);
+
             $data['success'] = true;
             $data['message'] = 'Data pembayaran dengan discount code : '.$discount_code.' telah dipilih';
         }catch (Exception $e) {
+            if(!empty($tSchemaContract)) {
+                $tSchemaContract->db->trans_rollback(); //Rollback Trans
+            }
             $data['message'] = $e->getMessage();
+            echo json_encode($data);
+            exit;
         }
 
-        echo json_encode($data);
-        exit;
+        if(empty($tSchemaContract)) {
+            echo json_encode($data);
+            exit;
+        }else {
+            return true;
+        }
     }
 }
 
