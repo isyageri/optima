@@ -72,6 +72,28 @@ class Users extends Abstract_model {
         return true;
     }
 
+
+    function getLocation($username) {
+        $sql = "SELECT a.ID, a.CODE
+                FROM LOCATION a
+                WHERE a.ID IN (SELECT u.ID FROM USERS u WHERE u.username = '$username')
+                OR a.PARENT IN (SELECT u.ID FROM USERS u WHERE u.username = '$username')
+                ORDER BY a.ID";
+
+        $query = $this->db->query($sql);
+        $result = $query->result_array();
+
+        return $result;
+    }
+
+    function getLocationById($location) {
+        $sql = "SELECT * FROM LOCATION WHERE ID = ".$location;
+        $query = $this->db->query($sql);
+        $result = $query->row_array();
+
+        return $result;
+    }
+
 }
 
 /* End of file Users.php */

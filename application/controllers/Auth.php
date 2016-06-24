@@ -27,30 +27,39 @@ class Auth extends CI_Controller
     function login_act()
     {
         $remember = (bool)$this->input->post('remember');
+        $location = $this->input->post('lokasi');
 
-        if ($this->ion_auth->login($this->input->post('username'), $this->input->post('password'), $remember)) {
-            //if the login is successful
-            //redirect them back to the home page
+        try {
 
-            $data['success'] = true;
-            $data['message'] = "Login success";
-            echo json_encode($data);
+            if(empty($location)) throw new Exception('Location is empty');
 
-        } else {
-            // if the login was un-successful
-            // redirect them back to the login page
+            if ($this->ion_auth->login($this->input->post('username'), $this->input->post('password'), $remember)) {
+                
+                $ci = & get_instance();
+                $ci->load->model('administration/users');
+                $item_location = $ci->users->getLocationById($location);
+
+                $this->session->set_userdata('location_id', $location);
+                $this->session->set_userdata('location_name', $item_location['code']);
+
+                $data['success'] = true;
+                $data['message'] = "Login success";
+                echo json_encode($data);    
+            }else {
+                throw new Exception($this->ion_auth->errors());
+            }
+
+        }catch(Exception $e) {
+
             $alert = '<div class="alert alert-danger display">
-									<button class="close" data-close="alert"></button>
-									<span>' . $this->ion_auth->errors() . ' </span>
-				</div>';
+                                    <button class="close" data-close="alert"></button>
+                                    <span>' . $e->getMessage(). ' </span>
+                </div>';
 
             $data['success'] = false;
             $data['message'] = $alert;
             echo json_encode($data);
-           // $this->session->set_flashdata('message', $alert);
-            //redirect('auth/index', 'refresh'); // use redirects instead of loading views for compatibility with MY_Controller libraries
         }
-
 
     }
 

@@ -158,4 +158,17 @@ class Home extends CI_Controller
         echo $html;
     }
 
+    function html_select_options_location() {
+        $ci = & get_instance();
+        $ci->load->model('administration/users');
+        $table = $ci->users;
+
+        $username = getVarClean('username','str','desc');
+        $items = $table->getLocation($username);
+
+        foreach($items as $item) {
+            echo '<option value="'.$item['id'].'"> '.$item['code'].' </option>';
+        }
+        exit;
+    }
 }

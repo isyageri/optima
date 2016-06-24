@@ -43,9 +43,13 @@ $(document).ready(function() {
         event.preventDefault();
         var username = $("#username").val();
         var password = $("#password").val();
-        if(!username || !password){
+
+        var lokasi = $("#lokasi").val();
+
+        if(!username || !password || !lokasi){
             $('#username').addClass('has-error');
             $('#password').addClass('has-error');
+            $('#lokasi').addClass('has-error');
             return false;
         }
 
@@ -53,7 +57,7 @@ $(document).ready(function() {
             type: "POST",
             url: site+"auth/login_act",
             dataType: 'json',
-            data: {username: username, password: password, csrf_token:token_val},
+            data: {username: username, password: password, lokasi: lokasi, csrf_token:token_val},
             cache :false,
             success: function(data) {
                 if (data.success){

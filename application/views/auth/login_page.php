@@ -64,6 +64,13 @@
                         </div>
                     </div>
                     <div class="row">
+                        <label class="col-md-3 control-label" for="opt-lokasi">Pilih Lokasi</label>
+                        <div class="col-xs-9">
+                            <select id="lokasi" required="" name="lokasi" class="form-control col-xs-12">
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row">
                         <div class="col-sm-4">
                             <label class="rememberme mt-checkbox mt-checkbox-outline">
                                 <input type="checkbox" name="remember" value="1"/> Remember me
@@ -186,6 +193,17 @@
             duration: 8000
         }
     );
+
+    $("#username").change(function() {
+        $.ajax({
+            url: "<?php echo base_url().'home/html_select_options_location'; ?>",
+            type: "POST",
+            data: { username: $(this).val() },
+            success: function (data) {
+                $('#lokasi').html(data);
+            }
+        });    
+    });
 
     $(document).ready(function () {
         // Ajax setup csrf token.
