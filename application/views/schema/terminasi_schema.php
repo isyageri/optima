@@ -19,7 +19,6 @@
 		<table id="grid-table-schema"></table>
 		<div id="grid-pager-schema"></div>
 	</div>
-	<button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">Open Modal</button>
 	<div id="myModal" class="modal fade" role="dialog">
 		<div class="modal-dialog">
 		
