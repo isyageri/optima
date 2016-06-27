@@ -24,7 +24,7 @@
 		
 			<!-- Modal content-->
 			<div class="modal-content">
-			<div class="modal-header">
+			<div class="modal-header page-content-wrapper">
 				<button type="button" class="close" data-dismiss="modal">&times;</button>
 				<h4 class="modal-title">Data Detail</h4>
 			</div>
@@ -39,7 +39,7 @@
 		</div>
 	</div>
 </div>
-
+<?php $this->load->view('schema/detail_terminate_schema.php'); ?>
 <script>
 	jQuery(function($) {
         var grid_selector = "#grid-table-schema";
@@ -59,12 +59,12 @@
                 {label: 'Disc Description', name: 'disc_description', hidden: false},                
                 {label: 'Detail | Terminate', name: 'dt', hidden: false,
 					formatter:	function(cellvalue, options, rowobject){
-						return '<i class="btn green" id="lov-button-detail" onclick="BB()" data-toggle="modal" data-target="#myModal">Details</i><i class="btn green">Terminate</i>';
+						return '<i class="btn green btn-xs" id="lov-button-detail" data-toggle="modal" data-target="#detailModal">Details</i><i class="btn green btn-xs">Terminate</i>';
 					}
 				}
             ],
             height: '100%',
-            autowidth: false,
+            autowidth: true,
             viewrecords: true,
             rowNum: 10,
             rowList: [10,20,50],
@@ -223,14 +223,6 @@
         )
     });
 	
-	function BB(){
-		
-	}
-	$('#lov-button-detail').on("click",function()
-	{
-		swal('info','yayayaya');
-	});
-		
     function serializeJSON(postdata) {
         var items;
         if(postdata.oper != 'del') {
