@@ -10,24 +10,11 @@
             <i class="fa fa-circle"></i>
         </li>
         <li>
-            <span>List Skema</span>
+            <span>Info Skema</span>
         </li>
     </ul>
 </div>
 <!-- end breadcrumb -->
-<div class="space-4"></div>
-<div class="row">
-    <div class="col-md-2">
-        <button class="btn btn-success btn-block" id="add-schema">
-            Tambah Skema
-        </button>
-    </div>
-    <div class="col-md-2">
-        <button class="btn btn-primary btn-block" id="edit-schema">
-            Edit Skema
-        </button>
-    </div>
-</div>
 <div class="space-4"></div>
 <div class="row">
     <div class="col-md-12">
@@ -36,36 +23,44 @@
     </div>
 </div>
 
+<?php $this->load->view('lov/lov_detail_skema.php'); ?>
+<?php $this->load->view('lov/lov_info_fastel.php'); ?>
+<?php $this->load->view('lov/lov_info_billing.php'); ?>
+
 <script>
+    function showDetailSkema(discount_code) {
+        modal_lov_detail_skema_show(discount_code);
+    }
 
-    jQuery(function($) {
-        $("#add-schema").on('click',function() {
-            loadContentWithParams('schema.pembuatan_schema',{});
-        });
+    function showDetailFastel(schema_id) {
+        modal_lov_info_fastel_show(schema_id);
+    }
 
-        $("#edit-schema").on('click',function() {
-            loadContentWithParams('schema.pembuatan_schema',{});
-        });
-    });
+    function showDetailBilling(account_num) {
+        modal_lov_info_billing_show(account_num);
+    }
+</script>
 
+<script>
     jQuery(function($) {
         var grid_selector = "#grid-table";
         var pager_selector = "#grid-pager";
 
         jQuery("#grid-table").jqGrid({
-            url: '<?php echo WS_JQGRID."schema.sc_schema_controller/crud"; ?>',
+            url: '<?php echo WS_JQGRID."schema.info_schema_controller/crud"; ?>',
             datatype: "json",
             mtype: "POST",
             colModel: [
                 {label: 'ID', name: 'schema_id', key: true, width: 5, sorttype: 'number', editable: true, hidden: true},
-                {label: 'Nama schema',name: 'schema_id',width: 250, align: "left",editable: true,
+
+                {label: 'NIPNAS',name: 'customer_ref',width: 150, align: "left",editable: true,
                     editoptions: {
                         size: 30,
                         maxlength:32
                     },
                     editrules: {required: true}
                 },
-                {label: 'NIPNAS',name: 'customer_ref',width: 150, align: "left",editable: true,
+                {label: 'Nama Customer',name: 'customer_name',width: 220, align: "left",editable: true,
                     editoptions: {
                         size: 30,
                         maxlength:32
@@ -79,19 +74,60 @@
                     },
                     editrules: {required: true}
                 },
-                {label: 'Tgl Mulai',name: 'start_dat',width: 150, align: "center",editable: true,
+                {label: 'Nama Account',name: 'account_name',width: 250, align: "left",editable: true,
                     editoptions: {
                         size: 30,
                         maxlength:32
                     },
                     editrules: {required: true}
                 },
-                {label: 'Tgl Berakhir',name: 'end_dat',width: 150, align: "center",editable: true,
+                {label: 'Alamat Customer',name: 'customer_address',width: 150, align: "left",editable: true,
                     editoptions: {
                         size: 30,
                         maxlength:32
                     },
                     editrules: {required: true}
+                },
+                {label: 'Nama schema',name: 'schema_id',width: 250, align: "left",editable: true,
+                    editoptions: {
+                        size: 30,
+                        maxlength:32
+                    },
+                    editrules: {required: true}
+                },
+                {label: 'Jenis schema',name: 'jenis_skema',width: 300, align: "left",editable: true,
+                    editoptions: {
+                        size: 30,
+                        maxlength:32
+                    },
+                    editrules: {required: true}
+                },
+                {label: 'Tgl Pembuatan Skema', name: 'created_date', width: 150, align: "center", editable: false},
+                {label: 'Tgl Berlaku Skema', name: 'start_dat', width: 150, align: "center", editable: false},
+                {label: 'Tgl Berakhir Skema', name: 'end_dat', width: 150, align: "center", editable: false},
+                {label: 'Detail Skema', name: 'discount_id', width: 150,  sortable:false, search:false, align:"center", editable: false,
+                    formatter: function(cellvalue, options, rowObject) {
+                        //var  theID = rowObject['role_permissions_id'];
+                        return '<button type="button" class="btn btn-xs btn-default" onclick="showDetailSkema(\''+cellvalue+'\')"> Detail Skema </button>';
+                    }
+                },
+                {label: 'Fastel', name: 'schema_id', width: 150,  sortable:false, search:false, align:"center", editable: false,
+                    formatter: function(cellvalue, options, rowObject) {
+                        //var  theID = rowObject['role_permissions_id'];
+                        return '<button type="button" class="btn btn-xs btn-success" onclick="showDetailFastel(\''+cellvalue+'\')"> Fastel </button>';
+                    }
+                },
+                {label: 'Diskon Skema', name: 'schema_id', width: 150,  sortable:false, search:false, align:"center", editable: false,
+                    formatter: function(cellvalue, options, rowObject) {
+                        //var  theID = rowObject['role_permissions_id'];
+                        return '<button type="button" class="btn btn-xs btn-warning"> Diskon Skema </button>';
+                    }
+                },
+                {label: 'Info Billing', name: 'account_num', width: 150,  sortable:false, search:false, align:"center", editable: false,
+                    formatter: function(cellvalue, options, rowObject) {
+                        //var  theID = rowObject['role_permissions_id'];
+                        return '<button type="button" class="btn btn-xs purple" onclick="showDetailBilling(\''+cellvalue+'\')"> Info Billing </button>';
+                    }
                 }
             ],
             height: '100%',
@@ -102,7 +138,7 @@
             rownumbers: true, // show row numbers
             rownumWidth: 35, // the width of the row numbers columns
             altRows: true,
-            shrinkToFit: true,
+            shrinkToFit: false,
             multiboxonly: true,
             onSelectRow: function (rowid) {
                 /*do something when selected*/
@@ -119,10 +155,11 @@
                 if(response.success == false) {
                     swal({title: 'Attention', text: response.message, html: true, type: "warning"});
                 }
+
             },
             //memanggil controller jqgrid yang ada di controller crud
-            editurl: '<?php echo WS_JQGRID."schema.sc_schema_controller/crud"; ?>',
-            caption: "List Skema"
+            editurl: '<?php echo WS_JQGRID."schema.info_schema_controller/crud"; ?>',
+            caption: "Info Skema"
 
         });
 
@@ -132,14 +169,14 @@
                 editicon: 'fa fa-pencil blue bigger-120',
                 add: false,
                 addicon: 'fa fa-plus-circle purple bigger-120',
-                del: true,
+                del: false,
                 delicon: 'fa fa-trash-o red bigger-120',
                 search: true,
                 searchicon: 'fa fa-search orange bigger-120',
                 refresh: true,
                 afterRefresh: function () {
                     // some code here
-                    jQuery("#detailsPlaceholder").hide();
+
                 },
 
                 refreshicon: 'fa fa-refresh green bigger-120',

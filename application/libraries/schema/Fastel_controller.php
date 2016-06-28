@@ -71,6 +71,50 @@ class Fastel_controller {
         return $data;
     }
 
+
+    function readLov() {
+
+        $start = getVarClean('current','int',0);
+        $limit = getVarClean('rowCount','int',5);
+
+        $sort = getVarClean('sort','str','p_notel');
+        $dir  = getVarClean('dir','str','asc');
+
+        $searchPhrase = getVarClean('searchPhrase', 'str', '');
+        $schema_id = getVarClean('schema_id','str','');
+
+        $data = array('rows' => array(), 'success' => false, 'message' => '', 'current' => $start, 'rowCount' => $limit, 'total' => 0);
+
+        try {
+
+            $ci = & get_instance();
+            $ci->load->model('schema/fastel');
+            $table = $ci->fastel;
+
+            if(!empty($searchPhrase)) {
+                $table->setCriteria("(upper(p_notel) ".$table->likeOperator." upper('%".$searchPhrase."%')");
+            }
+
+            if(!empty($schema_id)) {
+                $table->setCriteria("schema_id = '".$schema_id."'");
+            }
+
+            $start = ($start-1) * $limit;
+            $items = $table->getAll($start, $limit, $sort, $dir);
+            $totalcount = $table->countAll();
+
+            $data['rows'] = $items;
+            $data['success'] = true;
+            $data['total'] = $totalcount;
+
+        }catch (Exception $e) {
+            $data['message'] = $e->getMessage();
+        }
+
+        return $data;
+    }
+
+
     function crud() {
 
         $data = array();

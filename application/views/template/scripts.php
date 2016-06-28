@@ -102,7 +102,7 @@
         loadContentWithParams('profile',{});
     });
 
-    $.jgrid.defaults.responsive = true;
+    $.jgrid.defaults.responsive = false;
     $.jgrid.defaults.styleUI = 'Bootstrap';
     jQuery.fn.center = function () {
 
