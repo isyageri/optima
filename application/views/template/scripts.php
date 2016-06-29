@@ -156,7 +156,7 @@
         }
     });
 
-    // setInterval(function() {
+     setInterval(function() {
         $.ajax({
                 url: "<?php echo base_url().'home/message/'; ?>",
                 type: "POST",
