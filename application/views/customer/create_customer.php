@@ -18,7 +18,6 @@
 <div class="space-4"></div>
 <div class="row">
     <div class="col-md-12">
-
         <div class="portlet light bordered">
             <div class="portlet-title">
                 <div class="caption">
@@ -146,7 +145,7 @@
                                                     <input type="text" class="form-control" name="nipnas" readonly>
                                                 </div>
                                             </div>
-
+w
                                             <div class="form-group">
                                                 <label class="control-label col-md-4">Customer Type
                                                     <span class="required">  * </span>

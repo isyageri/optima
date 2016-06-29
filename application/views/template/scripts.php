@@ -25,6 +25,7 @@
 <!-- begin swal -->
 <script src="<?php echo base_url(); ?>assets/swal/sweetalert.min.js"></script>
 <script src="<?php echo base_url(); ?>assets/swal/sweetalert-dev.js"></script>
+
 <!-- end swal -->
 
 <script src="<?php echo base_url(); ?>assets/bootgrid/jquery.bootgrid.min.js"></script>
@@ -36,6 +37,8 @@
 <script src="<?php echo base_url(); ?>assets/global/plugins/bootstrap-wizard/jquery.bootstrap.wizard.min.js" type="text/javascript"></script>
 
 <script src="<?php echo base_url(); ?>assets/global/plugins/bootstrap-switch/js/bootstrap-switch.min.js" type="text/javascript"></script>
+
+<script src="<?php echo base_url(); ?>assets/js/optimal.js"></script>
 
 <script type="text/javascript">
     $(document).ready(function () {
@@ -168,7 +171,7 @@
                     swal({title: "Error!", text: xhr.responseText, html: true, type: "error"});
                 }
             });
-    // }, 60000); //10 detik
+    }, 60000); //10 detik
 
     function viewAllMsg(){
         loadContentWithParams('message.list_message',{});
