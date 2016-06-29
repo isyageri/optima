@@ -41,8 +41,14 @@
                         <!-- END NOTIFICATION DROPDOWN -->
                         <!-- BEGIN INBOX DROPDOWN -->
                         <!-- DOC: Apply "dropdown-dark" class after below "dropdown-extended" to change the dropdown styte -->
+                        <li class="dropdown" id="wf-inbox" style="background:#e6e6e6;">
+                            <a  class="dropdown-toggle" href="javascript:;">
+                                <i class="fa fa-envelope-o"></i>
+                                <span class="green">Job Inbox</span>
+                            </a>
+                        </li>
                         <li class="dropdown dropdown-extended dropdown-inbox" id="header_inbox_bar">
-                            
+
                         </li>
                         <!-- BEGIN USER LOGIN DROPDOWN -->
                         <!-- DOC: Apply "dropdown-dark" class after below "dropdown-extended" to change the dropdown styte -->

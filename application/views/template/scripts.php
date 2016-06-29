@@ -105,6 +105,12 @@
         loadContentWithParams('profile',{});
     });
 
+    $("#wf-inbox").click(function(event){
+        event.stopPropagation();
+        $(".nav-item").removeClass("active");
+        loadContentWithParams('workflow.inbox',{});
+    });
+
     $.jgrid.defaults.responsive = false;
     $.jgrid.defaults.styleUI = 'Bootstrap';
     jQuery.fn.center = function () {

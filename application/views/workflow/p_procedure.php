@@ -101,7 +101,12 @@
                     align: 'center',
                     edittype: 'select',
                     formatter: 'select',
-                    editoptions: {value: {'Y': 'YA', 'N': 'TIDAK'}},
+                    editoptions: {
+                        value: {'Y': 'YA', 'N': 'TIDAK'},
+                        dataInit: function(elem) {
+                            $(elem).width(150);  // set the width which you need
+                        }
+                    },
                     editrules: {required:true}
                 },
                 {label: 'No Urut',name: 'seqno', width: 200, sortable: true, hidden:true, editable: true,
@@ -129,7 +134,12 @@
                     align: 'center',
                     edittype: 'select',
                     formatter: 'select',
-                    editoptions: {value: {'N': 'TIDAK', 'Y': 'YA'}},
+                    editoptions: {
+                        value: {'N': 'TIDAK', 'Y': 'YA'},
+                        dataInit: function(elem) {
+                            $(elem).width(150);  // set the width which you need
+                        }
+                    },
                     editrules: {edithidden: true}
                 },
                 {label: 'Isi Notifikasi SMS',name: 'sms_content', width: 200, hidden:true, sortable: true, hidden:true, editable: true,
@@ -141,7 +151,12 @@
                     align: 'center',
                     edittype: 'select',
                     formatter: 'select',
-                    editoptions: {value: {'N': 'TIDAK', 'Y': 'YA'}},
+                    editoptions: {
+                        value: {'N': 'TIDAK', 'Y': 'YA'},
+                        dataInit: function(elem) {
+                            $(elem).width(150);  // set the width which you need
+                        }
+                    },
                     editrules: {edithidden: true}
                 },
                 {label: 'Isi Notifikasi Email',name: 'email_content', width: 200, sortable: true, hidden:true, editable: true,
