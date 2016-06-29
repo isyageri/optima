@@ -28,9 +28,13 @@ class Wf_controller {
                                     <div class="portlet box blue-hoki">
                                         <div class="portlet-title">
                                             <div class="caption">'.$item['profile_type'].'</div>
+                                            <div class="tools">
+                                                <a class="collapse" href="javascript:;" data-original-title="" title=""> </a>
+                                            </div>
                                             <div class="actions">
                                                 Pekerjaan Baru : '.$item['jumlah'].'
                                             </div>
+
                                         </div>
                                         <div class="portlet-body">
                                             <button class="btn btn-sm btn-danger" onClick="loadContentWithParams(\''.$summary.'\','.$str_params.');"> Lihat Detail </button>
@@ -41,8 +45,8 @@ class Wf_controller {
         }
 
         $strOutput .= '<div class="row">
-                            <div class="col-xs-12 col-sm-5">
-                                <hr style="border:width:2px 0 0;">
+                            <div class="col-xs-12 col-sm-6">
+                                <hr>
                                 <h4 class="blue" style="text-align:right;"> Jumlah Pekerjaan Tersedia : '.$total.'</h4>
                             </div>
                       </div>';
