@@ -50,8 +50,6 @@ class Document_type extends Abstract_model {
             $this->record['updated_by'] = $userinfo->username;
             $this->record['created_by'] = $userinfo->username;
 
-            unset($this->record['creation_date']);
-            unset($this->record['updated_date']);
         }else {
             //do something
             //example:
@@ -59,14 +57,12 @@ class Document_type extends Abstract_model {
             //if false please throw new Exception
             $this->db->set('updated_date',"to_date('".date('Y-m-d')."','yyyy-mm-dd')",false);
             $this->record['updated_by'] = $userinfo->username;
-            
-            unset($this->record['updated_date']);
         }
         return true;
     }
-	
+
     function getReferenceList($code) {
-        $sql = "SELECT reference_list_code FROM v_p_reference_list WHERE 
+        $sql = "SELECT reference_list_code FROM v_p_reference_list WHERE
                     reference_type_code = '".$code."'";
         $query = $this->db->query($sql);
 

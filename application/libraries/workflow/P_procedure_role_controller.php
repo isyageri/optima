@@ -4,22 +4,24 @@
 * @class Groups_controller
 * @version 07/05/2015 12:18:00
 */
-class Document_type_controller {
+class P_procedure_role_controller {
 
     function read() {
 
         $page = getVarClean('page','int',1);
         $limit = getVarClean('rows','int',5);
-        $sidx = getVarClean('sidx','str','p_document_type_id');
+        $sidx = getVarClean('sidx','str','p_procedure_role_id');
         $sord = getVarClean('sord','str','desc');
 
         $data = array('rows' => array(), 'page' => 1, 'records' => 0, 'total' => 1, 'success' => false, 'message' => '');
 
+        $p_procedure_id = getVarClean('p_procedure_id','int',0);
+
         try {
 
             $ci = & get_instance();
-            $ci->load->model('workflow/document_type');
-            $table = $ci->document_type;
+            $ci->load->model('workflow/p_procedure_role');
+            $table = $ci->p_procedure_role;
 
             $req_param = array(
                 "sort_by" => $sidx,
@@ -36,7 +38,7 @@ class Document_type_controller {
             );
 
             // Filter Table
-            $req_param['where'] = array();
+            $req_param['where'] = array("p_procedure_id = ".$p_procedure_id);
 
             $table->setJQGridParam($req_param);
             $count = $table->countAll();
@@ -103,8 +105,8 @@ class Document_type_controller {
     function create() {
 
         $ci = & get_instance();
-        $ci->load->model('workflow/document_type');
-        $table = $ci->document_type;
+        $ci->load->model('workflow/p_procedure_role');
+        $table = $ci->p_procedure_role;
 
         $data = array('rows' => array(), 'page' => 1, 'records' => 0, 'total' => 1, 'success' => false, 'message' => '');
 
@@ -174,8 +176,8 @@ class Document_type_controller {
     function update() {
 
         $ci = & get_instance();
-        $ci->load->model('workflow/document_type');
-        $table = $ci->document_type;
+        $ci->load->model('workflow/p_procedure_role');
+        $table = $ci->p_procedure_role;
 
         $data = array('rows' => array(), 'page' => 1, 'records' => 0, 'total' => 1, 'success' => false, 'message' => '');
 
@@ -245,8 +247,8 @@ class Document_type_controller {
 
     function destroy() {
         $ci = & get_instance();
-        $ci->load->model('workflow/document_type');
-        $table = $ci->document_type;
+        $ci->load->model('workflow/p_procedure_role');
+        $table = $ci->p_procedure_role;
 
         $data = array('rows' => array(), 'page' => 1, 'records' => 0, 'total' => 1, 'success' => false, 'message' => '');
 
@@ -270,8 +272,7 @@ class Document_type_controller {
                 if (empty($items)){
                     throw new Exception('Empty parameter');
                 };
-				// print_r($items);exit;
-				//$table->remove_foreign_primary($items);
+
                 $table->remove($items);
                 $data['rows'][] = array($table->pkey => $items);
                 $data['total'] = $total = 1;
@@ -291,61 +292,6 @@ class Document_type_controller {
         return $data;
     }
 
-    function combo(){
-        $code = getVarClean('code', 'str', '');
-        $ci = & get_instance();
-        $ci->load->model('workflow/document_type');
-        $table = $ci->document_type;
-        $table->html_select_options_reference_list($code);
-    }
-
-    function readLov(){
-        $start = getVarClean('current','int',0);
-        $limit = getVarClean('rowCount','int',5);
-
-        $sort = getVarClean('sort','str','ct.address_name');
-        $dir  = getVarClean('dir','str','asc');
-
-        $searchPhrase = getVarClean('searchPhrase', 'str', '');
-
-        $data = array('rows' => array(), 'success' => false, 'message' => '', 'current' => $start, 'rowCount' => $limit, 'total' => 0);
-
-        try {
-            permission_check('view-customer');
-
-            $ci = & get_instance();
-            $ci->load->model('workflow/document_type');
-            $table = $ci->document_type;
-
-            //Set default criteria. You can override this if you want
-            foreach ($table->fields as $key => $field){
-                if (!empty($$key)){ // <-- Perhatikan simbol $$
-                    if ($field['type'] == 'str'){
-                        $table->setCriteria($table->getAlias().$key.$table->likeOperator." '".$$key."' ");
-                    }else{
-                        $table->setCriteria($table->getAlias().$key." = ".$$key);
-                    }
-                }
-            }
-
-            // if(!empty($searchPhrase)) {
-            //     $table->setCriteria("(upper(cust.customer_ref) ".$table->likeOperator." upper('%".$searchPhrase."%') OR upper(ct.first_name) ".$table->likeOperator." upper('%".$searchPhrase."%'))");
-            // }
-
-            $start = ($start-1) * $limit;
-            $items = $table->getAll($start, $limit, $sort, $dir);
-            $totalcount = $table->countAll();
-
-            $data['rows'] = $items;
-            $data['success'] = true;
-            $data['total'] = $totalcount;
-
-        }catch (Exception $e) {
-            $data['message'] = $e->getMessage();
-        }
-
-        return $data;
-    }
 }
 
 /* End of file Groups_controller.php */
