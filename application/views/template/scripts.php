@@ -153,7 +153,7 @@
         }
     });
 
-    setInterval(function() {
+    // setInterval(function() {
         $.ajax({
                 url: "<?php echo base_url().'home/message/'; ?>",
                 type: "POST",
@@ -168,7 +168,7 @@
                     swal({title: "Error!", text: xhr.responseText, html: true, type: "error"});
                 }
             });
-    }, 60000); //10 detik
+    // }, 60000); //10 detik
 
     function viewAllMsg(){
         loadContentWithParams('message.list_message',{});
