@@ -38,7 +38,7 @@
                     <a class="collapse" href="javascript:;" data-original-title="" title=""> </a>
                 </div>
             </div>
-            <div class="portlet-body">
+            <div class="portlet-body" style="background:#f9f9f9;">
                 <div class="row">
                     <div class="col-xs-12 well well-sm" style="margin-bottom:0px;">
                     <div class="form-group">
