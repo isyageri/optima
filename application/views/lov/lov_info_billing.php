@@ -305,7 +305,7 @@
                 {label: 'ID', name: 'id', key: true, width: 5, sorttype: 'number', editable: true, hidden: true},
                 {label: 'Account Num', name: 'account_num',width: 150, hidden: false},
                 {label: 'Revenue Code', name: 'revenue_code_desc',width: 150, hidden: false},
-                {label: 'Revenue Mny', name: 'revenue_mny',width: 150, hidden: false}
+                {label: 'Revenue Mny', name: 'revenue_mny', align:'right',width: 150, hidden: false}
             ],
             height: '100%',
             viewrecords: true,
