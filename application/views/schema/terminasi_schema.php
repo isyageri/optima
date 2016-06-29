@@ -18,26 +18,7 @@
 	<div>
 		<table id="grid-table-schema"></table>
 		<div id="grid-pager-schema"></div>
-	</div>
-	<div id="myModal" class="modal fade" role="dialog">
-		<div class="modal-dialog">
-		
-			<!-- Modal content-->
-			<div class="modal-content">
-			<div class="modal-header page-content-wrapper">
-				<button type="button" class="close" data-dismiss="modal">&times;</button>
-				<h4 class="modal-title">Data Detail</h4>
-			</div>
-			<div class="modal-body">
-				<p>Masih menunggu data detail...</p>
-			</div>
-			<div class="modal-footer">
-				<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-			</div>
-			</div>
-		
-		</div>
-	</div>
+	</div>	
 </div>
 <?php $this->load->view('schema/detail_terminate_schema.php'); ?>
 <script>
@@ -51,7 +32,7 @@
             mtype: "POST",
             colModel: [
                 {label: 'schema ID', name: 'schema_id', hidden: true},                
-                {label: 'Customer Ref', name: 'customer_ref', hidden: false},                
+                {label: 'Customer Name', name: 'customer_ref', hidden: false},                
                 {label: 'Account Number', name: 'account_num', hidden: false},                
                 {label: 'Account Name', name: 'account_name', hidden: false},                
                 {label: 'Start Date', name: 'start_dat', hidden: false},                
@@ -59,7 +40,7 @@
                 {label: 'Disc Description', name: 'disc_description', hidden: false},                
                 {label: 'Detail | Terminate', name: 'dt', hidden: false,
 					formatter:	function(cellvalue, options, rowobject){
-						return '<i class="btn green btn-xs" id="lov-button-detail" data-toggle="modal" data-target="#detailModal">Details</i><i class="btn green btn-xs">Terminate</i>';
+						return '<i class="btn green btn-xs" id="lov-button-detail" data-toggle="modal" data-target="#detailModal">Details</i><i class="btn green btn-xs" onclick="swal_terminate()">Terminate</i>';
 					}
 				}
             ],
@@ -280,5 +261,25 @@
         $(grid_selector).jqGrid( 'setGridWidth', $(".form-body").width() );
         $(pager_selector).jqGrid( 'setGridWidth', parent_column.width() );
 
-    }	
+    }
+	
+	function swal_terminate(){
+	  swal({
+			title: "Apakah Anda Yakin?",
+			text: "Anda akan menghentikan/terminasi schema",
+			type: "warning",
+			showCancelButton: true,
+			confirmButtonClass: "btn-danger",
+			confirmButtonText: "Ya, terminasi schema",
+			closeOnConfirm: false
+			},
+			function(){
+				swal("Terminated", "Terminasi berhasil", "success");
+			});
+	};
+</script>
+<script>
+$(document).ready(function() {
+  
+});
 </script>

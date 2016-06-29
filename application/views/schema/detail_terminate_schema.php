@@ -1,17 +1,15 @@
-<style>
-</style>
-
 <div id="detailModal" class="modal fade" role="dialog">
-		<div class="modal-dialog">
-		
+		<div class="modal-dialog">		
 			<!-- Modal content-->
 			<div class="modal-content">
 				<div class="modal-header page-content-wrapper">
 					<button type="button" class="close" data-dismiss="modal">&times;</button>
 					<h4 class="modal-title">Laporan Detail Skema</h4>
+					<div class="space-4"></div>
 				</div>				
 				<div class="modal-body">
-					<div class="">						
+					<div class="">
+						<div class="space-4"></div>
 						<div class="form-group row">
 							<label class="col-md-3 control-label">Nama Skema</label>
 							<div class="col-md-8">
@@ -82,7 +80,7 @@
 								<div id="grid-pager-fastel"></div>
 							</div>
 						</div>
-						<div class="space-2"></div>
+						<div class="space-4"></div>
 						<div class="form-group row">
 							<label class="col-md-3 control-label">Nama Paket</label>
 							<div class="col-md-8">
@@ -124,14 +122,14 @@
 							</div>
 						</div>
 						<div class="row">
-							<div class="col-md-4" style="width:560px;overflow:auto;">
+							<div class="col-md-5" style="width:560px;overflow:auto;">
 								<table id="grid-table-diskon"></table>
 								<div id="grid-pager-diskon"></div>
 							</div>
 						</div>
 						<div class="space-4"></div>
 						<div class="row">
-							<div class="col-md-4" style="width:560px;overflow:auto;">
+							<div class="col-md-5" style="width:560px;overflow:auto;">
 								<table id="grid-table-threshold"></table>
 								<div id="grid-pager-threshold"></div>
 							</div>
@@ -139,7 +137,7 @@
 					</div>
 				</div>
 				<div class="modal-footer">
-					<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+					<button type="button" class="btn btn-default" data-dismiss="modal" id="closed">Close</button>
 				</div>
 			</div>		
 		</div>
@@ -928,5 +926,19 @@ jQuery(function($) {
         $(grid_selector).jqGrid( 'setGridWidth', $(".page-content").width() );
         $(pager_selector).jqGrid( 'setGridWidth', parent_column.width() );
 
-    }
+    }	
+</script>
+<script>
+	$(document).ready(){
+		var myGrid = $('#grid-table-schema');
+		selectedRowId = myGrid.jqGrid ('getGridParam', 'selrow');
+		// alert(selectedRowId);
+		cellValue = myGrid.jqGrid ('getCell', selectedRowId, 'account_num');
+		cellValue = myGrid.jqGrid ('getCell', selectedRowId, 'account_num');
+		cellValue = myGrid.jqGrid ('getCell', selectedRowId, 'account_num');
+		cellValue = myGrid.jqGrid ('getCell', selectedRowId, 'account_num');
+		cellValue = myGrid.jqGrid ('getCell', selectedRowId, 'account_num');
+		// alert(cellValue);
+		$('#grid-table-schema').jqGrid('getCell',row_id,'account_num');
+	};
 </script>
