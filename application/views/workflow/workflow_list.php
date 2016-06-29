@@ -28,20 +28,27 @@
     $this->load->view('lov/lov_procedure.php');
 ?>
 <script>
+    function showLovDocType(id, code) {
+        modal_lov_document_type_show(id,code);
+    }
+
+    function showLovProc(id, code) {
+        modal_lov_procedure_show(id,code);
+    }
 
     jQuery(function($) {
         var grid_selector = "#grid-table";
         var pager_selector = "#grid-pager";
 
         jQuery("#grid-table").jqGrid({
-            url: '<?php echo WS_JQGRID."workflow.workflow_controller/crud"; ?>',
+            url: '<?php echo WS_JQGRID."workflow.workflow_list_controller/crud"; ?>',
             datatype: "json",
             mtype: "POST",
             colModel: [
-                {label: 'ID', name: 'P_WORKFLOW_ID', key: true, width: 35, sorttype: 'number', sortable: true, editable: true, hidden:true},
+                {label: 'ID', name: 'p_workflow_id', key: true, width: 35, sorttype: 'number', sortable: true, editable: true, hidden:true},
                 {
                     label: 'Nama Workflow',
-                    name: 'DOC_NAME', 
+                    name: 'doc_name', 
                     width: 200, 
                     sortable: true, 
                     editable: true,
@@ -53,7 +60,7 @@
                 },                
                 {
                     label: 'Nama Workflow Tercetak', 
-                    name: 'DISPLAY_NAME', 
+                    name: 'display_name', 
                     width: 200, 
                     sortable: true, 
                     editable: true,
@@ -65,14 +72,14 @@
                 }, 
                 {
                     label: 'Jenis Dokumen', 
-                    name: 'DOCUMENT_TYPE_CODE', 
+                    name: 'document_type_code', 
                     width: 120, 
                     align: "left",  
                     editable: false
                 }, 
                 {
                     label: 'Jenis Dokumen',
-                    name: 'P_DOCUMENT_TYPE_ID', 
+                    name: 'p_document_type_id', 
                     width: 200, 
                     sortable: true, 
                     editable: true,
@@ -85,7 +92,7 @@
                             
                             // give the editor time to initialize
                             setTimeout( function() {
-                                elm.append('<input id="form_p_document_type_id" type="text"  style="display:none;">'+
+                                elm.append('<input id="form_p_document_type_id" type="text"  class="FormElement form-control jqgrid" style="display:none;">'+
                                         '<input id="form_p_document_type_code" disabled type="text" class="FormElement form-control jqgrid-required">'+    
                                         '<button class="btn btn-success" type="button" onclick="showLovDocType(\'form_p_document_type_id\',\'form_p_document_type_code\')">'+
                                         '<span class="fa fa-search"></span>'+
@@ -107,7 +114,7 @@
                                 setTimeout(function(){
                                     var selectedRowId = $("#"+gridId).jqGrid ('getGridParam', 'selrow');
                                     if(selectedRowId != null) {
-                                        var code_display = $("#"+gridId).jqGrid('getCell', selectedRowId, 'DOCUMENT_TYPE_CODE');
+                                        var code_display = $("#"+gridId).jqGrid('getCell', selectedRowId, 'document_type_code');
                                         $("#form_p_document_type_code").val( code_display );
                                     }
                                 },100);
@@ -117,14 +124,14 @@
                 },
                 {
                     label: 'Pekerjaan Awal', 
-                    name: 'PROCEDURE_CODE', 
+                    name: 'procedure_code', 
                     width: 120, 
                     align: "left",  
                     editable: false
                 },   
                 {
                     label: 'Pekerjaan Awal',
-                    name: 'P_PROCEDURE_ID_START', 
+                    name: 'p_procedure_id_start', 
                     width: 200, 
                     sortable: true, 
                     editable: true,
@@ -159,7 +166,7 @@
                                 setTimeout(function(){
                                     var selectedRowId = $("#"+gridId).jqGrid ('getGridParam', 'selrow');
                                     if(selectedRowId != null) {
-                                        var code_display = $("#"+gridId).jqGrid('getCell', selectedRowId, 'PROCEDURE_CODE');
+                                        var code_display = $("#"+gridId).jqGrid('getCell', selectedRowId, 'procedure_code');
                                         $("#form_p_procedure_code").val( code_display );
                                     }
                                 },100);
@@ -169,7 +176,7 @@
                 }, 
                 {
                     label: 'Aktif ?',
-                    name: 'IS_ACTIVE',
+                    name: 'is_active',
                     width: 100,
                     sortable: true,
                     // align: 'center',
@@ -181,7 +188,7 @@
                 },
                 {
                     label: 'Deskripsi',
-                    name: 'DESCRIPTION', 
+                    name: 'description', 
                     width: 200, 
                     sortable: true, 
                     hidden:true, 
@@ -191,11 +198,7 @@
                                     maxlength:128
                     },
                     editrules: {edithidden: true, required:false}
-                },
-                {label: 'Tgl Pembuatan', name: 'CREATION_DATE', width: 120, align: "left", hidden:true, editable: false},
-                {label: 'Dibuat Oleh', name: 'CREATED_BY', width: 120, align: "left", hidden:true, editable: false},
-                {label: 'Tgl Update', name: 'UPDATED_DATE', width: 120, align: "left", hidden:true, editable: false},
-                {label: 'Diupdate Oleh', name: 'UPDATED_BY', width: 120, align: "left", hidden:true, editable: false}
+                }
             ],
             height: '100%',
             autowidth: true,
@@ -225,8 +228,8 @@
 
             },
             //memanggil controller jqgrid yang ada di controller crud
-            editurl: '<?php echo WS_JQGRID."workflow.workflow_controller/crud"; ?>',
-            caption: "Permissions"
+            editurl: '<?php echo WS_JQGRID."workflow.workflow_list_controller/crud"; ?>',
+            caption: "Daftar Workflow"
 
         });
 

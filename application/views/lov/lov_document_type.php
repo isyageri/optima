@@ -21,10 +21,10 @@
 				<table id="modal_lov_document_type_grid_selection" class="table table-striped table-bordered table-hover">
                 <thead>
                   <tr>
-                     <th data-column-id="P_DOCUMENT_TYPE_ID" data-sortable="false" data-visible="false"> ID</th>
+                     <th data-column-id="p_document_type_id" data-sortable="false" data-visible="false"> ID</th>
                      <th data-header-align="center" data-align="center" data-formatter="opt-edit" data-sortable="false" data-width="100">Options</th>
-                     <th data-column-id="DOCUMENT_TYPE_CODE">Nama Dokumen</th>
-                     <th data-column-id="DISPLAY_NAME">Nama Dokumen Tercetak</th>
+                     <th data-column-id="doc_name">Nama Dokumen</th>
+                     <th data-column-id="display_name">Nama Dokumen Tercetak</th>
                   </tr>
                 </thead>
                 </table>
@@ -48,7 +48,7 @@
 <script>
 
     jQuery(function($) {
-        $("#modal_lov_document_type_btn_blank").on(ace.click_event, function() {
+        $("#modal_lov_document_type_btn_blank").on('click', function() {
             $("#"+ $("#modal_lov_document_type_id_val").val()).val("");
             $("#"+ $("#modal_lov_document_type_code_val").val()).val("");
             $("#modal_lov_document_type").modal("toggle");
@@ -79,7 +79,7 @@
         $("#modal_lov_document_type_grid_selection").bootgrid({
     	     formatters: {
                 "opt-edit" : function(col, row) {
-                    return '<a href="#'+ $("#modal_lov_document_type_code_val").val() +'" title="Set Value" onclick="modal_lov_document_type_set_value(\''+ row.p_document_type_id +'\', \''+ row.document_type_code +'\')" class="blue"><i class="ace-icon fa 	fa-pencil-square-o bigger-130"></i></a>';
+                    return '<a href="#'+ $("#modal_lov_document_type_code_val").val() +'" title="Set Value" onclick="modal_lov_document_type_set_value(\''+ row.p_document_type_id +'\', \''+ row.doc_name +'\')" class="blue"><i class="ace-icon fa 	fa-pencil-square-o bigger-130"></i></a>';
                 }
              },
     	     rowCount:[5,10],
@@ -104,6 +104,9 @@
     	     selection: true,
     	     sorting:true
     	});
+
+        $('.bootgrid-header span.glyphicon-search').removeClass('glyphicon-search')
+        .html('<i class="fa fa-search"></i>');
     }
 
 </script>

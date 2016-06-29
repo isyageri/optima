@@ -303,7 +303,7 @@ class Document_type_controller {
         $start = getVarClean('current','int',0);
         $limit = getVarClean('rowCount','int',5);
 
-        $sort = getVarClean('sort','str','ct.address_name');
+        $sort = getVarClean('sort','str','doc_type.p_document_type_id');
         $dir  = getVarClean('dir','str','asc');
 
         $searchPhrase = getVarClean('searchPhrase', 'str', '');
@@ -311,8 +311,7 @@ class Document_type_controller {
         $data = array('rows' => array(), 'success' => false, 'message' => '', 'current' => $start, 'rowCount' => $limit, 'total' => 0);
 
         try {
-            permission_check('view-customer');
-
+            
             $ci = & get_instance();
             $ci->load->model('workflow/document_type');
             $table = $ci->document_type;
@@ -328,9 +327,9 @@ class Document_type_controller {
                 }
             }
 
-            // if(!empty($searchPhrase)) {
-            //     $table->setCriteria("(upper(cust.customer_ref) ".$table->likeOperator." upper('%".$searchPhrase."%') OR upper(ct.first_name) ".$table->likeOperator." upper('%".$searchPhrase."%'))");
-            // }
+            if(!empty($searchPhrase)) {
+                $table->setCriteria("(upper(doc_type.doc_name) ".$table->likeOperator." upper('%".$searchPhrase."%') OR upper(doc_type.display_name) ".$table->likeOperator." upper('%".$searchPhrase."%'))");
+            }
 
             $start = ($start-1) * $limit;
             $items = $table->getAll($start, $limit, $sort, $dir);

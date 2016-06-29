@@ -4,7 +4,7 @@
 * @class Groups_controller
 * @version 07/05/2015 12:18:00
 */
-class Workflow_controller {
+class Workflow_list_controller {
 
     function read() {
 
@@ -19,7 +19,7 @@ class Workflow_controller {
 
             $ci = & get_instance();
             $ci->load->model('workflow/workflow_list');
-            $table = $ci->permissions;
+            $table = $ci->workflow_list;
 
             $req_param = array(
                 "sort_by" => $sidx,
@@ -104,7 +104,7 @@ class Workflow_controller {
 
         $ci = & get_instance();
         $ci->load->model('workflow/workflow_list');
-        $table = $ci->permissions;
+        $table = $ci->workflow_list;
 
         $data = array('rows' => array(), 'page' => 1, 'records' => 0, 'total' => 1, 'success' => false, 'message' => '');
 
@@ -175,7 +175,7 @@ class Workflow_controller {
 
         $ci = & get_instance();
         $ci->load->model('workflow/workflow_list');
-        $table = $ci->permissions;
+        $table = $ci->workflow_list;
 
         $data = array('rows' => array(), 'page' => 1, 'records' => 0, 'total' => 1, 'success' => false, 'message' => '');
 
@@ -246,7 +246,7 @@ class Workflow_controller {
     function destroy() {
         $ci = & get_instance();
         $ci->load->model('workflow/workflow_list');
-        $table = $ci->permissions;
+        $table = $ci->workflow_list;
 
         $data = array('rows' => array(), 'page' => 1, 'records' => 0, 'total' => 1, 'success' => false, 'message' => '');
 
@@ -270,9 +270,8 @@ class Workflow_controller {
                 if (empty($items)){
                     throw new Exception('Empty parameter');
                 };
-				// print_r($items);exit;
-				$table->remove_foreign_primary($items);
-                // $table->remove($items);
+				
+                $table->remove($items);
                 $data['rows'][] = array($table->pkey => $items);
                 $data['total'] = $total = 1;
             }
