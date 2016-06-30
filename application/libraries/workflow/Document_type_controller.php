@@ -76,22 +76,18 @@ class Document_type_controller {
         $oper = getVarClean('oper', 'str', '');
         switch ($oper) {
             case 'add' :
-                permission_check('add-wf');
                 $data = $this->create();
             break;
 
             case 'edit' :
-                permission_check('edit-wf');
                 $data = $this->update();
             break;
 
             case 'del' :
-                permission_check('delete-wf');
                 $data = $this->destroy();
             break;
 
             default :
-                permission_check('view-wf');
                 $data = $this->read();
             break;
         }
