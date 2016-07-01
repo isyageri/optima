@@ -36,7 +36,7 @@ class Pembuatan_schema_controller {
             );
 
             // Filter Table
-            $req_param['where'] = array();
+            $req_param['where'] = array('p_order_status_id = 1');
 
             $table->setJQGridParam($req_param);
             $count = $table->countAll();

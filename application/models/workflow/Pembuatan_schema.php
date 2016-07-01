@@ -15,8 +15,9 @@ class Pembuatan_schema extends Abstract_model {
                                 'schema_name'    => array('nullable' => false, 'type' => 'str', 'unique' => false, 'display' => 'Schema Name')
                             );
 
-    public $selectClause    = "scm.*";
-    public $fromClause      = "t_schema_example scm";
+    public $selectClause    = "scm.*, b.p_order_status_id";
+    public $fromClause      = "t_schema_example scm 
+                               left join t_customer_order b on scm.t_customer_order_id = b.t_customer_order_id";
 
     public $refs            = array();
 

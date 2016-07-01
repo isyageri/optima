@@ -25,14 +25,14 @@
 
 <script>
     function submitWF(t_customer_order_id, schema_name) {        
-        result = confirm('Submit Nama Schema : ' + schema_name);
+        result = confirm('Submit : ' + schema_name);
         if (result) { 
 
             $.ajax({
                 type: 'POST',
                 datatype: "json",
-                url: '<?php echo site_url('workflow_parameter/submitWF');?>',
-                data: { t_customer_order_id : t_customer_order_id, doc_type_id : 1 },
+                url: '<?php echo WS_JQGRID."workflow.pembuatan_schema_controller/submitWF"; ?>',
+                data: { t_customer_order_id : t_customer_order_id, doc_type_id : 3 },
                 timeout: 10000,
                 success: function(data) {
                     var response = JSON.parse(data);

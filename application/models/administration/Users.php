@@ -62,6 +62,7 @@ class Users extends Abstract_model {
 
             $this->record[$this->pkey] = $this->generate_id($this->table);
             $this->record['created_on'] = time();
+            $this->record['location_id'] = 1;
         }else {
             //do something
             //example:

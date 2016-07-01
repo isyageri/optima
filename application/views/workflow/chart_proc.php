@@ -650,7 +650,7 @@
 
     jQuery('#jqGridDetailPrev').jqGrid('navGrid', '#jqGridDetailsPagerPrev',
         {   //navbar options
-            edit: false,
+            edit: true,
             editicon: 'fa fa-pencil blue bigger-120',
             add: true,
             addicon: 'fa fa-plus-circle purple bigger-120',
