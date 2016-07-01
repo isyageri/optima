@@ -170,6 +170,7 @@
                 refresh: true,
                 afterRefresh: function () {
                     // some code here
+                    jQuery("#detailsPlaceholderNext").hide();
                     jQuery("#detailsPlaceholder").hide();
                 },
 
@@ -650,7 +651,7 @@
 
     jQuery('#jqGridDetailPrev').jqGrid('navGrid', '#jqGridDetailsPagerPrev',
         {   //navbar options
-            edit: true,
+            edit: false,
             editicon: 'fa fa-pencil blue bigger-120',
             add: true,
             addicon: 'fa fa-plus-circle purple bigger-120',
@@ -661,7 +662,7 @@
             refresh: true,
             afterRefresh: function () {
                 // some code here
-                jQuery("#detailsPlaceholder").hide();
+                jQuery("#detailsPlaceholderNext").hide();
             },
 
             refreshicon: 'fa fa-refresh green bigger-120',
@@ -681,8 +682,7 @@
             },
             beforeShowForm: function (e, form) {
                 var form = $(e[0]);
-                style_edit_form(form);
-
+                style_edit_form(form);                
             },
             afterShowForm: function(form) {
                 form.closest('.ui-jqdialog').center();
@@ -717,6 +717,14 @@
             beforeShowForm: function (e, form) {
                 var form = $(e[0]);
                 style_edit_form(form);
+                setTimeout( function() {  
+                    $('#form_p_procedure_id_prev').val('');
+                    $('#form_p_procedure_id_next').val('');
+                    $('#form_p_procedure_id_alt').val('');
+                    $('#form_p_procedure_code').val('');
+                    $('#form_pekerjaan_next').val('');
+                    $('#form_pekerjaan_alt').val('');
+                }, 150);
             },
             afterShowForm: function(form) {
                 form.closest('.ui-jqdialog').center();
@@ -1130,7 +1138,6 @@
             refresh: true,
             afterRefresh: function () {
                 // some code here
-                jQuery("#detailsPlaceholder").hide();
             },
 
             refreshicon: 'fa fa-refresh green bigger-120',
