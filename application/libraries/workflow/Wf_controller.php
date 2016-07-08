@@ -47,7 +47,7 @@ class Wf_controller {
         $strOutput .= '<div class="row">
                             <div class="col-xs-12 col-sm-6">
                                 <hr>
-                                <h4 class="blue" style="text-align:right;"> Jumlah Pekerjaan Tersedia : '.$total.'</h4>
+                                <h4 class="font-blue" style="text-align:right;"> Jumlah Pekerjaan Tersedia : '.$total.'</h4>
                             </div>
                       </div>';
 
@@ -95,7 +95,7 @@ class Wf_controller {
 
             if($item['stype'] == 'PROFILE') {
                 $strOutput .= '<tr>
-                                    <td colspan="3"><strong class="blue">'.$item['display_name'].'</strong></td>
+                                    <td colspan="3"><strong class="font-green">'.$item['display_name'].'</strong></td>
                               </tr>';
             }else {
 
@@ -115,7 +115,7 @@ class Wf_controller {
                 }
 
                 $strOutput .= '<tr>
-                                    <td style="padding-left:35px;"><strong class="green">'.$item['display_name'].'</strong></td>
+                                    <td style="padding-left:35px;"><strong class="font-blue">'.$item['display_name'].'</strong></td>
                                     <td style="text-align:right;">'.$item['scount'].'</td>
                                     <td class="center"><input class="pointer radio-bigger" type="radio" '.$selected.' name="pilih_summary" value="'.$item['element_id'].'" onclick="loadUserTaskList(this);"></td>
                                     <td style="display:none;">
@@ -230,7 +230,7 @@ class Wf_controller {
         $result  = '';
         foreach($items as $item) {
             $result .= '<tr>
-                            <td colspan="4"> <span class="green"><strong>'.$item['cust_info'].'</strong></span></td>
+                            <td colspan="4"> <span class="font-blue"><strong>'.$item['cust_info'].'</strong></span></td>
                         </tr>';
 
             $result .= '<tr>';
