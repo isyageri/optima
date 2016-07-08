@@ -131,8 +131,7 @@ class Wf extends Abstract_model {
                 $whereCondition = " WHERE ".$wh;
         }
 
-        $sql = "select count(1) totalcount from (".$param['table']." ".$wherecondition.")";
-
+        $sql = "select count(1) totalcount from (".$param['table']." ".$whereCondition.")";
         $query = $this->db->query($sql);
         $row = $query->row_array();
 
@@ -143,14 +142,11 @@ class Wf extends Abstract_model {
 
     public function bootgrid_getData($param){
 
-
-        $param['table'] = str_replace("SELECT","",strtoupper($param['table']));
+        $param['table'] = str_replace("SELECT","",$param['table']);
         $this->db->select($param['table']);
 
         $whereCondition = '';
-
         $whereCondition = join(" AND ", $param['where']);
-
         if($param['search'] != null && $param['search'] === 'true'){
             $wh = "UPPER(".$param['search_field'].")";
             switch ($param['search_operator']) {
@@ -210,7 +206,6 @@ class Wf extends Abstract_model {
             }
         }
 
-
         if(!empty($wh)) {
             if($whereCondition != "" )
                 $whereCondition .= " AND ".$wh;
@@ -221,17 +216,15 @@ class Wf extends Abstract_model {
         if($whereCondition != "")
             $this->db->where($whereCondition, null, false);
 
-
         if(!empty($param['sort_by']))
             $this->db->order_by($param['sort_by'], $param['sord']);
 
         if($param['limit'] != null)
             $this->db->limit($param['limit']['end'], $param['limit']['start']);
 
+//print_r($this->db->get_compiled_select());exit;
         $queryResult = $this->db->get();
         $items = $queryResult->result_array();
-
-        $queryResult->free_result();
 
         return $items;
     }

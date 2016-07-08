@@ -167,7 +167,7 @@ class Wf_controller {
             exit;
         }
 
-        $sql = "select * from table (pack_task_profile.user_task_list (".$p_w_doc_type_id.",".$p_w_proc_id.",'".$profile_type."','".$user_name."',''))";
+        $sql = "SELECT * FROM TABLE (PACK_TASK_PROFILE.USER_TASK_LIST (".$p_w_doc_type_id.",".$p_w_proc_id.",'".$profile_type."','".$user_name."',''))";
         $req_param = array (
             "table" => $sql,
             "sort_by" => $sort,
@@ -188,11 +188,13 @@ class Wf_controller {
         if( $count > 0 && !empty($limit) ) {
             $total_pages = ceil($count/$limit);
         } else {
-            $total_pages = 0;
+            $total_pages = 1;
         }
+
         if ($page > $total_pages)
             $page = $total_pages;
-        $start = $limit*$page - ($limit-1); // do not put $limit*($page - 1)
+
+        $start = $limit*$page - ($limit); // do not put $limit*($page - 1)
 
         $req_param['limit'] = array(
             'start' => $start,
@@ -347,6 +349,7 @@ class Wf_controller {
 
     public function taken_task() {
 
+        $ci =& get_instance();
         $ci->load->model('workflow/wf');
         $table = $ci->wf;
 
@@ -387,6 +390,389 @@ class Wf_controller {
         echo json_encode($data);
         exit;
     }
+
+
+    public function submitter_submit() {
+
+        $ci =& get_instance();
+        $ci->load->model('workflow/wf');
+        $table = $ci->wf;
+
+        $o_submitter_id = null;
+        $o_error_message = "";
+        $o_result_msg = "";
+        $o_warning = "";
+        $user_id_login = $ci->session->userdata("d_user_id");
+
+        /* posting from submit lov */
+        $interactive_message = $ci->input->post('interactive_message');
+        $submitter_params = json_decode($ci->input->post('params') , true);
+
+        try {
+
+            $sql = "select submitter_seq.nextval as seq from dual";
+            $query = $table->db->query($sql);
+            $row = $query->row_array();
+            $o_submitter_id = $row['seq'];
+
+            $submitter_params['USER_ID_DOC'] = empty($submitter_params['USER_ID_DOC']) ? NULL : $submitter_params['USER_ID_DOC'];
+            $submitter_params['USER_ID_DONOR'] = empty($submitter_params['USER_ID_DONOR']) ? NULL : $submitter_params['USER_ID_DOC'];
+            $submitter_params['USER_ID_TAKEN'] = empty($submitter_params['USER_ID_TAKEN']) ? $user_id_login : $submitter_params['USER_ID_TAKEN'];
+
+            $submitter_params['CURR_CTL_ID'] = empty($submitter_params['CURR_CTL_ID']) ? NULL : $submitter_params['CURR_CTL_ID'];
+            $submitter_params['CURR_DOC_TYPE_ID'] = empty($submitter_params['CURR_DOC_TYPE_ID']) ? NULL : $submitter_params['CURR_DOC_TYPE_ID'];
+            $submitter_params['CURR_PROC_ID'] = empty($submitter_params['CURR_PROC_ID']) ? NULL : $submitter_params['CURR_PROC_ID'];
+            $submitter_params['CURR_DOC_ID'] = empty($submitter_params['CURR_DOC_ID']) ? NULL : $submitter_params['CURR_DOC_ID'];
+
+            $submitter_params['PREV_CTL_ID'] = empty($submitter_params['PREV_CTL_ID']) ? NULL : $submitter_params['PREV_CTL_ID'];
+            $submitter_params['PREV_DOC_TYPE_ID'] = empty($submitter_params['PREV_DOC_TYPE_ID']) ? NULL : $submitter_params['PREV_DOC_TYPE_ID'];
+            $submitter_params['PREV_PROC_ID'] = empty($submitter_params['PREV_PROC_ID']) ? NULL : $submitter_params['PREV_PROC_ID'];
+            $submitter_params['PREV_DOC_ID'] = empty($submitter_params['PREV_DOC_ID']) ? NULL : $submitter_params['PREV_DOC_ID'];
+
+            $str_params = "";
+            define("TOTAL_PARAMS", 23);
+            for($i = 1; $i <= TOTAL_PARAMS; $i++) {
+                if($i == 1) $str_params .= ":params".$i;
+                else $str_params .= ",:params".$i;
+            }
+
+            $sql = "  BEGIN ".
+                        "  pack_workflow.submit_engine(".$str_params."); END;";
+
+            $params = array(
+                array('name' => ':params1', 'value' => $o_submitter_id, 'type' => SQLT_INT, 'length' => 100),
+                array('name' => ':params2', 'value' => $submitter_params['IS_CREATE_DOC'], 'type' => SQLT_CHR, 'length' => 500),
+                array('name' => ':params3', 'value' => $submitter_params['IS_MANUAL'], 'type' => SQLT_CHR, 'length' => 500),
+                array('name' => ':params4', 'value' => $submitter_params['USER_ID_DOC'], 'type' => SQLT_INT, 'length' => 100),
+                array('name' => ':params5', 'value' => $submitter_params['USER_ID_DONOR'], 'type' => SQLT_INT, 'length' => 100),
+                array('name' => ':params6', 'value' => $user_id_login, 'type' => SQLT_INT, 'length' => 100),
+                array('name' => ':params7', 'value' => $submitter_params['USER_ID_TAKEN'], 'type' => SQLT_INT, 'length' => 100),
+                array('name' => ':params8', 'value' => $submitter_params['CURR_CTL_ID'], 'type' => SQLT_INT, 'length' => 100),
+                array('name' => ':params9', 'value' => $submitter_params['CURR_DOC_TYPE_ID'], 'type' => SQLT_INT, 'length' => 100),
+                array('name' => ':params10', 'value' => $submitter_params['CURR_PROC_ID'], 'type' => SQLT_INT, 'length' => 100),
+                array('name' => ':params11', 'value' => $submitter_params['CURR_DOC_ID'], 'type' => SQLT_INT, 'length' => 100),
+                array('name' => ':params12', 'value' => $submitter_params['CURR_DOC_STATUS'], 'type' => SQLT_CHR, 'length' => 500),
+                array('name' => ':params13', 'value' => $submitter_params['CURR_PROC_STATUS'], 'type' => SQLT_CHR, 'length' => 500),
+                array('name' => ':params14', 'value' => $submitter_params['PREV_CTL_ID'], 'type' => SQLT_INT, 'length' => 100),
+                array('name' => ':params15', 'value' => $submitter_params['PREV_DOC_TYPE_ID'], 'type' => SQLT_INT, 'length' => 100),
+                array('name' => ':params16', 'value' => $submitter_params['PREV_PROC_ID'], 'type' => SQLT_INT, 'length' => 100),
+                array('name' => ':params17', 'value' => $submitter_params['PREV_DOC_ID'], 'type' => SQLT_INT, 'length' => 100),
+                array('name' => ':params18', 'value' => $interactive_message, 'type' => SQLT_CHR, 'length' => 500),
+                array('name' => ':params19', 'value' => $submitter_params['SLOT_1'], 'type' => SQLT_CHR, 'length' => 500),
+                array('name' => ':params20', 'value' => $submitter_params['SLOT_2'], 'type' => SQLT_CHR, 'length' => 500),
+                array('name' => ':params21', 'value' => $submitter_params['SLOT_3'], 'type' => SQLT_CHR, 'length' => 500),
+                array('name' => ':params22', 'value' => $submitter_params['SLOT_4'], 'type' => SQLT_CHR, 'length' => 500),
+                array('name' => ':params23', 'value' => $submitter_params['SLOT_5'], 'type' => SQLT_CHR, 'length' => 500)
+            );
+            // Bind the output parameter
+
+            //print_r($params);
+            //exit;
+
+            $stmt = oci_parse($table->db->conn_id,$sql);
+
+            foreach($params as $p){
+                // Bind Input
+                oci_bind_by_name($stmt, $p['name'], $p['value'], $p['length']);
+            }
+
+            ociexecute($stmt);
+
+            $sql_message = "select error_message, return_message, warning from submitter where submitter_id = ".$o_submitter_id;
+            $query_message = $table->db->query($sql_message);
+            $row_message = $query_message->row_array();
+
+            $data = array();
+
+            if($row_message['return_message'] != "0") {
+                $data['submit_success'] = true;
+                $row_message['return_message'] = "BERHASIL";
+            }else {
+                $data['submit_success'] = false;
+                $row_message['return_message'] = "";
+            }
+
+            $data['success'] = true;
+            $data['return_message'] = $row_message['return_message'];
+            $data['error_message'] = $row_message['error_message'];
+            $data['warning'] = $row_message['warning'];
+
+        } catch( Exception $e ) {
+            $data['success'] = false;
+            $data['message'] = $e->getMessage();
+        }
+
+        echo json_encode($data);
+        exit;
+    }
+
+
+    public function submitter_reject() {
+
+        $ci =& get_instance();
+        $ci->load->model('workflow/wf');
+        $table = $ci->wf;
+
+        $o_submitter_id = null;
+        $o_error_message = "";
+        $o_result_msg = "";
+        $o_warning = "";
+        $user_id_login = $ci->session->userdata("d_user_id");
+
+        /* posting from submit lov */
+        $interactive_message = $ci->input->post('interactive_message');
+        $submitter_params = json_decode($ci->input->post('params') , true);
+
+        try {
+
+            $sql = "select submitter_seq.nextval as seq from dual";
+            $query = $table->db->query($sql);
+            $row = $query->row_array();
+            $o_submitter_id = $row['seq'];
+
+            $submitter_params['USER_ID_DOC'] = empty($submitter_params['USER_ID_DOC']) ? NULL : $submitter_params['USER_ID_DOC'];
+            $submitter_params['USER_ID_DONOR'] = empty($submitter_params['USER_ID_DONOR']) ? NULL : $submitter_params['USER_ID_DOC'];
+            $submitter_params['USER_ID_TAKEN'] = empty($submitter_params['USER_ID_TAKEN']) ? $user_id_login : $submitter_params['USER_ID_TAKEN'];
+
+            $submitter_params['CURR_CTL_ID'] = empty($submitter_params['CURR_CTL_ID']) ? NULL : $submitter_params['CURR_CTL_ID'];
+            $submitter_params['CURR_DOC_TYPE_ID'] = empty($submitter_params['CURR_DOC_TYPE_ID']) ? NULL : $submitter_params['CURR_DOC_TYPE_ID'];
+            $submitter_params['CURR_PROC_ID'] = empty($submitter_params['CURR_PROC_ID']) ? NULL : $submitter_params['CURR_PROC_ID'];
+            $submitter_params['CURR_DOC_ID'] = empty($submitter_params['CURR_DOC_ID']) ? NULL : $submitter_params['CURR_DOC_ID'];
+
+            $submitter_params['PREV_CTL_ID'] = empty($submitter_params['PREV_CTL_ID']) ? NULL : $submitter_params['PREV_CTL_ID'];
+            $submitter_params['PREV_DOC_TYPE_ID'] = empty($submitter_params['PREV_DOC_TYPE_ID']) ? NULL : $submitter_params['PREV_DOC_TYPE_ID'];
+            $submitter_params['PREV_PROC_ID'] = empty($submitter_params['PREV_PROC_ID']) ? NULL : $submitter_params['PREV_PROC_ID'];
+            $submitter_params['PREV_DOC_ID'] = empty($submitter_params['PREV_DOC_ID']) ? NULL : $submitter_params['PREV_DOC_ID'];
+
+            $str_params = "";
+            define("TOTAL_PARAMS", 23);
+            for($i = 1; $i <= TOTAL_PARAMS; $i++) {
+                if($i == 1) $str_params .= ":params".$i;
+                else $str_params .= ",:params".$i;
+            }
+
+            $sql = "  BEGIN ".
+                        "  pack_workflow.reject_engine(".$str_params."); END;";
+
+            $params = array(
+                array('name' => ':params1', 'value' => $o_submitter_id, 'type' => SQLT_INT, 'length' => 100),
+                array('name' => ':params2', 'value' => $submitter_params['IS_CREATE_DOC'], 'type' => SQLT_CHR, 'length' => 500),
+                array('name' => ':params3', 'value' => $submitter_params['IS_MANUAL'], 'type' => SQLT_CHR, 'length' => 500),
+                array('name' => ':params4', 'value' => $submitter_params['USER_ID_DOC'], 'type' => SQLT_INT, 'length' => 100),
+                array('name' => ':params5', 'value' => $submitter_params['USER_ID_DONOR'], 'type' => SQLT_INT, 'length' => 100),
+                array('name' => ':params6', 'value' => $user_id_login, 'type' => SQLT_INT, 'length' => 100),
+                array('name' => ':params7', 'value' => $submitter_params['USER_ID_TAKEN'], 'type' => SQLT_INT, 'length' => 100),
+                array('name' => ':params8', 'value' => $submitter_params['CURR_CTL_ID'], 'type' => SQLT_INT, 'length' => 100),
+                array('name' => ':params9', 'value' => $submitter_params['CURR_DOC_TYPE_ID'], 'type' => SQLT_INT, 'length' => 100),
+                array('name' => ':params10', 'value' => $submitter_params['CURR_PROC_ID'], 'type' => SQLT_INT, 'length' => 100),
+                array('name' => ':params11', 'value' => $submitter_params['CURR_DOC_ID'], 'type' => SQLT_INT, 'length' => 100),
+                array('name' => ':params12', 'value' => $submitter_params['CURR_DOC_STATUS'], 'type' => SQLT_CHR, 'length' => 500),
+                array('name' => ':params13', 'value' => $submitter_params['CURR_PROC_STATUS'], 'type' => SQLT_CHR, 'length' => 500),
+                array('name' => ':params14', 'value' => $submitter_params['PREV_CTL_ID'], 'type' => SQLT_INT, 'length' => 100),
+                array('name' => ':params15', 'value' => $submitter_params['PREV_DOC_TYPE_ID'], 'type' => SQLT_INT, 'length' => 100),
+                array('name' => ':params16', 'value' => $submitter_params['PREV_PROC_ID'], 'type' => SQLT_INT, 'length' => 100),
+                array('name' => ':params17', 'value' => $submitter_params['PREV_DOC_ID'], 'type' => SQLT_INT, 'length' => 100),
+                array('name' => ':params18', 'value' => $interactive_message, 'type' => SQLT_CHR, 'length' => 500),
+                array('name' => ':params19', 'value' => $submitter_params['SLOT_1'], 'type' => SQLT_CHR, 'length' => 500),
+                array('name' => ':params20', 'value' => $submitter_params['SLOT_2'], 'type' => SQLT_CHR, 'length' => 500),
+                array('name' => ':params21', 'value' => $submitter_params['SLOT_3'], 'type' => SQLT_CHR, 'length' => 500),
+                array('name' => ':params22', 'value' => $submitter_params['SLOT_4'], 'type' => SQLT_CHR, 'length' => 500),
+                array('name' => ':params23', 'value' => $submitter_params['SLOT_5'], 'type' => SQLT_CHR, 'length' => 500)
+            );
+            // Bind the output parameter
+
+            $stmt = oci_parse($table->db->conn_id,$sql);
+
+            foreach($params as $p){
+                // Bind Input
+                oci_bind_by_name($stmt, $p['name'], $p['value'], $p['length']);
+            }
+
+            ociexecute($stmt);
+
+            $sql_message = "select error_message, return_message, warning from submitter where submitter_id = ".$o_submitter_id;
+            $query_message = $table->db->query($sql_message);
+            $row_message = $query_message->row_array();
+
+            $data = array();
+
+            if($row_message['return_message'] != "0") {
+                $data['submit_success'] = true;
+                $row_message['return_message'] = "BERHASIL";
+            }else {
+                $data['submit_success'] = false;
+                $row_message['return_message'] = "";
+            }
+
+            $data['success'] = true;
+            $data['return_message'] = $row_message['return_message'];
+            $data['error_message'] = $row_message['error_message'];
+            $data['warning'] = $row_message['warning'];
+
+        } catch( Exception $e ) {
+            $data['success'] = false;
+            $data['message'] = $e->getMessage();
+        }
+
+        echo json_encode($data);
+        exit;
+    }
+
+
+    public function submitter_back() {
+
+        $ci =& get_instance();
+        $ci->load->model('workflow/wf');
+        $table = $ci->wf;
+
+        $o_submitter_id = null;
+        $o_error_message = "";
+        $o_result_msg = "";
+        $o_warning = "";
+        $user_id_login = $ci->session->userdata("d_user_id");
+
+        /* posting from submit lov */
+        $interactive_message = $ci->input->post('interactive_message');
+        $submitter_params = json_decode($ci->input->post('params') , true);
+
+        try {
+
+            $sql = "select submitter_seq.nextval as seq from dual";
+            $query = $table->db->query($sql);
+            $row = $query->row_array();
+            $o_submitter_id = $row['SEQ'];
+
+            $submitter_params['USER_ID_DOC'] = empty($submitter_params['USER_ID_DOC']) ? NULL : $submitter_params['USER_ID_DOC'];
+            $submitter_params['USER_ID_DONOR'] = empty($submitter_params['USER_ID_DONOR']) ? NULL : $submitter_params['USER_ID_DOC'];
+            $submitter_params['USER_ID_TAKEN'] = empty($submitter_params['USER_ID_TAKEN']) ? $user_id_login : $submitter_params['USER_ID_TAKEN'];
+
+            $submitter_params['CURR_CTL_ID'] = empty($submitter_params['CURR_CTL_ID']) ? NULL : $submitter_params['CURR_CTL_ID'];
+            $submitter_params['CURR_DOC_TYPE_ID'] = empty($submitter_params['CURR_DOC_TYPE_ID']) ? NULL : $submitter_params['CURR_DOC_TYPE_ID'];
+            $submitter_params['CURR_PROC_ID'] = empty($submitter_params['CURR_PROC_ID']) ? NULL : $submitter_params['CURR_PROC_ID'];
+            $submitter_params['CURR_DOC_ID'] = empty($submitter_params['CURR_DOC_ID']) ? NULL : $submitter_params['CURR_DOC_ID'];
+
+            $submitter_params['PREV_CTL_ID'] = empty($submitter_params['PREV_CTL_ID']) ? NULL : $submitter_params['PREV_CTL_ID'];
+            $submitter_params['PREV_DOC_TYPE_ID'] = empty($submitter_params['PREV_DOC_TYPE_ID']) ? NULL : $submitter_params['PREV_DOC_TYPE_ID'];
+            $submitter_params['PREV_PROC_ID'] = empty($submitter_params['PREV_PROC_ID']) ? NULL : $submitter_params['PREV_PROC_ID'];
+            $submitter_params['PREV_DOC_ID'] = empty($submitter_params['PREV_DOC_ID']) ? NULL : $submitter_params['PREV_DOC_ID'];
+
+            $str_params = "";
+            define("TOTAL_PARAMS", 23);
+            for($i = 1; $i <= TOTAL_PARAMS; $i++) {
+                if($i == 1) $str_params .= ":params".$i;
+                else $str_params .= ",:params".$i;
+            }
+
+            $sql = "  BEGIN ".
+                        "  pack_workflow.back_engine(".$str_params."); END;";
+
+            $params = array(
+                array('name' => ':params1', 'value' => $o_submitter_id, 'type' => SQLT_INT, 'length' => 100),
+                array('name' => ':params2', 'value' => $submitter_params['IS_CREATE_DOC'], 'type' => SQLT_CHR, 'length' => 500),
+                array('name' => ':params3', 'value' => $submitter_params['IS_MANUAL'], 'type' => SQLT_CHR, 'length' => 500),
+                array('name' => ':params4', 'value' => $submitter_params['USER_ID_DOC'], 'type' => SQLT_INT, 'length' => 100),
+                array('name' => ':params5', 'value' => $submitter_params['USER_ID_DONOR'], 'type' => SQLT_INT, 'length' => 100),
+                array('name' => ':params6', 'value' => $user_id_login, 'type' => SQLT_INT, 'length' => 100),
+                array('name' => ':params7', 'value' => $submitter_params['USER_ID_TAKEN'], 'type' => SQLT_INT, 'length' => 100),
+                array('name' => ':params8', 'value' => $submitter_params['CURR_CTL_ID'], 'type' => SQLT_INT, 'length' => 100),
+                array('name' => ':params9', 'value' => $submitter_params['CURR_DOC_TYPE_ID'], 'type' => SQLT_INT, 'length' => 100),
+                array('name' => ':params10', 'value' => $submitter_params['CURR_PROC_ID'], 'type' => SQLT_INT, 'length' => 100),
+                array('name' => ':params11', 'value' => $submitter_params['CURR_DOC_ID'], 'type' => SQLT_INT, 'length' => 100),
+                array('name' => ':params12', 'value' => $submitter_params['CURR_DOC_STATUS'], 'type' => SQLT_CHR, 'length' => 500),
+                array('name' => ':params13', 'value' => $submitter_params['CURR_PROC_STATUS'], 'type' => SQLT_CHR, 'length' => 500),
+                array('name' => ':params14', 'value' => $submitter_params['PREV_CTL_ID'], 'type' => SQLT_INT, 'length' => 100),
+                array('name' => ':params15', 'value' => $submitter_params['PREV_DOC_TYPE_ID'], 'type' => SQLT_INT, 'length' => 100),
+                array('name' => ':params16', 'value' => $submitter_params['PREV_PROC_ID'], 'type' => SQLT_INT, 'length' => 100),
+                array('name' => ':params17', 'value' => $submitter_params['PREV_DOC_ID'], 'type' => SQLT_INT, 'length' => 100),
+                array('name' => ':params18', 'value' => $interactive_message, 'type' => SQLT_CHR, 'length' => 500),
+                array('name' => ':params19', 'value' => $submitter_params['SLOT_1'], 'type' => SQLT_CHR, 'length' => 500),
+                array('name' => ':params20', 'value' => $submitter_params['SLOT_2'], 'type' => SQLT_CHR, 'length' => 500),
+                array('name' => ':params21', 'value' => $submitter_params['SLOT_3'], 'type' => SQLT_CHR, 'length' => 500),
+                array('name' => ':params22', 'value' => $submitter_params['SLOT_4'], 'type' => SQLT_CHR, 'length' => 500),
+                array('name' => ':params23', 'value' => $submitter_params['SLOT_5'], 'type' => SQLT_CHR, 'length' => 500)
+            );
+            // Bind the output parameter
+
+            $stmt = oci_parse($table->db->conn_id,$sql);
+
+            foreach($params as $p){
+                // Bind Input
+                oci_bind_by_name($stmt, $p['name'], $p['value'], $p['length']);
+            }
+
+            ociexecute($stmt);
+
+            $sql_message = "select error_message, return_message, warning from submitter where submitter_id = ".$o_submitter_id;
+            $query_message = $table->db->query($sql_message);
+            $row_message = $query_message->row_array();
+
+            $data = array();
+
+            if($row_message['return_message'] != "0") {
+                $data['submit_success'] = true;
+                $row_message['return_message'] = "BERHASIL";
+            }else {
+                $data['submit_success'] = false;
+                $row_message['return_message'] = "";
+            }
+
+            $data['success'] = true;
+            $data['return_message'] = $row_message['return_message'];
+            $data['error_message'] = $row_message['error_message'];
+            $data['warning'] = $row_message['warning'];
+
+        } catch( Exception $e ) {
+            $data['success'] = false;
+            $data['message'] = $e->getMessage();
+        }
+
+        echo json_encode($data);
+        exit;
+    }
+
+
+    public function pekerjaan_tersedia() {
+
+        $ci =& get_instance();
+        $ci->load->model('workflow/wf');
+        $table = $ci->wf;
+
+
+        $curr_proc_id = $ci->input->post('curr_proc_id');
+        $curr_doc_type_id = $ci->input->post('curr_doc_type_id');
+
+        $sql = "select f_get_next_info(".$curr_proc_id.",".$curr_doc_type_id.")as task from dual";
+        $query = $table->db->query($sql);
+        $row = $query->row_array();
+
+        $data = array();
+        $data['task'] = $row['task'];
+
+        echo json_encode($data);
+        exit;
+    }
+
+
+    public function status_dokumen_workflow() {
+
+        $ci =& get_instance();
+        $ci->load->model('workflow/wf');
+        $table = $ci->wf;
+
+        $sql = "select * from v_document_workflow_status";
+        $query = $table->db->query($sql);
+
+        $items = $query->result_array();
+        $opt_status = '';
+
+        foreach ($items as $item) {
+            $opt_status .= '<option value="'.$item['p_status_list_id'].'"> '.$item['code'].' </option>';
+        }
+
+        echo json_encode( array('opt_status' => $opt_status ) );
+        exit;
+    }
+
 }
 
 /* End of file Groups_controller.php */

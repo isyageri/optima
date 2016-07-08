@@ -43,17 +43,17 @@
                     <div class="col-xs-12 well well-sm" style="margin-bottom:0px;">
                     <div class="form-group">
                         <label class="control-label">&nbsp;</label>
-                        <div class="col-sm-3">
+                        <div class="col-sm-4">
                             <div class="input-group">
                                 <input class="form-control" type="text" placeholder="Tgl Terima" id="filter_date_task_list"/>
                                 <span class="input-group-addon">
-                                    <span class="ace-icon fa fa-calendar icon-on-right bigger-110"></span>
+                                    <span class="fa fa-calendar icon-on-right bigger-110"></span>
                                 </span>
                             </div>
                         </div>
 
                        <label class="control-label">&nbsp;</label>
-                        <div class="col-sm-6">
+                        <div class="col-sm-7">
                             <div class="input-group">
                                 <input class="form-control" type="text" placeholder="Pencarian teks" id="filter_search_task_list"/>
                                 <span class="input-group-btn">
