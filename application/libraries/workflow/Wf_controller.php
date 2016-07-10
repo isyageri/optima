@@ -148,7 +148,7 @@ class Wf_controller {
         $profile_type    = $ci->input->post('profile_type');
         $element_id      = $ci->input->post('element_id');
         $user_name       = $userinfo->username;
-
+        
         $page = intval($ci->input->post('page')) ;
         $limit = $ci->input->post('limit');
         $sort = 'donor_date';
@@ -770,6 +770,270 @@ class Wf_controller {
         }
 
         echo json_encode( array('opt_status' => $opt_status ) );
+        exit;
+    }
+
+    public function grid_customer_order() {
+
+        $ci =& get_instance();
+        $ci->load->model('workflow/wf');
+        $table = $ci->wf;
+        $t_customer_order_id = $ci->input->post('t_customer_order_id');
+        $p_w_proc_id = $ci->input->post('p_w_proc_id');
+
+        $sql = "SELECT * FROM v_wf_create_schema WHERE t_customer_order_id = ".$t_customer_order_id." AND p_w_proc_id = ".$p_w_proc_id;
+        $query = $table->db->query($sql);
+
+        $items = $query->result_array();
+
+        echo json_encode( $items );
+        exit;
+    }
+
+    public function doc_type() {
+        $ci =& get_instance();
+        $ci->load->model('workflow/wf');
+        $table = $ci->wf;
+
+        $sql = "select * from p_legal_doc_type";
+        $query = $table->db->query($sql);
+
+        $items = $query->result_array();
+        $opt_status = '';
+
+        foreach ($items as $item) {
+            $opt_status .= '<option value="'.$item['p_legal_doc_type_id'].'"> '.$item['code'].' </option>';
+        }
+
+        echo json_encode( array('opt_status' => $opt_status ) );
+        exit;
+    }
+
+    public function getLogKronologi(){
+        $ci =& get_instance();
+        $userinfo = $ci->ion_auth->user()->row();
+        $ci->load->model('workflow/wf');
+        $table = $ci->wf;
+
+        $page = intval($ci->input->post('current')) ;
+        $limit = $ci->input->post('rowCount');
+        $sort = $ci->input->post('sort');
+        $dir = $ci->input->post('dir');
+
+        $result = array();
+        $query = $table->db->query("SELECT * FROM v_t_nwo_log_kronologis WHERE T_CUSTOMER_ORDER_ID = ".$ci->input->post('t_customer_order_id')." ");
+
+        if($query->num_rows() > 0)
+            $result = $query->result_array();
+        
+
+        if ($page == 0) {
+            $hasil['current'] = 1;
+        } else {
+            $hasil['current'] = $page;
+        }
+
+        $hasil['total'] = count($result);
+        $hasil['rowCount'] = $limit;
+        $hasil['success'] = true;
+        $hasil['message'] = 'Berhasil';
+        $hasil['rows'] = $result;
+
+        echo(json_encode($hasil));
+        exit;
+    }
+
+    public function save_log(){
+        $ci =& get_instance();
+        $userinfo = $ci->ion_auth->user()->row();
+        $ci->load->model('workflow/wf');
+        $table = $ci->wf;
+
+        $log_params = json_decode($ci->input->post('params') , true);
+        $CREATED_BY = $userinfo->username;
+        $UPDATED_BY = $userinfo->username;
+        $log_params['CURR_DOC_ID'] = empty($log_params['CURR_DOC_ID']) ? NULL : $log_params['CURR_DOC_ID'];
+        $log_params['USER_ID_LOGIN'] = empty($log_params['USER_ID_LOGIN']) ? NULL : $log_params['USER_ID_LOGIN'];
+
+        try {
+
+            $sql = "INSERT INTO T_ORDER_LOG_KRONOLOGIS(  DESCRIPTION, 
+                                                         CREATE_DATE, 
+                                                         UPDATE_DATE, 
+                                                         ACTIVITY, 
+                                                         CREATE_BY, 
+                                                         UPDATE_BY, 
+                                                         COUNTER_NO, 
+                                                         T_CUSTOMER_ORDER_ID, 
+                                                         P_APP_USER_ID, 
+                                                         EMPLOYEE_NO,   
+                                                         LOG_DATE,
+                                                         P_PROCEDURE_ID,
+                                                         INPUT_TYPE ) 
+                                                VALUES(  '".$ci->input->post('desc_log')."',
+                                                         SYSDATE,
+                                                         SYSDATE,
+                                                         '".$ci->input->post('activity')."',
+                                                         '".$CREATED_BY."',
+                                                         '".$UPDATED_BY."',
+                                                         (SELECT NVL(MAX(COUNTER_NO),0)+1 FROM T_ORDER_LOG_KRONOLOGIS WHERE T_CUSTOMER_ORDER_ID=".$log_params['CURR_DOC_ID']."),
+                                                         ".$log_params['CURR_DOC_ID'].",
+                                                         ".$log_params['USER_ID_LOGIN'].",
+                                                         NULL,
+                                                         SYSDATE,
+                                                         ".$log_params['CURR_PROC_ID'].",
+                                                         'M'
+                                                )";
+
+            $table->db->query($sql);
+
+            $result['success'] = true;
+            $result['message'] = 'Log Kronologis Berhasil Ditambah';
+            
+        }catch(Exception $e) {
+            $result['success'] = false;
+            $result['message'] = $e->getMessage();
+        }
+
+         echo json_encode($result);
+         exit;
+    }
+
+    public function getLegalDoc(){
+        $ci =& get_instance();
+        $userinfo = $ci->ion_auth->user()->row();
+        $ci->load->model('workflow/wf');
+        $table = $ci->wf;
+
+        $page = intval($ci->input->post('current')) ;
+        $limit = $ci->input->post('rowCount');
+        $sort = $ci->input->post('sort');
+        $dir = $ci->input->post('dir');
+
+        $result = array();
+        $query = $table->db->query("SELECT a.*, b.CODE as LEGAL_DOC_DESC FROM t_cust_order_legal_doc a
+                                 LEFT JOIN p_legal_doc_type b ON a.P_LEGAL_DOC_TYPE_ID = b.P_LEGAL_DOC_TYPE_ID
+                                 WHERE a.T_CUSTOMER_ORDER_ID = ".$ci->input->post('t_customer_order_id')." ");
+        if($query->num_rows() > 0)
+            $result = $query->result_array();
+        
+
+        if ($page == 0) {
+            $hasil['current'] = 1;
+        } else {
+            $hasil['current'] = $page;
+        }
+
+        $hasil['total'] = count($result);
+        $hasil['rowCount'] = $limit;
+        $hasil['success'] = true;
+        $hasil['message'] = 'Berhasil';
+        $hasil['rows'] = $result;
+
+        echo(json_encode($hasil));
+        exit;
+    }
+
+    public function save_legaldoc(){
+        $ci =& get_instance();
+        $userinfo = $ci->ion_auth->user()->row();
+        $ci->load->model('workflow/wf');
+        $table = $ci->wf;
+
+        $params = json_decode($ci->input->post('legaldoc_params') , true);
+        $CREATED_BY = $userinfo->username;
+        $UPDATED_BY = $userinfo->username;
+        $log_params['CURR_DOC_ID'] = empty($log_params['CURR_DOC_ID']) ? NULL : $log_params['CURR_DOC_ID'];
+
+        try {
+
+            $config['upload_path'] = './application/third_party/upload_file';
+            $config['allowed_types'] = '*';
+            $config['max_size'] = '10000000';
+            $config['overwrite'] = TRUE;
+            $file_id = date("YmdHis");
+            $config['file_name'] = "wf_" . $file_id;
+
+            $ci->load->library('upload');
+            $ci->upload->initialize($config);
+
+            if (!$ci->upload->do_upload("filename")) {
+
+                $error = $ci->upload->display_errors();
+                $result['success'] = false;
+                $result['message'] = $error;
+
+                echo json_encode($result);
+                exit;
+            }else{
+                
+                // Do Upload
+                $data = $ci->upload->data();            
+
+                $idd = $table->generate_id('T_CUST_ORDER_LEGAL_DOC');
+
+                $sql = "INSERT INTO T_CUST_ORDER_LEGAL_DOC(T_CUST_ORDER_LEGAL_DOC_ID, 
+                                                           DESCRIPTION, 
+                                                           CREATED_BY, 
+                                                           UPDATED_BY, 
+                                                           CREATION_DATE, 
+                                                           UPDATED_DATE, 
+                                                           P_LEGAL_DOC_TYPE_ID, 
+                                                           T_CUSTOMER_ORDER_ID, 
+                                                           ORIGIN_FILE_NAME, 
+                                                           FILE_FOLDER, 
+                                                           FILE_NAME) 
+                            VALUES (".$idd.", 
+                                    '".$ci->input->post('desc')."', 
+                                    '".$CREATED_BY."', 
+                                    '".$UPDATED_BY."', 
+                                    SYSDATE, 
+                                    SYSDATE, 
+                                    ".$ci->input->post('p_legal_doc_type_id').", 
+                                    ".$params['CURR_DOC_ID'].", 
+                                    '".$data['client_name']."',
+                                    'application/third_party/upload_file',
+                                    '".$data['file_name']."'
+                                    )";
+
+                $table->db->query($sql);
+                
+
+                $result['success'] = true;
+                $result['message'] = 'Dokumen Pendukung Berhasil Ditambah';
+
+            }
+
+        }catch(Exception $e) {
+            $result['success'] = false;
+            $result['message'] = $e->getMessage();
+        }
+
+        echo json_encode($result);
+        exit;
+    }
+
+    public function delete_legaldoc(){
+        $ci =& get_instance();
+        $userinfo = $ci->ion_auth->user()->row();
+        $ci->load->model('workflow/wf');
+        $table = $ci->wf;
+
+        try {
+
+            $id_ = $ci->input->post('t_cust_order_legal_doc_id');
+            $table->db->where('T_CUST_ORDER_LEGAL_DOC_ID', $id_);
+            $table->db->delete('T_CUST_ORDER_LEGAL_DOC');
+
+            $result['success'] = true;
+            $result['message'] = 'Dokumen Pendukung Berhasil Dihapus';
+
+        } catch (Exception $e) {
+            $result['success'] = false;
+            $result['message'] = $e->getMessage();
+        }
+
+        echo json_encode($result);
         exit;
     }
 
