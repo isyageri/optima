@@ -1037,6 +1037,25 @@ class Wf_controller {
         exit;
     }
 
+    public function workflow_list() {
+        $ci =& get_instance();
+        $ci->load->model('workflow/wf');
+        $table = $ci->wf;
+
+        $sql = "select * from p_workflow";
+        $query = $table->db->query($sql);
+
+        $items = $query->result_array();
+        $opt_status = '';
+
+        foreach ($items as $item) {
+            $opt_status .= '<option value="'.$item['p_workflow_id'].'"> '.$item['display_name'].' </option>';
+        }
+
+        echo json_encode( array('opt_status' => $opt_status ) );
+        exit;
+    }
+
 }
 
 /* End of file Groups_controller.php */

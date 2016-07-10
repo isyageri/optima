@@ -228,6 +228,14 @@ class Wf extends Abstract_model {
 
         return $items;
     }
+
+    public function getMonitoring($id, $search, $tmp){
+        $result = array();
+        $sql = $this->db->query("SELECT * FROM TABLE(F_MONITOR_TIPRO(".$id.", '".$search."')) WHERE WF_MONITOR LIKE '".$tmp."%' ");
+        if($sql->num_rows() > 0)
+            $result = $sql->result();
+        return $result;
+    }
 }
 
 /* End of file Groups.php */
