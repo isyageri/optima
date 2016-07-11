@@ -1,5 +1,5 @@
 <div id="modal_lov_submitter" class="modal fade" tabindex="-1" style="overflow-y: scroll;">
-    <div class="modal-dialog" style="overflow-y:scroll;height:500px;">
+    <div class="modal-dialog">
         <div class="modal-content">
             <!-- modal title -->
             <div class="modal-header no-padding">
@@ -9,7 +9,7 @@
             </div>
 
             <!-- modal body -->
-            <div class="modal-body">
+            <div class="modal-body" style="overflow-y:scroll;height:400px;">
                 <form class="form-horizontal" application="form" id="form_submitter">
                     <input type="hidden" id="form_submitter_params">
                     <input type="hidden" id="form_submitter_back_summary">
