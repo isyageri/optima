@@ -398,12 +398,13 @@ class Wf_controller {
         $ci =& get_instance();
         $ci->load->model('workflow/wf');
         $table = $ci->wf;
+        $userinfo = $ci->ion_auth->user()->row();
 
         $o_submitter_id = null;
         $o_error_message = "";
         $o_result_msg = "";
         $o_warning = "";
-        $user_id_login = $ci->session->userdata("d_user_id");
+        $user_id_login = $userinfo->id;
 
         /* posting from submit lov */
         $interactive_message = $ci->input->post('interactive_message');
@@ -513,12 +514,13 @@ class Wf_controller {
         $ci =& get_instance();
         $ci->load->model('workflow/wf');
         $table = $ci->wf;
+        $userinfo = $ci->ion_auth->user()->row();
 
         $o_submitter_id = null;
         $o_error_message = "";
         $o_result_msg = "";
         $o_warning = "";
-        $user_id_login = $ci->session->userdata("d_user_id");
+        $user_id_login = $userinfo->id;
 
         /* posting from submit lov */
         $interactive_message = $ci->input->post('interactive_message');
@@ -625,12 +627,13 @@ class Wf_controller {
         $ci =& get_instance();
         $ci->load->model('workflow/wf');
         $table = $ci->wf;
+        $userinfo = $ci->ion_auth->user()->row();
 
         $o_submitter_id = null;
         $o_error_message = "";
         $o_result_msg = "";
         $o_warning = "";
-        $user_id_login = $ci->session->userdata("d_user_id");
+        $user_id_login = $userinfo->id;
 
         /* posting from submit lov */
         $interactive_message = $ci->input->post('interactive_message');
