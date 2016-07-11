@@ -28,16 +28,18 @@ class Users extends Abstract_model {
                                 'last_name'         => array('nullable' => true, 'type' => 'str', 'unique' => false, 'display' => 'Last Name'),
                                 'company'           => array('nullable' => true, 'type' => 'str', 'unique' => false, 'display' => 'Company'),
                                 'phone'             => array('nullable' => true, 'type' => 'str', 'unique' => false, 'display' => 'Phone'),
+                                'location_id'       => array('nullable' => false, 'type' => 'int', 'unique' => false, 'display' => 'Location'),
 
                             );
 
     public $selectClause    = "usr.id, usr.ip_address, usr.username, usr.email, to_char(to_timestamp_num(created_on),'dd-mm-yyyy HH24:MI:SS')  as created_on,
                                     to_char(to_timestamp_num(last_login),'dd-mm-yyyy HH24:MI:SS')  as last_login,
-                                    coalesce(usr.active,0) active, usr.first_name, usr.last_name, usr.company, usr.phone,
+                                    coalesce(usr.active,0) active, usr.first_name, usr.last_name, usr.company, usr.phone, usr.location_id, loc.company_name,
                                     CASE coalesce(usr.active,0) WHEN 0 THEN 'Not Active'
                                         WHEN 1 THEN 'Active'
                                     END as status_active";
-    public $fromClause      = "users usr";
+    public $fromClause      = "users usr
+                                left join location loc on usr.location_id = loc.id";
 
     public $refs            = array('users_groups' => 'user_id');
 
@@ -62,7 +64,7 @@ class Users extends Abstract_model {
 
             $this->record[$this->pkey] = $this->generate_id($this->table);
             $this->record['created_on'] = time();
-            $this->record['location_id'] = 1;
+
         }else {
             //do something
             //example:

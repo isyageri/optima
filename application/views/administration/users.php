@@ -31,7 +31,17 @@
     </div>
 </div>
 
+<?php $this->load->view('lov/lov_location.php'); ?>
 <script>
+
+    function showLOVLocation(id, code) {
+        modal_lov_location_show(id, code);
+    }
+
+    function clearInputLocation() {
+        $('#form_location_id').val('');
+        $('#form_location_code').val('');
+    }
 
     jQuery(function($) {
 
@@ -102,6 +112,51 @@
                     },
                     editrules: {edithidden: true, required: false}
                 },
+                {label: 'Location',
+                    name: 'location_id',
+                    width: 200,
+                    sortable: true,
+                    editable: true,
+                    hidden: true,
+                    editrules: {edithidden: true, required:true},
+                    edittype: 'custom',
+                    editoptions: {
+                        "custom_element":function( value  , options) {
+                            var elm = $('<span></span>');
+
+                            // give the editor time to initialize
+                            setTimeout( function() {
+                                elm.append('<input id="form_location_id" type="text"  style="display:none;">'+
+                                        '<input id="form_location_code" readonly type="text" class="FormElement form-control jqgrid-required" placeholder="Choose Location">'+
+                                        '<button class="btn btn-success" type="button" onclick="showLOVLocation(\'form_location_id\',\'form_location_code\')">'+
+                                        '   <span class="fa fa-search bigger-110"></span>'+
+                                        '</button>');
+                                $("#form_location_id").val(value);
+                                elm.parent().removeClass('jqgrid-required');
+                            }, 100);
+
+                            return elm;
+                        },
+                        "custom_value":function( element, oper, gridval) {
+
+                            if(oper === 'get') {
+                                return $("#form_location_id").val();
+                            } else if( oper === 'set') {
+                                $("#form_location_id").val(gridval);
+                                var gridId = this.id;
+                                // give the editor time to set display
+                                setTimeout(function(){
+                                    var selectedRowId = $("#"+gridId).jqGrid ('getGridParam', 'selrow');
+                                    if(selectedRowId != null) {
+                                        var code_display = $("#"+gridId).jqGrid('getCell', selectedRowId, 'company_name');
+                                        $("#form_location_code").val( code_display );
+                                    }
+                                },100);
+                            }
+                        }
+                    }
+                },
+                {label: 'Company Name', name: 'company_name', width: 120, align: "left", editable: false, hidden:true},
                 {label: 'Status Active', name: 'status_active', width: 120, align: "left", editable: false},
                 {label: 'Created On', name: 'created_on', width: 120, align: "left", editable: false},
                 {label: 'Last Login', name: 'last_login', width: 120, align: "left", editable: false}
@@ -222,7 +277,9 @@
                     style_edit_form(form);
                     /*form.css({"height": 0.50*screen.height+"px"});
                     form.css({"width": 0.60*screen.width+"px"});*/
-
+                    setTimeout(function() {
+                        clearInputLocation();
+                    },100);
                     $("#tr_password", form).show();
                 },
                 afterShowForm: function(form) {
@@ -237,6 +294,8 @@
                     $(".tinfo").html('<div class="ui-state-success">' + response.message + '</div>');
                     var tinfoel = $(".tinfo").show();
                     tinfoel.delay(3000).fadeOut();
+
+                    clearInputLocation();
 
                     return [true,"",response.responseText];
                 }
