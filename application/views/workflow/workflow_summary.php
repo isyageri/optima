@@ -140,7 +140,8 @@
         $(pager_selector).pagination('updateItems', total_data);
     }
 
-    function loadUserTaskList(choosen_radio) {
+    function loadUserTaskList(choosen_radio, event) {
+        event.preventDefault();
         $('#filter_date_task_list').datepicker('setDate', null);
         $('#filter_search_task_list').val("");
         $('#TEMP_ELEMENT_ID').val( choosen_radio.value );

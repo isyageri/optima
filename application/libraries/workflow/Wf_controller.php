@@ -117,7 +117,7 @@ class Wf_controller {
                 $strOutput .= '<tr>
                                     <td style="padding-left:35px;"><strong class="font-blue">'.$item['display_name'].'</strong></td>
                                     <td style="text-align:right;">'.$item['scount'].'</td>
-                                    <td class="center"><input class="pointer radio-bigger" type="radio" '.$selected.' name="pilih_summary" value="'.$item['element_id'].'" onclick="loadUserTaskList(this);"></td>
+                                    <td class="center"><input class="pointer radio-bigger" type="radio" '.$selected.' name="pilih_summary" value="'.$item['element_id'].'" onclick="loadUserTaskList(this, event);"></td>
                                     <td style="display:none;">
                                         <input type="hidden" id="'.$item['element_id'].'_p_w_doc_type_id" value="'.$item['p_w_doc_type_id'].'">
                                         <input type="hidden" id="'.$item['element_id'].'_p_w_proc_id" value="'.$item['p_w_proc_id'].'">
@@ -148,7 +148,7 @@ class Wf_controller {
         $profile_type    = $ci->input->post('profile_type');
         $element_id      = $ci->input->post('element_id');
         $user_name       = $userinfo->username;
-        
+
         $page = intval($ci->input->post('page')) ;
         $limit = $ci->input->post('limit');
         $sort = 'donor_date';
@@ -352,10 +352,11 @@ class Wf_controller {
         $ci =& get_instance();
         $ci->load->model('workflow/wf');
         $table = $ci->wf;
+        $userinfo = $ci->ion_auth->user()->row();
 
         $curr_ctl_id = $ci->input->post('curr_ctl_id');
         $curr_doc_type_id = $ci->input->post('curr_doc_type_id');
-        $user_name = strtoupper($ci->session->userdata("d_user_name"));
+        $user_name = strtoupper($userinfo->username);
 
         $curr_doc_type_id = empty($curr_doc_type_id) ? NULL : $curr_doc_type_id;
 
@@ -825,7 +826,7 @@ class Wf_controller {
 
         if($query->num_rows() > 0)
             $result = $query->result_array();
-        
+
 
         if ($page == 0) {
             $hasil['current'] = 1;
@@ -857,19 +858,19 @@ class Wf_controller {
 
         try {
 
-            $sql = "INSERT INTO T_ORDER_LOG_KRONOLOGIS(  DESCRIPTION, 
-                                                         CREATE_DATE, 
-                                                         UPDATE_DATE, 
-                                                         ACTIVITY, 
-                                                         CREATE_BY, 
-                                                         UPDATE_BY, 
-                                                         COUNTER_NO, 
-                                                         T_CUSTOMER_ORDER_ID, 
-                                                         P_APP_USER_ID, 
-                                                         EMPLOYEE_NO,   
+            $sql = "INSERT INTO T_ORDER_LOG_KRONOLOGIS(  DESCRIPTION,
+                                                         CREATE_DATE,
+                                                         UPDATE_DATE,
+                                                         ACTIVITY,
+                                                         CREATE_BY,
+                                                         UPDATE_BY,
+                                                         COUNTER_NO,
+                                                         T_CUSTOMER_ORDER_ID,
+                                                         P_APP_USER_ID,
+                                                         EMPLOYEE_NO,
                                                          LOG_DATE,
                                                          P_PROCEDURE_ID,
-                                                         INPUT_TYPE ) 
+                                                         INPUT_TYPE )
                                                 VALUES(  '".$ci->input->post('desc_log')."',
                                                          SYSDATE,
                                                          SYSDATE,
@@ -889,7 +890,7 @@ class Wf_controller {
 
             $result['success'] = true;
             $result['message'] = 'Log Kronologis Berhasil Ditambah';
-            
+
         }catch(Exception $e) {
             $result['success'] = false;
             $result['message'] = $e->getMessage();
@@ -916,7 +917,7 @@ class Wf_controller {
                                  WHERE a.T_CUSTOMER_ORDER_ID = ".$ci->input->post('t_customer_order_id')." ");
         if($query->num_rows() > 0)
             $result = $query->result_array();
-        
+
 
         if ($page == 0) {
             $hasil['current'] = 1;
@@ -966,38 +967,38 @@ class Wf_controller {
                 echo json_encode($result);
                 exit;
             }else{
-                
+
                 // Do Upload
-                $data = $ci->upload->data();            
+                $data = $ci->upload->data();
 
                 $idd = $table->generate_id('T_CUST_ORDER_LEGAL_DOC');
 
-                $sql = "INSERT INTO T_CUST_ORDER_LEGAL_DOC(T_CUST_ORDER_LEGAL_DOC_ID, 
-                                                           DESCRIPTION, 
-                                                           CREATED_BY, 
-                                                           UPDATED_BY, 
-                                                           CREATION_DATE, 
-                                                           UPDATED_DATE, 
-                                                           P_LEGAL_DOC_TYPE_ID, 
-                                                           T_CUSTOMER_ORDER_ID, 
-                                                           ORIGIN_FILE_NAME, 
-                                                           FILE_FOLDER, 
-                                                           FILE_NAME) 
-                            VALUES (".$idd.", 
-                                    '".$ci->input->post('desc')."', 
-                                    '".$CREATED_BY."', 
-                                    '".$UPDATED_BY."', 
-                                    SYSDATE, 
-                                    SYSDATE, 
-                                    ".$ci->input->post('p_legal_doc_type_id').", 
-                                    ".$params['CURR_DOC_ID'].", 
+                $sql = "INSERT INTO T_CUST_ORDER_LEGAL_DOC(T_CUST_ORDER_LEGAL_DOC_ID,
+                                                           DESCRIPTION,
+                                                           CREATED_BY,
+                                                           UPDATED_BY,
+                                                           CREATION_DATE,
+                                                           UPDATED_DATE,
+                                                           P_LEGAL_DOC_TYPE_ID,
+                                                           T_CUSTOMER_ORDER_ID,
+                                                           ORIGIN_FILE_NAME,
+                                                           FILE_FOLDER,
+                                                           FILE_NAME)
+                            VALUES (".$idd.",
+                                    '".$ci->input->post('desc')."',
+                                    '".$CREATED_BY."',
+                                    '".$UPDATED_BY."',
+                                    SYSDATE,
+                                    SYSDATE,
+                                    ".$ci->input->post('p_legal_doc_type_id').",
+                                    ".$params['CURR_DOC_ID'].",
                                     '".$data['client_name']."',
                                     'application/third_party/upload_file',
                                     '".$data['file_name']."'
                                     )";
 
                 $table->db->query($sql);
-                
+
 
                 $result['success'] = true;
                 $result['message'] = 'Dokumen Pendukung Berhasil Ditambah';
