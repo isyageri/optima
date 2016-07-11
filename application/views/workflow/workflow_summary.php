@@ -23,7 +23,7 @@
     <input type="hidden" id="TEMP_P_W_DOC_TYPE_ID" value="<?php echo $this->input->post('P_W_DOC_TYPE_ID'); ?>" />
     <input type="hidden" id="TEMP_P_W_PROC_ID" value="<?php echo $this->input->post('P_W_PROC_ID'); ?>" />
     <input type="hidden" id="TEMP_USER_ID" value="<?php echo $this->input->post('USER_ID'); ?>" />
-    <input type="hidden" id="TEMP_FSUMMARY" value="wf.workflow_summary" />
+    <input type="hidden" id="TEMP_FSUMMARY" value="workflow.workflow_summary" />
 
 
     <div class="col-xs-12 col-sm-4" id="summary-panel">
