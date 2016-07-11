@@ -644,7 +644,7 @@ class Wf_controller {
             $sql = "select submitter_seq.nextval as seq from dual";
             $query = $table->db->query($sql);
             $row = $query->row_array();
-            $o_submitter_id = $row['SEQ'];
+            $o_submitter_id = $row['seq'];
 
             $submitter_params['USER_ID_DOC'] = empty($submitter_params['USER_ID_DOC']) ? NULL : $submitter_params['USER_ID_DOC'];
             $submitter_params['USER_ID_DONOR'] = empty($submitter_params['USER_ID_DONOR']) ? NULL : $submitter_params['USER_ID_DOC'];
