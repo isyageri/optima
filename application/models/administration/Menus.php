@@ -79,6 +79,16 @@ class Menus extends Abstract_model {
         return $result;
     }
 
+    function getAllMenu(){
+        $result = array();
+        $sql = "SELECT * FROM app_menu";
+
+        $q = $this->db->query($sql);
+        if($q->num_rows() > 0) $result = $q->result_array();
+
+        return $result;
+    }
+
 }
 
 /* End of file Groups.php */
