@@ -84,8 +84,13 @@
                             </tbody>
                         </table>
                     </div>
-                    <div class="col-sm-12-offset well well-sm">
-                        <div id="task-list-pager"></div>
+                    <div class="col-sm-12 well well-sm">
+                       <div class="col-sm-8">
+                            <div id="task-list-pager"></div>
+                        </div>
+                        <div class="col-sm-4">
+                            <span id="pageInfo">View x of n from y data</span>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -138,7 +143,17 @@
 
     function updatePager(total_data) {
         $(pager_selector).pagination('updateItems', total_data);
+        var currentPage = $(pager_selector).pagination('getCurrentPage');
+        var totalPages = $(pager_selector).pagination('getPagesCount');
+
+        if(currentPage > totalPages) {
+            currentPage = 1;
+            $(pager_selector).pagination('selectPage', 1);
+        }
+
+        $('#pageInfo').html('<strong>View ' + currentPage + ' of ' + totalPages + ' from ' + total_data + ' data </strong>');
     }
+
 
     function loadUserTaskList(choosen_radio, event) {
         $('#filter_date_task_list').datepicker('setDate', null);
