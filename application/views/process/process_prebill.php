@@ -50,22 +50,16 @@
         var pager_selector = "#grid-pager-prebill";
 
         jQuery("#grid-table-prebill").jqGrid({
-            url: '<?php echo WS_JQGRID."schema.terminasi_schema_controller/crud"; ?>',
+            url: '<?php echo WS_JQGRID."process.period_controller/crud"; ?>',
             datatype: "json",
             mtype: "POST",
             colModel: [
-                {label: 'schema ID', name: 'schema_id', hidden: true},                
-                {label: 'Customer Name', name: 'customer_ref', hidden: false},                
-                {label: 'Account Number', name: 'account_num', hidden: false},                
-                {label: 'Account Name', name: 'account_name', hidden: false},                
-                {label: 'Start Date', name: 'start_dat', hidden: false},                
-                {label: 'End Date', name: 'end_dat', hidden: false},                
-                {label: 'Disc Description', name: 'disc_description', hidden: false},                
-                {label: 'Detail | Terminate', name: 'dt', hidden: false,
-					formatter:	function(cellvalue, options, rowobject){
-						return '<i class="btn green btn-xs" id="lov-button-detail" data-toggle="modal" data-target="#detailModal">Details</i><i class="btn green btn-xs" onclick="swal_terminate()">Terminate</i>';
-					}
-				}
+                {label: 'ID', name: 'p_finance_period_id', hidden: false},                
+                {label: 'Periode', name: 'finance_period_code', hidden: false},                
+                {label: 'Dari', name: 'start_date', hidden: false},                
+                {label: 'Sampai', name: 'end_date', hidden: false},                
+                {label: 'Tahun', name: 'year_period_code', hidden: false},                
+                {label: 'Status', name: 'period_status_code', hidden: false}
             ],
             height: '100%',
             autowidth: true,
@@ -95,7 +89,7 @@
 				responsive_jqgrid(grid_selector,pager_selector);
             },
             //memanggil controller jqgrid yang ada di controller crud
-            editurl: '<?php echo WS_JQGRID."schema.terminasi_schema_controller/crud"; ?>',
+            editurl: '<?php echo WS_JQGRID."process.period_controller/crud"; ?>',
             caption: "Prabilling Details"
 
         });
