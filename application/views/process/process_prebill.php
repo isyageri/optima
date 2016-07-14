@@ -6,11 +6,11 @@
 				<i class="fa fa-circle"></i>
 			</li>
 			<li>
-				<a href="#">Process</a>
+				<a href="#">Pra Billing</a>
 				<i class="fa fa-circle"></i>
 			</li>
 			<li>
-				<span>Pra Billing</span>
+				<span>Periode</span>
 			</li>
 		</ul>
 	</div>
@@ -39,9 +39,21 @@
 </div>
 <script>
 	$(function($) {
-        $("#tab-2").on( "click", function() {    
+        $("#tab-2").on( "click", function() { 
+            var grid = $('#grid-table-prebill');
+            selRowId = grid.jqGrid ('getGridParam', 'selrow');
+
+            var idd = grid.jqGrid ('getCell', selRowId, 'p_finance_period_id');
+            var code = grid.jqGrid ('getCell', selRowId, 'finance_period_code');
+
+            if(selRowId == null) {
+                swal("Informasi", "Silahkan Pilih Salah Satu Baris Data", "info");
+                return false;
+            }
+
             loadContentWithParams("process.process_prebill_batch", {
-                
+                p_finance_period_id: idd,
+                finance_period_code : code
             });
         });
     });
@@ -90,7 +102,7 @@
             },
             //memanggil controller jqgrid yang ada di controller crud
             editurl: '<?php echo WS_JQGRID."process.period_controller/crud"; ?>',
-            caption: "Prabilling Details"
+            caption: "Periode"
 
         });
 

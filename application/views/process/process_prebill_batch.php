@@ -6,11 +6,11 @@
 				<i class="fa fa-circle"></i>
 			</li>
 			<li>
-				<a href="#">Process</a>
+				<a href="#">Pra Billing</a>
 				<i class="fa fa-circle"></i>
 			</li>
 			<li>
-				<span>Pra Billing</span>
+				<span>Batch Billing</span>
 			</li>
 		</ul>
 	</div>
@@ -18,7 +18,7 @@
 	<div class="col-md-12">
         <div class="tabbable tabbable-tabdrop">
             <ul class="nav nav-tabs">
-                <li>
+                <li id="tab-1">
                     <a data-toggle="tab"> Periode </a>
                 </li>
                 <li id="tab-2" class="active">
@@ -36,19 +36,6 @@
             </div>
         </div>
     </div>	
-	<div class="col-md-12">
-		<div class="space-4"></div>
-		<div class="portlet box blue">
-			<div class="portlet-title">
-				<div class="caption">
-					Portlet
-				</div>				
-			</div>
-			<div class="portlet-body">
-			
-			</div>
-		</div>
-	</div>
 </div>
 <script>
 	$(function($) {
@@ -66,22 +53,35 @@
         var pager_selector = "#grid-pager-prebill";
 
         jQuery("#grid-table-prebill").jqGrid({
-            url: '<?php echo WS_JQGRID."schema.terminasi_schema_controller/crud"; ?>',
+            url: '<?php echo WS_JQGRID."process.batch_billing_controller/crud"; ?>',
             datatype: "json",
             mtype: "POST",
+            postData: {
+                p_finance_period_id : <?php echo $this->input->post('p_finance_period_id'); ?>
+            },
             colModel: [
-                {label: 'schema ID', name: 'schema_id', hidden: true},                
-                {label: 'Customer Name', name: 'customer_ref', hidden: false},                
-                {label: 'Account Number', name: 'account_num', hidden: false},                
-                {label: 'Account Name', name: 'account_name', hidden: false},                
-                {label: 'Start Date', name: 'start_dat', hidden: false},                
-                {label: 'End Date', name: 'end_dat', hidden: false},                
-                {label: 'Disc Description', name: 'disc_description', hidden: false},                
-                {label: 'Detail | Terminate', name: 'dt', hidden: false,
-					formatter:	function(cellvalue, options, rowobject){
-						return '<i class="btn green btn-xs" id="lov-button-detail" data-toggle="modal" data-target="#detailModal">Details</i><i class="btn green btn-xs" onclick="swal_terminate()">Terminate</i>';
-					}
-				}
+                {label: 'ID', name: 'input_data_control_id', hidden: false},                
+                {label: 'Periode', name: 'finance_period_code', hidden: false},                
+                {label: 'Bill Cycle ID', name: 'p_bill_cycle_id', hidden: true, editable: true,
+                    editrules: {edithidden: true, required: true},
+                    edittype: 'select',
+                    editoptions: {
+                        style: "width: 250px", 
+                        dataUrl: '<?php echo WS_JQGRID."process.batch_billing_controller/combo"; ?>'
+                    }
+                },                
+                {label: 'Bill Cycle', name: 'bill_cycle_code', hidden: false},                
+                {label: 'Invoice Date', name: 'invoice_date', hidden: false},                
+                {label: 'Batch', name: 'input_file_name', hidden: false, editable: true,
+                    editoptions: {
+                        size: 40,
+                        maxlength:250,
+                        readonly: true
+                    },
+                    editrules: {required: false}
+                },                
+                {label: 'Finish?', name: 'is_finish_processed', hidden: false},                
+                {label: 'Status', name: 'data_status_code', hidden: false}
             ],
             height: '100%',
             autowidth: true,
@@ -111,8 +111,8 @@
 				responsive_jqgrid(grid_selector,pager_selector);
             },
             //memanggil controller jqgrid yang ada di controller crud
-            editurl: '<?php echo WS_JQGRID."schema.terminasi_schema_controller/crud"; ?>',
-            caption: "Prabilling Details"
+            editurl: '<?php echo WS_JQGRID."process.batch_billing_controller/crud"; ?>',
+            caption: "Batch Billing :: <?php echo $this->input->post('p_finance_period_id'); ?>"
 
         });
 
@@ -121,7 +121,7 @@
                 edit: false,
 				excel: true,
                 editicon: 'fa fa-pencil blue bigger-120',
-                add: false,				
+                add: true,				
                 addicon: 'fa fa-plus-circle purple bigger-120',
                 del: false,
                 delicon: 'fa fa-trash-o red bigger-120',
@@ -166,6 +166,11 @@
             },
             {
                 //new record form
+                editData: {
+                    p_finance_period_id: function() {
+                        return <?php echo $this->input->post('p_finance_period_id'); ?>;
+                    }
+                },
                 closeAfterAdd: false,
                 clearAfterAdd : true,
                 closeOnEscape:true,
