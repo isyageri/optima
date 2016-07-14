@@ -6,27 +6,50 @@
 				<i class="fa fa-circle"></i>
 			</li>
 			<li>
-				<a href="#">schema</a>
+				<a href="#">Process</a>
 				<i class="fa fa-circle"></i>
 			</li>
 			<li>
-				<span>List schema</span>
+				<span>Pra Billing</span>
 			</li>
 		</ul>
 	</div>
 	<div class="space-4"></div>
-	<div>
-		<table id="grid-table-schema"></table>
-		<div id="grid-pager-schema"></div>
-	</div>	
+	<div class="col-md-12">
+        <div class="tabbable tabbable-tabdrop">
+            <ul class="nav nav-tabs">
+                <li class="active">
+                    <a data-toggle="tab"> Periode </a>
+                </li>
+                <li id="tab-2">
+                    <a data-toggle="tab"> Batch Billing </a>
+                </li>
+				<li id="tab-3">
+                    <a data-toggle="tab"> Proses </a>
+                </li>
+            </ul>
+			<div class="tab-content">
+                <div class="tab-pane active">
+                    <table id="grid-table-prebill"></table>
+                    <div id="grid-pager-prebill"></div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
-<?php $this->load->view('schema/detail_terminate_schema.php'); ?>
 <script>
+	$(function($) {
+        $("#tab-2").on( "click", function() {    
+            loadContentWithParams("process.process_prebill_batch", {
+                
+            });
+        });
+    });
 	jQuery(function($) {
-        var grid_selector = "#grid-table-schema";
-        var pager_selector = "#grid-pager-schema";
+        var grid_selector = "#grid-table-prebill";
+        var pager_selector = "#grid-pager-prebill";
 
-        jQuery("#grid-table-schema").jqGrid({
+        jQuery("#grid-table-prebill").jqGrid({
             url: '<?php echo WS_JQGRID."schema.terminasi_schema_controller/crud"; ?>',
             datatype: "json",
             mtype: "POST",
@@ -59,7 +82,7 @@
 
             },
             sortorder:'',
-            pager: '#grid-pager-schema',
+            pager: '#grid-pager-prebill',
             jsonReader: {
                 root: 'rows',
                 id: 'id',
@@ -73,11 +96,11 @@
             },
             //memanggil controller jqgrid yang ada di controller crud
             editurl: '<?php echo WS_JQGRID."schema.terminasi_schema_controller/crud"; ?>',
-            caption: "Schema Details"
+            caption: "Prabilling Details"
 
         });
 
-        jQuery('#grid-table-schema').jqGrid('navGrid', '#grid-pager-schema',
+        jQuery('#grid-table-prebill').jqGrid('navGrid', '#grid-pager-prebill',
             {   //navbar options
                 edit: false,
 				excel: true,
@@ -277,9 +300,4 @@
 				swal("Terminated", "Terminasi berhasil", "success");
 			});
 	};
-</script>
-<script>
-// $(document).ready(function() {
-  
-// });
 </script>

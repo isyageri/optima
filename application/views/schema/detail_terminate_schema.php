@@ -929,16 +929,18 @@ jQuery(function($) {
     }	
 </script>
 <script>
-	$(document).ready(){
-		var myGrid = $('#grid-table-schema');
-		selectedRowId = myGrid.jqGrid ('getGridParam', 'selrow');
-		// alert(selectedRowId);
-		cellValue = myGrid.jqGrid ('getCell', selectedRowId, 'account_num');
-		cellValue = myGrid.jqGrid ('getCell', selectedRowId, 'account_num');
-		cellValue = myGrid.jqGrid ('getCell', selectedRowId, 'account_num');
-		cellValue = myGrid.jqGrid ('getCell', selectedRowId, 'account_num');
-		cellValue = myGrid.jqGrid ('getCell', selectedRowId, 'account_num');
-		// alert(cellValue);
-		$('#grid-table-schema').jqGrid('getCell',row_id,'account_num');
-	};
+	$(document).ready(function(){
+		$('#grid-table-schema').click(function(){
+			var myGrid = $('#grid-table-schema');
+			selectedRowId = myGrid.jqGrid ('getGridParam', 'selrow');
+			// alert(selectedRowId);
+			cellValue = myGrid.jqGrid ('getCell', selectedRowId, 'account_num');
+			// cellValue = myGrid.jqGrid ('getCell', selectedRowId, 'account_num');
+			// cellValue = myGrid.jqGrid ('getCell', selectedRowId, 'account_num');
+			// cellValue = myGrid.jqGrid ('getCell', selectedRowId, 'account_num');
+			// cellValue = myGrid.jqGrid ('getCell', selectedRowId, 'account_num');
+			// alert(cellValue);
+			// $('#grid-table-schema').jqGrid('getCell',selectedRowId,'account_num');	
+		});		
+	});
 </script>
