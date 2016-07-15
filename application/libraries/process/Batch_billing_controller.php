@@ -112,7 +112,7 @@ class Batch_billing_controller {
         $items['input_file_name'] = 'BILL_M4L_'.$items['p_finance_period_id'].'_'.$items['p_bill_cycle_id'];
         // $invoice_date = $table->invoice_date($items['p_finance_period_id']);
         // $items['invoice_date'] = $invoice_date;
-        $items['input_data_class_id'] = 8;
+        $items['input_data_class_id'] = 1;
         $items['file_directory'] = '-';        
         $items['operator_id'] = $userinfo->username;
         $items['is_finish_processed'] = 'N';
