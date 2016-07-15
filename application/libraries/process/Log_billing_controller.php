@@ -10,8 +10,8 @@ class Log_billing_controller {
 
         $page = getVarClean('page','int',1);
         $limit = getVarClean('rows','int',5);
-        $sidx = getVarClean('sidx','str','job_control_id');
-        $sord = getVarClean('sord','str','desc');
+        $sidx = getVarClean('sidx','str','counter_no');
+        $sord = getVarClean('sord','str','asc');
         $job_control_id = getVarClean('job_control_id','int', 0);
 
         $data = array('rows' => array(), 'page' => 1, 'records' => 0, 'total' => 1, 'success' => false, 'message' => '');
