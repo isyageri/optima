@@ -6,11 +6,11 @@
 				<i class="fa fa-circle"></i>
 			</li>
 			<li>
-				<a href="#">Process</a>
+				<a href="#">Pra Billing</a>
 				<i class="fa fa-circle"></i>
 			</li>
 			<li>
-				<span>Pra Billing</span>
+				<span>Proses</span>
 			</li>
 		</ul>
 	</div>
@@ -124,7 +124,7 @@
                 }
             });
         });
-        
+
     });
 	jQuery(function($) {
         var grid_selector = "#grid-table-prebill";
