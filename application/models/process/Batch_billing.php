@@ -11,9 +11,9 @@ class Batch_billing extends Abstract_model {
     public $alias           = "batch";
 
     public $fields          = array('input_data_control_id' => array('pkey' => true, 'type' => 'int', 'nullable' => true, 'unique' => true, 'display' => 'ID'),
-                                    'input_file_name'       => array('nullable' => true, 'type' => 'str', 'unique' => false, 'display' => 'Batch'),
+                                    'input_file_name'       => array('nullable' => true, 'type' => 'str', 'unique' => true, 'display' => 'Batch'),
                                     'invoice_date'       => array('nullable' => true, 'type' => 'date', 'unique' => false, 'display' => 'Invoice Date'),
-                                    'p_bill_cycle_id'       => array('nullable' => true, 'type' => 'int', 'unique' => true, 'display' => 'Cycle ID'),
+                                    'p_bill_cycle_id'       => array('nullable' => true, 'type' => 'int', 'unique' => false, 'display' => 'Cycle ID'),
                                     'p_finance_period_id'       => array('nullable' => true, 'type' => 'int', 'unique' => false, 'display' => 'Period ID'),
                                     'input_data_class_id'       => array('nullable' => true, 'type' => 'int', 'unique' => false, 'display' => 'Class ID'),
                                     'file_directory'       => array('nullable' => true, 'type' => 'str', 'unique' => false, 'display' => 'File Directory'),
