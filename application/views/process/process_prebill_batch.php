@@ -43,6 +43,7 @@
             loadContentWithParams("process.process_prebill", {                
             });
         });
+
 		$("#tab-3").on( "click", function() {    
             var grid = $('#grid-table-prebill');
             selRowId = grid.jqGrid ('getGridParam', 'selrow');
@@ -57,7 +58,7 @@
 			loadContentWithParams("process.process_prebill_proc", {
 				input_data_control_id: idd,
                 input_file_name : file_name,
-				p_finance_period_id : <?php echo $this->input->post('p_finance_period_id'); ?>,
+				p_finance_period_id : "<?php echo $this->input->post('p_finance_period_id'); ?>",
 				finance_period_code : "<?php echo $this->input->post('finance_period_code'); ?>"				 
 				
             });

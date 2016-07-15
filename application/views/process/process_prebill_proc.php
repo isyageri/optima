@@ -61,9 +61,15 @@
             loadContentWithParams("process.process_prebill", {                
             });
         });
+
+        $("#tab-2").on( "click", function() {    
+            loadContentWithParams("process.process_prebill_batch", {   
+                p_finance_period_id: "<?php echo $this->input->post('p_finance_period_id'); ?>",
+                finance_period_code : "<?php echo $this->input->post('finance_period_code'); ?>"             
+            });
+        });
 		
-		$("#submit_job").on( "click", function() {    
-            // $('#table_proses').show(1000);			
+		$("#submit_job").on( "click", function() {    		
 			$.ajax({
                 url: '<?php echo WS_JQGRID."process.process_billing_controller/submit_prabilling"; ?>',
                 type: "POST",
@@ -118,11 +124,7 @@
                 }
             });
         });
-		
-		$("#tab-2").on( "click", function() {    
-            loadContentWithParams("process.process_prebill_batch", {                
-            });
-        });
+        
     });
 	jQuery(function($) {
         var grid_selector = "#grid-table-prebill";

@@ -56,6 +56,10 @@
                 finance_period_code : code
             });
         });
+
+        $("#tab-3").on( "click", function() { 
+            return false;
+        });
     });
 	jQuery(function($) {
         var grid_selector = "#grid-table-prebill";
