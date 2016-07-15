@@ -65,7 +65,7 @@
 		$("#submit_job").on( "click", function() {    
             // $('#table_proses').show(1000);			
 			$.ajax({
-                url: "<?php echo WS_JQGRID."process.process_billing_controller/submit_prabilling"; ?>",
+                url: '<?php echo WS_JQGRID."process.process_billing_controller/submit_prabilling"; ?>',
                 type: "POST",
                 dataType: "json",
                 data: {input_data_control_id : "<?php echo $this->input->post('input_data_control_id'); ?>"},
@@ -79,7 +79,7 @@
 		
 		$("#force_process").on( "click", function() {    		
 			$.ajax({
-                url: "<?php echo WS_JQGRID."process.process_billing_controller/force_scheduler"; ?>",
+                url: '<?php echo WS_JQGRID."process.process_billing_controller/force_scheduler"; ?>',
                 type: "POST",
                 dataType: "json",
                 data: {},
@@ -93,7 +93,7 @@
 		
 		$("#cancel_all_job").on( "click", function() {    			
 			$.ajax({
-                url: "<?php echo WS_JQGRID."process.process_billing_controller/cancel_all_prabilling"; ?>",
+                url: '<?php echo WS_JQGRID."process.process_billing_controller/cancel_all_prabilling"; ?>',
                 type: "POST",
                 dataType: "json",
                 data: {input_data_control_id : "<?php echo $this->input->post('input_data_control_id'); ?>"},
@@ -107,7 +107,7 @@
 		
 		$("#cancel_last_job").on( "click", function() {    			
 			$.ajax({
-                url: "<?php echo WS_JQGRID."process.process_billing_controller/cancel_last_job_prabilling"; ?>",
+                url: '<?php echo WS_JQGRID."process.process_billing_controller/cancel_last_job_prabilling"; ?>',
                 type: "POST",
                 dataType: "json",
                 data: {input_data_control_id : "<?php echo $this->input->post('input_data_control_id'); ?>"},
@@ -144,11 +144,7 @@
                 {label: 'User', name: 'operator_id', hidden: false},                
                 {label: 'Mulai', name: 'start_process_date', hidden: false},                
                 {label: 'Selesai', name: 'end_process_date', hidden: false},                
-                {label: 'Prosedur', name: 'real_procedure_name', hidden: false},
-					formatter:	function(cellvalue, options, rowobject){
-						return '<i class="btn green btn-xs" id="lov-button-detail" data-toggle="modal" data-target="#detailModal">Details</i><i class="btn green btn-xs" onclick="swal_terminate()">Terminate</i>';
-					}
-				}
+                {label: 'Prosedur', name: 'real_procedure_name', hidden: false}
             ],
             height: '100%',
             autowidth: true,
