@@ -44,7 +44,7 @@
             </div>
 			<div class="space-4"></div>				
 			<div class="tab-content">
-                <div class="tab-pane active" id="table_proses">
+                <div class="tab-pane active" id="table_proses" style="display:none;">
                     <table id="grid-table-proses"></table>
                     <div id="grid-pager-proses"></div>
                 </div>
@@ -53,9 +53,7 @@
 	
 </div>
 <script>
-	$( document ).ready(function(){
-		$('#table_proses').hide();
-	});
+
 	$(function($) {
         $("#tab-1").on( "click", function() {    
             loadContentWithParams("process.process_prebill", {                
@@ -160,6 +158,17 @@
             multiboxonly: true,
             onSelectRow: function (rowid) {
                 /*do something when selected*/
+                var celValue = $('#grid-table-prebill').jqGrid('getCell', rowid, 'job_control_id');
+
+                if (rowid != null) {
+                    jQuery("#grid-table-proses").jqGrid('setGridParam', {
+                        url: '<?php echo WS_JQGRID."process.log_billing_controller/crud"; ?>',
+                        postData: {job_control_id: celValue}
+                    });
+                    $("#grid-table-proses").trigger("reloadGrid");
+                    $("#table_proses").show();
+
+                }
 
             },
             sortorder:'',
@@ -177,7 +186,7 @@
             },
             //memanggil controller jqgrid yang ada di controller crud
             editurl: '<?php echo WS_JQGRID."process.process_billing_controller/crud"; ?>',
-            caption: "Prabilling Details"
+            caption: "Daftar Proses :: <?php echo $this->input->post('input_file_name'); ?>"
 
         });
 
@@ -195,7 +204,8 @@
                 refresh: true,
                 afterRefresh: function () {
                     // some code here
-                    jQuery("#detailsPlaceholder").hide();
+                    $("#table_proses").hide();
+
                 },
 
                 refreshicon: 'fa fa-refresh green bigger-120',
@@ -313,25 +323,17 @@
         var pager_selector = "#grid-pager-proses";
 
         jQuery("#grid-table-proses").jqGrid({
-            url: '<?php echo WS_JQGRID."schema.terminasi_schema_controller/crud"; ?>',
+            // url: '<?php echo WS_JQGRID."proses.log_billing_controller/crud"; ?>',
             datatype: "json",
             mtype: "POST",
             colModel: [
-                {label: 'schema ID', name: 'schema_id', hidden: true},                
-                {label: 'Customer Name', name: 'customer_ref', hidden: false},                
-                {label: 'Account Number', name: 'account_num', hidden: false},                
-                {label: 'Account Name', name: 'account_name', hidden: false},                
-                {label: 'Start Date', name: 'start_dat', hidden: false},                
-                {label: 'End Date', name: 'end_dat', hidden: false},                
-                {label: 'Disc Description', name: 'disc_description', hidden: false},                
-                {label: 'Detail | Terminate', name: 'dt', hidden: false,
-					formatter:	function(cellvalue, options, rowobject){
-						return '<i class="btn green btn-xs" id="lov-button-detail" data-toggle="modal" data-target="#detailModal">Details</i><i class="btn green btn-xs" onclick="swal_terminate()">Terminate</i>';
-					}
-				}
+                {label: 'counter_no', name: 'counter_no', hidden: true},                
+                {label: 'Time', name: 'log_date', hidden: false, width: 20},                
+                {label: 'Message', name: 'log_message', hidden: false}
             ],
             height: '100%',
-            autowidth: true,
+            autowidth: false,
+            width: 600,
             viewrecords: true,
             rowNum: 10,
             rowList: [10,20,50],
@@ -359,7 +361,7 @@
             },
             //memanggil controller jqgrid yang ada di controller crud
             editurl: '<?php echo WS_JQGRID."schema.terminasi_schema_controller/crud"; ?>',
-            caption: "Daftar Proses:: <?php echo $this->input->post('input_file_name'); ?>"
+            caption: "Log Proses"
 
         });
 
@@ -377,7 +379,6 @@
                 refresh: true,
                 afterRefresh: function () {
                     // some code here
-                    jQuery("#detailsPlaceholder").hide();
                 },
 
                 refreshicon: 'fa fa-refresh green bigger-120',
@@ -544,7 +545,7 @@
     function responsive_jqgrid(grid_selector, pager_selector) {
 
         var parent_column = $(grid_selector).closest('[class*="col-"]');
-        $(grid_selector).jqGrid( 'setGridWidth', $(".form-body").width() );
+        $(grid_selector).jqGrid( 'setGridWidth', $(".page-content").width() );
         $(pager_selector).jqGrid( 'setGridWidth', parent_column.width() );
 
     }

@@ -146,7 +146,6 @@
                 refresh: true,
                 afterRefresh: function () {
                     // some code here
-                    jQuery("#detailsPlaceholder").hide();
                 },
 
                 refreshicon: 'fa fa-refresh green bigger-120',
