@@ -44,7 +44,22 @@
             });
         });
 		$("#tab-3").on( "click", function() {    
-            loadContentWithParams("process.process_prebill_proc", {                
+            var grid = $('#grid-table-prebill');
+            selRowId = grid.jqGrid ('getGridParam', 'selrow');
+			
+			var idd = grid.jqGrid ('getCell', selRowId, 'input_data_control_id');
+            var file_name = grid.jqGrid ('getCell', selRowId, 'input_file_name');
+			
+            if(selRowId == null) {
+                swal("Informasi", "Silahkan Pilih Salah Satu Baris Data", "info");
+                return false;
+            }
+			loadContentWithParams("process.process_prebill_proc", {
+				input_data_control_id: idd,
+                input_file_name : file_name,
+				//p_finance_period_id : <?php echo $this->input->post('p_finance_period_id'); ?>,
+				// finance_period_code : <?php echo $this->input->post('finance_period_code'); ?>				 
+				
             });
         });
     });
@@ -112,7 +127,7 @@
             },
             //memanggil controller jqgrid yang ada di controller crud
             editurl: '<?php echo WS_JQGRID."process.batch_billing_controller/crud"; ?>',
-            caption: "Batch Billing :: <?php echo $this->input->post('p_finance_period_id'); ?>"
+            caption: "Batch Billing :: <?php echo $this->input->post('finance_period_code'); ?>"
 
         });
 

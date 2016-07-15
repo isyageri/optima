@@ -21,7 +21,7 @@ class Process_billing_controller {
             $ci = & get_instance();
             $ci->load->model('process/process_billing');
             $table = $ci->process_billing;
-
+			
             $req_param = array(
                 "sort_by" => $sidx,
                 "sord" => $sord,
@@ -38,7 +38,7 @@ class Process_billing_controller {
 
             // Filter Table
             $req_param['where'] = array('input_data_control_id = '.$input_data_control_id);
-
+			//print_r($input_data_control_id);exit;
             $table->setJQGridParam($req_param);
             $count = $table->countAll();
 

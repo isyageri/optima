@@ -9,7 +9,6 @@ class Process_billing extends Abstract_model {
     public $table           = "job_control";
     public $pkey            = "job_control_id";
     public $alias           = "jb";
-
     public $fields          = array();
 
     public $selectClause    = "jb.*";
