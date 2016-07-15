@@ -44,7 +44,7 @@
             });
         });
 		$("#tab-3").on( "click", function() {    
-            loadContentWithParams("process.process_proc", {                
+            loadContentWithParams("process.process_prebill_proc", {                
             });
         });
     });
