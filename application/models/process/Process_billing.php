@@ -42,6 +42,44 @@ class Process_billing extends Abstract_model {
         return true;
     }
 
+    function action_submit($name, $input_data_control_id, $username){
+        try {
+
+            $sql = "SELECT f_submit_job('".$name."', ".$input_data_control_id.", '".$username."') as status_job FROM dual";
+            $query = $this->db->query($sql);
+
+            $items = '';
+            if($query->num_rows() > 0){
+                $result = $query->row_array();
+                $items = $result['status_job'];   
+            }
+
+            return $items;
+
+        } catch (Exception $e) {
+            return $e->getMessage();
+        }
+    }
+
+    function action_force(){
+        try {
+
+            $sql = "SELECT pack_background_scheduler.force_scheduler as status_job FROM dual";
+            $query = $this->db->query($sql);
+
+            $items = '';
+            if($query->num_rows() > 0){
+                $result = $query->row_array();
+                $items = $result['status_job'];   
+            }
+
+            return $items;
+
+        } catch (Exception $e) {
+            return $e->getMessage();
+        }
+    }
+
 }
 
 /* End of file Groups.php */

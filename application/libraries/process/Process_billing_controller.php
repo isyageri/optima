@@ -97,6 +97,89 @@ class Process_billing_controller {
         return $data;
     }
 
+    function submit_prabilling(){
+        $ci = & get_instance();
+        $ci->load->model('process/process_billing');
+        $userinfo = $ci->ion_auth->user()->row();
+        $table = $ci->process_billing;
+
+        $input_data_control_id = getVarClean('input_data_control_id','int', 0);
+        if($input_data_control_id == 0){
+            swal("Informasi", "input_data_control_id null", "info"); 
+        }
+
+        $status = $table->action_submit('M4L_BILL_PREPARATION', $input_data_control_id, $userinfo->username);
+
+        if($status == 'SUCCESS'){
+           swal("", "Submit Job success", "success"); 
+        }else{
+            swal("Informasi", "Submit Job failed", "info"); 
+        }
+
+        exit;
+    }
+
+    function cancel_all_prabilling(){
+        $ci = & get_instance();
+        $ci->load->model('process/process_billing');
+        $userinfo = $ci->ion_auth->user()->row();
+        $table = $ci->process_billing;
+
+        $input_data_control_id = getVarClean('input_data_control_id','int', 0);
+        if($input_data_control_id == 0){
+            swal("Informasi", "input_data_control_id null", "info"); 
+        }
+
+        $status = $table->action_submit('CANCEL_ALL_BILL_PREPARATION', $input_data_control_id, $userinfo->username);
+
+        if($status == 'SUCCESS'){
+           swal("", "Cancel All Job success", "success"); 
+        }else{
+            swal("Informasi", "Cancel All Job failed", "info"); 
+        }
+
+        exit;
+    }
+
+    function cancel_last_job_prabilling(){
+        $ci = & get_instance();
+        $ci->load->model('process/process_billing');
+        $userinfo = $ci->ion_auth->user()->row();
+        $table = $ci->process_billing;
+
+        $input_data_control_id = getVarClean('input_data_control_id','int', 0);
+        if($input_data_control_id == 0){
+            swal("Informasi", "input_data_control_id null", "info"); 
+        }
+
+        $status = $table->action_submit('CANCEL_LAST_JOB_PREPARATION', $input_data_control_id, $userinfo->username);
+
+        if($status == 'SUCCESS'){
+           swal("", "Cancel All Job success", "success"); 
+        }else{
+            swal("Informasi", "Cancel All Job failed", "info"); 
+        }
+
+        exit;
+    }
+
+    function force_scheduler(){
+        $ci = & get_instance();
+        $ci->load->model('process/process_billing');
+        $userinfo = $ci->ion_auth->user()->row();
+        $table = $ci->process_billing;
+
+        $status = $table->action_force();
+
+        if($status == 'SUCCESS'){
+           swal("", "Force Process success", "success"); 
+        }else{
+            swal("Informasi", "Force Process failed", "info"); 
+        }
+
+        exit;
+    }
+
 }
 
 /* End of file Period_controller.php */
