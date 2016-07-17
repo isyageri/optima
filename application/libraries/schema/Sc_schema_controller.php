@@ -320,6 +320,22 @@ class Sc_schema_controller {
         return $data;
     }
 
+    public function getInfoSchema() {
+        if(getVarClean('schema_id','str','')){
+            $schema_id = getVarClean('schema_id','str','');
+            $ci = & get_instance();
+            $ci->load->model('schema/sc_schema');
+            $table = $ci->sc_schema;
+            
+            $items = $table->getInfoSchema($schema_id);
+            echo json_encode($items);
+            exit;
+        }else{
+            echo 'nodata';
+            exit;
+        }
+        
+    }
 
     public function getTableTrendInfo() {
 
@@ -363,19 +379,19 @@ class Sc_schema_controller {
                       <div class="form-group form-md-line-input form-md-floating-label">
                             <label class="col-md-3 control-label" for="trend"><b>Trend:</b></label>
                             <div class="col-md-4">
-                                <input type="text" id="trend-name" class="form-control" value="'.$itemheader['trend_code'].'">
+                                <input type="text" id="trend-name" class="form-control" readonly value="'.$itemheader['trend_code'].'">
                             </div>
                       </div>
                       <div class="form-group form-md-line-input form-md-floating-label">
                             <label class="col-md-3 control-label" for="trend"><b>Avg On Net:</b></label>
                             <div class="col-md-4">
-                                <input type="text" id="trend-avg-usage-onnet" class="form-control" value="'.$itemheader['avg_usage_onnet'].'">
+                                <input type="text" id="trend-avg-usage-onnet" class="form-control" readonly value="'.$itemheader['avg_usage_onnet'].'">
                             </div>
                       </div>
                       <div class="form-group form-md-line-input form-md-floating-label">
                             <label class="col-md-3 control-label" for="trend"><b>Avg Non On Net:</b></label>
                             <div class="col-md-4">
-                                <input type="text" id="trend-avg-usage-nononnet" class="form-control" value="'.$itemheader['avg_usage_non_onnet'].'">
+                                <input type="text" id="trend-avg-usage-nononnet" class="form-control" readonly value="'.$itemheader['avg_usage_non_onnet'].'">
                             </div>
                       </div>
                   </div>';
@@ -391,7 +407,7 @@ class Sc_schema_controller {
 
         foreach($result as $keterangan => $nilai_per_periode) {
             $html .= '<tr>';
-            $html .= '<td>'.str_replace('_',' ',$keterangan).'</td>';
+            $html .= '<td align="right">'.str_replace('_',' ',$keterangan).'</td>';
             foreach($nilai_per_periode['items'] as $val) {
                 $html .= '<td align="right">'.numberFormat($val).'</td>';
             }
@@ -482,9 +498,15 @@ class Sc_schema_controller {
         $periode = array();
 
         $schema_id = getVarClean('schema_id','str','');
+        $trend = getVarClean('trend','str','');
+        $operator = getVarClean('operator','str','');
+        $kuadran = getVarClean('kuadran','str','');
+        $model = getVarClean('model','str','');
+
 
         $discount_code = $table->getDiscountCodeAccBusinessSchem($schema_id);
-        $items = $table->getListSkemaPembayaran($discount_code);
+        $items = $table->getListSkemaPembayaran( $trend, $operator, $kuadran, $model );
+        // $items = $table->getListSkemaPembayaran($discount_code, $trend, $operator, $kuadran, $model );
 
         $html  = '<table class="table">';
         $html .= '<tr>';
@@ -529,6 +551,13 @@ class Sc_schema_controller {
         $on_net = getVarClean('on_net','int',0);
         $non_on_net = getVarClean('non_on_net','int',0);
         $discount_code = getVarClean('discount_code','int',0);
+        
+        $kuadran = getVarClean('kuadran','str','');
+        $operator = getVarClean('operator','str','');
+        $trend = getVarClean('trend','str','');
+        $model = getVarClean('model','str','');
+        
+        
 
         $item = $table->get($schema_id);
 
@@ -537,41 +566,124 @@ class Sc_schema_controller {
         $I_AVG_ON_NET = $avg_on_net;
         $I_ON_NET = $on_net;
         $I_NON_ON_NET = $non_on_net;
-        $I_DISCOUNT_CODE = $discount_code;
+        $I_DISCOUNT_CODE = 0; //$discount_code;
+            
+            $html = '<div class="tabbable-custom ">';
+            $html .= '<ul class="nav nav-tabs ">';/*
+            $html .= '<li class="$active">';
+            $html .= '<a href="#tab_ke$i" data-toggle="tab">'.$item['id'].'</a>';
+            $html .= '</li>';*/
+            $html .= '#LI_SECTION#';
+            $html .= '</ul>';
+            $html .= '<div class="tab-content">';
+            // $html .= '<div class="tab-pane active" id="tab_ke$i">';
+            $html .= '#TAB_CONTENT_SECTION#';
+            
+            $html .= '</div>';
+            $html .= '</div>';
+            $html .= '</div>';
 
-        $curs = oci_new_cursor($table->db->conn_id);
-        $sql = "begin P_M4L_CALCULATE_ADJ_ONLY_C( :I_ACCOUNT_NUM, :I_BILL_PERIOD, :I_AVG_ON_NET, :I_ON_NET, :I_NON_ON_NET, :I_DISCOUNT_CODE, :O_CURSOR ); end;";
-        $stid = oci_parse($table->db->conn_id, $sql);
+            $LI_SECTION ='';
+            $TH_VAL_SECTION ='';
+            $TAB_CONTENT_SECTION ='';
+            $CONTENT_TABLE_SECTION ='';
 
-        oci_bind_by_name($stid, ':I_ACCOUNT_NUM', $I_ACCOUNT_NUM, 255);
-        oci_bind_by_name($stid, ':I_BILL_PERIOD', $I_BILL_PERIOD, 255);
-        oci_bind_by_name($stid, ':I_AVG_ON_NET', $I_AVG_ON_NET, 32);
-        oci_bind_by_name($stid, ':I_ON_NET', $I_ON_NET, 32);
-        oci_bind_by_name($stid, ':I_NON_ON_NET', $I_NON_ON_NET, 32);
-        oci_bind_by_name($stid, ':I_DISCOUNT_CODE', $I_DISCOUNT_CODE, 255);
+        // get skema pembayaran 
+        $items2 = $table->get_select_option($select='skema_pembayaran', $trend, $kuadran, $operator);
+        // loop 
+        $i =0;
+        foreach($items2 as $item) {
+            if($i == 0){
+                $active = 'active';
+            }
+            $LI_SECTION .= '<li class="'.$active.'">';
+            $LI_SECTION .= '<a href="#tab_ke'.$i.'" data-toggle="tab">'.$item['id'].'</a>';
+            $LI_SECTION .= '</li>';
+            
+            $TAB_CONTENT_SECTION .= '<div class="tab-pane '.$active.'" id="tab_ke'.$i.'">';
 
-        oci_bind_by_name($stid, ":O_CURSOR", $curs, -1, OCI_B_CURSOR);
+            $TAB_CONTENT_SECTION .= '<table class="table table-bordered">';
+            $TAB_CONTENT_SECTION .= '<tr>';
+            $TAB_CONTENT_SECTION .= '<th>No</th>';
+            $TAB_CONTENT_SECTION .= '<th>Keterangan</th>';
+            $TAB_CONTENT_SECTION .= '#TH_VAL_SECTION'.$i.'#';
+            $TAB_CONTENT_SECTION .= '#CONTENT_TABLE_SECTION'.$i.'#';
+            $TAB_CONTENT_SECTION .= '</tr>';
+            $TAB_CONTENT_SECTION .= '</table>';
+          
+                $skema_discount =  $table->getListSkemaPembayaran($trend, $operator, $kuadran, $item['id']);
+                foreach ($skema_discount as $key ) {
+                      $TH_VAL_SECTION .= '<th>'.$key['disc_description'].'</th>';
+                }
 
-        oci_execute($stid);
-        oci_execute($curs, OCI_DEFAULT);
-        oci_fetch_all($curs, $data, null, null, OCI_FETCHSTATEMENT_BY_ROW);
+            $total_skema = count($skema_discount);
+            $tdnum = 1;
+            foreach ($skema_discount as $key ) {
 
-        $html = '<table class="table table-bordered">';
-        $html .= '<tr>';
-        $html .= '<th>No</th>';
-        $html .= '<th>Keterangan</th>';
-        $html .= '<th>Value</th>';
-        $html .= '</tr>';
+                $I_DISCOUNT_CODE = $key['discount_code'];
 
-        $no = 1;
-        foreach($data as $item) {
-            $html .= '<tr>';
-            $html .= '<td>'.$no++.'</td>';
-            $html .= '<td>'.$item['V1'].'</td>';
-            $html .= '<td align="right">'.$item['V2'].'</td>';
-            $html .= '</tr>';
+                $curs = oci_new_cursor($table->db->conn_id);
+                $sql = "begin P_M4L_CALCULATE_ADJ_ONLY_C( :I_ACCOUNT_NUM, :I_BILL_PERIOD, :I_AVG_ON_NET, :I_ON_NET, :I_NON_ON_NET, :I_DISCOUNT_CODE, :O_CURSOR ); end;";
+                $stid = oci_parse($table->db->conn_id, $sql);
+
+                oci_bind_by_name($stid, ':I_ACCOUNT_NUM', $I_ACCOUNT_NUM, 255);
+                oci_bind_by_name($stid, ':I_BILL_PERIOD', $I_BILL_PERIOD, 255);
+                oci_bind_by_name($stid, ':I_AVG_ON_NET', $I_AVG_ON_NET, 32);
+                oci_bind_by_name($stid, ':I_ON_NET', $I_ON_NET, 32);
+                oci_bind_by_name($stid, ':I_NON_ON_NET', $I_NON_ON_NET, 32);
+                oci_bind_by_name($stid, ':I_DISCOUNT_CODE', $I_DISCOUNT_CODE, 255);
+
+                oci_bind_by_name($stid, ":O_CURSOR", $curs, -1, OCI_B_CURSOR);
+
+                oci_execute($stid);
+                oci_execute($curs, OCI_DEFAULT);
+                oci_fetch_all($curs, $data, null, null, OCI_FETCHSTATEMENT_BY_ROW);
+
+    
+                $no = 1;
+                $rpc = $tdnum + 1;
+                $clearing = '';
+                $addingtd = '';
+                foreach($data as $item1) {
+                    
+                     if($tdnum == 1){
+
+                        $CONTENT_TABLE_SECTION .= '<tr>';
+                        $CONTENT_TABLE_SECTION .= '<td>'.$no++.'</td>';
+                        $CONTENT_TABLE_SECTION .= '<td>'.$item1['V1'].'</td>';
+                        $CONTENT_TABLE_SECTION .= '<td align="right">'.$item1['V2'].'</td>replace'.$rpc.'#'.$no;
+                        $CONTENT_TABLE_SECTION .= '</tr>';
+                   
+                     }else{
+                        $no++;
+                        if($tdnum ==  $total_skema ){
+                            $addingtd = '<td align="right">'.$item1['V2'].'</td>';
+                        }else{
+                            $addingtd = '<td align="right">'.$item1['V2'].'</td>replace'.$rpc.'#'.$no;
+                        }
+                       
+                     }
+
+                      $CONTENT_TABLE_SECTION = str_replace('replace'.$tdnum.'#'.$no, $addingtd, $CONTENT_TABLE_SECTION);
+                                      
+                }
+                
+                $TAB_CONTENT_SECTION = str_replace('#CONTENT_TABLE_SECTION'.$i.'#', $CONTENT_TABLE_SECTION, $TAB_CONTENT_SECTION);
+                $TAB_CONTENT_SECTION = str_replace('#TH_VAL_SECTION'.$i.'#', $TH_VAL_SECTION, $TAB_CONTENT_SECTION);
+
+                $tdnum ++;
+                //oci_statement_type($curs);
+            }
+                
+                $html = str_replace('#TAB_CONTENT_SECTION#', $TAB_CONTENT_SECTION, $html );
+                $html = str_replace('#LI_SECTION#', $LI_SECTION, $html );
+                $html = str_replace('#TH_VAL_SECTION#', $TH_VAL_SECTION, $html );
+                $html = str_replace('#CONTENT_TABLE_SECTION#', $CONTENT_TABLE_SECTION, $html );
+
+            $i++;
         }
-        $html .= '</table>';
+
+        
 
         echo $html;
         exit;
@@ -781,6 +893,64 @@ class Sc_schema_controller {
             return true;
         }
     }
+
+    public function proses_get_history(){
+        $ci = & get_instance();
+        $ci->load->model('schema/sc_schema');
+        $table = $ci->sc_schema;
+
+        $schema_id = getVarClean('schema_id','str','');
+        $username = $ci->ion_auth->user()->row()->username;
+        
+        $data = array('success' => false, 'message' => '');
+
+        try{
+
+            $table->prosesGetHistory($schema_id, $username);
+            // run proses get history pl 
+            $command = "/sourcehubber/m4l/header_run_job.pl";
+            $shell = shell_exec($command);
+
+            $data['success'] = true;
+            $data['message'] = 'Data Fastel Berhasil Di Proses ';
+        }catch (Exception $e) {
+            $data['message'] = $e->getMessage();
+        }
+        
+        echo json_encode($data);
+        exit;
+
+    }
+
+    function get_select_option() {
+
+        $ci = & get_instance();
+        $ci->load->model('schema/sc_schema');
+        $table = $ci->sc_schema;
+
+        $trend = getVarClean('trend','str','');
+        $operator = getVarClean('operator','str','');
+
+        $items = $table->get_select_option($select='kuadran', $trend, '', $operator);
+
+        $ret = '';
+
+        foreach($items as $item) {
+            $ret .= '<option value="'.$item['id'].'"> '.$item['code'].' </option>';
+            $kuadran = $item['id'];
+        }
+        
+        $items2 = $table->get_select_option($select='skema_pembayaran', $trend, $kuadran, $operator);
+        $ret.='|';
+        
+        $ret.= '<option value="-"> - </option>';
+        foreach($items2 as $item) {
+            $ret.= '<option value="'.$item['id'].'"> '.$item['code'].' </option>';
+        }
+        echo $ret;
+        exit;
+    }
+
 }
 
 /* End of file Scema_controller.php */

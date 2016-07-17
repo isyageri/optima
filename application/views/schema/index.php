@@ -26,6 +26,7 @@
         <button class="btn btn-primary btn-block" id="edit-schema">
             Edit Skema
         </button>
+        <input type="hidden" id="edit_schm_id" values="">
     </div>
 </div>
 <div class="space-4"></div>
@@ -44,7 +45,8 @@
         });
 
         $("#edit-schema").on('click',function() {
-            loadContentWithParams('schema.pembuatan_schema',{});
+            loadContentWithParams('schema.pembuatan_schema',{schema_id:$('#edit_schm_id').val()}
+                                  );
         });
     });
 
@@ -106,6 +108,7 @@
             multiboxonly: true,
             onSelectRow: function (rowid) {
                 /*do something when selected*/
+                $('#edit_schm_id').val(rowid); // add by umar 27/6/16
 
             },
             sortorder:'',

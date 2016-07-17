@@ -71,50 +71,6 @@ class Fastel_controller {
         return $data;
     }
 
-
-    function readLov() {
-
-        $start = getVarClean('current','int',0);
-        $limit = getVarClean('rowCount','int',5);
-
-        $sort = getVarClean('sort','str','p_notel');
-        $dir  = getVarClean('dir','str','asc');
-
-        $searchPhrase = getVarClean('searchPhrase', 'str', '');
-        $schema_id = getVarClean('schema_id','str','');
-
-        $data = array('rows' => array(), 'success' => false, 'message' => '', 'current' => $start, 'rowCount' => $limit, 'total' => 0);
-
-        try {
-
-            $ci = & get_instance();
-            $ci->load->model('schema/fastel');
-            $table = $ci->fastel;
-
-            if(!empty($searchPhrase)) {
-                $table->setCriteria("(upper(p_notel) ".$table->likeOperator." upper('%".$searchPhrase."%')");
-            }
-
-            if(!empty($schema_id)) {
-                $table->setCriteria("schema_id = '".$schema_id."'");
-            }
-
-            $start = ($start-1) * $limit;
-            $items = $table->getAll($start, $limit, $sort, $dir);
-            $totalcount = $table->countAll();
-
-            $data['rows'] = $items;
-            $data['success'] = true;
-            $data['total'] = $totalcount;
-
-        }catch (Exception $e) {
-            $data['message'] = $e->getMessage();
-        }
-
-        return $data;
-    }
-
-
     function crud() {
 
         $data = array();
@@ -139,6 +95,7 @@ class Fastel_controller {
     function uploadFastel() {
 
         $ci = & get_instance();
+        $ci->load->model('schema/fastel');
         $ci->load->model('schema/fastel');
         $table = $ci->fastel;
 
@@ -169,7 +126,7 @@ class Fastel_controller {
             $fastelfile = fopen("./application/third_party/upload_fastel/".$filedata['file_name'], "r") or die("Unable to open file!");
             // Output one line until end-of-file
             $loop = 0;
-            $batch_id = $table->getNextBatchID();
+            $batch_id = $table->getNextBatchID($schema_id);
 
             while(!feof($fastelfile)) {
 
@@ -195,6 +152,8 @@ class Fastel_controller {
             }
 
             $table->insertPeriodeExpense($batch_id);
+            // update batch id di sc_schema 
+            $table->updateScSchema( $schema_id, 'batch_id', $batch_id );
 
             $data['message'] = 'Upload data success';
             $data['success'] = true;
@@ -207,6 +166,74 @@ class Fastel_controller {
         exit;
     }
 
+    function del_fastel(){
+        $ci = & get_instance();
+        $ci->load->model('schema/fastel');
+        $table = $ci->fastel;
+
+        $notel = getVarClean('notel', 'str', '');
+        $batch_id = getVarClean('batch_id', 'int', 0);
+        
+       
+        $data = array('success' => false, 'message' => '');
+
+        try{
+            $table->db->delete($table->table, array('batch_id' => $batch_id,'p_notel' => $notel )); 
+            $data['message'] = 'No '.$notel.' Berhasil Dihapus !';
+            $data['success'] = true;
+
+             }catch (Exception $e) {
+            $data['message'] = $e->getMessage();
+        }
+
+        echo json_encode($data);
+        exit;
+    }
+
+    function addFastelSatuan(){
+
+        $ci = & get_instance();
+        $ci->load->model('schema/fastel');
+        $table = $ci->fastel;
+
+        $schema_id = getVarClean('schema_id', 'str', '');
+        $notel = getVarClean('fastelsatuan', 'str', '');
+        $p_cust_id = getVarClean('p_cust_id', 'str', '');
+        $p_cust_account = getVarClean('p_cust_account', 'str', '');
+        $batch_id = $table->getNextBatchID($schema_id);
+
+        $data = array('success' => false, 'message' => '');
+
+        try{
+
+            $loop = 0;
+            $datainsert[$loop]['p_notel'] = $notel;
+            $datainsert[$loop]['p_cust_id'] = $p_cust_id;
+            $datainsert[$loop]['p_cust_account'] = $p_cust_account;
+            $datainsert[$loop]['flag'] = null;
+            $datainsert[$loop]['batch_id'] = $batch_id;
+            $datainsert[$loop]['schema_id'] = $schema_id;
+
+            $table->db->delete($table->table, array('schema_id' => $schema_id,'batch_id' => $batch_id,'p_notel' => $notel )); 
+            
+            foreach($datainsert as $rec) {
+                $table->db->insert( $table->table, $rec );
+            }
+
+            $table->insertPeriodeExpense($batch_id);
+            $table->updateScSchema( $schema_id, 'batch_id', $batch_id );
+
+            $data['message'] = 'No '.$notel.' Berhasil Ditambahkan !';
+            $data['success'] = true;
+
+        }catch (Exception $e) {
+            $data['message'] = $e->getMessage();
+        }
+
+        echo json_encode($data);
+        exit;
+
+    }
 
     function destroy() {
         $ci = & get_instance();
@@ -242,5 +269,4 @@ class Fastel_controller {
         return $data;
     }
 }
-
 /* End of file Scema_controller.php */

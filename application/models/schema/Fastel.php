@@ -14,7 +14,7 @@ class Fastel extends Abstract_model {
 
                             );
 
-    public $selectClause    = "fastel.*, (p_notel || '-' || schema_id) as fastel_id";
+    public $selectClause    = "fastel.*, (p_notel || '|' || schema_id) as fastel_id, batch_id||','|| '''' || fastel.p_notel ||'''' as action, (select   decode(count(1),0,'NOT VALID', 'VALID' ) as haha from operasi.cc_dataref_01@tosdbTIBSNP a where a.p_notel =fastel.p_notel) as status ";
     public $fromClause      = "cc_dataref_batch fastel";
 
     public $refs            = array();
@@ -44,17 +44,19 @@ class Fastel extends Abstract_model {
     }
 
     function removeFastel($items) {
-        $code = explode('-', $items);
+        $code = explode('|', $items);
 
-        $sql = "DELETE FROM ".$this->table." WHERE p_notel = '".$code[0]."' AND schema_id = ".$code[1];
+        $sql = "DELETE FROM ".$this->table." WHERE p_notel = '".$code[0]."' AND schema_id = '".$code[1]."'";
         $this->db->query($sql);
 
         return true;
     }
 
-
-    function getNextBatchID() {
-        $sql = "select nvl(max(batch_id),0)+1 as total from cc_dataref_batch";
+    function getNextBatchID($schema_id) {
+        //$sql = "select nvl(max(batch_id),0)+1 as total from cc_dataref_batch";
+        $sql = "select nvl(batch_id,(select nvl(max(batch_id),0)+1 as total from cc_dataref_batch)) total 
+                from sc_schema 
+                where schema_id = '".$schema_id."' ";
         $query = $this->db->query($sql);
         $row = $query->row_array();
 
@@ -86,7 +88,17 @@ class Fastel extends Abstract_model {
         oci_execute($stmt);
 
     }
+    
+    function updateScSchema($schema_id, $kolom, $val){
 
+        $sql = "update sc_schema 
+                    set $kolom = '".$val."'
+                where schema_id = '".$schema_id."'
+                    ";
+
+        $query = $this->db->query($sql);
+
+    }
 }
 
 /* End of file Users.php */

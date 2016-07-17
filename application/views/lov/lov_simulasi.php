@@ -14,19 +14,22 @@
                     <div class="form-group">
                         <label class="col-md-3 control-label" for="simulasi_avg_on_net">Average On Net</label>
                         <div class="col-md-4">
-                            <input type="text" id="simulasi_avg_on_net" name="simulasi_avg_on_net" class="form-control">
+                            <input type="text" id="simulasi_avg_on_net" name="simulasi_avg_on_net" class="form-control input-inline">
+                            <span class="help-inline" id="r_simulasi_avg_on_net"> </span>
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="col-md-3 control-label" for="simulasi_on_net">On Net</label>
                         <div class="col-md-4">
-                            <input type="text" id="simulasi_on_net" name="simulasi_on_net" class="form-control">
+                            <input type="text" id="simulasi_on_net" name="simulasi_on_net" class="form-control input-inline">
+                            <!-- <span class="help-inline" id="r_simulasi_on_net"> </span> -->
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="col-md-3 control-label" for="simulasi_non_on_net">Non On Net</label>
                         <div class="col-md-4">
-                            <input type="text" id="simulasi_non_on_net" name="simulasi_non_on_net"  class="form-control">
+                            <input type="text" id="simulasi_non_on_net" name="simulasi_non_on_net"  class="form-control input-inline">
+                            <!-- <span class="help-inline" id="r_simulasi_non_on_net"> </span> -->
                         </div>
                     </div>
 
@@ -65,6 +68,11 @@
     $(function(e) {
 
         $('#simulasi_generate').on('click', function(e) {
+            
+            trend = $('#trend').val();
+            operator = $('#temp_operator').val();
+            kuadran = $('#select_kuadran').val();
+            model = $('#select_model').val();
 
             if( $('#simulasi_avg_on_net').val() == "" ||
                 $('#simulasi_on_net').val() == "" ||
@@ -83,6 +91,10 @@
                         avg_on_net : $('#simulasi_avg_on_net').val(),
                         on_net     : $('#simulasi_on_net').val(),
                         non_on_net : $('#simulasi_non_on_net').val(),
+                        trend : trend,
+                        operator : operator,
+                        kuadran : kuadran,
+                        model : model,
                         discount_code : $('#modal_lov_simulasi_discount_code').val()
                       },
                 success: function (data) {

@@ -20,10 +20,11 @@ class Sc_schema extends Abstract_model {
                                 'end_dat'        => array('nullable' => true, 'type' => 'date', 'unique' => false, 'display' => 'End Date'),
                             );
 
-    public $selectClause    = "sc.schema_id, sc.schema_name, sc.customer_ref,
+    public $selectClause    = "sc.schema_id, sc.schema_name, sc.customer_ref, ac.account_name, 
                                 sc.account_num, sc.discount_id, to_char(sc.start_dat,'yyyy-mm-dd') as start_dat, to_char(sc.end_dat,'yyyy-mm-dd') as end_dat,
                                 to_char(sc.start_dat,'yyyymm') as start_periode";
-    public $fromClause      = "sc_schema sc";
+    public $fromClause      = "sc_schema sc 
+                                join account ac on ac.account_num = sc.account_num and ac.customer_ref = sc.customer_ref ";
 
     public $refs            = array();
 
@@ -78,6 +79,24 @@ class Sc_schema extends Abstract_model {
                                       'avg_usage_non_onnet' => '');
         return $row;
     }
+    
+    function getInfoSchema($schema_id) {
+        
+        $sql = "select 
+                sc.schema_id, sc.schema_name, sc.customer_ref, ac.account_name, 
+                sc.account_num, to_char(sc.start_dat,'yyyy-mm-dd') as start_dat, 
+                to_char(sc.end_dat,'yyyy-mm-dd') as end_dat,
+        to_char(sc.start_dat,'yyyymm') as start_periode, sc.created_by, sc.status, sc.step
+        from sc_schema sc 
+        join geneva_admin_npots.account ac on sc.account_num = ac.account_num
+        where schema_id = '".$schema_id."'
+        and rownum = 1
+        ";
+        
+        $query = $this->db->query($sql);
+        $row = $query->result_array();
+        return $row;
+    }
 
     function getTrendInfo($schema_id) {
 
@@ -125,11 +144,18 @@ class Sc_schema extends Abstract_model {
     }
 
 
-    function getListSkemaPembayaran($discount_code = "") {
+    // function getListSkemaPembayaran($discount_code = "") {
+    function getListSkemaPembayaran($trend, $operator, $kuadran, $model) {
 
-        $sql = "select * from v_business_schem_list";
-        if(!empty($discount_code))
-            $sql .= " where discount_code = '".$discount_code."'";
+        // $sql = "select * from v_business_schem_list";
+        $sql = "select * from V_BS_SCHEM_LIST 
+                    where OPERATOR = '".$operator."'
+                    and KUADRAN = '".$kuadran."'
+                    and SCHEM_NAME = '".$model."'
+                    and TREND = '".$trend."' and rownum < 3
+                    ";
+        /*if(!empty($discount_code))
+            $sql .= " where discount_code = '".$discount_code."'";*/
         $query = $this->db->query($sql);
         $row = $query->result_array();
         return $row;
@@ -163,6 +189,66 @@ class Sc_schema extends Abstract_model {
 
         return $row['discount_code'];
     }
+
+    function updateScSchema($schema_id, $kolom, $val){
+
+        $sql = "update sc_schema 
+                    set $kolom = '".$val."'
+                where schema_id = '".$schema_id."'
+                    ";
+
+        $query = $this->db->query($sql);
+
+    }
+    
+    function prosesGetHistory($schema_id, $created_by){
+
+        $batch_id = $this->getNextBatchID($schema_id);
+
+        $sql = "insert into control_batch (BATCH_CONTROL_ID, P_BATCH_TYPE_ID, LAST_PROCESS_STATUS_ID, CREATION_DATE, CREATED_BY)
+                    values($batch_id, 1, 0, sysdate, '".$created_by."') ";
+
+        $query = $this->db->query($sql);
+        
+    }
+
+    function getNextBatchID($schema_id) {
+        //$sql = "select nvl(max(batch_id),0)+1 as total from cc_dataref_batch";
+        $sql = "select nvl(batch_id,(select nvl(max(batch_id),0)+1 as total from cc_dataref_batch)) total 
+                from sc_schema 
+                where schema_id = '".$schema_id."' ";
+        $query = $this->db->query($sql);
+        $row = $query->row_array();
+
+        return (int)$row['total'];
+    }
+
+     function get_select_option($select, $trend, $kuadran, $operator) {
+
+        if($select == 'kuadran'){
+                
+                $sql = "SELECT DISTINCT KUADRAN id, KUADRAN code 
+                    from V_BS_SCHEM_LIST
+                    where OPERATOR = '$operator'
+                    and TREND = '$trend' ";
+
+        }else{
+
+               
+                     $sql = "SELECT DISTINCT SCHEM_NAME id, SCHEM_NAME code
+                        from V_BS_SCHEM_LIST
+                        where OPERATOR = '$operator'
+                        and TREND = '$trend'
+                        and KUADRAN = '$kuadran' ";
+
+        }
+         
+        $query = $this->db->query($sql);
+        $result = $query->result_array();
+
+        return $result;
+    }
+
 }
 
 /* End of file Users.php */

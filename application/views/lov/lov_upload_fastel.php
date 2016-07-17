@@ -10,18 +10,47 @@
 
             <!-- modal body -->
             <div class="modal-body">
-                <form role="form" id="form-upload-fastel" method="post" enctype="multipart/form-data" accept-charset="utf-8">
-                    <input type="hidden" id="modal_lov_upload_fastel_schema_id" name="schema_id">
-                    <input type="hidden" id="modal_lov_upload_fastel_p_cust_id" name="p_cust_id">
-                    <input type="hidden" id="modal_lov_upload_fastel_p_cust_account" name="p_cust_account">
-                    <div class="input-group col-md-1">
-                       <input type="file" name="file_upload_fastel" id="file_upload_fastel" />
-                       <input type="hidden" name="<?php echo $this->security->get_csrf_token_name(); ?>" value="<?php echo $this->security->get_csrf_hash(); ?>">
-                       <span class="input-group-btn btn-right">
-                            <input type="submit" id="submit_fastel" class="btn green-haze" value="Upload">
-                       </span>
+            <div class="tabbable-custom ">
+                    <ul class="nav nav-tabs ">
+                        <li class="active">
+                            <a href="#tab_5_1" data-toggle="tab"> Upload Fastel </a>
+                        </li>
+                        <li>
+                            <a href="#tab_5_2" data-toggle="tab"> Tambah Fastel </a>
+                        </li>
+                    </ul>
+                    <div class="tab-content">
+                        <div class="tab-pane active" id="tab_5_1">
+                             <form role="form" id="form-upload-fastel" method="post" enctype="multipart/form-data" accept-charset="utf-8">
+                            <input type="hidden" id="modal_lov_upload_fastel_schema_id" name="schema_id">
+                            <input type="hidden" id="modal_lov_upload_fastel_p_cust_id" name="p_cust_id">
+                            <input type="hidden" id="modal_lov_upload_fastel_p_cust_account" name="p_cust_account">
+                            <div class="input-group col-md-1">
+                               <input type="file" name="file_upload_fastel" id="file_upload_fastel" />
+                               <input type="hidden" name="<?php echo $this->security->get_csrf_token_name(); ?>" value="<?php echo $this->security->get_csrf_hash(); ?>">
+                               <span class="input-group-btn btn-right">
+                                    <input type="submit" id="submit_fastel" class="btn green-haze" value="Upload">
+                               </span>
+                            </div>
+                        </form>
+                        </div>
+                        <div class="tab-pane" id="tab_5_2">
+                        <form role="form" id="form-upload-fastelsatuan" method="post"  accept-charset="utf-8">
+                           <div class="form-group">
+                            <label>Input Fastel</label>
+                            <input type="text" id="fastelsatuan" name="fastelsatuan" class="form-control">
+                            <input type="hidden" id="modal_lov_upload_fastel_p_cust_account2" name="p_cust_account">
+                            <input type="hidden" id="modal_lov_upload_fastel_schema_id2" name="schema_id">
+                            <input type="hidden" id="modal_lov_upload_fastel_p_cust_id2" name="p_cust_id">
+                            <input type="hidden" name="<?php echo $this->security->get_csrf_token_name(); ?>" value="<?php echo $this->security->get_csrf_hash(); ?>">
+                         </div>
+                         <span class="input-group-btn btn-right">
+                              <input type="submit" id="submit_fastelsatuan" class="btn green-haze" value="Submit">
+                            </span>
+                        </form>
+                        </div>
                     </div>
-                </form>
+                </div>
             </div>
 
             <!-- modal footer -->
@@ -42,8 +71,11 @@
 <script>
     function modal_lov_upload_fastel_show(schema_id, p_cust_id, p_cust_account) {
         $("#modal_lov_upload_fastel_schema_id").val(schema_id);
+        $("#modal_lov_upload_fastel_schema_id2").val(schema_id);
         $("#modal_lov_upload_fastel_p_cust_id").val(p_cust_id);
+        $("#modal_lov_upload_fastel_p_cust_id2").val(p_cust_id);
         $("#modal_lov_upload_fastel_p_cust_account").val(p_cust_account);
+        $("#modal_lov_upload_fastel_p_cust_account2").val(p_cust_account);
         $("#modal_lov_upload_fastel").modal({backdrop: 'static'});
     }
 

@@ -22,7 +22,7 @@
 <!-- end breadcrumb -->
 <div class="space-4"></div>
 <div class="row">
-    <div class="col-md-12">
+   <!--  <div class="col-md-12">
 
   		<div class="portlet light bordered" >
   			<div class="portlet-title">
@@ -37,7 +37,7 @@
   					<div class="col-md-3">
   						<div class="col-md-12">
   							<div class="form-group form-md-line-input">
-  								<input type="text" class="form-control" readonly value="<?php echo date('d-m-Y');?>">
+  								<input type="text" class="form-control" id="h_created_date" readonly value="<?php echo date('d-m-Y');?>">
   								<div class="form-control-focus"> </div>
   								<label for="form_control_1">Tanggal Transaksi</label>
   							</div>
@@ -49,7 +49,7 @@
 
   						<div class="col-md-4">
   							<div class="form-group form-md-line-input">
-  								<input type="text" class="form-control" readonly value="NEW TRANSACTION">
+  								<input type="text" class="form-control" id="h_status" readonly value="NEW TRANSACTION">
   								<div class="form-control-focus"> </div>
   								<label for="form_control_1">Status</label>
   							</div>
@@ -58,9 +58,9 @@
   				</div>
 
   			</form>
-  		</div>
+  		</div> 
 
-    </div>
+    </div>-->
 
     <div class="col-md-12">
       <div class="portlet light bordered" id="form_wizard_1">
@@ -180,6 +180,8 @@
                                      <!--- TAB 2 -->
                                       <input type="hidden" id="schema_id" name="schema_id">
                                       <input type="button" id="add_fastel" class="btn green-haze" value="Tambah Fastel">
+                                      <input type="button" id="proses_fastel" class="btn blue-haze" value="Proses">
+                                      <input type="button" id="hapus_fastel" class="btn red-haze" value="Hapus Semua Fastel">
                                       <div class="space-4"></div>
                                       <div class="row">
                                           <div class="col-md-12">
@@ -218,13 +220,14 @@
                                                     <div class="col-md-9">
                                                         <div class="mt-radio-inline">
                                                             <label class="mt-radio">
-                                                              <input id="telkom_only" type="radio" checked="" value="telkom_only" name="operator">
+                                                              <input id="telkom_only"  class="operator" type="radio" checked=false value="TELKOM ONLY" name="operator">
                                                               Telkom Only
                                                               <span></span>
                                                             </label>
 
                                                             <label class="mt-radio">
-                                                              <input id="multi_operator" type="radio" checked="" value="multi_operator" name="operator">
+                                                              <input id="temp_operator" type="hidden" >
+                                                              <input id="multi_operator" class="operator" type="radio" checked=false value="MULTI OPERATOR" name="operator">
                                                               Multi Operator
                                                               <span></span>
                                                             </label>
@@ -234,22 +237,18 @@
                                               <div class="form-group form-md-line-input form-md-floating-label">
                                                     <label class="col-md-3 control-label" for="trend">Kuadran:</label>
                                                       <div class="col-md-4">
-                                                        <select class="form-control input-sm">
-                                                          <option>Acquisition</option>
-                                                          <option>Leverage</option>
-                                                          <option>Win Back</option>
-                                                          <option>Defend</option>
+                                                        <select class="form-control input-sm" id="select_kuadran">
+                                                         
                                                         </select>
                                                       </div>
 
                                                       <div class="col-md-4">
-                                                        <select class="form-control input-sm">
-                                                          <option>Tiering Model</option>
-                                                          <option>Volume Commitment</option>
-                                                          <option>Cost Cap</option>
+                                                        <select class="form-control input-sm" id="select_model">
+                                                         
                                                         </select>
                                                       </div>
                                               </div>
+                                              <!-- <input type="button" id="filter_diskon" class="btn blue-haze" value="Submit"> -->
                                           </div>
                                       </div>
                                       <div class="space-4"></div>
@@ -563,6 +562,17 @@
 
 <script>
   $(document).ready(function(){
+      
+      // initial edit schema | add by umar 27/6/16
+      var edit_schm_id = '<?php echo getVarClean('schema_id','str','0'); ?>';
+      //alert(edit_schm_id);
+      if(edit_schm_id.length > 1){
+
+        init_edit_schema(edit_schm_id);
+        $("#schema_id").val(edit_schm_id);
+
+      }
+      // end initiate 
 
       $('#btn-lov-nipnas').on('click',function() {
           modal_lov_nipnas_show('nipnas','customer_name');
@@ -593,6 +603,38 @@
 
       $("#add_fastel").on('click', function(e) {
           modal_lov_upload_fastel_show( $("#schema_id").val(), $("#nipnas").val(), $("#account_num").val() );
+      });
+
+      $("#proses_fastel").on('click', function(e) {
+        var url = "<?php echo WS_JQGRID.'schema.sc_schema_controller/proses_get_history?schema_id='; ?>" + $("#schema_id").val() + '&';
+          url += "<?php echo $this->security->get_csrf_token_name(); ?>=<?php echo $this->security->get_csrf_hash(); ?>";
+
+        schema_id = $('#schema_id').val();
+        
+        swal({   title: "Anda Yakin Melakukan Proses Ini ? ",   text: "",   type: "info",   showCancelButton: true,   closeOnConfirm: false,   showLoaderOnConfirm: true, }, function(){   setTimeout(function(){
+
+          $.ajax({
+            type: 'get',
+            dataType: "json",
+            url: url,
+            timeout: 10000,
+            contentType: false, // The content type used when sending data to the server.
+            cache: false, // To unable request pages to be cached
+            processData: false,
+            success: function(response) {
+              if(response.success) {
+
+                  swal({title: 'Info', text: response.message, html: true, type: "info"});
+
+              }else{
+                  swal({title: 'Attention', text: response.message, html: true, type: "warning"});
+              }
+            }
+
+          });
+      }, 2000); });
+
+         
       });
 
       $("#form-upload-fastel").on('submit', (function (e) {
@@ -627,6 +669,67 @@
           return false;
       }));
 
+ $(".operator").on('click', function(e) {
+      
+       $('#temp_operator').val( $(this).val() );
+       trend = $('#trend').val();
+      
+        $.ajax({
+                type: "POST",
+                url: "<?php echo WS_JQGRID.'schema.sc_schema_controller/get_select_option'; ?>",
+                data: { operator:$(this).val(), trend:trend },
+                success: function (data) {
+                  ret = data.split('|');
+                  $('#select_kuadran').html(ret[0]);
+                  $('#select_model').html(ret[1]);
+
+            }
+         });
+  
+  });
+
+ $('#select_model').change(function() {
+
+      trend = $('#trend').val();
+      operator = $('#temp_operator').val();
+      kuadran = $('#select_kuadran').val();
+      model = $(this).val();
+      
+      loadTableSkemaPembayaran(trend, kuadran, operator, model);
+
+    });
+
+  $("#form-upload-fastelsatuan").on('submit', (function (e) {
+          e.preventDefault();
+
+           var data = new FormData(this);
+        
+             $.ajax({
+              type: 'POST',
+              dataType: "json",
+              url: '<?php echo WS_JQGRID."schema.fastel_controller/addFastelSatuan"; ?>',
+              data: data,
+              timeout: 10000,
+              contentType: false, // The content type used when sending data to the server.
+              cache: false, // To unable request pages to be cached
+              processData: false,
+              success: function(response) {
+                if(response.success) {
+                    swal({title: 'Info', text:response.message, html: true, type: "info"});
+                    $('#fastelsatuan').val('');
+                    $('#grid-table-fastel').trigger("reloadGrid");
+
+                }else{
+                    swal({title: 'Attention', text: response.message, html: true, type: "warning"});
+                }
+              }
+
+            });
+
+              return false;
+          }
+      ));
+
       $('#btn-excel-trend-info').on('click',function(e) {
           var url = "<?php echo WS_JQGRID.'schema.sc_schema_controller/excelTableTrendInfo?schema_id='; ?>" + $("#schema_id").val() + '&';
           url += "<?php echo $this->security->get_csrf_token_name(); ?>=<?php echo $this->security->get_csrf_hash(); ?>";
@@ -638,6 +741,11 @@
         // Stop form from submitting normally
         e.preventDefault();
 
+        trend = $('#trend').val();
+        operator = $('#temp_operator').val();
+        kuadran = $('#select_kuadran').val();
+        model = $('#select_model').val();
+        
         var postData = $('#form-data-contract').serializeArray(),
         url = "<?php echo WS_JQGRID.'schema.sc_schema_controller/createDataContract'; ?>";
 
@@ -651,7 +759,8 @@
               if(response.success) {
                 swal({title: 'Info', text: response.message, html: true, type: "info"});
                 modal_lov_contract_hide();
-                loadTableSkemaPembayaran();
+                // loadTableSkemaPembayaran();
+                 loadTableSkemaPembayaran(trend, kuadran, operator, model);
               }else{
                   swal({title: 'Attention', text: response.message, html: true, type: "warning"});
               }
@@ -671,6 +780,10 @@
 
       if(index == 1) {
           responsive_jqgrid('#grid-table-fastel', '#grid-pager-fastel');
+          $('#grid-table-fastel').jqGrid('setGridParam', {
+                    postData: {schema_id: $("#schema_id").val()}
+                });
+          $('#grid-table-fastel').trigger("reloadGrid");
       }
 
       if(index == 2) {
@@ -678,8 +791,70 @@
       }
 
       if(index == 3) {
-          loadTableSkemaPembayaran();
+       /* var operator = $('#trend-name').val() ;
+            kuadran = $('#trend-name').val() ;
+            trend = $('#trend-name').val() ;*/
+
+      var trend = $('#trend').val();
+          operator = $('#temp_operator').val();
+          kuadran = $('#select_kuadran').val();
+          model = $('#select_model').val();
+
+          // loadTableSkemaPembayaran();
+           loadTableSkemaPembayaran(trend, kuadran, operator, model);
       }
+  }
+
+  function delete_fastel(batch_id, notel){
+     $.ajax({
+          url: "<?php echo WS_JQGRID.'schema.fastel_controller/del_fastel'; ?>",
+          type: "POST",
+          data: { batch_id: batch_id, notel:notel },
+          success: function (data) {
+           $('#grid-table-fastel').trigger("reloadGrid");
+          },
+          error: function (xhr, status, error) {
+              swal({title: "Error!", text: xhr.responseText, html: true, type: "error"});
+              return false;
+          }
+      });
+  }
+
+  function get_schema_disount(tren, kuadram, operator){
+
+  }
+
+  function init_edit_schema(schema_id){
+    
+     $.ajax({
+          url: "<?php echo WS_JQGRID.'schema.sc_schema_controller/getInfoSchema'; ?>",
+          type: "POST",
+          data: { schema_id: schema_id },
+          success: function (data) {
+            if(data != 'nodata'){
+                data = JSON.parse(data);
+                // $('#h_created_by').val(data[0].created_by);
+                // $('#h_created_date').val(data[0].created_date);
+                // $('#h_location').val(data[0].location_id);
+                // $('#h_status').val(data[0].status);
+                $('#start_dat').val(data[0].start_dat);
+                $('#end_dat').val(data[0].end_dat);
+                $('#account_num').val(data[0].account_num);
+                $('#account_name').val(data[0].account_name);
+                $('#nipnas').val(data[0].customer_ref);
+                $('#customer_name').val(data[0].account_name);
+                $('#btn-lov-nipnas').hide();
+                $('#btn-lov-account').hide();
+                skemaAdded = true;
+            }
+          },
+          error: function (xhr, status, error) {
+              swal({title: "Error!", text: xhr.responseText, html: true, type: "error"});
+              return false;
+          }
+      });
+
+
   }
 
   function loadTableTrendInfo() {
@@ -691,6 +866,12 @@
           data: { schema_id: schema_id },
           success: function (data) {
               $('#table-trend-info').html(data);
+              $('#trend').val($('#trend-name').val());
+              $('#trend').prop('readonly','readonly');
+
+              $('#r_simulasi_avg_on_net').val($('#trend-avg-usage-onnet').val());
+              // $('#r_simulasi_on_net').val($('#trend-avg-usage-onnet').val());
+              // $('#r_simulasi_non_on_net').val($('#trend-avg-usage-nononnet').val());
           },
           error: function (xhr, status, error) {
               swal({title: "Error!", text: xhr.responseText, html: true, type: "error"});
@@ -700,13 +881,13 @@
   }
 
 
-  function loadTableSkemaPembayaran() {
+  function loadTableSkemaPembayaran(trend, kuadran, operator, model) {
       var schema_id = $("#schema_id").val();
 
       $.ajax({
           url: "<?php echo WS_JQGRID.'schema.sc_schema_controller/getTableSkemaPembayaran'; ?>",
           type: "POST",
-          data: { schema_id: schema_id },
+          data: { schema_id: schema_id , trend: trend, operator:operator , kuadran:kuadran , model:model},
           success: function (data) {
               $('#table-skema-pembayaran').html(data);
           },
@@ -767,7 +948,7 @@
             mtype: "POST",
             colModel: [
                 {label: 'ID', name: 'fastel_id', key: true, width: 5, sorttype: 'number', editable: true, hidden: true},
-                {label: 'Customer ID',name: 'p_cust_id',width: 150, align: "left",editable: true,
+                {label: 'Nomor Fastel',name: 'p_notel',width: 150, align: "left",editable: true,
                     editoptions: {
                         size: 30,
                         maxlength:32
@@ -788,7 +969,7 @@
                     },
                     editrules: {required: true}
                 },
-                {label: 'Status',name: 'amount',width: 150, align: "left",editable: true,
+                {label: 'Status',name: 'status',width: 150, align: "left",editable: true,
                     editoptions: {
                         size: 30,
                         maxlength:32
@@ -796,11 +977,10 @@
                     editrules: {required: true}
                 },
                 {label: 'Action',name: 'action',width: 150, align: "left",editable: true,
-                    editoptions: {
-                        size: 30,
-                        maxlength:32
-                    },
-                    editrules: {required: true}
+                    formatter:  function(cellvalue, options, rowobject){
+                      return '<a class="btn btn-xs btn-danger" onclick="delete_fastel('+cellvalue+')" href="javascript:;"><i class="icon-trash"></i></a>';
+                      // return '<i class="btn red btn-xs fa fa-trash-o fa-1x" onclick="delete_fastel('+cellvalue+')"></i>';
+                    }
                 },
             ],
             height: '100%',
@@ -843,7 +1023,7 @@
                 editicon: 'fa fa-pencil blue bigger-120',
                 add: false,
                 addicon: 'fa fa-plus-circle purple bigger-120',
-                del: true,
+                del: false,
                 delicon: 'fa fa-trash-o red bigger-120',
                 search: true,
                 searchicon: 'fa fa-search orange bigger-120',
@@ -955,6 +1135,7 @@
             },
             {
                 //view record form
+                serializeDelData: serializeJSON,
                 recreateForm: true,
                 beforeShowForm: function (e) {
                     var form = $(e[0]);
