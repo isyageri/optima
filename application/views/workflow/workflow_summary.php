@@ -85,10 +85,10 @@
                         </table>
                     </div>
                     <div class="col-sm-12 well well-sm">
-                       <div class="col-sm-8">
+                       <div class="col-sm-7">
                             <div id="task-list-pager"></div>
                         </div>
-                        <div class="col-sm-4">
+                        <div class="col-sm-5">
                             <span id="pageInfo">View x of n from y data</span>
                         </div>
                     </div>
@@ -151,7 +151,7 @@
             $(pager_selector).pagination('selectPage', 1);
         }
 
-        $('#pageInfo').html('<strong>View ' + currentPage + ' of ' + totalPages + ' from ' + total_data + ' data </strong>');
+        $('#pageInfo').html('<strong>View Page ' + currentPage + ' of ' + totalPages + ' ( Total : ' + total_data + ' data ) </strong>');
     }
 
 
