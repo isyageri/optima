@@ -642,7 +642,7 @@ class Sc_schema_controller {
                     $description= $item['schem_name'].' | '.$item['disc_description'];
                     $html .= '<td>'.
                                 //'<button type ="button" class="btn btn-sm btn-primary" onclick="showSimulasi(\''.$item['discount_code'].'\')"> Simulasi </button>'
-                                '<button type ="button" class="btn btn-sm btn-success pilih-simulasi" onclick="pilih_diskon(\''.$item['discount_code'].'\',\''.$description.'\')"> Pilih </button>'
+                                '<button type ="button" class="btn btn-sm btn-success pilih-simulasi" onclick="pilih_diskon(\''.$item['discount_code'].'\',\''.$description.'\', '.$item['p_business_schem_id'].')"> Pilih </button>'
                           .'</td>';
                 }else{
                     $html .= '<td>'
@@ -1227,17 +1227,38 @@ class Sc_schema_controller {
         $ci->load->model('schema/sc_schema');
         $table = $ci->sc_schema;
 
+        $ci->load->model('workflow/pembuatan_schema');
+        $tosdb = $ci->pembuatan_schema;
+
+
         $trend = getVarClean('trend','str','');
         $schema_id = getVarClean('schema_id','str','');
         $model = getVarClean('model','str','');
         $kuadran = getVarClean('kuadran','str','');
         $operator = getVarClean('operator','str','');
         
-        $table-> updateScSchema($schema_id, $kolom='step', $val=4);
-        $table-> updateScSchema($schema_id, $kolom='status', $val=4);
-        $table-> updateScSchema($schema_id, $kolom='operator', $val=$operator);
-       
-        echo 1;
+        
+        
+        try{
+
+            $table-> updateScSchema($schema_id, $kolom='step', $val=4,'');
+            $table-> updateScSchema($schema_id, $kolom='status', $val=4,'');
+            $table-> updateScSchema($schema_id, $kolom='operator', $val=$operator,'');
+
+            $order_id = $tosdb->create_customer_order();
+
+            $table->updateScSchema($schema_id, $kolom='T_CUSTOMER_ORDER_ID', $val=$order_id,'');
+
+            $tosdb->submitWF($order_id, $doc_type_id=1);
+
+
+            $data['success'] = true;
+            $data['message'] = 'Data Offering Berhasil Disimpan ! ';
+        }catch (Exception $e) {
+            $data['message'] = $e->getMessage();
+        }
+        
+        echo json_encode($data);
         exit;
     }
 

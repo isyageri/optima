@@ -46,6 +46,10 @@
                     <hr>
                     <div class="form-group">
                         <div class="col-md-6">
+                        <input type="hidden" id="modal_lov_contract_schema_id" name="schema_id">
+                    <input type="hidden" id="modal_lov_contract_discount_code" name="discount_code">
+                    <input type="hidden" id="modal_lov_contract_p_business_schem_id" name="p_business_schem_id">
+                    <input type="hidden" name="<?php echo $this->security->get_csrf_token_name(); ?>" value="<?php echo $this->security->get_csrf_hash(); ?>">
                             <input type="text" placeholder="Schema ID" name="schema_id" class="form-control " readonly>
                         </div>
                         <div class="col-md-6">
@@ -76,6 +80,7 @@
                         <div class="col-md-6">
                             <input type="text" placeholder="Skema Diskon" name="skema_disc" id="skema_disc" class="form-control required" required> 
                             <input type="hidden" placeholder="Skema Diskon" name="discount_code" id="discount_code" class="form-control required"> 
+                            <input type="hidden" placeholder="Skema Diskon" name="p_business_schem_id" id="p_business_schem_id" class="form-control "> 
                         </div>
                         <div class="col-md-6">
                             <span class="input-group-btn">
@@ -257,9 +262,10 @@
       });
     }
 
-    function pilih_diskon(code,name){
+    function pilih_diskon(code,name, bs_scheme){
         $('#discount_code').val(code);
         $('#skema_disc').val(name);
+        $('#p_business_schem_id').val(bs_scheme);
     }
 
 
@@ -295,6 +301,8 @@
      
          modal_lov_detail_info_skema_show(account_num,customer_ref,account_name,created_date,schema_id);
     }
+
+
 </script>
 
 <script>
@@ -305,25 +313,55 @@ $(document).ready(function(){
         start_dat = $('#start_dat').val();
         end_dat = $('#end_dat').val();
         discount_code = $('#discount_code').val();
-        schema_id = $('#schema_id').val();
+        schema_id = $('[name="schema_id"]').val();
 
          $.ajax({
                 type: "POST",
                 url: "<?php echo WS_JQGRID.'schema.input_data_contract_controller/submit_skema_diskon'; ?>",
-                data: { start_dat:start_dat,end_dat:end_dat,discount_code:discount_code, schema_id:schema_id  },
+                data: { discount_code:discount_code, schema_id:schema_id,start_dat:start_dat,end_dat:end_dat  },
                 success: function (data) {
 
 
             }
          });
-
+         return false;
     });
 
+  $('#form-data-contract').on('submit', (function (e) {
+        // Stop form from submitting normally
+        e.preventDefault();
+
+        trend = $('#trend').val();
+        operator = $('#temp_operator').val();
+        kuadran = $('#select_kuadran').val();
+        model = $('#select_model').val();
+
+        schema_id = $('[name="schema_id"]').val();
+        
+        var postData = $('#form-data-contract').serializeArray(),
+        url = "<?php echo WS_JQGRID.'schema.sc_schema_controller/createDataContract'; ?>";
+
+        // Send the data using post
+        $.ajax({
+          url: url,
+          type: "POST",
+          dataType: "json",
+          data: postData,
+          success: function (response) {
+              if(response.success) {
+                  swal({title: 'Info', text: response.message, html: true, type: "info"});
+              }else{
+                  swal({title: 'Attention', text: response.message, html: true, type: "warning"});
+              }
+          }
+        });
+        return false;
+      }));
 
     $('#start_dat').datepicker({
         format: 'yyyy-mm-dd'
       });
-      $('#end_dat').datepicker({
+    $('#end_dat').datepicker({
         format: 'yyyy-mm-dd'
       });
     

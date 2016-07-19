@@ -43,13 +43,13 @@ class Sc_schema extends Abstract_model {
             //$this->record['created_date'] = date('Y-m-d');
             //$this->record['updated_date'] = date('Y-m-d');
             $this->record[$this->pkey] = $this->getSchemaID();
-            if(empty($this->record['end_dat'])) {
+            /*if(empty($this->record['end_dat'])) {
                 $this->db->set('end_dat', NULL);
             }else {
                 $this->db->set('end_dat',"to_date('".$this->record['end_dat']."','yyyy-mm-dd')",false);
-            }
+            }*/
 
-            $this->db->set('start_dat',"to_date('".$this->record['start_dat']."','yyyy-mm-dd')",false);
+            //$this->db->set('start_dat',"to_date('".$this->record['start_dat']."','yyyy-mm-dd')",false);
 
             unset($this->record['start_dat']);
             unset($this->record['end_dat']);
@@ -204,12 +204,19 @@ class Sc_schema extends Abstract_model {
         return $row['discount_code'];
     }
 
-    function updateScSchema($schema_id, $kolom, $val){
-
-        $sql = "update sc_schema 
+    function updateScSchema($schema_id, $kolom, $val, $tipe){
+        if($tipe == 'date'){
+             $sql = "update sc_schema 
+                    set $kolom = to_date('".$val."','yyyy-mm-dd') 
+                where schema_id = '".$schema_id."'
+                    ";
+        }else{
+             $sql = "update sc_schema 
                     set $kolom = '".$val."'
                 where schema_id = '".$schema_id."'
                     ";
+        }
+       
 
         $query = $this->db->query($sql);
 

@@ -494,11 +494,12 @@
                 operator = $('#temp_operator').val();
                 kuadran = $('#select_kuadran').val();
                 model = $('#select_model').val();
+                schema_id = $('#schema_id').val();
                 
                 $.ajax({
                 type: "POST",
                 url: "<?php echo WS_JQGRID.'schema.sc_schema_controller/finished'; ?>",
-                data: { operator:operator, trend:trend, kuadran:kuadran, model:model },
+                data: { operator:operator, trend:trend, kuadran:kuadran, model:model, schema_id:schema_id },
                 success: function (data) {
                    swal({title: 'Info', text: 'Selesai, Step selanjutnya adalah mengisi data kontrak !', html: true, type: "info"});
                     }
