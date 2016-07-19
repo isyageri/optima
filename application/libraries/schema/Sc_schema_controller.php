@@ -326,7 +326,7 @@ class Sc_schema_controller {
             $ci = & get_instance();
             $ci->load->model('schema/sc_schema');
             $table = $ci->sc_schema;
-            
+
             $items = $table->getInfoSchema($schema_id);
             echo json_encode($items);
             exit;
@@ -334,7 +334,7 @@ class Sc_schema_controller {
             echo 'nodata';
             exit;
         }
-        
+
     }
 
     public function getTableTrendInfo() {
@@ -604,18 +604,18 @@ class Sc_schema_controller {
         $form = getVarClean('form','str','');
         $trend = getVarClean('trend','str','');
         $getop = $table->get_data_skema($schema_id);
-        
+
         foreach($getop as $op) {
             $operator = $op['operator'];
         }
 
         $kuadran = '';
         $getkuadran = $table->get_select_option($select='kuadran', $trend, $kuadran, $operator);
-        
+
         foreach($getkuadran as $kd) {
             $kuadran = $kd['id'];
         }
-        
+
         $discount_code = $table->getDiscountCodeAccBusinessSchem($schema_id);
         $model = '';
         $items = $table->getListSkemaPembayaran2( $trend, $operator, $kuadran, $model );
@@ -650,7 +650,7 @@ class Sc_schema_controller {
                                 /*'<button type ="button" class="btn btn-sm btn-success pilih-simulasi" onclick="pilihSimulasi(\''.$item['discount_code'].'\','.$item['p_business_schem_id'].')"> Pilih </button>'*/
                           .'</td>';
                 }
-                
+
             }else {
                  $html .= '<td> Dipilih </td>';
             }
@@ -673,13 +673,13 @@ class Sc_schema_controller {
         $on_net = getVarClean('on_net','int',0);
         $non_on_net = getVarClean('non_on_net','int',0);
         $discount_code = getVarClean('discount_code','int',0);
-        
+
         $kuadran = getVarClean('kuadran','str','');
         $operator = getVarClean('operator','str','');
         $trend = getVarClean('trend','str','');
         $model = getVarClean('model','str','');
-        
-        
+
+
 
         $item = $table->get($schema_id);
 
@@ -689,7 +689,7 @@ class Sc_schema_controller {
         $I_ON_NET = $on_net;
         $I_NON_ON_NET = $non_on_net;
         $I_DISCOUNT_CODE = 0; //$discount_code;
-            
+
             $html = '<div class="tabbable-custom ">';
             $html .= '<ul class="nav nav-tabs ">';/*
             $html .= '<li class="$active">';
@@ -700,7 +700,7 @@ class Sc_schema_controller {
             $html .= '<div class="tab-content">';
             // $html .= '<div class="tab-pane active" id="tab_ke$i">';
             $html .= '#TAB_CONTENT_SECTION#';
-            
+
             $html .= '</div>';
             $html .= '</div>';
             $html .= '</div>';
@@ -711,9 +711,9 @@ class Sc_schema_controller {
             $CONTENT_TAB ='';
             $CONTENT_TABLE_SECTION ='';
 
-        // get skema pembayaran 
+        // get skema pembayaran
         $items2 = $table->get_select_option($select='skema_pembayaran', $trend, $kuadran, $operator);
-        // loop 
+        // loop
         $i =0;
         foreach($items2 as $item) {
             if($i == 0){
@@ -739,7 +739,7 @@ class Sc_schema_controller {
             $TAB_CONTENT_SECTION .= '#CONTENT_TABLE_SECTION'.$i.'#';
             $TAB_CONTENT_SECTION .= '</tr>';
             $TAB_CONTENT_SECTION .= '</table>';
-          
+
                 $skema_discount =  $table->getListSkemaPembayaran($trend, $operator, $kuadran, $item['id']);
 
                 $TH_VAL_SECTION = '';
@@ -777,7 +777,7 @@ class Sc_schema_controller {
                 $clearing = '';
                 $addingtd = '';
                 foreach($data as $item1) {
-                    
+
                      if($tdnum == 1){
 
                         $CONTENT_TABLE_SECTION .= '<tr>';
@@ -785,7 +785,7 @@ class Sc_schema_controller {
                         $CONTENT_TABLE_SECTION .= '<td>'.$item1['V1'].'</td>';
                         $CONTENT_TABLE_SECTION .= '<td align="right">'.$item1['V2'].'</td>replace'.$rpc.'#'.$no;
                         $CONTENT_TABLE_SECTION .= '</tr>';
-                   
+
                      }else{
 
                         $no++;
@@ -794,14 +794,14 @@ class Sc_schema_controller {
                         }else{
                             $addingtd = '<td align="right">'.$item1['V2'].'</td>replace'.$rpc.'#'.$no;
                         }
-                       
+
                         $CONTENT_TABLE_SECTION = str_replace('replace'.$tdnum.'#'.$no, $addingtd, $CONTENT_TABLE_SECTION);
 
                      }
-                            
+
                 }
-                
-               
+
+
                 $tdnum ++;
                 //oci_statement_type($curs);
             }
@@ -812,13 +812,13 @@ class Sc_schema_controller {
                 $TAB_CONTENT_SECTION = '';
                 $i++;
         }
-               
+
             // $html = str_replace('#TAB_CONTENT_SECTION#', $TAB_CONTENT_SECTION, $html );
             $html = str_replace('#TAB_CONTENT_SECTION#', $CONTENT_TAB, $html );
             $html = str_replace('#LI_SECTION#', $LI_SECTION, $html );
             $html = str_replace('#TH_VAL_SECTION#', $TH_VAL_SECTION, $html );
             $html = str_replace('#CONTENT_TABLE_SECTION#', $CONTENT_TABLE_SECTION, $html );
-        
+
 
         echo $html;
         exit;
@@ -835,13 +835,13 @@ class Sc_schema_controller {
         $on_net = getVarClean('on_net','int',0);
         $non_on_net = getVarClean('non_on_net','int',0);
         $discount_code = getVarClean('discount_code','int',0);
-        
+
         $kuadran = getVarClean('kuadran','str','');
         $operator = getVarClean('operator','str','');
         $trend = getVarClean('trend','str','');
         $model = getVarClean('model','str','');
-        
-        
+
+
 
         $item = $table->get($schema_id);
 
@@ -851,7 +851,7 @@ class Sc_schema_controller {
         $I_ON_NET = $on_net;
         $I_NON_ON_NET = $non_on_net;
         $I_DISCOUNT_CODE = 0; //$discount_code;
-            
+
             $html = '<div class="tabbable-custom ">';
             $html .= '<ul class="nav nav-tabs ">';/*
             $html .= '<li class="$active">';
@@ -862,7 +862,7 @@ class Sc_schema_controller {
             $html .= '<div class="tab-content">';
             // $html .= '<div class="tab-pane active" id="tab_ke$i">';
             $html .= '#TAB_CONTENT_SECTION#';
-            
+
             $html .= '</div>';
             $html .= '</div>';
             $html .= '</div>';
@@ -872,11 +872,11 @@ class Sc_schema_controller {
             $TAB_CONTENT_SECTION ='';
             $CONTENT_TAB ='';
             $CONTENT_TABLE_SECTION ='';
-        
 
-        // get skema pembayaran 
+
+        // get skema pembayaran
         $items2 = $table->get_select_option($select='skema_pembayaran', $trend, $kuadran, $operator);
-        // loop 
+        // loop
         $i =0;
         foreach($items2 as $item) {
             if($i == 0){
@@ -902,7 +902,7 @@ class Sc_schema_controller {
             $TAB_CONTENT_SECTION .= '#CONTENT_TABLE_SECTION'.$i.'#';
             $TAB_CONTENT_SECTION .= '</tr>';
             $TAB_CONTENT_SECTION .= '</table>';
-          
+
                 $skema_discount =  $table->getListSkemaPembayaran($trend, $operator, $kuadran, $item['id']);
 
                 $TH_VAL_SECTION = '';
@@ -940,7 +940,7 @@ class Sc_schema_controller {
                 $clearing = '';
                 $addingtd = '';
                 foreach($data as $item1) {
-                    
+
                      if($tdnum == 1){
 
                         $CONTENT_TABLE_SECTION .= '<tr>';
@@ -948,7 +948,7 @@ class Sc_schema_controller {
                         $CONTENT_TABLE_SECTION .= '<td>'.$item1['V1'].'</td>';
                         $CONTENT_TABLE_SECTION .= '<td align="right">'.$item1['V2'].'</td>replace'.$rpc.'#'.$no;
                         $CONTENT_TABLE_SECTION .= '</tr>';
-                   
+
                      }else{
 
                         $no++;
@@ -957,14 +957,14 @@ class Sc_schema_controller {
                         }else{
                             $addingtd = '<td align="right">'.$item1['V2'].'</td>replace'.$rpc.'#'.$no;
                         }
-                       
+
                         $CONTENT_TABLE_SECTION = str_replace('replace'.$tdnum.'#'.$no, $addingtd, $CONTENT_TABLE_SECTION);
 
                      }
-                            
+
                 }
-                
-               
+
+
                 $tdnum ++;
                 //oci_statement_type($curs);
             }
@@ -981,8 +981,8 @@ class Sc_schema_controller {
             $html = str_replace('#LI_SECTION#', $LI_SECTION, $html );
             $html = str_replace('#TH_VAL_SECTION#', $TH_VAL_SECTION, $html );
             $html = str_replace('#CONTENT_TABLE_SECTION#', $CONTENT_TABLE_SECTION, $html );
-        
-            
+
+
         echo $html;
         exit;
 
@@ -1125,7 +1125,7 @@ class Sc_schema_controller {
             $table->db->trans_rollback(); //Rollback Trans
             $data['message'] = $e->getMessage();
         }
-        
+
         echo json_encode($data);
         exit;
     }
@@ -1200,13 +1200,13 @@ class Sc_schema_controller {
         $schema_id = getVarClean('schema_id','str','');
         // $username = $ci->ion_auth->user()->row()->username;
         $username = 'qwert'; //$ci->ion_auth->user()->row()->username;
-        
+
         $data = array('success' => false, 'message' => '');
 
         try{
 
             $table->prosesGetHistory($schema_id, $username);
-            // run proses get history pl 
+            // run proses get history pl
             $command = "/sourcehubber/m4l/header_run_job.pl";
             $shell = shell_exec($command);
 
@@ -1215,7 +1215,7 @@ class Sc_schema_controller {
         }catch (Exception $e) {
             $data['message'] = $e->getMessage();
         }
-        
+
         echo json_encode($data);
         exit;
 
@@ -1236,9 +1236,9 @@ class Sc_schema_controller {
         $model = getVarClean('model','str','');
         $kuadran = getVarClean('kuadran','str','');
         $operator = getVarClean('operator','str','');
-        
-        
-        
+
+
+
         try{
 
             $table-> updateScSchema($schema_id, $kolom='trend', $val=$trend,'');
@@ -1258,7 +1258,7 @@ class Sc_schema_controller {
         }catch (Exception $e) {
             $data['message'] = $e->getMessage();
         }
-        
+
         echo json_encode($data);
         exit;
     }
@@ -1280,15 +1280,118 @@ class Sc_schema_controller {
             $ret .= '<option value="'.$item['id'].'"> '.$item['code'].' </option>';
             $kuadran = $item['id'];
         }
-        
+
         $items2 = $table->get_select_option($select='skema_pembayaran', $trend, $kuadran, $operator);
         $ret.='|';
-        
+
         $ret.= '<option value="-"> - </option>';
         foreach($items2 as $item) {
             $ret.= '<option value="'.$item['id'].'"> '.$item['code'].' </option>';
         }
         echo $ret;
+        exit;
+    }
+
+
+    public function saveDataContract() {
+        $ci = & get_instance();
+        $ci->load->model('schema/schema_contract');
+        $table = $ci->schema_contract;
+
+        $schema_id = getVarClean('schema_id','str','');
+        $nomor1 = getVarClean('nomor1','str','');
+        $nomor2 = getVarClean('nomor2','str','');
+        $hari = getVarClean('hari','str','');
+        $tanggal = getVarClean('tanggal','str','');
+        $bulan = getVarClean('bulan','str','');
+        $tahun = getVarClean('tahun','str','');
+        $lokasi = getVarClean('lokasi','str','');
+        $alamat_t = getVarClean('alamat_t','str','');
+        $alamat_c = getVarClean('alamat_c','str','');
+        $nama_t = getVarClean('nama_t','str','');
+        $nama_c = getVarClean('nama_c','str','');
+        $rek_no = getVarClean('rek_no','str','');
+        $rek_name = getVarClean('rek_name','str','');
+        $jabatan_t = getVarClean('jabatan_t','str','');
+        $jabatan_c = getVarClean('jabatan_c','str','');
+        $nama_pt = getVarClean('nama_pt','str','');
+        $alamat_inv = getVarClean('alamat_inv','str','');
+        $program = getVarClean('program','int',0);
+
+        $data = array('success' => false, 'message' => '');
+
+        try{
+
+            $items = [
+                'nomor1' => $nomor1,
+                'nomor2' => $nomor2,
+                'hari' => $hari,
+                'tanggal' => $tanggal,
+                'bulan' => $bulan,
+                'tahun' => $tahun,
+                'lokasi' => $lokasi,
+                'alamat_t' => $alamat_t,
+                'alamat_c' => $alamat_c,
+                'nama_t' => $nama_t,
+                'nama_c' => $nama_c,
+                'rek_no' => $rek_no,
+                'rek_name' => $rek_name,
+                'jabatan_t' => $jabatan_t,
+                'jabatan_c' => $jabatan_c,
+                'nama_pt' => $nama_pt,
+                'alamat_inv' => $alamat_inv,
+                'program' => $program
+            ];
+
+            $isContractExist = $table->isContractExist($schema_id);
+
+            if($isContractExist) {
+                $table->actionType = 'UPDATE';
+                $table->db->trans_begin(); //Begin Trans
+                    $table->setRecord($items);
+                    $table->db->set('schema_id',$schema_id);
+                    $table->update();
+
+                $table->db->trans_commit(); //Commit Trans
+            }else {
+                $table->actionType = 'CREATE';
+                $table->db->trans_begin(); //Begin Trans
+                    $table->setRecord($items);
+                    $table->db->set('schema_id',$schema_id);
+                    $table->create();
+
+                $table->db->trans_commit(); //Commit Trans
+            }
+            $data['success'] = true;
+            $data['message'] = 'Data berhasil ditambahkan';
+        }catch (Exception $e) {
+            $table->db->trans_rollback(); //Rollback Trans
+            $data['message'] = $e->getMessage();
+        }
+
+        echo json_encode($data);
+        exit;
+    }
+
+
+    public function getDataContract() {
+        $ci = & get_instance();
+        $ci->load->model('schema/schema_contract');
+        $table = $ci->schema_contract;
+
+        $schema_id = getVarClean('schema_id','str','');
+        $data = array('success' => false, 'message' => '');
+
+        try{
+            $items = $table->get($schema_id);
+
+            $data['items'] = $items;
+            $data['success'] = true;
+        }catch (Exception $e) {
+            $data['message'] = $e->getMessage();
+        }
+
+        echo json_encode($data);
         exit;
     }
 

@@ -785,7 +785,7 @@ class Wf_controller {
         $t_customer_order_id = $ci->input->post('t_customer_order_id');
         $p_w_proc_id = $ci->input->post('p_w_proc_id');
 
-        $sql = "SELECT * FROM v_wf_create_schema WHERE t_customer_order_id = ".$t_customer_order_id." AND p_w_proc_id = ".$p_w_proc_id;
+        $sql = "SELECT a.*, to_char(a.start_dat,'yyyy-mm-dd') as start_date, to_char(a.end_dat,'yyyy-mm-dd') as end_date FROM v_wf_create_schema a WHERE t_customer_order_id = ".$t_customer_order_id." AND p_w_proc_id = ".$p_w_proc_id;
         $query = $table->db->query($sql);
 
         $items = $query->result_array();

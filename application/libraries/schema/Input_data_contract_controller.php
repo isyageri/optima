@@ -105,7 +105,7 @@ class Input_data_contract_controller {
         exit;
 
     }
-    
+
 
 
     function getDetailSkema() {

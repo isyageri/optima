@@ -62,6 +62,16 @@ class Schema_contract extends Abstract_model {
         return true;
     }
 
+    function isContractExist($schema_id) {
+        $sql = "select count(1) as totalcount from schema_contract where schema_id = '".$schema_id."'";
+        $query = $this->db->query($sql);
+        $row = $query->row_array();
+        $query->free_result();
+
+        if ($row['totalcount'] > 0) return true;
+        return false;
+    }
+
 }
 
 /* End of file Users.php */

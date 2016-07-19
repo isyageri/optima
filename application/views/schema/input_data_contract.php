@@ -41,8 +41,8 @@
         </ul>
         <div class="tab-content">
             <div class="tab-pane active" id="tab_1_1">
-            <form role="form" id="form-data-contract_schema" method="post" class="form-horizontal">
-            <h4>Info Skema</h4>
+                <form role="form" id="form-data-contract_schema" method="post" class="form-horizontal">
+                <h4>Info Skema</h4>
                     <hr>
                     <div class="form-group">
                         <div class="col-md-6">
@@ -53,7 +53,7 @@
                             <input type="text" placeholder="Schema ID" name="schema_id" class="form-control " readonly>
                         </div>
                         <div class="col-md-6">
-                           
+
                         </div>
                     </div>
 
@@ -73,14 +73,14 @@
                             <input type="text" placeholder="End Date" name="end_dat" id="end_dat" class="form-control required" required>
                         </div>
                     </div>
-                    
+
                     <h4>Skema Diskon</h4>
                     <hr>
                         <div class="form-group">
                         <div class="col-md-6">
-                            <input type="text" placeholder="Skema Diskon" name="skema_disc" id="skema_disc" class="form-control required" required> 
-                            <input type="hidden" placeholder="Skema Diskon" name="discount_code" id="discount_code" class="form-control required"> 
-                            <input type="hidden" placeholder="Skema Diskon" name="p_business_schem_id" id="p_business_schem_id" class="form-control "> 
+                            <input type="text" placeholder="Skema Diskon" name="skema_disc" id="skema_disc" class="form-control required" required>
+                            <input type="hidden" placeholder="Skema Diskon" name="discount_code" id="discount_code" class="form-control required">
+                            <input type="hidden" placeholder="Skema Diskon" name="p_business_schem_id" id="p_business_schem_id" class="form-control ">
                         </div>
                         <div class="col-md-6">
                             <span class="input-group-btn">
@@ -99,12 +99,12 @@
 
             </div>
             <div class="tab-pane " id="tab_1_3">
-      <form role="form" id="form-data-contract" method="post" class="form-horizontal">
+                <form role="form" id="form-data-contract" method="post" class="form-horizontal">
                     <input type="hidden" id="modal_lov_contract_schema_id" name="schema_id">
                     <input type="hidden" id="modal_lov_contract_discount_code" name="discount_code">
                     <input type="hidden" id="modal_lov_contract_p_business_schem_id" name="p_business_schem_id">
                     <input type="hidden" name="<?php echo $this->security->get_csrf_token_name(); ?>" value="<?php echo $this->security->get_csrf_hash(); ?>">
-                    
+
                     <h4>Data Kontrak</h4>
                     <hr>
                     <div class="form-group">
@@ -200,19 +200,19 @@
                             <button type="submit" id="save-contract" class="btn btn-success btn-block"> Simpan Kontrak & Sent to approver </button>
                         </div>
                     </div>
-                        
+
                 </form>
-                </div>
-                <div class="tab-pane " id="tab_1_2">
-                         <div class="row">
-                          <div class="col-md-12">
-                              <table id="grid-table-fastel"></table>
-                              <div id="grid-pager-fastel"></div>
-                          </div>
-                        </div>
-                </div>
-                </div>
-</div>
+            </div>
+            <div class="tab-pane " id="tab_1_2">
+                     <div class="row">
+                      <div class="col-md-12">
+                          <table id="grid-table-fastel"></table>
+                          <div id="grid-pager-fastel"></div>
+                      </div>
+                    </div>
+            </div>
+        </div>
+    </div>
 </div>
 </div>
 
@@ -223,19 +223,19 @@
     function load_mode_edit(editable){
 
         var grid = jQuery('#grid-table');
-        var sel_id = grid.jqGrid('getGridParam', 'selrow'); 
+        var sel_id = grid.jqGrid('getGridParam', 'selrow');
         var account_num = grid.jqGrid('getCell', sel_id, 'account_num');
         var customer_ref = grid.jqGrid('getCell', sel_id, 'customer_ref');
         var account_name = grid.jqGrid('getCell', sel_id, 'account_name');
         var created_date = grid.jqGrid('getCell', sel_id, 'created_date');
         var schema_id = grid.jqGrid('getCell', sel_id, 'schema_id');
-        
+
         $('[name="customer_name"]').val(account_name);
         $('[name="nipnas"]').val(customer_ref);
         $('[name="account_num"]').val(account_num);
         $('[name="schema_id"]').val(schema_id);
 
-        // reload grid 
+        // reload grid
         $('#grid-table-fastel').jqGrid('setGridParam', {
                     postData: {schema_id: schema_id}
                 });
@@ -244,7 +244,7 @@
 
         loadTableSkemaPembayaran(trend);
     }
-  
+
     function loadTableSkemaPembayaran(trend) {
       var schema_id = $('[name="schema_id"]').val();
 
@@ -292,13 +292,13 @@
     }
     function showDiskon(account_num) {
         var grid = jQuery('#grid-table');
-        var sel_id = grid.jqGrid('getGridParam', 'selrow'); 
+        var sel_id = grid.jqGrid('getGridParam', 'selrow');
         var account_num = grid.jqGrid('getCell', sel_id, 'account_num');
         var customer_ref = grid.jqGrid('getCell', sel_id, 'customer_ref');
         var account_name = grid.jqGrid('getCell', sel_id, 'account_name');
         var created_date = grid.jqGrid('getCell', sel_id, 'created_date');
         var schema_id = grid.jqGrid('getCell', sel_id, 'schema_id');
-     
+
          modal_lov_detail_info_skema_show(account_num,customer_ref,account_name,created_date,schema_id);
     }
 
@@ -316,11 +316,11 @@ $(document).ready(function(){
         schema_id = $('[name="schema_id"]').val();
 
          $.ajax({
-                type: "POST",
-                url: "<?php echo WS_JQGRID.'schema.input_data_contract_controller/submit_skema_diskon'; ?>",
-                data: { discount_code:discount_code, schema_id:schema_id,start_dat:start_dat,end_dat:end_dat  },
-                success: function (data) {
 
+            type: "POST",
+            url: "<?php echo WS_JQGRID.'schema.input_data_contract_controller/submit_skema_diskon'; ?>",
+            data: { start_dat:start_dat,end_dat:end_dat,discount_code:discount_code, schema_id:schema_id  },
+            success: function (data) {
 
             }
          });
@@ -337,7 +337,7 @@ $(document).ready(function(){
         model = $('#select_model').val();
 
         schema_id = $('[name="schema_id"]').val();
-        
+
         var postData = $('#form-data-contract').serializeArray(),
         url = "<?php echo WS_JQGRID.'schema.sc_schema_controller/createDataContract'; ?>";
 
@@ -364,7 +364,7 @@ $(document).ready(function(){
     $('#end_dat').datepicker({
         format: 'yyyy-mm-dd'
       });
-    
+
 })
 
 
