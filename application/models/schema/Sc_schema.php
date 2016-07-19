@@ -267,8 +267,8 @@ class Sc_schema extends Abstract_model {
         $ci =& get_instance();
         $userinfo = $ci->ion_auth->user()->row();
         $username = $userinfo->username;
-        $this->db = $this->load->database('tosdb', TRUE);
-        $this->db->_escape_char = ' ';
+        $tosdb = $this->load->database('tosdb', TRUE);
+        $tosdb->_escape_char = ' ';
 
         $cust_order_id = $this->generate_id('T_CUSTOMER_ORDER');
 
@@ -292,7 +292,7 @@ class Sc_schema extends Abstract_model {
                             '".$username."'
                 )";
 
-        $this->db->query($sql);
+        $tosdb->query($sql);
 
         return $cust_order_id;
 
@@ -302,15 +302,15 @@ class Sc_schema extends Abstract_model {
         $ci =& get_instance();
         $userinfo = $ci->ion_auth->user()->row();
         $username = $userinfo->username;
-        $this->db = $this->load->database('tosdb', TRUE);
-        $this->db->_escape_char = ' ';
+        $tosdb = $this->load->database('tosdb', TRUE);
+        $tosdb->_escape_char = ' ';
 
         try {
 
             $sql = "  BEGIN ".
                             "  p_first_submit_engine(:i_doc_type_id, :i_cust_req_id, :i_username, :o_result_code, :o_result_msg ); END;";
 
-            $stmt = oci_parse($this->db->conn_id, $sql);
+            $stmt = oci_parse($tosdb->conn_id, $sql);
 
             //  Bind the input parameter
             oci_bind_by_name($stmt, ':i_doc_type_id', $doc_type_id);
