@@ -267,6 +267,8 @@ class Sc_schema extends Abstract_model {
         $ci =& get_instance();
         $userinfo = $ci->ion_auth->user()->row();
         $username = $userinfo->username;
+        $this->db = $this->load->database('tosdb', TRUE);
+        $this->db->_escape_char = ' ';
 
         $cust_order_id = $this->generate_id('T_CUSTOMER_ORDER');
 
@@ -300,6 +302,8 @@ class Sc_schema extends Abstract_model {
         $ci =& get_instance();
         $userinfo = $ci->ion_auth->user()->row();
         $username = $userinfo->username;
+        $this->db = $this->load->database('tosdb', TRUE);
+        $this->db->_escape_char = ' ';
 
         try {
 
