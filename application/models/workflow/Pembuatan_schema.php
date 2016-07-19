@@ -97,8 +97,6 @@ class Pembuatan_schema extends Abstract_model {
         $ci =& get_instance();
         $userinfo = $ci->ion_auth->user()->row();
         $username = $userinfo->username;
-        $tosdb = $this->load->database('tosdb', TRUE);
-        $tosdb->_escape_char = ' ';
 
         $cust_order_id = $this->generate_id('T_CUSTOMER_ORDER');
 
