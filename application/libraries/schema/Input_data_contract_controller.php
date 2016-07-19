@@ -85,6 +85,29 @@ class Input_data_contract_controller {
         return $data;
     }
 
+    function submit_skema_diskon(){
+
+        $ci = & get_instance();
+        $ci->load->model('schema/sc_schema');
+        $table = $ci->sc_schema;
+
+        $discount_code = getVarClean('discount_code','str','');
+        $start_dat = getVarClean('start_dat','str','');
+        $end_dat = getVarClean('end_dat','str','');
+        $schema_id = getVarClean('schema_id','str','');
+
+        $upd = $table->updateScSchema($schema_id, $kolom = 'start_dat', $val=$start_dat, 'date');
+        $upd = $table->updateScSchema($schema_id, $kolom = 'end_dat', $val=$end_dat, 'date');
+        $upd = $table->updateScSchema($schema_id, $kolom = 'discount_id', $val=$discount_code, '');
+
+        echo 1;
+
+        exit;
+
+    }
+    
+
+
     function getDetailSkema() {
         $ci = & get_instance();
         $ci->load->model('schema/input_data_contract');
