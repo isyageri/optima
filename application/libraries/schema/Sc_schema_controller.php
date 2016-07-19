@@ -487,6 +487,57 @@ class Sc_schema_controller {
         exit;
     }
 
+    public function getTableSkemaPembayaran_lov() {
+
+        $ci = & get_instance();
+        $ci->load->model('schema/sc_schema');
+        $table = $ci->sc_schema;
+
+        $result = array();
+        $periode = array();
+
+        $schema_id = getVarClean('schema_id','str','');
+        $trend = getVarClean('trend','str','');
+        $operator = getVarClean('operator','str','');
+        $kuadran = getVarClean('kuadran','str','');
+        $model = getVarClean('model','str','');
+
+
+        $discount_code = $table->getDiscountCodeAccBusinessSchem($schema_id);
+        $items = $table->getListSkemaPembayaran( $trend, $operator, $kuadran, $model );
+        // $items = $table->getListSkemaPembayaran($discount_code, $trend, $operator, $kuadran, $model );
+
+        $html  = '<table class="table">';
+        $html .= '<tr>';
+        $html .= '<th>No</th>';
+        $html .= '<th>Nama Skema</th>';
+        $html .= '<th>Diskon (%)</th>';
+        $html .= '<th>Keterangan Diskon</th>';
+        $html .= '<th>'.(empty($discount_code) ? "Action" : "Status").'</th>';
+        $html .= '</tr>';
+
+        $no = 1;
+        foreach($items as $item) {
+            $html .= '<tr>';
+            $html .= '<td>'.$no++.'</td>';
+            $html .= '<td>'.$item['schem_name'].'</td>';
+            $html .= '<td>'.$item['disc_pct'].'</td>';
+            $html .= '<td>'.$item['disc_description'].'</td>';
+            if(empty($discount_code)) {
+                $html .= '<td>
+                                <button type ="button" class="btn btn-sm btn-primary" onclick="showSimulasi(\''.$item['discount_code'].'\')"> Simulasi </button>'
+                                //'<button type ="button" class="btn btn-sm btn-success pilih-simulasi" onclick="pilihSimulasi(\''.$item['discount_code'].'\','.$item['p_business_schem_id'].')"> Pilih </button>
+                          .'</td>';
+            }else {
+                 $html .= '<td> Dipilih </td>';
+            }
+            $html .= '</tr>';
+        }
+
+        $html .= '</table>';
+        echo $html;
+        exit;
+    }
 
     public function getTableSkemaPembayaran() {
 
@@ -526,11 +577,82 @@ class Sc_schema_controller {
             $html .= '<td>'.$item['disc_description'].'</td>';
             if(empty($discount_code)) {
                 $html .= '<td>
-                                <button type ="button" class="btn btn-sm btn-primary" onclick="showSimulasi(\''.$item['discount_code'].'\')"> Simulasi </button>
-                                <button type ="button" class="btn btn-sm btn-success pilih-simulasi" onclick="pilihSimulasi(\''.$item['discount_code'].'\','.$item['p_business_schem_id'].')"> Pilih </button>
-                          </td>';
+                                <button type ="button" class="btn btn-sm btn-primary" onclick="showSimulasi(\''.$item['discount_code'].'\')"> Simulasi </button>'
+                                //'<button type ="button" class="btn btn-sm btn-success pilih-simulasi" onclick="pilihSimulasi(\''.$item['discount_code'].'\','.$item['p_business_schem_id'].')"> Pilih </button>
+                          .'</td>';
             }else {
-                $html .= '<td> Dipilih </td>';
+                 $html .= '<td> Dipilih </td>';
+            }
+            $html .= '</tr>';
+        }
+
+        $html .= '</table>';
+        echo $html;
+        exit;
+    }
+
+     public function getTableSkemaPembayaran2() {
+
+        $ci = & get_instance();
+        $ci->load->model('schema/sc_schema');
+        $table = $ci->sc_schema;
+
+        $result = array();
+        $periode = array();
+
+        $schema_id = getVarClean('schema_id','str','');
+        $form = getVarClean('form','str','');
+        $trend = getVarClean('trend','str','');
+        $getop = $table->get_data_skema($schema_id);
+        
+        foreach($getop as $op) {
+            $operator = $op['operator'];
+        }
+
+        $kuadran = '';
+        $getkuadran = $table->get_select_option($select='kuadran', $trend, $kuadran, $operator);
+        
+        foreach($getkuadran as $kd) {
+            $kuadran = $kd['id'];
+        }
+        
+        $discount_code = $table->getDiscountCodeAccBusinessSchem($schema_id);
+        $model = '';
+        $items = $table->getListSkemaPembayaran2( $trend, $operator, $kuadran, $model );
+        // $items = $table->getListSkemaPembayaran($discount_code, $trend, $operator, $kuadran, $model );
+
+        $html  = '<table class="table">';
+        $html .= '<tr>';
+        $html .= '<th>No</th>';
+        $html .= '<th>Nama Skema</th>';
+        $html .= '<th>Diskon (%)</th>';
+        $html .= '<th>Keterangan Diskon</th>';
+        $html .= '<th>'.(empty($discount_code) ? "Action" : "Status").'</th>';
+        $html .= '</tr>';
+
+        $no = 1;
+        foreach($items as $item) {
+            $html .= '<tr>';
+            $html .= '<td>'.$no++.'</td>';
+            $html .= '<td>'.$item['schem_name'].'</td>';
+            $html .= '<td>'.$item['disc_pct'].'</td>';
+            $html .= '<td>'.$item['disc_description'].'</td>';
+            if(empty($discount_code)) {
+                if($form == 'contract'){
+                    $description= $item['schem_name'].' | '.$item['disc_description'];
+                    $html .= '<td>'.
+                                //'<button type ="button" class="btn btn-sm btn-primary" onclick="showSimulasi(\''.$item['discount_code'].'\')"> Simulasi </button>'
+                                '<button type ="button" class="btn btn-sm btn-success pilih-simulasi" onclick="pilih_diskon(\''.$item['discount_code'].'\',\''.$description.'\')"> Pilih </button>'
+                          .'</td>';
+                }else{
+                    $html .= '<td>'
+                                //'<button type ="button" class="btn btn-sm btn-primary" onclick="showSimulasi(\''.$item['discount_code'].'\')"> Simulasi </button>'
+                                /*'<button type ="button" class="btn btn-sm btn-success pilih-simulasi" onclick="pilihSimulasi(\''.$item['discount_code'].'\','.$item['p_business_schem_id'].')"> Pilih </button>'*/
+                          .'</td>';
+                }
+                
+            }else {
+                 $html .= '<td> Dipilih </td>';
             }
             $html .= '</tr>';
         }
@@ -586,6 +708,7 @@ class Sc_schema_controller {
             $LI_SECTION ='';
             $TH_VAL_SECTION ='';
             $TAB_CONTENT_SECTION ='';
+            $CONTENT_TAB ='';
             $CONTENT_TABLE_SECTION ='';
 
         // get skema pembayaran 
@@ -595,12 +718,18 @@ class Sc_schema_controller {
         foreach($items2 as $item) {
             if($i == 0){
                 $active = 'active';
+            }else{
+                $active = '';
             }
+
             $LI_SECTION .= '<li class="'.$active.'">';
             $LI_SECTION .= '<a href="#tab_ke'.$i.'" data-toggle="tab">'.$item['id'].'</a>';
             $LI_SECTION .= '</li>';
-            
-            $TAB_CONTENT_SECTION .= '<div class="tab-pane '.$active.'" id="tab_ke'.$i.'">';
+
+           // $TAB_CONTENT_SECTION ='';
+            $CONTENT_TAB .= '<div class="tab-pane '.$active.'" id="tab_ke'.$i.'">';
+            $CONTENT_TAB .= '#CONTENT_TAB'.$i.'#';
+            $CONTENT_TAB .= '</div>';
 
             $TAB_CONTENT_SECTION .= '<table class="table table-bordered">';
             $TAB_CONTENT_SECTION .= '<tr>';
@@ -612,13 +741,17 @@ class Sc_schema_controller {
             $TAB_CONTENT_SECTION .= '</table>';
           
                 $skema_discount =  $table->getListSkemaPembayaran($trend, $operator, $kuadran, $item['id']);
+
+                $TH_VAL_SECTION = '';
                 foreach ($skema_discount as $key ) {
                       $TH_VAL_SECTION .= '<th>'.$key['disc_description'].'</th>';
                 }
 
             $total_skema = count($skema_discount);
             $tdnum = 1;
+            $CONTENT_TABLE_SECTION = '';
             foreach ($skema_discount as $key ) {
+                //$CONTENT_TABLE_SECTION = '';
 
                 $I_DISCOUNT_CODE = $key['discount_code'];
 
@@ -639,7 +772,6 @@ class Sc_schema_controller {
                 oci_execute($curs, OCI_DEFAULT);
                 oci_fetch_all($curs, $data, null, null, OCI_FETCHSTATEMENT_BY_ROW);
 
-    
                 $no = 1;
                 $rpc = $tdnum + 1;
                 $clearing = '';
@@ -655,6 +787,7 @@ class Sc_schema_controller {
                         $CONTENT_TABLE_SECTION .= '</tr>';
                    
                      }else{
+
                         $no++;
                         if($tdnum ==  $total_skema ){
                             $addingtd = '<td align="right">'.$item1['V2'].'</td>';
@@ -662,27 +795,29 @@ class Sc_schema_controller {
                             $addingtd = '<td align="right">'.$item1['V2'].'</td>replace'.$rpc.'#'.$no;
                         }
                        
-                     }
+                        $CONTENT_TABLE_SECTION = str_replace('replace'.$tdnum.'#'.$no, $addingtd, $CONTENT_TABLE_SECTION);
 
-                      $CONTENT_TABLE_SECTION = str_replace('replace'.$tdnum.'#'.$no, $addingtd, $CONTENT_TABLE_SECTION);
-                                      
+                     }
+                            
                 }
                 
-                $TAB_CONTENT_SECTION = str_replace('#CONTENT_TABLE_SECTION'.$i.'#', $CONTENT_TABLE_SECTION, $TAB_CONTENT_SECTION);
-                $TAB_CONTENT_SECTION = str_replace('#TH_VAL_SECTION'.$i.'#', $TH_VAL_SECTION, $TAB_CONTENT_SECTION);
-
+               
                 $tdnum ++;
                 //oci_statement_type($curs);
             }
-                
-                $html = str_replace('#TAB_CONTENT_SECTION#', $TAB_CONTENT_SECTION, $html );
-                $html = str_replace('#LI_SECTION#', $LI_SECTION, $html );
-                $html = str_replace('#TH_VAL_SECTION#', $TH_VAL_SECTION, $html );
-                $html = str_replace('#CONTENT_TABLE_SECTION#', $CONTENT_TABLE_SECTION, $html );
 
-            $i++;
+                $TAB_CONTENT_SECTION = str_replace('#CONTENT_TABLE_SECTION'.$i.'#', $CONTENT_TABLE_SECTION, $TAB_CONTENT_SECTION);
+                $TAB_CONTENT_SECTION = str_replace('#TH_VAL_SECTION'.$i.'#', $TH_VAL_SECTION, $TAB_CONTENT_SECTION);
+                $CONTENT_TAB = str_replace('#CONTENT_TAB'.$i.'#', $TAB_CONTENT_SECTION, $CONTENT_TAB);
+                $TAB_CONTENT_SECTION = '';
+                $i++;
         }
-
+               
+            // $html = str_replace('#TAB_CONTENT_SECTION#', $TAB_CONTENT_SECTION, $html );
+            $html = str_replace('#TAB_CONTENT_SECTION#', $CONTENT_TAB, $html );
+            $html = str_replace('#LI_SECTION#', $LI_SECTION, $html );
+            $html = str_replace('#TH_VAL_SECTION#', $TH_VAL_SECTION, $html );
+            $html = str_replace('#CONTENT_TABLE_SECTION#', $CONTENT_TABLE_SECTION, $html );
         
 
         echo $html;
@@ -691,6 +826,169 @@ class Sc_schema_controller {
 
 
     public function excelSimulasiTable() {
+        $ci = & get_instance();
+        $ci->load->model('schema/sc_schema');
+        $table = $ci->sc_schema;
+
+        $schema_id = getVarClean('schema_id','str','');
+        $avg_on_net = getVarClean('avg_on_net','int',0);
+        $on_net = getVarClean('on_net','int',0);
+        $non_on_net = getVarClean('non_on_net','int',0);
+        $discount_code = getVarClean('discount_code','int',0);
+        
+        $kuadran = getVarClean('kuadran','str','');
+        $operator = getVarClean('operator','str','');
+        $trend = getVarClean('trend','str','');
+        $model = getVarClean('model','str','');
+        
+        
+
+        $item = $table->get($schema_id);
+
+        $I_ACCOUNT_NUM = $item['account_num'];
+        $I_BILL_PERIOD = date('Ym');
+        $I_AVG_ON_NET = $avg_on_net;
+        $I_ON_NET = $on_net;
+        $I_NON_ON_NET = $non_on_net;
+        $I_DISCOUNT_CODE = 0; //$discount_code;
+            
+            $html = '<div class="tabbable-custom ">';
+            $html .= '<ul class="nav nav-tabs ">';/*
+            $html .= '<li class="$active">';
+            $html .= '<a href="#tab_ke$i" data-toggle="tab">'.$item['id'].'</a>';
+            $html .= '</li>';*/
+            $html .= '#LI_SECTION#';
+            $html .= '</ul>';
+            $html .= '<div class="tab-content">';
+            // $html .= '<div class="tab-pane active" id="tab_ke$i">';
+            $html .= '#TAB_CONTENT_SECTION#';
+            
+            $html .= '</div>';
+            $html .= '</div>';
+            $html .= '</div>';
+
+            $LI_SECTION ='';
+            $TH_VAL_SECTION ='';
+            $TAB_CONTENT_SECTION ='';
+            $CONTENT_TAB ='';
+            $CONTENT_TABLE_SECTION ='';
+        
+
+        // get skema pembayaran 
+        $items2 = $table->get_select_option($select='skema_pembayaran', $trend, $kuadran, $operator);
+        // loop 
+        $i =0;
+        foreach($items2 as $item) {
+            if($i == 0){
+                $active = 'active';
+            }else{
+                $active = '';
+            }
+
+            $LI_SECTION .= '<li class="'.$active.'">';
+            $LI_SECTION .= '<a href="#tab_ke'.$i.'" data-toggle="tab">'.$item['id'].'</a>';
+            $LI_SECTION .= '</li>';
+
+           // $TAB_CONTENT_SECTION ='';
+            $CONTENT_TAB .= '<div class="tab-pane '.$active.'" id="tab_ke'.$i.'">';
+            $CONTENT_TAB .= '#CONTENT_TAB'.$i.'#';
+            $CONTENT_TAB .= '</div>';
+
+            $TAB_CONTENT_SECTION .= '<table class="table table-bordered">';
+            $TAB_CONTENT_SECTION .= '<tr>';
+            $TAB_CONTENT_SECTION .= '<th>No</th>';
+            $TAB_CONTENT_SECTION .= '<th>Keterangan</th>';
+            $TAB_CONTENT_SECTION .= '#TH_VAL_SECTION'.$i.'#';
+            $TAB_CONTENT_SECTION .= '#CONTENT_TABLE_SECTION'.$i.'#';
+            $TAB_CONTENT_SECTION .= '</tr>';
+            $TAB_CONTENT_SECTION .= '</table>';
+          
+                $skema_discount =  $table->getListSkemaPembayaran($trend, $operator, $kuadran, $item['id']);
+
+                $TH_VAL_SECTION = '';
+                foreach ($skema_discount as $key ) {
+                      $TH_VAL_SECTION .= '<th>'.$key['disc_description'].'</th>';
+                }
+
+            $total_skema = count($skema_discount);
+            $tdnum = 1;
+            $CONTENT_TABLE_SECTION = '';
+            foreach ($skema_discount as $key ) {
+                //$CONTENT_TABLE_SECTION = '';
+
+                $I_DISCOUNT_CODE = $key['discount_code'];
+
+                $curs = oci_new_cursor($table->db->conn_id);
+                $sql = "begin P_M4L_CALCULATE_ADJ_ONLY_C( :I_ACCOUNT_NUM, :I_BILL_PERIOD, :I_AVG_ON_NET, :I_ON_NET, :I_NON_ON_NET, :I_DISCOUNT_CODE, :O_CURSOR ); end;";
+                $stid = oci_parse($table->db->conn_id, $sql);
+
+                oci_bind_by_name($stid, ':I_ACCOUNT_NUM', $I_ACCOUNT_NUM, 255);
+                oci_bind_by_name($stid, ':I_BILL_PERIOD', $I_BILL_PERIOD, 255);
+                oci_bind_by_name($stid, ':I_AVG_ON_NET', $I_AVG_ON_NET, 32);
+                oci_bind_by_name($stid, ':I_ON_NET', $I_ON_NET, 32);
+                oci_bind_by_name($stid, ':I_NON_ON_NET', $I_NON_ON_NET, 32);
+                oci_bind_by_name($stid, ':I_DISCOUNT_CODE', $I_DISCOUNT_CODE, 255);
+
+                oci_bind_by_name($stid, ":O_CURSOR", $curs, -1, OCI_B_CURSOR);
+
+                oci_execute($stid);
+                oci_execute($curs, OCI_DEFAULT);
+                oci_fetch_all($curs, $data, null, null, OCI_FETCHSTATEMENT_BY_ROW);
+
+                $no = 1;
+                $rpc = $tdnum + 1;
+                $clearing = '';
+                $addingtd = '';
+                foreach($data as $item1) {
+                    
+                     if($tdnum == 1){
+
+                        $CONTENT_TABLE_SECTION .= '<tr>';
+                        $CONTENT_TABLE_SECTION .= '<td>'.$no++.'</td>';
+                        $CONTENT_TABLE_SECTION .= '<td>'.$item1['V1'].'</td>';
+                        $CONTENT_TABLE_SECTION .= '<td align="right">'.$item1['V2'].'</td>replace'.$rpc.'#'.$no;
+                        $CONTENT_TABLE_SECTION .= '</tr>';
+                   
+                     }else{
+
+                        $no++;
+                        if($tdnum ==  $total_skema ){
+                            $addingtd = '<td align="right">'.$item1['V2'].'</td>';
+                        }else{
+                            $addingtd = '<td align="right">'.$item1['V2'].'</td>replace'.$rpc.'#'.$no;
+                        }
+                       
+                        $CONTENT_TABLE_SECTION = str_replace('replace'.$tdnum.'#'.$no, $addingtd, $CONTENT_TABLE_SECTION);
+
+                     }
+                            
+                }
+                
+               
+                $tdnum ++;
+                //oci_statement_type($curs);
+            }
+
+                $TAB_CONTENT_SECTION = str_replace('#CONTENT_TABLE_SECTION'.$i.'#', $CONTENT_TABLE_SECTION, $TAB_CONTENT_SECTION);
+                $TAB_CONTENT_SECTION = str_replace('#TH_VAL_SECTION'.$i.'#', $TH_VAL_SECTION, $TAB_CONTENT_SECTION);
+                $CONTENT_TAB = str_replace('#CONTENT_TAB'.$i.'#', $TAB_CONTENT_SECTION, $CONTENT_TAB);
+                $TAB_CONTENT_SECTION = '';
+                $i++;
+        }
+               startExcel('simulasi_'.$I_DISCOUNT_CODE.'.xls');
+            // $html = str_replace('#TAB_CONTENT_SECTION#', $TAB_CONTENT_SECTION, $html );
+            $html = str_replace('#TAB_CONTENT_SECTION#', $CONTENT_TAB, $html );
+            $html = str_replace('#LI_SECTION#', $LI_SECTION, $html );
+            $html = str_replace('#TH_VAL_SECTION#', $TH_VAL_SECTION, $html );
+            $html = str_replace('#CONTENT_TABLE_SECTION#', $CONTENT_TABLE_SECTION, $html );
+        
+            
+        echo $html;
+        exit;
+
+    }
+
+    public function excelSimulasiTable_ori() {
 
         $ci = & get_instance();
         $ci->load->model('schema/sc_schema');
@@ -900,7 +1198,8 @@ class Sc_schema_controller {
         $table = $ci->sc_schema;
 
         $schema_id = getVarClean('schema_id','str','');
-        $username = $ci->ion_auth->user()->row()->username;
+        // $username = $ci->ion_auth->user()->row()->username;
+        $username = 'qwert'; //$ci->ion_auth->user()->row()->username;
         
         $data = array('success' => false, 'message' => '');
 
@@ -920,6 +1219,26 @@ class Sc_schema_controller {
         echo json_encode($data);
         exit;
 
+    }
+
+    function finished() {
+
+        $ci = & get_instance();
+        $ci->load->model('schema/sc_schema');
+        $table = $ci->sc_schema;
+
+        $trend = getVarClean('trend','str','');
+        $schema_id = getVarClean('schema_id','str','');
+        $model = getVarClean('model','str','');
+        $kuadran = getVarClean('kuadran','str','');
+        $operator = getVarClean('operator','str','');
+        
+        $table-> updateScSchema($schema_id, $kolom='step', $val=4);
+        $table-> updateScSchema($schema_id, $kolom='status', $val=4);
+        $table-> updateScSchema($schema_id, $kolom='operator', $val=$operator);
+       
+        echo 1;
+        exit;
     }
 
     function get_select_option() {

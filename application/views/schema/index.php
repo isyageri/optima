@@ -60,7 +60,7 @@
             mtype: "POST",
             colModel: [
                 {label: 'ID', name: 'schema_id', key: true, width: 5, sorttype: 'number', editable: true, hidden: true},
-                {label: 'Nama schema',name: 'schema_id',width: 250, align: "left",editable: true,
+                {label: 'Schema ID',name: 'schema_id',width: 250, align: "left",editable: true,
                     editoptions: {
                         size: 30,
                         maxlength:32
@@ -81,20 +81,19 @@
                     },
                     editrules: {required: true}
                 },
-                {label: 'Tgl Mulai',name: 'start_dat',width: 150, align: "center",editable: true,
+                {label: 'Step',name: 'step',width: 150, align: "center",editable: true,
                     editoptions: {
                         size: 30,
                         maxlength:32
                     },
                     editrules: {required: true}
                 },
-                {label: 'Tgl Berakhir',name: 'end_dat',width: 150, align: "center",editable: true,
-                    editoptions: {
-                        size: 30,
-                        maxlength:32
-                    },
-                    editrules: {required: true}
-                }
+                {label: 'Action',name: 'schema_id',width: 150, align: "left",editable: true,
+                    formatter:  function(cellvalue, options, rowobject){
+                      return '<a class="btn btn-xs btn-default" onclick="delete_fastel('+cellvalue+')" href="javascript:;">Detail</a>';
+                      // return '<i class="btn red btn-xs fa fa-trash-o fa-1x" onclick="delete_fastel('+cellvalue+')"></i>';
+                    }
+                },
             ],
             height: '100%',
             autowidth: true,

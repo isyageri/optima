@@ -22,14 +22,14 @@
                         <label class="col-md-3 control-label" for="simulasi_on_net">On Net</label>
                         <div class="col-md-4">
                             <input type="text" id="simulasi_on_net" name="simulasi_on_net" class="form-control input-inline">
-                            <!-- <span class="help-inline" id="r_simulasi_on_net"> </span> -->
+                            <span class="help-inline" id="r_simulasi_on_net"> </span>
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="col-md-3 control-label" for="simulasi_non_on_net">Non On Net</label>
                         <div class="col-md-4">
                             <input type="text" id="simulasi_non_on_net" name="simulasi_non_on_net"  class="form-control input-inline">
-                            <!-- <span class="help-inline" id="r_simulasi_non_on_net"> </span> -->
+                            <span class="help-inline" id="r_simulasi_non_on_net"> </span>
                         </div>
                     </div>
 
@@ -135,6 +135,7 @@
         $('#simulasi_avg_on_net').val('');
         $('#simulasi_on_net').val('');
         $('#simulasi_non_on_net').val('');
+        $('#r_simulasi_avg_on_net').html($('#trend-avg-usage-onnet').val());
 
         modal_lov_simulasi_set_field_value(discount_code);
         $("#modal_lov_simulasi").modal({backdrop: 'static'});

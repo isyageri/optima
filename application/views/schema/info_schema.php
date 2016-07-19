@@ -81,13 +81,6 @@
                     },
                     editrules: {required: true}
                 },
-                {label: 'Alamat Customer',name: 'customer_address',width: 150, align: "left",editable: true,
-                    editoptions: {
-                        size: 30,
-                        maxlength:32
-                    },
-                    editrules: {required: true}
-                },
                 {label: 'Nama schema',name: 'schema_id',width: 250, align: "left",editable: true,
                     editoptions: {
                         size: 30,

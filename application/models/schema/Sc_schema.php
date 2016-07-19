@@ -20,7 +20,7 @@ class Sc_schema extends Abstract_model {
                                 'end_dat'        => array('nullable' => true, 'type' => 'date', 'unique' => false, 'display' => 'End Date'),
                             );
 
-    public $selectClause    = "sc.schema_id, sc.schema_name, sc.customer_ref, ac.account_name, 
+    public $selectClause    = "sc.schema_id, sc.schema_name, sc.customer_ref, ac.account_name, sc.status,
                                 sc.account_num, sc.discount_id, to_char(sc.start_dat,'yyyy-mm-dd') as start_dat, to_char(sc.end_dat,'yyyy-mm-dd') as end_dat,
                                 to_char(sc.start_dat,'yyyymm') as start_periode";
     public $fromClause      = "sc_schema sc 
@@ -152,7 +152,7 @@ class Sc_schema extends Abstract_model {
                     where OPERATOR = '".$operator."'
                     and KUADRAN = '".$kuadran."'
                     and SCHEM_NAME = '".$model."'
-                    and TREND = '".$trend."' and rownum < 3
+                    and TREND = '".$trend."' 
                     ";
         /*if(!empty($discount_code))
             $sql .= " where discount_code = '".$discount_code."'";*/
@@ -160,7 +160,21 @@ class Sc_schema extends Abstract_model {
         $row = $query->result_array();
         return $row;
     }
+    
+    function getListSkemaPembayaran2($trend, $operator, $kuadran, $model) {
 
+        // $sql = "select * from v_business_schem_list";
+        $sql = "select * from V_BS_SCHEM_LIST 
+                    where OPERATOR = '".$operator."'
+                    and KUADRAN = '".$kuadran."'
+                    and TREND = '".$trend."' 
+                    ";
+        /*if(!empty($discount_code))
+            $sql .= " where discount_code = '".$discount_code."'";*/
+        $query = $this->db->query($sql);
+        $row = $query->result_array();
+        return $row;
+    }
 
     function getAccSchemaID($schema_id) {
 
@@ -243,6 +257,16 @@ class Sc_schema extends Abstract_model {
 
         }
          
+        $query = $this->db->query($sql);
+        $result = $query->result_array();
+
+        return $result;
+    }
+
+    function get_data_skema($schema_id) {
+
+        $sql = "SELECT * FROM sc_schema where schema_id = '$schema_id' ";
+
         $query = $this->db->query($sql);
         $result = $query->result_array();
 

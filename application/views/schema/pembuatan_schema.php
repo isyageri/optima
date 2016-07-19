@@ -154,7 +154,7 @@
                                          </div>
                                       </div>
 
-                                      <div class="form-group">
+                                     <!--  <div class="form-group">
                                           <label class="control-label col-md-3">Start Date
                                              <span> * </span>
                                           </label>
@@ -174,14 +174,14 @@
                                                  <input type="text" class="form-control" id="end_dat" name="end_dat" placeholder="End Date" />
                                              </div>
                                          </div>
-                                      </div>
+                                      </div> -->
                                  </div>
                                  <div class="tab-pane" id="tab2">
                                      <!--- TAB 2 -->
                                       <input type="hidden" id="schema_id" name="schema_id">
                                       <input type="button" id="add_fastel" class="btn green-haze" value="Tambah Fastel">
                                       <input type="button" id="proses_fastel" class="btn blue-haze" value="Proses">
-                                      <input type="button" id="hapus_fastel" class="btn red-haze" value="Hapus Semua Fastel">
+                                      <input type="button" id="hapus_fastel" class="btn red-haze" onclick="delete_fastel($('#batch_id').val(),0,1)" value="Hapus Semua Fastel">
                                       <div class="space-4"></div>
                                       <div class="row">
                                           <div class="col-md-12">
@@ -271,7 +271,7 @@
                                      <a href="javascript:;" class="btn btn-outline green button-next"> Continue
                                          <i class="fa fa-angle-right"></i>
                                      </a>
-                                     <a href="javascript:;" class="btn green button-submit"> Submit
+                                     <a href="javascript:;" class="btn green button-submit" id="submit_finale"> Submit
                                          <i class="fa fa-check"></i>
                                      </a>
                                  </div>
@@ -489,7 +489,20 @@
 
             $('#form_wizard_1').find('.button-previous').hide();
             $('#form_wizard_1 .button-submit').click(function () {
-                alert('Finished! Hope you like it :)');
+                
+                trend = $('#trend').val();
+                operator = $('#temp_operator').val();
+                kuadran = $('#select_kuadran').val();
+                model = $('#select_model').val();
+                
+                $.ajax({
+                type: "POST",
+                url: "<?php echo WS_JQGRID.'schema.sc_schema_controller/finished'; ?>",
+                data: { operator:operator, trend:trend, kuadran:kuadran, model:model },
+                success: function (data) {
+                   swal({title: 'Info', text: 'Selesai, Step selanjutnya adalah mengisi data kontrak !', html: true, type: "info"});
+                    }
+                 });
             }).hide();
 
             //apply validation on select2 dropdown value change, this only needed for chosen dropdown integration.
@@ -804,12 +817,27 @@
            loadTableSkemaPembayaran(trend, kuadran, operator, model);
       }
   }
-
-  function delete_fastel(batch_id, notel){
+ function del_all(){
+    schema_id = $('#schema_id').val();
      $.ajax({
           url: "<?php echo WS_JQGRID.'schema.fastel_controller/del_fastel'; ?>",
           type: "POST",
-          data: { batch_id: batch_id, notel:notel },
+          data: { all:1, schema_id:schema_id },
+          success: function (data) {
+           $('#grid-table-fastel').trigger("reloadGrid");
+          },
+          error: function (xhr, status, error) {
+              swal({title: "Error!", text: xhr.responseText, html: true, type: "error"});
+              return false;
+          }
+      });
+  }
+  function delete_fastel(batch_id, notel, is_all){
+
+     $.ajax({
+          url: "<?php echo WS_JQGRID.'schema.fastel_controller/del_fastel'; ?>",
+          type: "POST",
+          data: { batch_id: batch_id, notel:notel, is_all:is_all },
           success: function (data) {
            $('#grid-table-fastel').trigger("reloadGrid");
           },
@@ -837,8 +865,8 @@
                 // $('#h_created_date').val(data[0].created_date);
                 // $('#h_location').val(data[0].location_id);
                 // $('#h_status').val(data[0].status);
-                $('#start_dat').val(data[0].start_dat);
-                $('#end_dat').val(data[0].end_dat);
+                /*$('#start_dat').val(data[0].start_dat);
+                $('#end_dat').val(data[0].end_dat);*/
                 $('#account_num').val(data[0].account_num);
                 $('#account_name').val(data[0].account_name);
                 $('#nipnas').val(data[0].customer_ref);
@@ -903,14 +931,18 @@
 
       var nipnas = $('#nipnas').val();
       var account_num = $('#account_num').val();
-      var start_dat = $('#start_dat').val();
-      var end_dat = $('#end_dat').val();
+     /* var start_dat = $('#start_dat').val();
+      var end_dat = $('#end_dat').val();*/
 
       var items = {};
       items.customer_ref = nipnas;
       items.account_num = account_num;
-      items.start_dat = start_dat;
-      items.end_dat = end_dat;
+      items.created_by = '<?php echo $this->ion_auth->user()->row()->username; ?>';
+      items.created_date = '<?php echo date('Y-m-d'); ?>';
+      items.step = 1;
+      items.status = 1;
+      /*items.start_dat = start_dat;
+      items.end_dat = end_dat;*/
 
       $.ajax({
           url: "<?php echo WS_JQGRID.'schema.sc_schema_controller/addSkema'; ?>",

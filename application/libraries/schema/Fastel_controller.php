@@ -173,13 +173,21 @@ class Fastel_controller {
 
         $notel = getVarClean('notel', 'str', '');
         $batch_id = getVarClean('batch_id', 'int', 0);
+        $schema_id = getVarClean('schema_id', 'str', 0);
+        $all = getVarClean('all', 'int', 0);
         
        
         $data = array('success' => false, 'message' => '');
 
         try{
-            $table->db->delete($table->table, array('batch_id' => $batch_id,'p_notel' => $notel )); 
-            $data['message'] = 'No '.$notel.' Berhasil Dihapus !';
+            if($all == 1){
+                $table->db->delete($table->table, array('schema_id' => $schema_id)); 
+                 $data['message'] = 'Semua Fastel Berhasil Dihapus !';
+            }else{
+                $table->db->delete($table->table, array('batch_id' => $batch_id,'p_notel' => $notel )); 
+                 $data['message'] = 'No '.$notel.' Berhasil Dihapus !';
+            }
+           
             $data['success'] = true;
 
              }catch (Exception $e) {
