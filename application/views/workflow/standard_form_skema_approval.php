@@ -775,6 +775,7 @@
             }
         });
 
+        $(".pilih-simulasi").hide();
     });
 
 
