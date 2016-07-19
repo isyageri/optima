@@ -1241,6 +1241,7 @@ class Sc_schema_controller {
         
         try{
 
+            $table-> updateScSchema($schema_id, $kolom='trend', $val=$trend,'');
             $table-> updateScSchema($schema_id, $kolom='step', $val=4,'');
             $table-> updateScSchema($schema_id, $kolom='status', $val=4,'');
             $table-> updateScSchema($schema_id, $kolom='operator', $val=$operator,'');
