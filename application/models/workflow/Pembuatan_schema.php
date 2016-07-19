@@ -93,6 +93,41 @@ class Pembuatan_schema extends Abstract_model {
         
     }
 
+    function create_customer_order(){
+        $ci =& get_instance();
+        $userinfo = $ci->ion_auth->user()->row();
+        $username = $userinfo->username;
+        $tosdb = $this->load->database('tosdb', TRUE);
+        $tosdb->_escape_char = ' ';
+
+        $cust_order_id = $this->generate_id('T_CUSTOMER_ORDER');
+
+        $sql = "INSERT INTO T_CUSTOMER_ORDER (  T_CUSTOMER_ORDER_ID, 
+                                                ORDER_NO, 
+                                                P_RQST_TYPE_ID, 
+                                                P_ORDER_STATUS_ID, 
+                                                ORDER_DATE, 
+                                                CREATION_DATE, 
+                                                CREATED_BY, 
+                                                UPDATED_DATE, 
+                                                UPDATED_BY )
+                    VALUES (".$cust_order_id.",
+                            LPAD(T_CUSTOMER_ORDER_SEQ.NEXTVAL, 10, '0'),
+                            1,
+                            1,
+                            SYSDATE,
+                            SYSDATE,
+                            '".$username."',
+                            SYSDATE,
+                            '".$username."'
+                )";
+
+        $tosdb->query($sql);
+
+        return $cust_order_id;
+
+    }
+
     function submitWF($t_customer_order_id, $doc_type_id) {
         $ci =& get_instance();
         $userinfo = $ci->ion_auth->user()->row();
@@ -125,7 +160,7 @@ class Pembuatan_schema extends Abstract_model {
             $data['message'] = $e->getMessage();
         }
 
-        echo json_encode($data);
+        //echo json_encode($data);
         exit;
     }
     
