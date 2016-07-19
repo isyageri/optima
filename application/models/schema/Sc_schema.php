@@ -332,7 +332,7 @@ class Sc_schema extends Abstract_model {
             $data['message'] = $e->getMessage();
         }
 
-        echo json_encode($data);
+        //echo json_encode($data);
         exit;
     }
 
