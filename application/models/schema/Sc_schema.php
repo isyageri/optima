@@ -263,6 +263,75 @@ class Sc_schema extends Abstract_model {
         return $result;
     }
 
+    function create_customer_order(){
+        $ci =& get_instance();
+        $userinfo = $ci->ion_auth->user()->row();
+        $username = $userinfo->username;
+
+        $cust_order_id = $this->generate_id('T_CUSTOMER_ORDER');
+
+        $sql = "INSERT INTO T_CUSTOMER_ORDER (  T_CUSTOMER_ORDER_ID, 
+                                                ORDER_NO, 
+                                                P_RQST_TYPE_ID, 
+                                                P_ORDER_STATUS_ID, 
+                                                ORDER_DATE, 
+                                                CREATION_DATE, 
+                                                CREATED_BY, 
+                                                UPDATED_DATE, 
+                                                UPDATED_BY )
+                    VALUES (".$cust_order_id.",
+                            LPAD(T_CUSTOMER_ORDER_SEQ.NEXTVAL, 10, '0'),
+                            1,
+                            1,
+                            SYSDATE,
+                            SYSDATE,
+                            '".$username."',
+                            SYSDATE,
+                            '".$username."'
+                )";
+
+        $this->db->query($sql);
+
+        return $cust_order_id;
+
+    }
+
+    function submitWF($t_customer_order_id, $doc_type_id) {
+        $ci =& get_instance();
+        $userinfo = $ci->ion_auth->user()->row();
+        $username = $userinfo->username;
+
+        try {
+
+            $sql = "  BEGIN ".
+                            "  p_first_submit_engine(:i_doc_type_id, :i_cust_req_id, :i_username, :o_result_code, :o_result_msg ); END;";
+
+            $stmt = oci_parse($this->db->conn_id, $sql);
+
+            //  Bind the input parameter
+            oci_bind_by_name($stmt, ':i_doc_type_id', $doc_type_id);
+            oci_bind_by_name($stmt, ':i_cust_req_id', $t_customer_order_id);
+            oci_bind_by_name($stmt, ':i_username', $username);
+
+            // Bind the output parameter
+            oci_bind_by_name($stmt, ':o_result_code', $code, 2000000);
+            oci_bind_by_name($stmt, ':o_result_msg', $msg, 2000000);
+
+            ociexecute($stmt);
+
+            $data['success'] = true;
+            $data['error_code'] = $code;
+            $data['error_message'] = $msg;
+
+        } catch( Exception $e ) {
+            $data['success'] = false;
+            $data['message'] = $e->getMessage();
+        }
+
+        echo json_encode($data);
+        exit;
+    }
+
     function get_data_skema($schema_id) {
 
         $sql = "SELECT * FROM sc_schema where schema_id = '$schema_id' ";
@@ -272,7 +341,6 @@ class Sc_schema extends Abstract_model {
 
         return $result;
     }
-
 }
 
 /* End of file Users.php */
