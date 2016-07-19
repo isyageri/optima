@@ -120,7 +120,7 @@ class Pembuatan_schema extends Abstract_model {
                             '".$username."'
                 )";
 
-        $tosdb->query($sql);
+        $this->db->query($sql);
 
         return $cust_order_id;
 
