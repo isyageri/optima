@@ -635,6 +635,7 @@
           data: { schema_id: schema_id, trend:trend, form:'contract'},
           success: function (data) {
               $('#table-skema-pembayaran').html(data);
+              $(".pilih-simulasi").hide();
           },
           error: function (xhr, status, error) {
               swal({title: "Error!", text: xhr.responseText, html: true, type: "error"});
@@ -775,7 +776,7 @@
             }
         });
 
-        $(".pilih-simulasi").hide();
+        //$(".pilih-simulasi").hide();
     });
 
 
