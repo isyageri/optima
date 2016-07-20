@@ -170,6 +170,8 @@
         var p_w_proc_id = $("#"+element_id+"_p_w_proc_id").val();
         var profile_type = $("#"+element_id+"_profile_type").val();
 
+        $('#TEMP_PROFILE_TYPE').val(profile_type);
+
         params.p_w_doc_type_id = p_w_doc_type_id;
         params.p_w_proc_id = p_w_proc_id;
         params.profile_type = profile_type;

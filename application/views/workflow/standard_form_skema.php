@@ -154,9 +154,11 @@
                                                             </div>
                                                             <div class="col-md-6">
                                                                 <span class="input-group-btn">
+                                                                 <?php if($this->input->post('PROFILE_TYPE') == 'INBOX'): ?>
                                                                  <button class="btn btn-success" type="button" id="submit_form1" >
-                                                                   Simpan
+                                                                   Simpan <?php echo $this->input->post('PROFILE_TYPE'); ?>
                                                                  </button>
+                                                                <?php endif;?>
                                                                </span>
                                                             </div>
                                                         </div>
@@ -265,12 +267,14 @@
                                                             </div>
                                                         </div>
 
+                                                        <?php if($this->input->post('PROFILE_TYPE') == 'INBOX'): ?>
+
                                                         <div class="form-group">
                                                             <div class="col-md-12">
                                                                 <button type="button" id="save-contract" class="btn btn-success btn-block"> Simpan Kontrak </button>
                                                             </div>
                                                         </div>
-
+                                                        <?php endif; ?>
                                                     </form>
                                                 </div>
                                                 <div class="tab-pane " id="tab_1_2">
@@ -637,6 +641,10 @@
           data: { schema_id: schema_id, trend:trend, form:'contract'},
           success: function (data) {
               $('#table-skema-pembayaran').html(data);
+
+              <?php if($this->input->post('PROFILE_TYPE') == 'OUTBOX'): ?>
+                $(".pilih-simulasi").hide();
+              <?php endif; ?>
           },
           error: function (xhr, status, error) {
               swal({title: "Error!", text: xhr.responseText, html: true, type: "error"});
