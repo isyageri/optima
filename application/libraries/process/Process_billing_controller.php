@@ -97,6 +97,26 @@ class Process_billing_controller {
         return $data;
     }
 
+    function submit_dekomposisi(){
+        $ci = & get_instance();
+        $ci->load->model('process/process_billing');
+        $userinfo = $ci->ion_auth->user()->row();
+        $table = $ci->process_billing;
+
+        $input_data_control_id = getVarClean('input_data_control_id','int', 0);
+        
+        $status = $table->action_submit('DEKOMPOSISI', $input_data_control_id, $userinfo->username);
+
+        if($status == 'SUCCESS'){
+            $items['success'] = true;            
+        }else{
+            $items['success'] = false;
+        }
+
+        echo json_encode( $items );
+        exit;
+    }
+
     function submit_prabilling(){
         $ci = & get_instance();
         $ci->load->model('process/process_billing');
@@ -104,10 +124,7 @@ class Process_billing_controller {
         $table = $ci->process_billing;
 
         $input_data_control_id = getVarClean('input_data_control_id','int', 0);
-        if($input_data_control_id == 0){
-            swal("Informasi", "input_data_control_id null", "info"); 
-        }
-
+        
         $status = $table->action_submit('M4L_BILL_PREPARATION', $input_data_control_id, $userinfo->username);
 
         if($status == 'SUCCESS'){
@@ -127,9 +144,6 @@ class Process_billing_controller {
         $table = $ci->process_billing;
 
         $input_data_control_id = getVarClean('input_data_control_id','int', 0);
-        if($input_data_control_id == 0){
-            swal("Informasi", "input_data_control_id null", "info"); 
-        }
 
         $status = $table->action_submit('CANCEL_ALL_BILL_PREPARATION', $input_data_control_id, $userinfo->username);
 
@@ -150,9 +164,6 @@ class Process_billing_controller {
         $table = $ci->process_billing;
 
         $input_data_control_id = getVarClean('input_data_control_id','int', 0);
-        if($input_data_control_id == 0){
-            swal("Informasi", "input_data_control_id null", "info"); 
-        }
 
         $status = $table->action_submit('CANCEL_LAST_JOB_PREPARATION', $input_data_control_id, $userinfo->username);
 
