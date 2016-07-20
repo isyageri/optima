@@ -156,7 +156,7 @@
                                                                 <span class="input-group-btn">
                                                                  <?php if($this->input->post('PROFILE_TYPE') == 'INBOX'): ?>
                                                                  <button class="btn btn-success" type="button" id="submit_form1" >
-                                                                   Simpan <?php echo $this->input->post('PROFILE_TYPE'); ?>
+                                                                   Simpan
                                                                  </button>
                                                                 <?php endif;?>
                                                                </span>
