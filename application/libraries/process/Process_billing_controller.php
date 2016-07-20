@@ -111,11 +111,12 @@ class Process_billing_controller {
         $status = $table->action_submit('M4L_BILL_PREPARATION', $input_data_control_id, $userinfo->username);
 
         if($status == 'SUCCESS'){
-           swal("", "Submit Job success", "success"); 
+            $items['success'] = true;            
         }else{
-            swal("Informasi", "Submit Job failed", "info"); 
+            $items['success'] = false;
         }
 
+        echo json_encode( $items );
         exit;
     }
 
@@ -133,11 +134,12 @@ class Process_billing_controller {
         $status = $table->action_submit('CANCEL_ALL_BILL_PREPARATION', $input_data_control_id, $userinfo->username);
 
         if($status == 'SUCCESS'){
-           swal("", "Cancel All Job success", "success"); 
+            $items['success'] = true;            
         }else{
-            swal("Informasi", "Cancel All Job failed", "info"); 
+            $items['success'] = false;
         }
 
+        echo json_encode( $items );
         exit;
     }
 
@@ -155,11 +157,12 @@ class Process_billing_controller {
         $status = $table->action_submit('CANCEL_LAST_JOB_PREPARATION', $input_data_control_id, $userinfo->username);
 
         if($status == 'SUCCESS'){
-           swal("", "Cancel All Job success", "success"); 
+            $items['success'] = true;            
         }else{
-            swal("Informasi", "Cancel All Job failed", "info"); 
+            $items['success'] = false;
         }
 
+        echo json_encode( $items );
         exit;
     }
 
@@ -172,11 +175,12 @@ class Process_billing_controller {
         $status = $table->action_force();
 
         if($status == 'SUCCESS'){
-           swal("", "Force Process success", "success"); 
+            $items['success'] = true;            
         }else{
-            swal("Informasi", "Force Process failed", "info"); 
+            $items['success'] = false;
         }
 
+        echo json_encode( $items );
         exit;
     }
 

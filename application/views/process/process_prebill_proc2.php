@@ -6,7 +6,7 @@
 				<i class="fa fa-circle"></i>
 			</li>
 			<li>
-				<a href="#">Pra Billing</a>
+				<a href="#">Dekomposisi</a>
 				<i class="fa fa-circle"></i>
 			</li>
 			<li>
@@ -56,12 +56,12 @@
 
 	$(function($) {
         $("#tab-1").on( "click", function() {    
-            loadContentWithParams("process.process_prebill", {                
+            loadContentWithParams("process.process_prebill2", {                
             });
         });
 
         $("#tab-2").on( "click", function() {    
-            loadContentWithParams("process.process_prebill_batch", {   
+            loadContentWithParams("process.process_prebill_batch2", {   
                 p_finance_period_id: "<?php echo $this->input->post('p_finance_period_id'); ?>",
                 finance_period_code : "<?php echo $this->input->post('finance_period_code'); ?>"             
             });
