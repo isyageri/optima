@@ -76,6 +76,11 @@
                 dataType: "json",
                 data: {},
                 success: function (data) {
+                    if(data.success){
+                        swal("", "Start Daemon success", "success");
+                    }else{
+                        swal("Informasi", "Start Daemon failed", "info"); 
+                    }
                 },
                 error: function (xhr, status, error) {
                     swal({title: "Error!", text: xhr.responseText, html: true, type: "error"});
