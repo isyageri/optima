@@ -122,6 +122,7 @@
                                           </label>
                                           <div class="col-md-4">
                                             <div class="input-group">
+                                               <input type="hidden" class="form-control required"  id="schema_id" name="schema_id" placeholder="Nipnas" />
                                                <input type="text" class="form-control required"  id="nipnas" name="nipnas" placeholder="Nipnas" />
                                                <span class="input-group-btn">
                                                  <button class="btn btn-success" type="button" id="btn-lov-nipnas">
@@ -179,6 +180,7 @@
                                  <div class="tab-pane" id="tab2">
                                      <!--- TAB 2 -->
                                       <input type="hidden" id="schema_id" name="schema_id">
+                                      <input type="hidden" id="batch_id" name="batch_id">
                                       <input type="button" id="add_fastel" class="btn green-haze" value="Tambah Fastel">
                                       <input type="button" id="proses_fastel" class="btn blue-haze" value="Proses">
                                       <input type="button" id="hapus_fastel" class="btn red-haze" onclick="delete_fastel($('#batch_id').val(),0,1)" value="Hapus Semua Fastel">
@@ -620,10 +622,13 @@
       });
 
       $("#proses_fastel").on('click', function(e) {
-        var url = "<?php echo WS_JQGRID.'schema.sc_schema_controller/proses_get_history?schema_id='; ?>" + $("#schema_id").val() + '&';
-          url += "<?php echo $this->security->get_csrf_token_name(); ?>=<?php echo $this->security->get_csrf_hash(); ?>";
 
         schema_id = $('#schema_id').val();
+        batch_id = $('#batch_id').val();
+
+        var url = "<?php echo WS_JQGRID.'schema.sc_schema_controller/proses_get_history?schema_id='; ?>" + $("#schema_id").val() + '&batch_id='+batch_id+'&';
+          url += "<?php echo $this->security->get_csrf_token_name(); ?>=<?php echo $this->security->get_csrf_hash(); ?>";
+
         
         swal({   title: "Anda Yakin Melakukan Proses Ini ? ",   text: "",   type: "info",   showCancelButton: true,   closeOnConfirm: false,   showLoaderOnConfirm: true, }, function(){   setTimeout(function(){
 
@@ -868,6 +873,7 @@
                 // $('#h_status').val(data[0].status);
                 /*$('#start_dat').val(data[0].start_dat);
                 $('#end_dat').val(data[0].end_dat);*/
+                $('#batch_id').val(data[0].batch_id);
                 $('#account_num').val(data[0].account_num);
                 $('#account_name').val(data[0].account_name);
                 $('#nipnas').val(data[0].customer_ref);
@@ -954,6 +960,7 @@
               if(data.success) {
                 skemaAdded = true;
                 $("#schema_id").val(data.schema_id);
+                $("#batch_id").val(data.batch_id);
 
                 $('#grid-table-fastel').jqGrid('setGridParam', {
                     postData: {schema_id: $("#schema_id").val()}

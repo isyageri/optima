@@ -151,7 +151,7 @@ class Fastel_controller {
                 $table->db->insert( $table->table, $rec );
             }
 
-            $table->insertPeriodeExpense($batch_id);
+            //$table->insertPeriodeExpense($batch_id);
             // update batch id di sc_schema 
             $table->updateScSchema( $schema_id, 'batch_id', $batch_id );
 
@@ -228,7 +228,6 @@ class Fastel_controller {
                 $table->db->insert( $table->table, $rec );
             }
 
-            $table->insertPeriodeExpense($batch_id);
             $table->updateScSchema( $schema_id, 'batch_id', $batch_id );
 
             $data['message'] = 'No '.$notel.' Berhasil Ditambahkan !';

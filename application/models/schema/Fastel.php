@@ -67,25 +67,34 @@ class Fastel extends Abstract_model {
         $ci =& get_instance();
         $userinfo = $ci->ion_auth->user()->row();
 
-        $result = '';
-        $periode = array();
-        $max_month = 3;
-        for($i = 0; $i <= $max_month; $i++) {
-            $periode[] = date('Ym', strtotime('-'.$i.' month'));
+        $sql = "select count(*) from t_job_has_period where batch_id = $batch_id";
+        $query = $this->db->query($sql);
+        $row = $query->row_array();
+
+        if( $row['total'] < 1){
+
+            $result = '';
+            $periode = array();
+            $max_month = 3;
+            for($i = 0; $i <= $max_month; $i++) {
+                $periode[] = date('Ym', strtotime('-'.$i.' month'));
+            }
+            $string_periode = join("#", $periode);
+
+            $sql = "  BEGIN ".
+                   "  insert_period_expense(:params1, :params2, :params3, :params4); END;";
+
+            $stmt = oci_parse($this->db->conn_id,$sql);
+
+            oci_bind_by_name($stmt,':params1', $string_periode, 255);
+            oci_bind_by_name($stmt,':params2', $userinfo->username, 255);
+            oci_bind_by_name($stmt,':params3', $batch_id, 16);
+            oci_bind_by_name($stmt,':params4', $result, 255);
+
+            oci_execute($stmt);
         }
-        $string_periode = join("#", $periode);
 
-        $sql = "  BEGIN ".
-               "  insert_period_expense(:params1, :params2, :params3, :params4); END;";
-
-        $stmt = oci_parse($this->db->conn_id,$sql);
-
-        oci_bind_by_name($stmt,':params1', $string_periode, 255);
-        oci_bind_by_name($stmt,':params2', $userinfo->username, 255);
-        oci_bind_by_name($stmt,':params3', $batch_id, 16);
-        oci_bind_by_name($stmt,':params4', $result, 255);
-
-        oci_execute($stmt);
+        
 
     }
     

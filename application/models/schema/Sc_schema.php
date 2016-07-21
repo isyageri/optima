@@ -20,13 +20,15 @@ class Sc_schema extends Abstract_model {
                                 'end_dat'        => array('nullable' => true, 'type' => 'date', 'unique' => false, 'display' => 'End Date'),
                             );
 
-    public $selectClause    = "sc.schema_id, sc.schema_name, sc.customer_ref, ac.account_name, sc.status,
+    public $selectClause    = "sc.schema_id, sc.schema_name, sc.customer_ref, ac.account_name, sc.status, sc.batch_id,
                                 sc.account_num, sc.discount_id, to_char(sc.start_dat,'yyyy-mm-dd') as start_dat, to_char(sc.end_dat,'yyyy-mm-dd') as end_dat,
                                 to_char(sc.start_dat,'yyyymm') as start_periode";
     public $fromClause      = "sc_schema sc 
                                 join account ac on ac.account_num = sc.account_num and ac.customer_ref = sc.customer_ref ";
 
     public $refs            = array();
+
+    public $schema_id_global = '';
 
     function __construct() {
         parent::__construct();
@@ -42,17 +44,20 @@ class Sc_schema extends Abstract_model {
             // example :
             //$this->record['created_date'] = date('Y-m-d');
             //$this->record['updated_date'] = date('Y-m-d');
-            $this->record[$this->pkey] = $this->getSchemaID();
+            $schema_id = $this->getSchemaID();
+            $this->record[$this->pkey] = $schema_id;
+            //$this->$schema_id_global = $schema_id;
             /*if(empty($this->record['end_dat'])) {
                 $this->db->set('end_dat', NULL);
             }else {
                 $this->db->set('end_dat',"to_date('".$this->record['end_dat']."','yyyy-mm-dd')",false);
             }*/
 
-            //$this->db->set('start_dat',"to_date('".$this->record['start_dat']."','yyyy-mm-dd')",false);
+            $this->db->set('created_date',"to_date('".date('Y-m-d')."','yyyy-mm-dd')",false);
+            $this->db->set('created_by', "'".$ci->ion_auth->user()->row()->username."'" ,false);
 
-            unset($this->record['start_dat']);
-            unset($this->record['end_dat']);
+            unset($this->record['created_date']);
+            unset($this->record['created_by']);
 
         }else {
             //do something
@@ -67,8 +72,8 @@ class Sc_schema extends Abstract_model {
 
         $sql = "select b.trend_code, a.avg_usage_onnet, a.avg_usage_non_onnet
                 from m4l_acc_schema_reg a
-                left join p_trend_increase b on a.p_trend_increase_id = b.p_trend_increase_id
-                left join sc_schema c on a.account_num = c.account_num
+                 join p_trend_increase b on a.p_trend_increase_id = b.p_trend_increase_id
+                 join sc_schema c on a.account_num = c.account_num and a.batch_id = c.batch_id
                 where c.schema_id = '".$schema_id."'";
 
         $query = $this->db->query($sql);
@@ -80,10 +85,11 @@ class Sc_schema extends Abstract_model {
         return $row;
     }
     
+
     function getInfoSchema($schema_id) {
         
         $sql = "select 
-                sc.schema_id, sc.schema_name, sc.customer_ref, ac.account_name, 
+                sc.schema_id, sc.batch_id, sc.schema_name, sc.customer_ref, ac.account_name, 
                 sc.account_num, to_char(sc.start_dat,'yyyy-mm-dd') as start_dat, 
                 to_char(sc.end_dat,'yyyy-mm-dd') as end_dat,
         to_char(sc.start_dat,'yyyymm') as start_periode, sc.created_by, sc.status, sc.step
@@ -115,6 +121,7 @@ class Sc_schema extends Abstract_model {
                     where A.P_NOTEL = B.ND
                     and a.P_CUST_ACCOUNT = '".$item['account_num']."'
                     and to_number(b.PERIODE) between ".date('Ym', strtotime('-3 month'))." and ".date('Ym')."
+                    and a.batch_id = ".$item['batch_id']."
                     group by b.PERIODE
                     order by b.PERIODE";
 
@@ -179,7 +186,7 @@ class Sc_schema extends Abstract_model {
     function getAccSchemaID($schema_id) {
 
         $sql = "select b.m4l_acc_schema_id from sc_schema a
-                left join  m4l_acc_schema b on a.account_num = b.account_num
+                left join  m4l_acc_schema_reg b on a.account_num = b.account_num
                 where schema_id = '".$schema_id."'";
 
         $query = $this->db->query($sql);
@@ -210,6 +217,10 @@ class Sc_schema extends Abstract_model {
                     set $kolom = to_date('".$val."','yyyy-mm-dd') 
                 where schema_id = '".$schema_id."'
                     ";
+        }else if ($tipe == 'schema_name'){
+                 $sql = "update sc_schema 
+                    set schema_name = customer_ref || '_' || account_num || '_' || substr(schema_id, -1) 
+                where schema_id = '".$schema_id."' ";
         }else{
              $sql = "update sc_schema 
                     set $kolom = '".$val."'
@@ -222,9 +233,48 @@ class Sc_schema extends Abstract_model {
 
     }
     
+    function insertPeriodeExpense($batch_id) {
+        $ci =& get_instance();
+        $userinfo = $ci->ion_auth->user()->row();
+
+        $sql = "select count(*) total from t_job_has_period where batch_id = $batch_id";
+        $query = $this->db->query($sql);
+        $row = $query->row_array();
+
+        if( $row['total'] < 1){
+
+            $result = '';
+            $periode = array();
+            $max_month = 3;
+            for($i = 0; $i <= $max_month; $i++) {
+                $periode[] = date('Ym', strtotime('-'.$i.' month'));
+            }
+            $string_periode = join("#", $periode);
+
+            $sql = "  BEGIN ".
+                   "  insert_period_expense(:params1, :params2, :params3, :params4); END;";
+
+            $stmt = oci_parse($this->db->conn_id,$sql);
+
+            oci_bind_by_name($stmt,':params1', $string_periode, 255);
+            oci_bind_by_name($stmt,':params2', $userinfo->username, 255);
+            oci_bind_by_name($stmt,':params3', $batch_id, 16);
+            oci_bind_by_name($stmt,':params4', $result, 255);
+
+            oci_execute($stmt);
+        }
+
+        
+
+    }
+
     function prosesGetHistory($schema_id, $created_by){
 
         $batch_id = $this->getNextBatchID($schema_id);
+
+        $sql = " DELETE control_batch where BATCH_CONTROL_ID = $batch_id ";
+
+        $query = $this->db->query($sql);
 
         $sql = "insert into control_batch (BATCH_CONTROL_ID, P_BATCH_TYPE_ID, LAST_PROCESS_STATUS_ID, CREATION_DATE, CREATED_BY)
                     values($batch_id, 1, 0, sysdate, '".$created_by."') ";
