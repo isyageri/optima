@@ -275,6 +275,13 @@
                                                             </div>
                                                         </div>
                                                         <?php endif; ?>
+
+                                                        <div class="form-group">
+                                                            <div class="col-md-12">
+                                                                <button type="button" id="download-contract" class="btn btn-success btn-block"> Download Kontrak </button>
+                                                            </div>
+                                                        </div>
+
                                                     </form>
                                                 </div>
                                                 <div class="tab-pane " id="tab_1_2">
@@ -728,14 +735,24 @@
                     program: program
                 },
                 success: function (response) {
+                    response = jQuery.parseJSON(response);
                     if(response.success) {
-                        swal({title: 'Attention', text: response.message, html: true, type: "success"});
+                        swal({title: 'Success', text: response.message, html: true, type: "success"});
+                        $("#download-contract").show();
                     }else {
                         swal({title: 'Attention', text: response.message, html: true, type: "warning"});
                     }
                 }
              });
 
+        });
+
+        $("#download-contract").click(function() {
+            var discount_code = $("#modal_lov_contract_discount_code").val();
+            var schema_id = $("#modal_lov_contract_schema_id").val();
+            var customer_name = $("#info_customer_name").val();
+
+            location.href = '<?php echo WS_JQGRID.'schema.sc_schema_controller/downloadContract?discount_code='; ?>'+discount_code+"&schema_id="+schema_id+"&customer_name="+customer_name;
         });
 
 
@@ -782,11 +799,29 @@
                 loadTableSkemaPembayaran(trend);
                 loadTableFastel(items.schema_id);
                 loadDataContract(items.schema_id);
+
+                checkContractExist(items.schema_id);
             }
         });
 
     });
 
+    function checkContractExist(schema_id) {
+        $.ajax({
+            type: "POST",
+            datatype: "json",
+            url: "<?php echo WS_JQGRID.'schema.sc_schema_controller/contract_exist'; ?>",
+            data: { schema_id: schema_id  },
+            success: function (data) {
+                var items = jQuery.parseJSON(data);
+                if( items.exist ) {
+                    $("#download-contract").show();
+                }else {
+                    $("#download-contract").hide();
+                }
+            }
+        });
+    }
 
     function loadDataContract(schema_id) {
 

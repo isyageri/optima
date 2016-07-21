@@ -72,6 +72,17 @@ class Schema_contract extends Abstract_model {
         return false;
     }
 
+    function getSchemName($discount_code) {
+        $this->db = $this->load->database('default', TRUE);
+        $this->db->_escape_char = ' ';
+        $sql = "SELECT * FROM v_bs_schem_list WHERE discount_code = '".$discount_code."'";
+        $query = $this->db->query($sql);
+        $row = $query->row_array();
+        $query->free_result();
+
+        return $row['schem_name'];
+    }
+
 }
 
 /* End of file Users.php */

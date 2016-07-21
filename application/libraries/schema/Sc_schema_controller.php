@@ -1570,6 +1570,29 @@ echo $TAB_EXCEL;
     }
 
 
+    public function contract_exist() {
+        $ci = & get_instance();
+        $ci->load->model('schema/schema_contract');
+        $table = $ci->schema_contract;
+
+        $schema_id = getVarClean('schema_id','str','');
+        $data = array('success' => false, 'message' => '');
+
+        $isContractExist = $table->isContractExist($schema_id);
+
+        if($isContractExist) {
+            $data['exist'] = true;
+        }else {
+            $data['exist'] = false;
+        }
+
+        $data['success'] = true;
+        $data['message'] = '';
+
+        echo json_encode($data);
+        exit;
+    }
+
     public function getDataContract() {
         $ci = & get_instance();
         $ci->load->model('schema/schema_contract');
@@ -1588,6 +1611,52 @@ echo $TAB_EXCEL;
         }
 
         echo json_encode($data);
+        exit;
+    }
+
+
+    public function downloadContract() {
+        $ci = & get_instance();
+        $ci->load->model('schema/schema_contract');
+        $table = $ci->schema_contract;
+
+        $discount_code = getVarClean('discount_code','str','');
+        $schema_id = getVarClean('schema_id','str','');
+        $customer_name = getVarClean('customer_name','str','');
+
+        $schem_name = $table->getSchemName($discount_code);
+        $path = './application/third_party/template_kontrak/';
+        $file_name = '';
+        if($schem_name == 'TIERING MODEL') {
+            $file_name = 'kb_tiering_model.htm';
+        }elseif($schem_name == 'VOLUMEN COMITMENT') {
+            $file_name = 'kb_vol_commitment.htm';
+        }else {
+            $file_name = 'kb_tiering_model.htm';
+        }
+
+        $items = $table->get($schema_id);
+
+        $str_template = file_get_contents($path.$file_name);
+        startDoc(str_replace(".htm","",$file_name).".doc");
+        $str_template = str_replace("#CUSTOMER_NAME#",$customer_name, $str_template);
+        $str_template = str_replace("#NOMOR1#",$items['nomor1'], $str_template);
+        $str_template = str_replace("#NOMOR2#",$items['nomor2'], $str_template);
+        $str_template = str_replace("#HARI#",$items['hari'], $str_template);
+        $str_template = str_replace("#TANGGAL#",$items['tanggal'], $str_template);
+        $str_template = str_replace("#BULAN#",$items['bulan'], $str_template);
+        $str_template = str_replace("#TAHUN#",$items['tahun'], $str_template);
+        $str_template = str_replace("#LOKASI#",$items['lokasi'], $str_template);
+        $str_template = str_replace("#ALAMAT_T#",$items['alamat_t'], $str_template);
+        $str_template = str_replace("#NAMA_T#",$items['nama_t'], $str_template);
+        $str_template = str_replace("#JABATAN_T#",$items['jabatan_t'], $str_template);
+        $str_template = str_replace("#NAMA_PT#",$items['nama_pt'], $str_template);
+        $str_template = str_replace("#ALAMAT_C#",$items['alamat_c'], $str_template);
+        $str_template = str_replace("#NAMA_C#",$items['nama_c'], $str_template);
+        $str_template = str_replace("#JABATAN_C#",$items['jabatan_c'], $str_template);
+
+
+        echo $str_template;
         exit;
     }
 

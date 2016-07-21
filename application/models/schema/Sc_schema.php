@@ -23,7 +23,7 @@ class Sc_schema extends Abstract_model {
     public $selectClause    = "sc.schema_id, sc.schema_name, sc.customer_ref, ac.account_name, sc.status, sc.batch_id,
                                 sc.account_num, sc.discount_id, to_char(sc.start_dat,'yyyy-mm-dd') as start_dat, to_char(sc.end_dat,'yyyy-mm-dd') as end_dat,
                                 to_char(sc.start_dat,'yyyymm') as start_periode";
-    public $fromClause      = "sc_schema sc 
+    public $fromClause      = "sc_schema sc
                                 join account ac on ac.account_num = sc.account_num and ac.customer_ref = sc.customer_ref ";
 
     public $refs            = array();
@@ -84,21 +84,22 @@ class Sc_schema extends Abstract_model {
                                       'avg_usage_non_onnet' => '');
         return $row;
     }
-    
+
 
     function getInfoSchema($schema_id) {
-        
-        $sql = "select 
-                sc.schema_id, sc.batch_id, sc.schema_name, sc.customer_ref, ac.account_name, 
-                sc.account_num, to_char(sc.start_dat,'yyyy-mm-dd') as start_dat, 
+
+
+        $sql = "select
+                sc.schema_id, sc.batch_id, sc.schema_name, sc.customer_ref, ac.account_name,
+                sc.account_num, to_char(sc.start_dat,'yyyy-mm-dd') as start_dat,
                 to_char(sc.end_dat,'yyyy-mm-dd') as end_dat,
         to_char(sc.start_dat,'yyyymm') as start_periode, sc.created_by, sc.status, sc.step
-        from sc_schema sc 
+        from sc_schema sc
         join geneva_admin_npots.account ac on sc.account_num = ac.account_num
         where schema_id = '".$schema_id."'
         and rownum = 1
         ";
-        
+
         $query = $this->db->query($sql);
         $row = $query->result_array();
         return $row;
@@ -155,11 +156,11 @@ class Sc_schema extends Abstract_model {
     function getListSkemaPembayaran($trend, $operator, $kuadran, $model) {
 
         // $sql = "select * from v_business_schem_list";
-        $sql = "select * from V_BS_SCHEM_LIST 
+        $sql = "select * from V_BS_SCHEM_LIST
                     where OPERATOR = '".$operator."'
                     and KUADRAN = '".$kuadran."'
                     and SCHEM_NAME = '".$model."'
-                    and TREND = '".$trend."' 
+                    and TREND = '".$trend."'
                     ";
         /*if(!empty($discount_code))
             $sql .= " where discount_code = '".$discount_code."'";*/
@@ -167,14 +168,14 @@ class Sc_schema extends Abstract_model {
         $row = $query->result_array();
         return $row;
     }
-    
+
     function getListSkemaPembayaran2($trend, $operator, $kuadran, $model) {
 
         // $sql = "select * from v_business_schem_list";
-        $sql = "select * from V_BS_SCHEM_LIST 
+        $sql = "select * from V_BS_SCHEM_LIST
                     where OPERATOR = '".$operator."'
                     and KUADRAN = '".$kuadran."'
-                    and TREND = '".$trend."' 
+                    and TREND = '".$trend."'
                     ";
         /*if(!empty($discount_code))
             $sql .= " where discount_code = '".$discount_code."'";*/
@@ -213,26 +214,26 @@ class Sc_schema extends Abstract_model {
 
     function updateScSchema($schema_id, $kolom, $val, $tipe){
         if($tipe == 'date'){
-             $sql = "update sc_schema 
-                    set $kolom = to_date('".$val."','yyyy-mm-dd') 
+             $sql = "update sc_schema
+                    set $kolom = to_date('".$val."','yyyy-mm-dd')
                 where schema_id = '".$schema_id."'
                     ";
         }else if ($tipe == 'schema_name'){
-                 $sql = "update sc_schema 
-                    set schema_name = customer_ref || '_' || account_num || '_' || substr(schema_id, -1) 
+                 $sql = "update sc_schema
+                    set schema_name = customer_ref || '_' || account_num || '_' || substr(schema_id, -1)
                 where schema_id = '".$schema_id."' ";
         }else{
-             $sql = "update sc_schema 
+             $sql = "update sc_schema
                     set $kolom = '".$val."'
                 where schema_id = '".$schema_id."'
                     ";
         }
-       
+
 
         $query = $this->db->query($sql);
 
     }
-    
+
     function insertPeriodeExpense($batch_id) {
         $ci =& get_instance();
         $userinfo = $ci->ion_auth->user()->row();
@@ -264,7 +265,7 @@ class Sc_schema extends Abstract_model {
             oci_execute($stmt);
         }
 
-        
+
 
     }
 
@@ -280,13 +281,13 @@ class Sc_schema extends Abstract_model {
                     values($batch_id, 1, 0, sysdate, '".$created_by."') ";
 
         $query = $this->db->query($sql);
-        
+
     }
 
     function getNextBatchID($schema_id) {
         //$sql = "select nvl(max(batch_id),0)+1 as total from cc_dataref_batch";
-        $sql = "select nvl(batch_id,(select nvl(max(batch_id),0)+1 as total from cc_dataref_batch)) total 
-                from sc_schema 
+        $sql = "select nvl(batch_id,(select nvl(max(batch_id),0)+1 as total from cc_dataref_batch)) total
+                from sc_schema
                 where schema_id = '".$schema_id."' ";
         $query = $this->db->query($sql);
         $row = $query->row_array();
@@ -297,15 +298,15 @@ class Sc_schema extends Abstract_model {
      function get_select_option($select, $trend, $kuadran, $operator) {
 
         if($select == 'kuadran'){
-                
-                $sql = "SELECT DISTINCT KUADRAN id, KUADRAN code 
+
+                $sql = "SELECT DISTINCT KUADRAN id, KUADRAN code
                     from V_BS_SCHEM_LIST
                     where OPERATOR = '$operator'
                     and TREND = '$trend' ";
 
         }else{
 
-               
+
                      $sql = "SELECT DISTINCT SCHEM_NAME id, SCHEM_NAME code
                         from V_BS_SCHEM_LIST
                         where OPERATOR = '$operator'
@@ -313,7 +314,7 @@ class Sc_schema extends Abstract_model {
                         and KUADRAN = '$kuadran' ";
 
         }
-         
+
         $query = $this->db->query($sql);
         $result = $query->result_array();
 
@@ -329,14 +330,14 @@ class Sc_schema extends Abstract_model {
 
         $cust_order_id = $this->generate_id('T_CUSTOMER_ORDER');
 
-        $sql = "INSERT INTO T_CUSTOMER_ORDER (  T_CUSTOMER_ORDER_ID, 
-                                                ORDER_NO, 
-                                                P_RQST_TYPE_ID, 
-                                                P_ORDER_STATUS_ID, 
-                                                ORDER_DATE, 
-                                                CREATION_DATE, 
-                                                CREATED_BY, 
-                                                UPDATED_DATE, 
+        $sql = "INSERT INTO T_CUSTOMER_ORDER (  T_CUSTOMER_ORDER_ID,
+                                                ORDER_NO,
+                                                P_RQST_TYPE_ID,
+                                                P_ORDER_STATUS_ID,
+                                                ORDER_DATE,
+                                                CREATION_DATE,
+                                                CREATED_BY,
+                                                UPDATED_DATE,
                                                 UPDATED_BY )
                     VALUES (".$cust_order_id.",
                             LPAD(T_CUSTOMER_ORDER_SEQ.NEXTVAL, 10, '0'),
@@ -402,6 +403,7 @@ class Sc_schema extends Abstract_model {
 
         return $result;
     }
+
 }
 
 /* End of file Users.php */
