@@ -77,7 +77,7 @@ class Users extends Abstract_model {
 
 
     function getLocation($username) {
-        $sql = "SELECT a.ID, a.CODE
+        $sql = "SELECT a.ID, a.COMPANY_NAME
                 FROM LOCATION a
                 WHERE a.ID IN (SELECT u.ID FROM USERS u WHERE u.username = '$username')
                 OR a.PARENT IN (SELECT u.ID FROM USERS u WHERE u.username = '$username')

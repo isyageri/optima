@@ -37,7 +37,7 @@
                     <div class="col-md-3">
                         <div class="col-md-12">
                             <div class="form-group form-md-line-input">
-                                <input type="text" class="form-control" id="trx_no" value="TELKOM-ACC/VI/02/16-???"
+                                <input type="text" class="form-control" id="trx_no" value="<?php echo $this->session->userdata('location_code');?>-ACC/VI/02/16-???"
                                        disabled>
                                 <div class="form-control-focus"></div>
                                 <label for="form_control_1">Nomor Transaksi</label>
@@ -65,7 +65,7 @@
                         </div>
                         <div class="col-md-6">
                             <div class="form-group form-md-line-input">
-                                <input type="text" class="form-control" id="form_control_1" value="TELKOM" readonly>
+                                <input type="text" class="form-control" id="form_control_1" value="<?php echo $this->session->userdata('location_name');?>" readonly>
                                 <div class="form-control-focus"></div>
                                 <label for="form_control_1">Lokasi</label>
                             </div>
@@ -183,17 +183,19 @@
                                                 <div class="col-md-8">
                                                     <input type="text" class="form-control required uppercase"
                                                            id="inAccountName"
-                                                           name="inAccountName" onkeyup="setCompanyName(this.value)">
+                                                           name="inAccountName" onkeyup="">
                                                 </div>
                                             </div>
                                             <div class="form-group">
                                                 <label class="col-md-4 control-label">Account To Go Live
                                                     <span class="required"> * </span>
                                                 </label>
-                                                <div class="col-md-8">
+                                                <div class="col-md-5">
                                                     <input type="text" class="form-control required datepicker"
                                                            readonly="" name="inAccountToGoLive">
                                                 </div>
+                                                <label class="col-md-3 control-label">MM/DD/YYYY
+                                                </label>
                                             </div>
                                             <span class="">
                                                  <input type="hidden" value="22" name="groupId" id="groupId">
@@ -201,7 +203,7 @@
                                                         value="<?php echo $this->session->userdata('user_id'); ?>"
                                                         name="userId" id="userId">
                                                  <input type="hidden"
-                                                        value="<?php echo $this->session->userdata('location'); ?>"
+                                                        value="<?php echo $this->session->userdata('location_id'); ?>"
                                                         name="locId"
                                                         id="locId">
                                                 <input type="hidden"
@@ -385,13 +387,15 @@
                                                 </div>
                                             </div>
                                             <div class="form-group">
-                                                <label class="control-label col-md-4">Contact Start Date (mm/dd/yyyy)
+                                                <label class="control-label col-md-4">Contact Start Date
                                                     <span class="required"> * </span>
                                                 </label>
-                                                <div class="col-md-8">
-                                                    <input class="form-control datepicker required" type="text" value=""
+                                                <div class="col-md-5">
+                                                    <input class="form-control datepicker required" type="text" value="<?php echo date('m/d/y');?>"
                                                            name="inContactStartDate" required>
                                                 </div>
+                                                <label class="col-md-3 control-label">MM/DD/YYYY
+                                                </label>
                                             </div>
 
                                         </div>
@@ -1033,6 +1037,7 @@
                             $('#form_wizard_1').find('.button-previous').show();
                         }
 
+
                         if (current >= total) {
                             $('#form_wizard_1').find('.button-next').hide();
                             $('#form_wizard_1').find('.button-submit').show();
@@ -1084,6 +1089,19 @@
                             handleTitle(tab, navigation, clickedIndex);
                         },
                         onNext: function (tab, navigation, index) {
+                            //var current =  + 1;
+                            //validasi step 2
+                            if(index == 2){
+                                setval('inCompanyName',getval('inAccountName'));
+
+                                var nextBillDat = getval('inNextBillDate');
+                                var subnextBillDat = nextBillDat.substring(3,5);
+                                if (subnextBillDat != 01){
+                                    swal('','Next Bill Date harus diisi tanggal 1 (tanggal akan dibilling)')
+                                    return false;
+                                }
+
+                            }
                             success.hide();
                             error.hide();
 

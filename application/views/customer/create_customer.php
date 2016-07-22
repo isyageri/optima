@@ -14,6 +14,7 @@
         </li>
     </ul>
 </div>
+<?php //print_r($this->session->all_userdata());?>
 <!-- end breadcrumb -->
 <div class="space-4"></div>
 <div class="row">
@@ -31,7 +32,7 @@
                     <div class="col-md-3">
                         <div class="col-md-12">
                             <div class="form-group form-md-line-input">
-                                <input type="text" class="form-control" id="trx_no" value="TELKOM-CUST/VI/02/16-???"
+                                <input type="text" class="form-control" id="trx_no" value="<?php echo $this->session->userdata('location_code');?>-CUST/VI/02/16-???"
                                        disabled>
                                 <div class="form-control-focus"></div>
                                 <label for="form_control_1">Nomor Transaksi</label>
@@ -59,7 +60,7 @@
                         </div>
                         <div class="col-md-6">
                             <div class="form-group form-md-line-input">
-                                <input type="text" class="form-control" id="form_control_1" value="TELKOM" readonly>
+                                <input type="text" class="form-control" id="form_control_1" value="<?php echo $this->session->userdata('location_name');?>" readonly>
                                 <div class="form-control-focus"></div>
                                 <label for="form_control_1">Lokasi</label>
                             </div>
@@ -145,7 +146,6 @@
                                                     <input type="text" class="form-control" name="nipnas" readonly>
                                                 </div>
                                             </div>
-w
                                             <div class="form-group">
                                                 <label class="control-label col-md-4">Customer Type
                                                     <span class="required">  * </span>
@@ -181,14 +181,12 @@ w
                                         </div>
                                     </div>
 
-
-
                                     <span class="">
                                          <input type="hidden" value="22" name="groupId" id="groupId">
                                          <input type="hidden" value="<?php echo $this->session->userdata('user_id'); ?>"
                                                 name="userId" id="userId">
                                          <input type="hidden"
-                                                value="<?php echo $this->session->userdata('location'); ?>" name="locId"
+                                                value="<?php echo $this->session->userdata('location_id'); ?>" name="locId"
                                                 id="locId">
                                          <input type="hidden" value="" name="idTD" id="idTD">
                                          <input type="hidden" value="" name="idTH" id="idTH">

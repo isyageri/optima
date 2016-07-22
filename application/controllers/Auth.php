@@ -40,7 +40,8 @@ class Auth extends CI_Controller
                 $item_location = $ci->users->getLocationById($location);
 
                 $this->session->set_userdata('location_id', $location);
-                $this->session->set_userdata('location_name', $item_location['code']);
+                $this->session->set_userdata('location_name', $item_location['company_name']);
+                $this->session->set_userdata('location_code', $item_location['code']);
 
                 $data['success'] = true;
                 $data['message'] = "Login success";

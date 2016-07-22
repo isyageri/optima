@@ -169,6 +169,15 @@ class Account extends CI_Controller
     }
 
     public function setRegion(){
+        $this->db_corecrm = $this->load->database('corecrm', TRUE);
+        $loc_id = $this->input->post('locId');
+
+        $this->db_corecrm->where('ID',$loc_id);
+        $db = $this->db_corecrm->get('LOCATION')->row()->xs1;
+        echo json_encode($db);
+    }
+
+    /*public function setRegion2(){
         $pck_name = "CRMACCOUNT.setRegion";
         $pIN = array(
             'var' => $this->session->userdata('location')
@@ -176,7 +185,7 @@ class Account extends CI_Controller
         $conn_db = "corecrm";
         $out = $this->M_helper->exec_cursor($pck_name, $pIN, $conn_db);
         echo json_encode($out);
-    }
+    }*/
 
     public function createAccount(){
         $AccountNumber = $this->input->post('AccountNumber');

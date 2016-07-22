@@ -167,7 +167,7 @@ class Home extends CI_Controller
         $items = $table->getLocation($username);
 
         foreach($items as $item) {
-            echo '<option value="'.$item['id'].'"> '.$item['code'].' </option>';
+            echo '<option value="'.$item['id'].'"> '.$item['company_name'].' </option>';
         }
         exit;
     }

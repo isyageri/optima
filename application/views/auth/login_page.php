@@ -31,10 +31,10 @@
 
     <link href="<?php echo base_url(); ?>assets/pages/css/login-5.css" rel="stylesheet" type="text/css"/>
 
+    <link href="<?php echo base_url(); ?>assets/global/plugins/bootstrap-select/css/bootstrap-select.min.css" rel="stylesheet" type="text/css" />
+
     <link rel="shortcut icon" href="<?php echo base_url(); ?>favicon.png"/>
 </head>
-
-
 <body class=" login">
 <!-- BEGIN : LOGIN PAGE 5-2 -->
 <div class="user-login-5">
@@ -64,11 +64,14 @@
                         </div>
                     </div>
                     <div class="row">
-                        <label class="col-md-3 control-label" for="opt-lokasi">Pilih Lokasi</label>
-                        <div class="col-xs-9">
-                            <select id="lokasi" required="" name="lokasi" class="form-control col-xs-12">
+                        <!--<div class="col-md-6">
+                            <label class="control-label" for="opt-lokasi">Pilih Lokasi</label>
+                        </div>-->
+                        <div class="col-md-12">
+                            <select id="lokasi" required="" name="lokasi" class="form-controls">
                             </select>
                         </div>
+
                     </div>
                     <div class="row">
                         <div class="col-sm-4">
@@ -84,7 +87,7 @@
                             <a class="btn blue" type="button" id="login">Login</a>
                         </div>
                     </div>
-                    <input type="hidden" value="<?= site_url();?>" id="host">
+                    <input type="hidden" value="<?= site_url(); ?>" id="host">
 
                 </form>
                 <?php //echo form_close(); ?>
@@ -159,8 +162,11 @@
 <!-- END THEME GLOBAL SCRIPTS -->
 <!-- BEGIN PAGE LEVEL SCRIPTS -->
 <script src="<?php echo base_url(); ?>assets/pages/scripts/login-5.js" type="text/javascript"></script>
+
 <script src="<?php echo base_url(); ?>assets/js/login.js" type="text/javascript"></script>
 <script src="<?php echo base_url(); ?>assets/js/jquery.blockUI.js" type="text/javascript"></script>
+<script src="<?php echo base_url(); ?>assets/global/plugins/bootstrap-select/js/bootstrap-select.min.js" type="text/javascript"></script>
+<script src="<?php echo base_url(); ?>assets/pages/scripts/components-bootstrap-select.min.js" type="text/javascript"></script>
 <!-- END PAGE LEVEL SCRIPTS -->
 <!-- BEGIN THEME LAYOUT SCRIPTS -->
 <!-- END THEME LAYOUT SCRIPTS -->
@@ -170,7 +176,7 @@
 <script type="text/javascript">
     $(document).ajaxStart(function () {
         $(document).ajaxStart($.blockUI({
-            message:  'Loading...',
+            message: 'Loading...',
             css: {
                 border: 'none',
                 padding: '5px',
@@ -194,15 +200,15 @@
         }
     );
 
-    $("#username").change(function() {
+    $("#username").change(function () {
         $.ajax({
-            url: "<?php echo base_url().'home/html_select_options_location'; ?>",
+            url: "<?php echo base_url() . 'home/html_select_options_location'; ?>",
             type: "POST",
-            data: { username: $(this).val() },
+            data: {username: $(this).val()},
             success: function (data) {
                 $('#lokasi').html(data);
             }
-        });    
+        });
     });
 
     $(document).ready(function () {
