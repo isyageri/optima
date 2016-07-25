@@ -305,5 +305,28 @@ class Fastel_controller {
         echo json_encode($data);
         exit;
     }
+
+    function readReason() {
+        $ci = & get_instance();
+        $ci->load->model('schema/trx_control');
+        $table = $ci->trx_control;
+        $t_cust_id = getVarClean('t_customer_order_id', 'int', '');
+
+        try{
+           $items = $table->getTrx($t_cust_id);
+
+            $data['success'] = false;
+            $data['message'] = 'berhasil';
+            $data['rows'] = $items;
+
+        }catch (Exception $e) {
+            $data['success'] = false;
+            $data['message'] = $e->getMessage();
+            $data['rows'] = array();
+        }
+
+        echo json_encode($data);
+        exit;
+    }
 }
 /* End of file Scema_controller.php */

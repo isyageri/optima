@@ -141,6 +141,40 @@ class Trx_control extends Abstract_model {
             return false;
         }
     }
+
+    function getTrx($t_cust_id){
+        $sql = "SELECT a.*,
+                       b.schema_id, 
+                       b.schema_name, 
+                       b.customer_ref, 
+                       b.account_num, 
+                       b.start_dat,
+                       b.end_dat,
+                       b.operator,
+                       b.m4l_acc_schema_id,
+                       b.location_id,
+                       b.created_by,
+                       b.created_date,
+                       b.step,
+                       b.status,
+                       b.notes,
+                       b.discount_id,
+                       b.batch_id,
+                       b.trend,
+                       c.account_name
+                FROM trx_control a
+                LEFT JOIN sc_schema b ON a.data_id = b.schema_id
+                LEFT JOIN account_1 c ON b.ACCOUNT_NUM = c.ACCOUNT_NUM AND b.CUSTOMER_REF = c.CUSTOMER_REF 
+                WHERE a.t_customer_order_id = ".$t_cust_id;
+        $query = $this->db->query($sql);
+
+        $items = '';
+        if($query->num_rows() > 0){
+            $result = $query->row_array();  
+        }
+
+        return $result;
+    }
     
 }
 
