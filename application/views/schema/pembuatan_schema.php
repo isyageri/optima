@@ -111,9 +111,9 @@
                              </div>
                              <div class="tab-content">
                                  <div class="alert alert-danger display-none">
-                                     <button class="close" data-dismiss="alert"></button> You have some form errors. Please check below. </div>
+                                     <button class="close" data-dismiss="alert"></button> Harap isi data yang dibutuhkan. </div>
                                  <div class="alert alert-success display-none">
-                                     <button class="close" data-dismiss="alert"></button> Your form validation is successful! </div>
+                                     <button class="close" data-dismiss="alert"></button> Validasi Data Berhasil  </div>
                                  <div class="tab-pane active" id="tab1">
                                       <!--- TAB 1 -->
                                       <div class="form-group">
@@ -154,6 +154,7 @@
                                             <input type="text" class="form-control" id="account_name" readonly="" placeholder="Account Name"  />
                                          </div>
                                       </div>
+                                      <!-- <a type="button" id="send_email" class="btn blue-haze" value="send_email">send_mail </a> -->
 
                                      <!--  <div class="form-group">
                                           <label class="control-label col-md-3">Start Date
@@ -228,7 +229,7 @@
                                                             </label>
 
                                                             <label class="mt-radio">
-                                                              <input id="temp_operator" type="hidden" >
+                                                              <input id="temp_operator" type="hidden" required>
                                                               <input id="multi_operator" class="operator" type="radio" checked=false value="MULTI OPERATOR" name="operator">
                                                               Multi Operator
                                                               <span></span>
@@ -239,7 +240,7 @@
                                               <div class="form-group form-md-line-input form-md-floating-label">
                                                     <label class="col-md-3 control-label" for="trend">Kuadran:</label>
                                                       <div class="col-md-4">
-                                                        <select class="form-control input-sm" id="select_kuadran">
+                                                        <select class="form-control input-sm" id="select_kuadran" required>
                                                          
                                                         </select>
                                                       </div>
@@ -250,6 +251,10 @@
                                                         </select>
                                                       </div>
                                               </div>
+                                              <div class="form-group form-md-line-input form-md-floating-label">
+                                                   <button type ="button" class="btn btn-sm btn-primary" onclick="showSimulasi()"> Simulasi </button>
+                                              </div>
+                                               
                                               <!-- <input type="button" id="filter_diskon" class="btn blue-haze" value="Submit"> -->
                                           </div>
                                       </div>
@@ -594,6 +599,15 @@
           modal_lov_nipnas_show('nipnas','customer_name');
       });
 
+
+      $('#account_num').on('change', function() {
+          if(0 == $('#schema_id').val().length){
+            if(0 != $(this).val()){
+            find_exist_schema($(this).val());
+            }
+          }
+      });
+
       $('#nipnas').on('change', function() {
           $('#account_num').val('');
           $('#account_name').val('');
@@ -755,6 +769,11 @@
           window.location = url;
       });
 
+      $('#send_email').on('click',function(e) {
+          var url = "<?php echo WS_JQGRID.'schema.sc_schema_controller/test_email?schema_id='; ?>" + $("#schema_id").val() + '&';
+          url += "<?php echo $this->security->get_csrf_token_name(); ?>=<?php echo $this->security->get_csrf_hash(); ?>";
+          window.location = url;
+      });
 
       $('#form-data-contract').on('submit', (function (e) {
         // Stop form from submitting normally
@@ -823,6 +842,7 @@
            loadTableSkemaPembayaran(trend, kuadran, operator, model);
       }
   }
+
  function del_all(){
     schema_id = $('#schema_id').val();
      $.ajax({
@@ -925,6 +945,27 @@
           data: { schema_id: schema_id , trend: trend, operator:operator , kuadran:kuadran , model:model},
           success: function (data) {
               $('#table-skema-pembayaran').html(data);
+          },
+          error: function (xhr, status, error) {
+              swal({title: "Error!", text: xhr.responseText, html: true, type: "error"});
+              return false;
+          }
+      });
+  }
+
+  function find_exist_schema(account_num) {
+
+      $.ajax({
+          url: "<?php echo WS_JQGRID.'schema.sc_schema_controller/find_exist_schema'; ?>",
+          type: "POST",
+          dataType : 'json',
+          data: { account_num:account_num},
+          success: function (data) {
+            if(!data.success){
+              swal({title: "Error!", text: data.message, html: true, type: "error"});
+              $('#account_num').val('');
+              $('#account_name').val('');
+            }
           },
           error: function (xhr, status, error) {
               swal({title: "Error!", text: xhr.responseText, html: true, type: "error"});

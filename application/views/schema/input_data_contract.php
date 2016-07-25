@@ -23,6 +23,11 @@
         <div id="grid-pager"></div>
     </div>
     </div>
+                <span class="input-group-btn">
+                             <button class="btn btn-success" type="submit" id="word" >
+                               word
+                             </button>
+                           </span>
 
     <div class="space-4"></div>
     <div class="row">
@@ -307,6 +312,13 @@
 
 <script>
 $(document).ready(function(){
+
+     $('#word').on('click',function(e) {
+          var url = "<?php echo WS_JQGRID.'schema.input_data_contract_controller/word_contract?schema_id='; ?>" + $('[name="schema_id"]').val() + '&';
+          url += "<?php echo $this->security->get_csrf_token_name(); ?>=<?php echo $this->security->get_csrf_hash(); ?>";
+          window.location = url;
+      });
+
 
     $('#form-data-contract_schema').submit(function(){
 

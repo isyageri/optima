@@ -412,6 +412,60 @@ class Search_customer_controller {
 		echo json_encode($data);
         exit;
 	}
+
+    function get_data_hierarcy(){
+
+        $ci = & get_instance();
+        $ci->load->model('customer/search_customer');
+        $table = $ci->search_customer;
+
+        $customer_ref = getVarClean('customer_ref','str','');  
+
+        try {
+           
+            $items = $table->get_hierarchy($customer_ref);
+
+            $html = '';
+            $html .= '<ul>';
+            $html .= '<li data-jstree=\''.'{ "selected" : true, "opened" : true }'.'\'> Data';
+
+            foreach($items  as $item ){
+
+                if($item['code'] == 1){ // customer ref
+                    
+                    $html .='<ul>';
+                    $html .='<li data-jstree=\''.'{ "opened" : true }'.'\'>';  
+                    $html .='<a href="javascript:;">'.$item['nodelabel'].' </a>';  
+
+                }else if($item['code'] == 2){  // account num
+                    $html .='<ul>';
+                    $html .='<li data-jstree=\''.'{ "opened" : true }'.'\'>';  
+                    $html .='<a href="javascript:;">'.$item['nodelabel'].' </a>';
+                    $html .='<ul>';
+                }else{ // product
+                    $html .= '<li data-jstree=\''.'{ "type" : "file" }'.'\'>';
+                    $html .='<a href="javascript:;">'.$item['nodelabel'].' </a>';
+                    $html .='</li>';
+                }
+                                               
+            }
+            $html .= '</li>';
+            $html .= '</ul>';
+            $html .= '</li>';
+            $html .= '</ul>';
+            $html .= '</li>';
+            $html .= '</ul>';
+            echo $html;
+            exit;
+        }catch (Exception $e) {
+            echo $e->getMessage();
+            exit;
+        }
+
+
+    }
+
+
 }
 
 /* End of file Users_groups_controller.php */

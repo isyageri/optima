@@ -118,7 +118,16 @@
                 return false;
             }
 
+            trend = $('#trend').val();
+            operator = $('#temp_operator').val();
+            kuadran = $('#select_kuadran').val();
+            model = $('#select_model').val();
+
             var url = "<?php echo WS_JQGRID.'schema.sc_schema_controller/excelSimulasiTable?schema_id='; ?>" + $("#schema_id").val() + '&';
+            url += "trend="+trend+"&";
+            url += "operator="+operator+"&";
+            url += "kuadran="+kuadran+"&";
+            url += "model="+model+"&";
             url += "avg_on_net="+$('#simulasi_avg_on_net').val()+"&";
             url += "on_net="+$('#simulasi_on_net').val()+"&";
             url += "non_on_net="+$('#simulasi_non_on_net').val()+"&";

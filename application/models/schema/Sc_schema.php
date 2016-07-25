@@ -161,6 +161,8 @@ class Sc_schema extends Abstract_model {
                     and KUADRAN = '".$kuadran."'
                     and SCHEM_NAME = '".$model."'
                     and TREND = '".$trend."'
+                    and discount_code = nvl('".$discount_code."', discount_code)
+                    order by schem_name, disc_pct
                     ";
         /*if(!empty($discount_code))
             $sql .= " where discount_code = '".$discount_code."'";*/
@@ -169,13 +171,15 @@ class Sc_schema extends Abstract_model {
         return $row;
     }
 
-    function getListSkemaPembayaran2($trend, $operator, $kuadran, $model) {
+    function getListSkemaPembayaran2($trend, $operator, $kuadran, $model, $discount_code) {
 
         // $sql = "select * from v_business_schem_list";
         $sql = "select * from V_BS_SCHEM_LIST
                     where OPERATOR = '".$operator."'
                     and KUADRAN = '".$kuadran."'
                     and TREND = '".$trend."'
+                    and discount_code = nvl('".$discount_code."', discount_code)
+                     order by schem_name, disc_pct
                     ";
         /*if(!empty($discount_code))
             $sql .= " where discount_code = '".$discount_code."'";*/
@@ -187,7 +191,7 @@ class Sc_schema extends Abstract_model {
     function getAccSchemaID($schema_id) {
 
         $sql = "select b.m4l_acc_schema_id from sc_schema a
-                left join  m4l_acc_schema_reg b on a.account_num = b.account_num
+                left join  m4l_acc_schema_reg b on a.batch_id = b.batch_id
                 where schema_id = '".$schema_id."'";
 
         $query = $this->db->query($sql);
@@ -402,6 +406,53 @@ class Sc_schema extends Abstract_model {
         $result = $query->result_array();
 
         return $result;
+    }
+
+    function validate_account($account_num){
+
+         $sql = "select count(*) total
+                from sc_schema
+                where account_num = '".$account_num."' 
+                and end_dat > sysdate";
+        $query = $this->db->query($sql);
+        $row = $query->row_array();
+
+        return $row['total'];
+    }
+
+    function trx_initiate($schema_id, $param ){
+        $ci =& get_instance();
+        $userinfo = $ci->ion_auth->user()->row();
+        $username = $userinfo->username;
+        $tosdb = $this->load->database('default', TRUE);
+        $tosdb->_escape_char = ' ';
+
+        $cust_order_id = $this->generate_id('T_CUSTOMER_ORDER');
+
+        $sql = "INSERT INTO TRX_CONTROL (  T_CUSTOMER_ORDER_ID,
+                                                ORDER_NO,
+                                                P_RQST_TYPE_ID,
+                                                P_ORDER_STATUS_ID,
+                                                ORDER_DATE,
+                                                CREATION_DATE,
+                                                CREATED_BY,
+                                                UPDATED_DATE,
+                                                UPDATED_BY )
+                    VALUES (".$cust_order_id.",
+                            LPAD(T_CUSTOMER_ORDER_SEQ.NEXTVAL, 10, '0'),
+                            1,
+                            1,
+                            SYSDATE,
+                            SYSDATE,
+                            '".$username."',
+                            SYSDATE,
+                            '".$username."'
+                )";
+         $sql = "select count(*) total
+                from sc_schema
+                where account_num = '".$account_num."' 
+                and end_dat > sysdate";
+        $query = $this->db->query($sql);
     }
 
 }

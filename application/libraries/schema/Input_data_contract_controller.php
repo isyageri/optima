@@ -85,6 +85,70 @@ class Input_data_contract_controller {
         return $data;
     }
 
+    function replace_value($content, $schema_id){
+
+        $ci = & get_instance();
+        $ci->load->model('schema/schema_contract');
+        $table = $ci->schema_contract;
+
+
+        $item = $table->get_data_contract($schema_id);
+        foreach ($item as $key => $value) {
+
+            $content = str_replace('#NOMOR1#', $value['nomor1'], $content);
+            $content = str_replace('#NOMOR2#', $value['nomor2'], $content);
+            $content = str_replace('#CUSTOMER_NAME#', $value['nama_pt'], $content);
+            $content = str_replace('#HARI#', $value['hari'], $content);
+            $content = str_replace('#TANGGAL#', $value['tanggal'], $content);
+            $content = str_replace('#BULAN#', $value['bulan'], $content);
+            $content = str_replace('#TAHUN#', $value['tahun'], $content);
+            $content = str_replace('#TEMPAT#', $value['lokasi'], $content);
+            $content = str_replace('#ALAMAT_TELKOM#', $value['alamat_t'], $content);
+            $content = str_replace('#ALAMAT_CUSTOMER#', $value['alamat_c'], $content);
+            $content = str_replace('#NAMA_T#', $value['nama_t'], $content);
+            $content = str_replace('#NAMA_C#', $value['nama_c'], $content);
+            $content = str_replace('#JABATAN_C#', $value['jabatan_c'], $content);
+            $content = str_replace('#JABATAN_T#', $value['jabatan_t'], $content);
+            $content = str_replace('#BULAN_1#', $value['bulan_1'], $content);
+            $content = str_replace('#BULAN_4#', $value['bulan_4'], $content);
+            $content = str_replace('#NILAI_RATA2#', 'Rp. '.number_format($value['nilai_rata2'],2,",","."), $content);
+            $content = str_replace('#PERCENT_CMT#', $value['percent_cmt'], $content);
+            $content = str_replace('#NILAI_CMT#', 'Rp. '.number_format($value['nilai_cmt'],2,",","."), $content);
+            $content = str_replace('#REK_NAME#', $value['rek_name'], $content);
+            $content = str_replace('#REK_NO#', $value['rek_no'], $content);
+            $content = str_replace('#ALAMAT_INV#', $value['alamat_inv'], $content);
+
+        }
+        
+
+        return $content;
+    }
+
+    function word_contract(){
+
+        $ci = & get_instance();
+
+        $schema_id = getVarClean('schema_id','str','');
+
+        $path = './application/third_party/contract/template/';
+        //$filename = get_filename();
+        $filename = $path.'haha.doc';
+        $template_name = $path.'KBCostCap2.htm';
+        $file_temp = $path."tmp_contract.doc";
+
+        $template = file_get_contents($template_name);
+        $content_html = $this->replace_value($template,$schema_id);
+
+        file_put_contents($file_temp,$content_html); 
+
+        header('Content-Description: File Transfer');
+        header("Content-type: application/msword; charset=utf-8");
+        header("Content-Disposition: attachment;Filename=data_contract.doc");
+        readfile($file_temp);
+        unlink($file_temp);
+        exit; 
+    }
+
     function submit_skema_diskon(){
 
         $ci = & get_instance();

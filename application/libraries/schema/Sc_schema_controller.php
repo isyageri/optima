@@ -36,7 +36,7 @@ class Sc_schema_controller {
             );
 
             // Filter Table
-            $req_param['where'] = array();
+            $req_param['where'] = array("sc.status <> 'ACTIVE' ");
 
             $table->setJQGridParam($req_param);
             $count = $table->countAll();
@@ -170,7 +170,93 @@ class Sc_schema_controller {
         return $data;
 
     }
+    
+    function test_email() {
+        
+        $ci = & get_instance();
+                $config = Array(
+                    'protocol' => 'smtp',
+                    'smtp_host' => 'ssl://smtp.gmail.com',
+                    'smtp_port' => 465,
+                    'smtp_user' => 'umargedeg@gmail.com',
+                    'smtp_pass' => 'ashabulyamin2',
+                    'mailtype'  => 'html', 
+                    'charset'   => 'iso-8859-1'
+                );
+                $email = 'umargedeg@gmail.com';
+                $nama = 'ujang';
+                $subjek ='haha';
+                $pesan ='haha';
+                $ci->load->library('email', $config);
+                $ci->email->set_newline("\r\n");
+                $ci->email->from($email);
+                $ci->email->to('umarabduljabbar@gmail.com'); //email tujuan. Isikan dengan emailmu!
+                $ci->email->subject($subjek);
+                $ci->email->message($pesan);
+                // Set to, from, message, etc.
+                        
+                $result = $ci->email->send();
+                echo $result.'aaaaaaaaaaaaaaaa';
+            exit;
+        /*$config = Array(
+          'protocol' => 'smtp',
+          'smtp_host' => 'ssl://smtp.googlemail.com',
+          'smtp_port' => 465,
+          'smtp_user' =>'umargedeg', //isi dengan gmailmu!
+          'smtp_pass' => 'ashabulyamin2', //isi dengan password gmailmu!
+          'mailtype' => 'html',
+          'charset' => 'iso-8859-1',
+          'wordwrap' => TRUE
+        );
+        
+        $email = 'umargedeg@gmail.com';
+        $nama = 'ujang';
+        $subjek ='haha';
+        $pesan ='haha';
+        $ci->load->library('email', $config);
+        $ci->email->set_newline("\r\n");
+        $ci->email->from($email);
+        $ci->email->to('umarabduljabbar@gmail.com'); //email tujuan. Isikan dengan emailmu!
+        $ci->email->subject($subjek);
+        $ci->email->message($pesan);
 
+        if($ci->email->send())
+        {
+          echo 'Email sent';
+        }
+        else
+        {
+          echo show_error($ci->email->print_debugger());
+        }
+        exit;*/
+    }
+
+    function find_exist_schema(){
+        $ci = & get_instance();
+        $ci->load->model('schema/sc_schema');
+        $table = $ci->sc_schema;
+
+        $account_num = getVarClean('account_num', 'str', '');
+
+        try{
+
+            $data['message'] = 'ok';
+            $data['success'] = true;
+
+            $cek = $table->validate_account($account_num);
+            if(0 != $cek){
+                $data['message'] = 'Account '.$account_num.' Sudah Ada Di Data Skema !';
+                $data['success'] = false;
+            }
+           
+
+        }catch (Exception $e) {
+            $data['message'] = $e->getMessage();
+        }
+
+        echo json_encode($data);
+        exit;
+    }
 
     function addSkema() {
         $ci = & get_instance();
@@ -363,7 +449,7 @@ class Sc_schema_controller {
             $result['TAGIHAN_ON_NET']['items'][$item['periode']] = $item['tagihan_on_net'];
             $result['TAGIHAN_NON_ON_NET']['items'][$item['periode']] = $item['tagihan_non_on_net'];
 
-            $result['TOTAL_TAGIHAN']['items'][$item['periode']] =
+                $result['TOTAL_TAGIHAN']['items'][$item['periode']] =
                 $result['TELKOM_JJ']['items'][$item['periode']] + $result['TELKOM_LK']['items'][$item['periode']] +
                 $result['TELKOMSEL']['items'][$item['periode']] + $result['LAINNYA']['items'][$item['periode']] +
                 $result['TAGIHAN_ON_NET']['items'][$item['periode']] + $result['TAGIHAN_NON_ON_NET']['items'][$item['periode']];
@@ -410,12 +496,18 @@ class Sc_schema_controller {
 
         foreach($result as $keterangan => $nilai_per_periode) {
             $html .= '<tr>';
-            $html .= '<td align="right">'.str_replace('_',' ',$keterangan).'</td>';
+            $html .= '<td align="left">'.str_replace('_',' ',$keterangan).'</td>';
             foreach($nilai_per_periode['items'] as $val) {
                 $html .= '<td align="right">'.numberFormat($val).'</td>';
             }
             $html .= '</tr>';
         }
+        $html .= '<tr>';
+        $html .= '<td colspan="5"> <b><i>Tagihan On Net = Tagihan telkom lokal + tagihan telkom sljj+tagihan telkomsel</b></i></td>';
+        $html .= '</tr>';
+         $html .= '<tr>';
+        $html .= '<td colspan="5"> <b><i>Tagihan Non On Net = Tagihan Total dikurangi tagihan On Net</b></i></td>';
+        $html .= '</tr>';
         $html .= '</table>';
 
         echo $html;
@@ -478,6 +570,13 @@ class Sc_schema_controller {
             }
             $html .= '</tr>';
         }
+        
+        $html .= '<tr>';
+        $html .= '<td colspan="5"> <b><i>Tagihan On Net = Tagihan telkom lokal + tagihan telkom sljj+tagihan telkomsel</b></i></td>';
+        $html .= '</tr>';
+        $html .= '<tr>';
+        $html .= '<td colspan="5"> <b><i>Tagihan Non On Net = Tagihan Total dikurangi tagihan On Net</b></i></td>';
+        $html .= '</tr>';
         $html .= '</table>';
 
         startExcel('schema_trend_info.xls');
@@ -507,7 +606,7 @@ class Sc_schema_controller {
 
 
         $discount_code = $table->getDiscountCodeAccBusinessSchem($schema_id);
-        $items = $table->getListSkemaPembayaran( $trend, $operator, $kuadran, $model );
+        $items = $table->getListSkemaPembayaran( $trend, $operator, $kuadran, $model,  $discount_code );
         // $items = $table->getListSkemaPembayaran($discount_code, $trend, $operator, $kuadran, $model );
 
         $html  = '<table class="table">';
@@ -516,24 +615,24 @@ class Sc_schema_controller {
         $html .= '<th>Nama Skema</th>';
         $html .= '<th>Diskon (%)</th>';
         $html .= '<th>Keterangan Diskon</th>';
-        $html .= '<th>'.(empty($discount_code) ? "Action" : "Status").'</th>';
+        //$html .= '<th>'.(empty($discount_code) ? "Action" : "Status").'</th>';
         $html .= '</tr>';
 
         $no = 1;
         foreach($items as $item) {
             $html .= '<tr>';
             $html .= '<td>'.$no++.'</td>';
-            $html .= '<td>'.$item['schem_name'].'</td>';
+            $html .= '<td>'.$item['schem_name'].'<input type="hidden" id="disc_code_lov" value=\''.$item['discount_code'].'\'></td>';
             $html .= '<td>'.$item['disc_pct'].'</td>';
             $html .= '<td>'.$item['disc_description'].'</td>';
-            if(empty($discount_code)) {
+           /* if(empty($discount_code)) {
                 $html .= '<td>
                                 <button type ="button" class="btn btn-sm btn-primary" onclick="showSimulasi(\''.$item['discount_code'].'\')"> Simulasi </button>'
                                 //'<button type ="button" class="btn btn-sm btn-success pilih-simulasi" onclick="pilihSimulasi(\''.$item['discount_code'].'\','.$item['p_business_schem_id'].')"> Pilih </button>
                           .'</td>';
             }else {
                  $html .= '<td> Dipilih </td>';
-            }
+            }*/
             $html .= '</tr>';
         }
 
@@ -559,7 +658,7 @@ class Sc_schema_controller {
 
 
         $discount_code = $table->getDiscountCodeAccBusinessSchem($schema_id);
-        $items = $table->getListSkemaPembayaran( $trend, $operator, $kuadran, $model );
+        $items = $table->getListSkemaPembayaran( $trend, $operator, $kuadran, $model,  $discount_code );
         // $items = $table->getListSkemaPembayaran($discount_code, $trend, $operator, $kuadran, $model );
 
         $html  = '<table class="table">';
@@ -568,7 +667,7 @@ class Sc_schema_controller {
         $html .= '<th>Nama Skema</th>';
         $html .= '<th>Diskon (%)</th>';
         $html .= '<th>Keterangan Diskon</th>';
-        $html .= '<th>'.(empty($discount_code) ? "Action" : "Status").'</th>';
+        // $html .= '<th>'.(empty($discount_code) ? "Action" : "Status").'</th>';
         $html .= '</tr>';
 
         $no = 1;
@@ -578,14 +677,14 @@ class Sc_schema_controller {
             $html .= '<td>'.$item['schem_name'].'</td>';
             $html .= '<td>'.$item['disc_pct'].'</td>';
             $html .= '<td>'.$item['disc_description'].'</td>';
-            if(empty($discount_code)) {
+           /* if(empty($discount_code)) {
                 $html .= '<td>
                                 <button type ="button" class="btn btn-sm btn-primary" onclick="showSimulasi(\''.$item['discount_code'].'\')"> Simulasi </button>'
                                 //'<button type ="button" class="btn btn-sm btn-success pilih-simulasi" onclick="pilihSimulasi(\''.$item['discount_code'].'\','.$item['p_business_schem_id'].')"> Pilih </button>
                           .'</td>';
             }else {
-                 $html .= '<td> Dipilih </td>';
-            }
+                 $html .= '<td> Dipilih2 </td>';
+            }*/
             $html .= '</tr>';
         }
 
@@ -621,7 +720,7 @@ class Sc_schema_controller {
 
         $discount_code = $table->getDiscountCodeAccBusinessSchem($schema_id);
         $model = '';
-        $items = $table->getListSkemaPembayaran2( $trend, $operator, $kuadran, $model );
+        $items = $table->getListSkemaPembayaran2( $trend, $operator, $kuadran, $model, $discount_code );
         // $items = $table->getListSkemaPembayaran($discount_code, $trend, $operator, $kuadran, $model );
 
         $html  = '<table class="table">';
@@ -825,8 +924,7 @@ class Sc_schema_controller {
             $html = str_replace('#CONTENT_TABLE_SECTION#', $CONTENT_TABLE_SECTION, $html );
 
 
-        // echo $html;
-        echo $TAB_EXCEL;
+         echo $html;
         exit;
     }
 
@@ -990,8 +1088,16 @@ class Sc_schema_controller {
             $html = str_replace('#CONTENT_TABLE_SECTION#', $CONTENT_TABLE_SECTION, $html );
 
 
-        // echo $html;
+       /* header('Content-Description: File Transfer');
+        header('Content-Type: application/octet-stream');
+        header('Content-Disposition: attachment; filename=test.txt');
+        header('Expires: 0');
+        header('Cache-Control: must-revalidate');
+        header('Pragma: public');*/
+        startExcel('simulasi_'.$I_DISCOUNT_CODE.'.xls');
         echo $TAB_EXCEL;
+
+        // echo $html;
         exit;
         
     }
@@ -1658,6 +1764,29 @@ echo $TAB_EXCEL;
 
         echo $str_template;
         exit;
+    }
+
+    function terminate_schema(){
+
+        $ci = & get_instance();
+        $ci->load->model('schema/sc_schema');
+        $table = $ci->sc_schema;
+
+        $schema_id = getVarClean('schema_id','str','');
+        $notes = getVarClean('notes','str','');
+
+        try{
+            $items = $table->terminate_schema($schema_id, 'terminate');
+
+            $data['success'] = true;
+        }catch (Exception $e) {
+            $data['message'] = $e->getMessage();
+        }
+
+        echo json_encode($data);
+        exit;
+
+
     }
 
 }

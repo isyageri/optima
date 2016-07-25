@@ -23,9 +23,10 @@
     </div>
 </div>
 
-<?php $this->load->view('lov/lov_detail_skema.php'); ?>
-<?php $this->load->view('lov/lov_info_fastel.php'); ?>
-<?php $this->load->view('lov/lov_info_billing.php'); ?>
+<?php //$this->load->view('lov/lov_detail_skema.php'); ?>
+<?php //$this->load->view('lov/lov_info_fastel.php'); ?>
+<?php //$this->load->view('lov/lov_info_billing.php'); ?> 
+<?php $this->load->view('lov/lov_info_schema.php'); ?>
 
 <script>
     function showDetailSkema(discount_code) {
@@ -39,6 +40,25 @@
     function showDetailBilling(account_num) {
         modal_lov_info_billing_show(account_num);
     }
+    function download_contract(schema_id, is_active){
+
+            var url = "<?php echo WS_JQGRID.'schema.input_data_contract_controller/word_contract?schema_id='; ?>" + schema_id+ '&';
+          url += "<?php echo $this->security->get_csrf_token_name(); ?>=<?php echo $this->security->get_csrf_hash(); ?>";
+
+        if(is_active!='ACTIVE'){
+            swal({title: 'Attention', text: 'Schema belum aktif !', html: true, type: "warning"});
+            return false;
+        }else{
+          window.location = url;
+        }
+    }
+
+    function showDiskon(account_num,customer_ref,account_name,created_date,schema_id) {
+     
+       modal_lov_detail_info_skema_show(account_num,customer_ref,account_name,created_date,schema_id);
+    }
+
+
 </script>
 
 <script>
@@ -98,13 +118,22 @@
                 {label: 'Tgl Pembuatan Skema', name: 'created_date', width: 150, align: "center", editable: false},
                 {label: 'Tgl Berlaku Skema', name: 'start_dat', width: 150, align: "center", editable: false},
                 {label: 'Tgl Berakhir Skema', name: 'end_dat', width: 150, align: "center", editable: false},
-                {label: 'Detail Skema', name: 'discount_id', width: 150,  sortable:false, search:false, align:"center", editable: false,
+                {label: 'Status', name: 'status', width: 150, align: "center", editable: false},
+                {label: 'Detail Skema', name: 'schema_id', width: 150,  sortable:false, search:false, align:"center", editable: false,
                     formatter: function(cellvalue, options, rowObject) {
                         //var  theID = rowObject['role_permissions_id'];
-                        return '<button type="button" class="btn btn-xs btn-default" onclick="showDetailSkema(\''+cellvalue+'\')"> Detail Skema </button>';
+                        //console.log(rowObject.status);
+                        return '<button type="button" class="btn btn-xs btn-default" onclick="download_contract(\''+cellvalue+'\',\''+rowObject.status+'\')"> Download Contract</button>';
                     }
                 },
-                {label: 'Fastel', name: 'schema_id', width: 150,  sortable:false, search:false, align:"center", editable: false,
+                {label: 'Detail Skema', name: 'schema_id', width: 150,  sortable:false, search:false, align:"center", editable: false,
+                    formatter: function(cellvalue, options, rowObject) {
+                        //var  theID = rowObject['role_permissions_id'];
+                        //console.log(rowObject.status);
+                        return '<button type="button" class="btn btn-xs btn-default" onclick="showDiskon(\''+rowObject.account_num+'\',\''+rowObject.customer_ref+'\',\''+rowObject.account_name+'\',\''+rowObject.created_date+'\',\''+rowObject.schema_id+'\')"> Detail Schema </button>';
+                    }
+                }
+               /* {label: 'Fastel', name: 'schema_id', width: 150,  sortable:false, search:false, align:"center", editable: false,
                     formatter: function(cellvalue, options, rowObject) {
                         //var  theID = rowObject['role_permissions_id'];
                         return '<button type="button" class="btn btn-xs btn-success" onclick="showDetailFastel(\''+cellvalue+'\')"> Fastel </button>';
@@ -121,7 +150,7 @@
                         //var  theID = rowObject['role_permissions_id'];
                         return '<button type="button" class="btn btn-xs purple" onclick="showDetailBilling(\''+cellvalue+'\')"> Info Billing </button>';
                     }
-                }
+                }*/
             ],
             height: '100%',
             autowidth: true,

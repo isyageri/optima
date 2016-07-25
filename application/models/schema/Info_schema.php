@@ -14,7 +14,7 @@ class Info_schema extends Abstract_model {
 
                             );
 
-    public $selectClause    = "sc.schema_id, sc.schema_name, sc.customer_ref, sc.account_num, sc.discount_id,
+    public $selectClause    = "sc.schema_id, sc.schema_name, sc.customer_ref, sc.account_num, sc.discount_id, sc.status,
                                     to_char(sc.start_dat,'yyyy-mm-dd') as start_dat, to_char(sc.end_dat,'yyyy-mm-dd') as end_dat,
                                     to_char(sc.start_dat,'yyyymm') as start_periode,
                                     ac.account_name, ac2.account_name as customer_name, '-' cust_address,

@@ -26,6 +26,9 @@
             <li>
                 <a href="#tab_5_4" data-toggle="tab"> Skema Diskon</a>
             </li>
+            <li>
+                <a href="#tab_5_5" data-toggle="tab"> Contract</a>
+            </li>
         </ul>
         <div class="tab-content">
             <div class="tab-pane active" id="tab_5_1">
@@ -102,6 +105,19 @@
                   </div>
                   <div class="col-md-12" id="table-skema-pembayaran2">
 
+                  </div>
+              </div>
+            </div>
+            <div class="tab-pane" id="tab_5_4">
+                <div class="row">
+                  <div class="col-md-12">
+                      <h4> Download Data Kontrak </h4>
+                  </div>
+                  <div class="col-md-12" >
+                        <button class="btn btn-info btn-xs radius-4" id="download_kontrak">
+                                                   
+                                                    Download Kontrak
+                                                </button>
                   </div>
               </div>
             </div>
@@ -202,14 +218,17 @@ function loadTableSkemaPembayaran_lov(trend) {
         });
     }
 
-/*$(document).ready(function(){
+$(document).ready(function(){
 
- $('#grid-table-fastel_lov').jqGrid('setGridParam', {
-                    postData: {schema_id: $("#schema_id").val()}
-                });
-          $('#grid-table-fastel_lov').trigger("reloadGrid");
+        $("#download_kontrak").click(function() {
+            var discount_code = $('#disc_code_lov').val();
+            var schema_id = $("#schema_id").val();
+            var customer_name = $("#customer_name_lov").val();
 
-});*/
+            location.href = '<?php echo WS_JQGRID.'schema.sc_schema_controller/downloadContract?discount_code='; ?>'+discount_code+"&schema_id="+schema_id+"&customer_name="+customer_name;
+        });
+
+});
 
 jQuery(function($) {
         var grid_selector = "#grid-table-fastel_lov";
