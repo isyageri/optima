@@ -1624,7 +1624,7 @@ echo $TAB_EXCEL;
 
         try{
 
-            $items = [
+            $items = array(
                 'nomor1' => $nomor1,
                 'nomor2' => $nomor2,
                 'hari' => $hari,
@@ -1643,7 +1643,7 @@ echo $TAB_EXCEL;
                 'nama_pt' => $nama_pt,
                 'alamat_inv' => $alamat_inv,
                 'program' => $program
-            ];
+            );
 
             $isContractExist = $table->isContractExist($schema_id);
 
