@@ -37,7 +37,7 @@
                     <div class="col-md-3">
                         <div class="col-md-12">
                             <div class="form-group form-md-line-input">
-                                <input type="text" class="form-control" id="trx_no" value="<?php echo $this->session->userdata('location_code');?>-ACC/VI/02/16-???"
+                                <input type="text" class="form-control" id="txt_noTransaction" value=""
                                        disabled>
                                 <div class="form-control-focus"></div>
                                 <label for="form_control_1">Nomor Transaksi</label>
@@ -45,8 +45,8 @@
                         </div>
                         <div class="col-md-12">
                             <div class="form-group form-md-line-input">
-                                <input type="text" class="form-control" id="form_control_1" readonly
-                                       value="<?php echo date('d-m-Y'); ?>">
+                                <input type="text" class="form-control" readonly
+                                       value="" id="txt_trxDate">
                                 <div class="form-control-focus"></div>
                                 <label for="form_control_1">Tanggal Transaksi</label>
                             </div>
@@ -57,15 +57,15 @@
                     <div class="col-md-8">
                         <div class="col-md-6">
                             <div class="form-group form-md-line-input">
-                                <input type="text" class="form-control" id="form_control_1"
-                                       value="<?php echo strtoupper($this->session->userdata('username')); ?>" readonly>
+                                <input type="text" class="form-control" id="txt_petugas"
+                                       value="" readonly>
                                 <div class="form-control-focus"></div>
                                 <label for="form_control_1">Petugas</label>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group form-md-line-input">
-                                <input type="text" class="form-control" id="form_control_1" value="<?php echo $this->session->userdata('location_name');?>" readonly>
+                                <input type="text" class="form-control" id="txt_lokasi" value="" readonly>
                                 <div class="form-control-focus"></div>
                                 <label for="form_control_1">Lokasi</label>
                             </div>
@@ -1176,6 +1176,13 @@
 
         jQuery(document).ready(function () {
             FormWizard.init();
+            /* Init Transaction*/
+            setval('txt_noTransaction',loc_code+'-CUST/'+dt_tgl3+'-???');
+            setval('txt_trxDate',dt_tgl2);
+            setval('txt_lokasi',loc_name);
+            setval('txt_petugas',username);
+            /* End Init Transaction */
+
             getNextBillDTM();
             setRegion();
             setval('inAccountCurrency','IDR');

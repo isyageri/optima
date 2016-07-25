@@ -1,3 +1,17 @@
+<!--Init Transaction-->
+<script language="javascript" type="text/javascript">
+    <?php
+    $blnRomawi = array("I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX", "X", "XI", "XII");
+    $blnIndo = array("Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember");
+    echo "var dt_tgl1 = '".date("d/m/Y")."';";
+    echo "var dt_tgl2 = '".date("M d, Y")."';";
+    echo "var dt_tgl3 = '".$blnRomawi[date("m")-1]."/".date("d/y")."';";
+    echo "var dt_tgl4 = '".date("d")." ".$blnIndo[date("m")-1]." ".date("y")."';";
+    ?>
+    var loc_code = "<?php echo strtoupper($this->session->userdata('location_code')); ?>";
+    var loc_name = "<?php echo strtoupper($this->session->userdata('location_name')); ?>";
+    var username = "<?php echo strtoupper($this->session->userdata('username')); ?>";
+</script>
 <!--[if lt IE 9]>
 <script src="<?php echo base_url(); ?>assets/global/plugins/respond.min.js"></script>
 <script src="<?php echo base_url(); ?>assets/global/plugins/excanvas.min.js"></script>
