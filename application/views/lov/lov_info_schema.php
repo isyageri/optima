@@ -82,6 +82,12 @@
             <div class="tab-pane" id="tab_5_2">
                 <div class="row">
                   <div class="col-md-12">
+                      <input id="addFastel" class="btn green-haze" type="button" value="Tambah Fastel">
+                      <input id="delFastel" class="btn red-haze" type="button" value="Hapus Fastel">
+                      <input id="addReason" class="btn btn-success" type="button" value="Submit Fastel">
+                  </div>  
+
+                  <div class="col-md-12">
                       <table id="grid-table-fastel_lov"></table>
                       <div id="grid-pager-fastel_lov"></div>
                   </div>
@@ -140,8 +146,111 @@
  </div>
  </div>
 
-
+  <?php $this->load->view('lov/lov_add_fastel.php'); ?>   
+  <?php $this->load->view('lov/lov_add_reason.php'); ?>   
 <script>
+    $('#addFastel').on('click', function(){
+       var schema_id = $('#schema_id').val();
+       var customer_ref = $('#nipnas_lov').val();
+       var account_num = $('#account_num_lov').val();
+
+       modal_lov_add_fastel_show(schema_id, customer_ref, account_num);
+    });
+
+    $('#addReason').on('click', function(){
+       var schema_id = $('#schema_id').val();
+       modal_lov_add_reason_show(schema_id);
+    });
+
+    $('#delFastel').on('click', function(){
+        var grid = $('#grid-table-fastel_lov');
+            selRowId = grid.jqGrid ('getGridParam', 'selrow');
+
+            var batch_id = grid.jqGrid ('getCell', selRowId, 'batch_id');
+            var p_notel = grid.jqGrid ('getCell', selRowId, 'p_notel');
+
+            if(selRowId == null) {
+                swal("Informasi", "Silahkan Pilih Salah Satu Baris Data", "info");
+                return false;
+            }
+
+            $.ajax({
+                  url: "<?php echo WS_JQGRID.'schema.fastel_controller/del_fastel'; ?>",
+                  type: "POST",
+                  data: { batch_id: batch_id, notel:p_notel, all:0 },
+                  success: function (data) {
+                   $('#grid-table-fastel_lov').trigger("reloadGrid");
+                  },
+                  error: function (xhr, status, error) {
+                      swal({title: "Error!", text: xhr.responseText, html: true, type: "error"});
+                      return false;
+                  }
+            });
+
+    });
+
+    $("#form-add-fastel").on('submit', (function (e) {
+          e.preventDefault();
+
+           var data = new FormData(this);
+        
+             $.ajax({
+              type: 'POST',
+              dataType: "json",
+              url: '<?php echo WS_JQGRID."schema.fastel_controller/addFastelSatuan"; ?>',
+              data: data,
+              timeout: 10000,
+              contentType: false, // The content type used when sending data to the server.
+              cache: false, // To unable request pages to be cached
+              processData: false,
+              success: function(response) {
+                if(response.success) {
+                    swal({title: 'Info', text:response.message, html: true, type: "info"});
+                    $('#fastelsatuan').val('');
+                    $('#grid-table-fastel_lov').trigger("reloadGrid");
+                    modal_lov_add_fastel_hide();
+
+                }else{
+                    swal({title: 'Attention', text: response.message, html: true, type: "warning"});
+                }
+              }
+
+            });
+
+              return false;
+          }
+    ));
+
+    $("#form-add-reason").on('submit', (function (e) {
+          e.preventDefault();
+
+           var data = new FormData(this);
+        
+             $.ajax({
+              type: 'POST',
+              dataType: "json",
+              url: '<?php echo WS_JQGRID."schema.fastel_controller/addReason"; ?>',
+              data: data,
+              timeout: 10000,
+              contentType: false, // The content type used when sending data to the server.
+              cache: false, // To unable request pages to be cached
+              processData: false,
+              success: function(response) {
+                if(response.success) {
+                    swal({title: 'Info', text:response.message, html: true, type: "info"});
+                    $('#reason').val('');
+                    modal_lov_add_reason_hide();
+
+                }else{
+                    swal({title: 'Attention', text: response.message, html: true, type: "warning"});
+                }
+              }
+
+            });
+
+              return false;
+          }
+    ));
 
     function modal_lov_detail_info_skema_show(account_num_lov,customer_ref,account_name,created_date_lov,schema_id) {
         //modal_lov_detail_info_skema_load_data(schema_id);
@@ -240,6 +349,7 @@ jQuery(function($) {
             mtype: "POST",
             colModel: [
                 {label: 'ID', name: 'fastel_id', key: true, width: 5, sorttype: 'number', editable: true, hidden: true},
+                {label: 'Batch ID', name: 'batch_id', width: 5, sorttype: 'number', editable: true, hidden: true},
                 {label: 'Nomor Fastel',name: 'p_notel',width: 150, align: "left",editable: true,
                     editoptions: {
                         size: 30,

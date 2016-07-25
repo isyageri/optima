@@ -8,7 +8,7 @@
                  </div>
              </div>
              <div class="portlet-body form">
-                <table  id="grid-basic" class="table table-striped table-bordered table-hover">
+                <table  id="grid-basic" class="table table-responsive table-striped table-bordered table-hover">
                     <thead>
                       <tr>
                         <?php 
@@ -18,7 +18,7 @@
                                 if($i == 0){
                                     echo "<th data-column-id=$dt data-visible='false'>".$rowH."</th>";
                                 }else{
-                                    echo "<th data-column-id=$dt >".$rowH."</th>";
+                                    echo "<th data-column-id=$dt data-width='120%'>".$rowH."</th>";
                                 }
                                 $i++;
                             }

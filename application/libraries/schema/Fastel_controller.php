@@ -275,5 +275,35 @@ class Fastel_controller {
         }
         return $data;
     }
+
+    function addReason() {
+        $ci = & get_instance();
+        $ci->load->model('schema/trx_control');
+        $table = $ci->trx_control;
+        $schema_id = getVarClean('schema_id', 'str', '');
+        $reason = getVarClean('reason', 'str', '');
+
+        $data = array('rows' => array(), 'page' => 1, 'records' => 0, 'total' => 1, 'success' => false, 'message' => '');
+        $items = getVarClean('items', 'str', '');
+
+        try{
+           $reason = $table->create_trx_control($schema_id, $reason);
+
+           if($reason){
+                 $data['success'] = true;
+                 $data['message'] = 'Data Berhasil Disimpan';
+           }else{
+                 $data['success'] = false;
+                 $data['message'] = 'Data Gagal Disimpan';
+           }
+
+        }catch (Exception $e) {
+            $data['success'] = false;
+            $data['message'] = $e->getMessage();
+        }
+
+        echo json_encode($data);
+        exit;
+    }
 }
 /* End of file Scema_controller.php */
