@@ -15,12 +15,11 @@ class Account extends Abstract_model {
 
                             );
 
-    public $selectClause    = 	"a.account_num, null as action, a.account_name, b.account_status, a.currency_code, 
+    public $selectClause    = 	"a.account_num, null as action, a.account_name, 'OK' as account_status, a.currency_code,
 								a.deposit_mny, c.end_dat, null as golivedtm, e.email_address as email, d.npwp as npwp,
 								RTRIM(f.address_1) || ' ' || RTRIM(f.address_2) || ' ' || RTRIM(f.address_3) || ' ' || RTRIM(f.address_4) || ' ' || RTRIM(f.address_5) as address
                                 ";
     public $fromClause      = "account a
-                                    INNER JOIN accountstatus b ON a.ACCOUNT_NUM = b.ACCOUNT_NUM
                                     INNER JOIN accountdetails c ON a.ACCOUNT_NUM = c.ACCOUNT_NUM
                                     INNER JOIN accountattributes d ON a.ACCOUNT_NUM = d.ACCOUNT_NUM
                                     INNER JOIN contactdetails e ON a.CUSTOMER_REF = e.CUSTOMER_REF
@@ -30,7 +29,7 @@ class Account extends Abstract_model {
 
     function __construct() {
         parent::__construct();
-        $this->db = $this->load->database('ccpbb', TRUE);
+        $this->db = $this->load->database('tosdb', TRUE);
         $this->db->_escape_char = ' ';
     }
 

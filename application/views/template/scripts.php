@@ -94,7 +94,7 @@
                 swal({title: "Error!", text: xhr.responseText, html: true, type: "error"});
             }
         });
-        return;
+        return false;
     }
 
     $(".nav-item").on('click', function(){

@@ -129,7 +129,7 @@ class Account_controller
                 $table->setCriteria("(upper(a.account_num) " . $table->likeOperator . " upper('%" . $searchPhrase . "%') OR upper(a.account_name) " . $table->likeOperator . " upper('%" . $searchPhrase . "%'))");
             }
 
-            $table->setCriteria("b.account_status = 'OK'");
+//            $table->setCriteria("b.account_status = 'OK'");
             $table->setCriteria("c.billing_contact_seq = e.contact_seq");
             $table->setCriteria("e.address_seq = f.address_seq");
             $table->setCriteria("c.end_dat is null");
@@ -411,7 +411,7 @@ class Account_controller
 
             // Filter Table
             $req_param['where'] = array(
-                "b.account_status = 'OK'",
+//                "b.account_status = 'OK'",
                 "c.billing_contact_seq = e.contact_seq",
                 "e.address_seq = f.address_seq",
                 "c.end_dat is null",
