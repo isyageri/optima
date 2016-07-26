@@ -271,7 +271,7 @@ jQuery(function($) {
             ],
             height: '100%',
             autowidth: false,
-            width:600,
+            width:850,
             viewrecords: true,
             rowNum: 10,
             rowList: [10,20,50],
@@ -295,7 +295,7 @@ jQuery(function($) {
                 if(response.success == false) {
                     swal({title: 'Attention', text: response.message, html: true, type: "warning"});
                 }
-                responsive_jqgrid('#grid-table-fastel_lov', '#grid-pager-fastel_lov');
+                // responsive_jqgrid('#grid-table-fastel_lov', '#grid-pager-fastel_lov');
             },
             //memanggil controller jqgrid yang ada di controller crud
             editurl: '<?php echo WS_JQGRID."schema.fastel_controller/crud"; ?>',
