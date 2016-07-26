@@ -194,11 +194,11 @@
           e.preventDefault();
 
            var data = new FormData(this);
-        
+           
              $.ajax({
               type: 'POST',
               dataType: "json",
-              url: '<?php echo WS_JQGRID."schema.fastel_controller/addFastelSatuan"; ?>',
+              url: '<?php echo WS_JQGRID."schema.fastel_controller/addFastel"; ?>',
               data: data,
               timeout: 10000,
               contentType: false, // The content type used when sending data to the server.
