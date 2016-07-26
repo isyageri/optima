@@ -10,7 +10,7 @@
             <i class="fa fa-circle"></i>
         </li>
         <li>
-            <span>Info Skema</span>
+            <span>Modifikasi Skema</span>
         </li>
     </ul>
 </div>
@@ -26,7 +26,7 @@
 <?php //$this->load->view('lov/lov_detail_skema.php'); ?>
 <?php //$this->load->view('lov/lov_info_fastel.php'); ?>
 <?php //$this->load->view('lov/lov_info_billing.php'); ?> 
-<?php $this->load->view('lov/lov_info_schema_ro.php'); ?>
+<?php $this->load->view('lov/lov_info_schema.php'); ?>
 
 <script>
     function showDetailSkema(discount_code) {
