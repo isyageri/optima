@@ -15,23 +15,23 @@
         <div class="tabbable-custom ">
         <ul class="nav nav-tabs ">
             <li class="active">
-                <a href="#tab_5_1" data-toggle="tab"> Info Account </a>
+                <a href="#tab_55_1" data-toggle="tab"> Info Account </a>
             </li>
             <li>
-                <a href="#tab_5_2" data-toggle="tab"> Fastel </a>
+                <a href="#tab_55_2" data-toggle="tab"> Fastel </a>
             </li>
             <li>
-                <a href="#tab_5_3" data-toggle="tab"> Trend & Tagihan</a>
+                <a href="#tab_55_3" data-toggle="tab"> Trend & Tagihan</a>
             </li>
             <li>
-                <a href="#tab_5_4" data-toggle="tab"> Skema Diskon</a>
+                <a href="#tab_55_4" data-toggle="tab"> Skema Diskon</a>
             </li>
             <li>
-                <a href="#tab_5_5" data-toggle="tab"> Contract</a>
+                <a href="#tab_55_5" data-toggle="tab"> Contract</a>
             </li>
         </ul>
         <div class="tab-content">
-            <div class="tab-pane active" id="tab_5_1">
+            <div class="tab-pane active" id="tab_55_1">
             <div class="row">
             
 
@@ -45,7 +45,7 @@
             <div class="col-md-6 ">
                 <div class="form-group form-md-line-input has-info">
                     <input type="text" class="form-control" id="nipnas_lov" readonly>
-                    <label for="form_control_1">nipnas_lov</label>
+                    <label for="form_control_1">NIPNAS</label>
                 </div>
             </div>
             <div class="col-md-6 ">
@@ -79,7 +79,8 @@
             </div>
                 
             </div>
-            <div class="tab-pane" id="tab_5_2">
+
+            <div class="tab-pane" id="tab_55_2">
                 <div class="row">
                   <div class="col-md-12">
                       <input id="addFastel" class="btn green-haze" type="button" value="Tambah Fastel">
@@ -93,7 +94,7 @@
                   </div>
               </div>
             </div>
-            <div class="tab-pane" id="tab_5_3">
+            <div class="tab-pane" id="tab_55_3">
              <div class="row">
                   <div class="col-md-12">
                       <h4> Trend & Tagihan </h4>
@@ -104,7 +105,7 @@
                
               
             </div>
-            <div class="tab-pane" id="tab_5_4">
+            <div class="tab-pane" id="tab_55_4">
                 <div class="row">
                   <div class="col-md-12">
                       <h4> Skema Pembayaran </h4>
@@ -114,7 +115,7 @@
                   </div>
               </div>
             </div>
-            <div class="tab-pane" id="tab_5_4">
+            <div class="tab-pane" id="tab_55_5">
                 <div class="row">
                   <div class="col-md-12">
                       <h4> Download Data Kontrak </h4>
