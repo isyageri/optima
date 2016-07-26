@@ -20,8 +20,19 @@
 		<div id="grid-pager-schema"></div>
 	</div>	
 </div>
-<?php $this->load->view('schema/detail_terminate_schema.php'); ?>
+<?php $this->load->view('lov/lov_trx.php'); ?>
+<?php $this->load->view('lov/lov_info_schema.php'); ?>
+<?php //.$this->load->view('schema/detail_terminate_schema.php'); ?>
 <script>
+function open_modal_trx(account_num_lov,customer_ref,account_name,created_date_lov,schema_id, created_by){
+
+    modal_lov_detail_terminate_skema_show(account_num_lov,customer_ref,account_name,created_date_lov,schema_id, created_by);
+}
+function open_modal_det(account_num_lov,customer_ref,account_name,created_date_lov,schema_id, created_by){
+
+    modal_lov_detail_info_skema_show(account_num_lov,customer_ref,account_name,created_date_lov,schema_id);
+}
+
 	jQuery(function($) {
         var grid_selector = "#grid-table-schema";
         var pager_selector = "#grid-pager-schema";
@@ -32,6 +43,8 @@
             mtype: "POST",
             colModel: [
                 {label: 'schema ID', name: 'schema_id', hidden: true},                
+                {label: 'created_date', name: 'created_date', hidden: true},                
+                {label: 'created_by', name: 'created_by', hidden: true},                
                 {label: 'Customer Name', name: 'customer_ref', hidden: false},                
                 {label: 'Account Number', name: 'account_num', hidden: false},                
                 {label: 'Account Name', name: 'account_name', hidden: false},                
@@ -39,8 +52,8 @@
                 {label: 'End Date', name: 'end_dat', hidden: false},                
                 {label: 'Disc Description', name: 'disc_description', hidden: false},                
                 {label: 'Detail | Terminate', name: 'dt', hidden: false,
-					formatter:	function(cellvalue, options, rowobject){
-						return '<i class="btn green btn-xs" id="lov-button-detail" data-toggle="modal" data-target="#detailModal">Details</i><i class="btn green btn-xs" onclick="swal_terminate()">Terminate</i>';
+					formatter:	function(cellvalue, options, rowObject){
+						return '<i class="btn green btn-xs" id="lov-button-detail" onclick="open_modal_det(\''+rowObject.account_num+'\',\''+rowObject.customer_ref+'\',\''+rowObject.account_name+'\',\''+rowObject.created_date+'\',\''+rowObject.schema_id+'\',\''+rowObject.created_by+'\')">Details</i><i class="btn green btn-xs" onclick="open_modal_trx(\''+rowObject.account_num+'\',\''+rowObject.customer_ref+'\',\''+rowObject.account_name+'\',\''+rowObject.created_date+'\',\''+rowObject.schema_id+'\',\''+rowObject.created_by+'\')">Terminate</i>';
 					}
 				}
             ],

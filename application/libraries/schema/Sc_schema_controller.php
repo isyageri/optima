@@ -843,7 +843,7 @@ class Sc_schema_controller {
             $TAB_CONTENT_SECTION .= '</tr>';
             $TAB_CONTENT_SECTION .= '</table>';
 
-                $skema_discount =  $table->getListSkemaPembayaran($trend, $operator, $kuadran, $item['id']);
+                $skema_discount =  $table->getListSkemaPembayaran($trend, $operator, $kuadran, $item['id'], '');
 
                 $TH_VAL_SECTION = '';
                 foreach ($skema_discount as $key ) {
@@ -1007,7 +1007,7 @@ class Sc_schema_controller {
             $TAB_CONTENT_SECTION .= '</tr>';
             $TAB_CONTENT_SECTION .= '</table>';
 
-                $skema_discount =  $table->getListSkemaPembayaran($trend, $operator, $kuadran, $item['id']);
+                $skema_discount =  $table->getListSkemaPembayaran($trend, $operator, $kuadran, $item['id'], '');
 
                 $TH_VAL_SECTION = '';
                 foreach ($skema_discount as $key ) {
@@ -1181,7 +1181,7 @@ class Sc_schema_controller {
             $TAB_CONTENT_SECTION .= '</tr>';
             $TAB_CONTENT_SECTION .= '</table>';
 
-                $skema_discount =  $table->getListSkemaPembayaran($trend, $operator, $kuadran, $item['id']);
+                $skema_discount =  $table->getListSkemaPembayaran($trend, $operator, $kuadran, $item['id'], '');
 
                 $TH_VAL_SECTION = '';
                 foreach ($skema_discount as $key ) {
@@ -1769,16 +1769,16 @@ echo $TAB_EXCEL;
     function terminate_schema(){
 
         $ci = & get_instance();
-        $ci->load->model('schema/sc_schema');
-        $table = $ci->sc_schema;
+        $ci->load->model('schema/trx_control');
+        $table = $ci->trx_control;
 
         $schema_id = getVarClean('schema_id','str','');
         $notes = getVarClean('notes','str','');
 
         try{
-            $items = $table->terminate_schema($schema_id, 'terminate');
-
+            $table->create_trx_control_terminate($schema_id, $notes);
             $data['success'] = true;
+            $data['message'] = 'Permintaan Terminate Skema Berhasil Dibuat .. ';
         }catch (Exception $e) {
             $data['message'] = $e->getMessage();
         }

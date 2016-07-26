@@ -36,7 +36,7 @@ class Terminasi_schema_controller {
             );
 
             // Filter Table
-            $req_param['where'] = array();
+            $req_param['where'] = array("status = 'ACTIVE' ");
 
             $table->setJQGridParam($req_param);
             $count = $table->countAll();

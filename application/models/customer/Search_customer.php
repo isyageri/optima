@@ -59,7 +59,8 @@ class Search_customer extends Abstract_model {
     function get_hierarchy($customer_ref){
       
         $sql = "
-             SELECT *
+             
+SELECT *
            FROM (SELECT 'C_' || cust.customer_ref AS ID, 1 AS CODE,
                            'C|'
                         || cust.customer_ref
@@ -73,7 +74,7 @@ class Search_customer extends Abstract_model {
                         || cont.address_name AS nodeLabel,
                         '' AS PAGE_FILE, '' AS XX
                    FROM customer cust, contact cont
-                  WHERE cust.customer_ref = '$customer_ref'
+                  WHERE cust.customer_ref ='$customer_ref'
                     AND cust.customer_ref = cont.customer_ref
                     AND cust.customer_contact_seq = cont.contact_seq
                  UNION ALL
@@ -145,9 +146,8 @@ class Search_customer extends Abstract_model {
                         || TRIM (conta.address_name)
                         || '|'
                         || CASE
-                              WHEN (get_product_status (cp.customer_ref,
-                                                        cp.product_seq,
-                                                        'TX'
+                              WHEN (get_product_status (cp.customer_ref, cp.product_seq,
+'TX'
                                                        ) <= SYSDATE
                                    )
                                  THEN 'TX'
@@ -180,27 +180,27 @@ class Search_customer extends Abstract_model {
                                    )
                         || ')' AS nodeLabel,
                         ' ' AS PAGE_FILE, ' ' AS XX
-                   FROM  geneva_admin.custhasproduct chp,
-                         geneva_admin.custproducttariffdetails cp,
-                         geneva_admin.custeventsource ce,
-                         geneva_admin.product prd,
-                         geneva_admin.tariff t,
-                        geneva_admin.cataloguechange cc,
-                         geneva_admin.customer cust,
-                         geneva_admin.contact cont,
-                         geneva_admin.accountdetails acd,
-                         geneva_admin.contact conta
+                   FROM  geneva_admin_npots.custhasproduct chp,
+                         geneva_admin_npots.custproducttariffdetails cp,
+                         geneva_admin_npots.custeventsource ce,
+                         geneva_admin_npots.product prd,
+                         geneva_admin_npots.tariff t,
+                        geneva_admin_npots.cataloguechange cc,
+                         geneva_admin_npots.customer cust,
+                         geneva_admin_npots.contact cont,
+                         geneva_admin_npots.accountdetails acd,
+                         geneva_admin_npots.contact conta
                   WHERE chp.CUSTOMER_REF = cp.CUSTOMER_REF
                     AND chp.PRODUCT_SEQ = cp.PRODUCT_SEQ
                     AND cp.CUSTOMER_REF = ce.CUSTOMER_REF
                     AND cp.PRODUCT_SEQ = ce.PRODUCT_SEQ
                     AND cp.START_DAT =
                            (SELECT MAX (start_dat)
-                              FROM geneva_admin.custproducttariffdetails xx
+                              FROM geneva_admin_npots.custproducttariffdetails xx
                              WHERE cp.customer_ref = xx.customer_ref
                                AND cp.product_seq = xx.product_seq)
                     AND chp.PRODUCT_ID = prd.PRODUCT_ID
-                    AND cp.customer_ref = '$customer_ref'
+                    AND cp.customer_ref =  '$customer_ref'
                     AND cp.TARIFF_ID = t.TARIFF_ID
                     AND t.CATALOGUE_CHANGE_ID = cc.CATALOGUE_CHANGE_ID
                     AND cc.CATALOGUE_STATUS = 3

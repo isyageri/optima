@@ -79,6 +79,53 @@ class Trx_control extends Abstract_model {
         }
     }
 
+    function create_trx_control_terminate($data_id, $reason){
+        $ci =& get_instance();
+        $userinfo = $ci->ion_auth->user()->row();
+        $username = $userinfo->username;
+
+        $trx_id = $this->generate_id('TRX_CONTROL');
+
+        try {
+            $cust_order_id = $this->create_customer_order();
+            // $data_id = $this->input->post('schema_id');
+            // $reason =  $this->input->post('reason');
+            $status =  1;
+            $trx_name = 'TERMINATE_SCHEMA_ACCOUNT';
+
+            $sql ="INSERT INTO TRX_CONTROL (TRX_ID, 
+                                            DATA_ID, 
+                                            CREATED_BY, 
+                                            CREATED_DATE, 
+                                            STATUS, 
+                                            REASON, 
+                                            T_CUSTOMER_ORDER_ID, 
+                                            TRX_NAME)
+                    VALUES (".$trx_id.",
+                            '".$data_id."',
+                            '".$username."',
+                            SYSDATE,
+                            '".$status."',
+                            '".$reason."',
+                            ".$cust_order_id.",
+                            '".$trx_name."'
+                            )";
+
+             $this->db->query($sql);
+
+            $submit = $this->submitWF($cust_order_id, 5);
+            if($submit){
+                return true;    
+            }else{
+                return false;
+            }
+            
+
+        } catch (Exception $e) {
+            return false;
+        }
+    }
+
     function create_customer_order(){
         $ci =& get_instance();
         $userinfo = $ci->ion_auth->user()->row();

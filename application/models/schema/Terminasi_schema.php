@@ -15,8 +15,8 @@ class Terminasi_schema extends Abstract_model {
 							  );
 
     public $selectClause    = 	"schema_id, a.customer_ref, a.account_num, 
-								b.account_name, start_dat, end_dat, 
-								c.disc_description , 'detail | terminate' as dt";
+								b.account_name, start_dat, end_dat, a.created_by, a.created_date, 
+								c.disc_description , status, 'detail | terminate' as dt";
     public $fromClause      = "sc_schema a 
 								inner join geneva_admin_npots.account b 
 									ON a.customer_ref = b.customer_ref AND a.account_num = b.account_num

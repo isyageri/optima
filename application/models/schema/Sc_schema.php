@@ -153,7 +153,7 @@ class Sc_schema extends Abstract_model {
 
 
     // function getListSkemaPembayaran($discount_code = "") {
-    function getListSkemaPembayaran($trend, $operator, $kuadran, $model) {
+    function getListSkemaPembayaran($trend, $operator, $kuadran, $model, $discount_code) {
 
         // $sql = "select * from v_business_schem_list";
         $sql = "select * from V_BS_SCHEM_LIST
@@ -420,39 +420,41 @@ class Sc_schema extends Abstract_model {
         return $row['total'];
     }
 
-    function trx_initiate($schema_id, $param ){
+    function trx_initiate($schema_id, $param, $note ){
         $ci =& get_instance();
         $userinfo = $ci->ion_auth->user()->row();
         $username = $userinfo->username;
-        $tosdb = $this->load->database('default', TRUE);
-        $tosdb->_escape_char = ' ';
 
-        $cust_order_id = $this->generate_id('T_CUSTOMER_ORDER');
+        $optimal = $this->load->database('default', TRUE);
 
-        $sql = "INSERT INTO TRX_CONTROL (  T_CUSTOMER_ORDER_ID,
-                                                ORDER_NO,
-                                                P_RQST_TYPE_ID,
-                                                P_ORDER_STATUS_ID,
-                                                ORDER_DATE,
-                                                CREATION_DATE,
-                                                CREATED_BY,
-                                                UPDATED_DATE,
-                                                UPDATED_BY )
-                    VALUES (".$cust_order_id.",
-                            LPAD(T_CUSTOMER_ORDER_SEQ.NEXTVAL, 10, '0'),
-                            1,
-                            1,
-                            SYSDATE,
-                            SYSDATE,
+         $sql = "select count(*) + 1 total
+                from TRX_CONTROL";
+        $query = $optimal->db->query($sql);
+        $row = $query->row_array();
+
+        $trx_id = 'TRMSCHM-'.date('Ymd').'-'.$row['total'];
+
+        $sql = "INSERT INTO TRX_CONTROL (  TRX_ID,
+                                           DATA_ID,
+                                           CREATED_BY,
+                                           CREATED_DATE,
+                                           STATUS,
+                                           REASON,
+                                           T_CUSTOMER_ORDER_ID,
+                                           TRX_NAME )
+                    VALUES ('".$trx_id."',
+                            '".$schema_id."',
                             '".$username."',
-                            SYSDATE,
-                            '".$username."'
+                            sysdate,
+                            1,
+                            '".$note."',
+                            ".$cust_order_id.",
+                            'TERMINATE_SKEMA'
                 )";
-         $sql = "select count(*) total
-                from sc_schema
-                where account_num = '".$account_num."' 
-                and end_dat > sysdate";
-        $query = $this->db->query($sql);
+        $query = $optimal->db->query($sql);
+
+        $this->submitWF($cust_order_id, $doc_type_id=1);
+
     }
 
 }

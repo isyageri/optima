@@ -598,7 +598,7 @@ jQuery(function($) {
 
     function responsive_jqgrid(grid_selector, pager_selector) {
         var parent_column = $(grid_selector).closest('[class*="col-"]');
-        $(grid_selector).jqGrid( 'setGridWidth', $(".tab-content").width() );
+        $(grid_selector).jqGrid( 'setGridWidth', $(".tab-pane").width() );
         $(pager_selector).jqGrid( 'setGridWidth', parent_column.width() );
     }
 </script>
