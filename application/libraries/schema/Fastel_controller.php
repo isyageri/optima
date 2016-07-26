@@ -352,7 +352,7 @@ class Fastel_controller {
             $datainsert[$loop]['flag'] = null;
             $datainsert[$loop]['batch_id'] = $batch_id;
             $datainsert[$loop]['schema_id'] = $schema_id;
-            $datainsert[$loop]['status'] = 'TMP';
+            $datainsert[$loop]['status_notel'] = 'TMP';
 
             $table->db->delete($table->table, array('schema_id' => $schema_id,'batch_id' => $batch_id,'p_notel' => $notel )); 
             
