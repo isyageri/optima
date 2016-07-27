@@ -975,7 +975,6 @@ class Wf_controller {
 
                 // Do Upload
                 $data = $ci->upload->data();
-                chmod($data['file_name'], 777);
 
                 $idd = $table->generate_id('T_CUST_ORDER_LEGAL_DOC');
 
