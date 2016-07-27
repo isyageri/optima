@@ -22,7 +22,7 @@
             <div class="portlet box green ">
                 <div class="portlet-title">
                     <div class="caption">
-                        <i class="fa fa-gift"></i> Tambah Account
+                        <i class="fa fa-gift"></i> List Account
                     </div>
                     <div class="tools">
                         <a href="" class="collapse" data-original-title="" title="">
@@ -34,7 +34,7 @@
                         <div class="form-body">
                             <div class="row">
                                 <div class="col-md-1">
-                                    <button type="submit" class="btn green" id="btn-add-account">Tambah Account</button>
+                                    <a href="#" class="btn green" id="btn-add-account">Tambah Account</a>
                                 </div>
                             </div>
                             <div class="space-4"></div>
