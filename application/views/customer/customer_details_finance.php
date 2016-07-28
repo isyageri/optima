@@ -89,7 +89,8 @@ $(function($) {
             loadContentWithParams("customer.customer_details", {
 				celval:"<?php echo $this->input->post('celval') ?>",
 				celprodseq:"<?php echo $this->input->post('celprodseq') ?>",
-				tariff_id: "<?php echo $this->input->post('tariff_id') ?>"				
+				tariff_id: "<?php echo $this->input->post('tariff_id') ?>",
+				accountNum: "<?php echo $this->input->post('accountNum') ?>"
             });
         });
 

@@ -134,7 +134,12 @@ $(document).ready(function(){
             });
         });
 
-        $("#tab-3").on( "click", function() { 
-            return false;
+        $("#tab-3").on( "click", function() {
+			loadContentWithParams("customer.customer_details_fastel", {
+				celval:"<?php echo $this->input->post('celval') ?>",
+				celprodseq:"<?php echo $this->input->post('celprodseq') ?>",
+				tariff_id: $('#tariff_id').val(),
+				accountNum: $('#noacc').val()
+			});
         });
 </script>

@@ -7,10 +7,10 @@
 			<li id="tab-1">
 				<a data-toggle="tab"> Informasi </a>
 			</li>
-			<li id="tab-2" class="active">
+			<li id="tab-2">
 				<a data-toggle="tab"> Threshold </a>
 			</li>
-			<li id="tab-3">
+			<li id="tab-3" class="active">
 				<a data-toggle="tab"> Fastel </a>
 			</li>
         </ul>
@@ -27,25 +27,21 @@
 </div>
 
 <script>
-$(function($) {
         $("#tab-2").on( "click", function() { 
-            var grid = $('#grid-table-prebill');
-            selRowId = grid.jqGrid ('getGridParam', 'selrow');
-
-            var idd = grid.jqGrid ('getCell', selRowId, 'p_finance_period_id');
-            var code = grid.jqGrid ('getCell', selRowId, 'finance_period_code');
-
-            if(selRowId == null) {
-                swal("Informasi", "Silahkan Pilih Salah Satu Baris Data", "info");
-                return false;
-            }
-
-            loadContentWithParams("customer.customer_details_2", {
-            });
+            loadContentWithParams("customer.customer_details_finance", {
+			celval:"<?php echo $this->input->post('celval') ?>",
+			celprodseq:"<?php echo $this->input->post('celprodseq') ?>",
+			tariff_id: "<?php echo $this->input->post('tariff_id') ?>",
+			accountNum: "<?php echo $this->input->post('accountNum') ?>"
+			});
         });
 
-        $("#tab-3").on( "click", function() { 
-            return false;
+        $("#tab-1").on( "click", function() { 
+            loadContentWithParams("customer.customer_details", {
+			celval:"<?php echo $this->input->post('celval') ?>",
+			celprodseq:"<?php echo $this->input->post('celprodseq') ?>",
+			tariff_id: "<?php echo $this->input->post('tariff_id') ?>",
+			accountNum: "<?php echo $this->input->post('accountNum') ?>"
         });
     });
 	
