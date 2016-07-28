@@ -464,6 +464,96 @@ class Search_customer_controller {
 
 
     }
+	
+	public function viewInformasiSchema(){		
+		$ci = & get_instance();
+		$ci->load->model('customer/search_customer');
+		$table = $ci->search_customer;
+
+		$cust_ref = getVarClean('celval','int',0);		
+		$prodseq = getVarClean('celprodseq','int',0);		
+		$CUSTOMER_REF = $cust_ref;
+		$P_PRODSEQ = $prodseq;
+
+		$curs = oci_new_cursor($table->db->conn_id);
+		$sql = 	"BEGIN SINIRBQUERY.GETDATASCHEMA ( :P_ACCOUNTNUM, :P_PRODSEQ, :POUT_RESULT ); END;";	
+		$stid = oci_parse($table->db->conn_id, $sql);
+		oci_bind_by_name($stid, ':P_ACCOUNTNUM', $CUSTOMER_REF, 255);				
+		oci_bind_by_name($stid, ':P_PRODSEQ', $P_PRODSEQ, 255);				
+		oci_bind_by_name($stid, ":POUT_RESULT", $curs, -1, OCI_B_CURSOR);
+		
+		oci_execute($stid);
+		oci_execute($curs, OCI_DEFAULT);		
+		oci_fetch_all($curs, $data, null, null, OCI_FETCHSTATEMENT_BY_ROW);		
+		echo json_encode($data);
+        exit;
+	}
+	
+	public function viewThresholdSchema(){		
+		$ci = & get_instance();
+		$ci->load->model('customer/search_customer');
+		$table = $ci->search_customer;
+
+		$cust_ref = getVarClean('celval','int',0);		
+		$prodseq = getVarClean('celprodseq','int',0);		
+		$CUSTOMER_REF = $cust_ref;
+		$P_PRODSEQ = $prodseq;
+
+		$curs = oci_new_cursor($table->db->conn_id);
+		$sql = 	"BEGIN SINIRBQUERY.getThreshold ( :P_ACCOUNTNUM, :P_PRODSEQ, :POUT_RESULT ); END;";	
+		$stid = oci_parse($table->db->conn_id, $sql);
+		oci_bind_by_name($stid, ':P_ACCOUNTNUM', $CUSTOMER_REF, 255);				
+		oci_bind_by_name($stid, ':P_PRODSEQ', $P_PRODSEQ, 255);				
+		oci_bind_by_name($stid, ":POUT_RESULT", $curs, -1, OCI_B_CURSOR);
+		
+		oci_execute($stid);
+		oci_execute($curs, OCI_DEFAULT);		
+		oci_fetch_all($curs, $data, null, null, OCI_FETCHSTATEMENT_BY_ROW);		
+		echo json_encode($data);
+        exit;
+	}
+	
+	public function viewEventDiscount(){		
+		$ci = & get_instance();
+		$ci->load->model('customer/search_customer');
+		$table = $ci->search_customer;
+
+		$tariffvalue = getVarClean('tariffVal','int',0);				
+		$PIN_TARIFFID = $tariffvalue;
+
+		$curs = oci_new_cursor($table->db->conn_id);
+		$sql = 	"BEGIN SINIRBQUERY.GETEVENTDISCOUNT ( :PIN_TARIFFID, :POUT_RESULT ); END;";	
+		$stid = oci_parse($table->db->conn_id, $sql);						
+		oci_bind_by_name($stid, ':PIN_TARIFFID', $PIN_TARIFFID, 255);				
+		oci_bind_by_name($stid, ":POUT_RESULT", $curs, -1, OCI_B_CURSOR);
+		
+		oci_execute($stid);
+		oci_execute($curs, OCI_DEFAULT);		
+		oci_fetch_all($curs, $data, null, null, OCI_FETCHSTATEMENT_BY_ROW);		
+		echo json_encode($data);
+        exit;
+	}
+	
+	public function viewFastel(){		
+		$ci = & get_instance();
+		$ci->load->model('customer/search_customer');
+		$table = $ci->search_customer;
+
+		$accountNum = getVarClean('accountNum','int',0);				
+		$PIN_ACCOUNTNUM = $accountNum;
+
+		$curs = oci_new_cursor($table->db->conn_id);
+		$sql = 	"BEGIN SINIRBQUERY.GETDATAREF ( :PIN_ACCOUNTNUM, :POUT_RESULT ); END;";	
+		$stid = oci_parse($table->db->conn_id, $sql);						
+		oci_bind_by_name($stid, ':PIN_ACCOUNTNUM', $PIN_ACCOUNTNUM, 255);				
+		oci_bind_by_name($stid, ":POUT_RESULT", $curs, -1, OCI_B_CURSOR);
+		
+		oci_execute($stid);
+		oci_execute($curs, OCI_DEFAULT);		
+		oci_fetch_all($curs, $data, null, null, OCI_FETCHSTATEMENT_BY_ROW);		
+		echo json_encode($data);
+        exit;
+	}
 
 
 }
