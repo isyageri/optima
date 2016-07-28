@@ -50,6 +50,10 @@
 <script src="<?php echo base_url(); ?>assets/global/plugins/jquery-validation/js/additional-methods.min.js" type="text/javascript"></script>
 <script src="<?php echo base_url(); ?>assets/global/plugins/bootstrap-wizard/jquery.bootstrap.wizard.min.js" type="text/javascript"></script>
 
+<script src="<?php echo base_url(); ?>assets/global/plugins/jstree/dist/jstree.min.js" type="text/javascript"></script>
+<script src="<?php echo base_url(); ?>assets/pages/scripts/ui-tree.min.js" type="text/javascript"></script>
+
+
 <script src="<?php echo base_url(); ?>assets/global/plugins/bootstrap-switch/js/bootstrap-switch.min.js" type="text/javascript"></script>
 
 <script src="<?php echo base_url(); ?>assets/js/optimal.js"></script>

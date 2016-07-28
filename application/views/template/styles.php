@@ -36,6 +36,7 @@
 <link rel="stylesheet" href="<?php echo base_url(); ?>assets/css/bootstrap-timepicker.css" />
 <link rel="stylesheet" href="<?php echo base_url(); ?>assets/css/daterangepicker.css" />
 <link rel="stylesheet" href="<?php echo base_url(); ?>assets/css/bootstrap-datetimepicker.css" />
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/jstree/3.0.9/themes/default/style.min.css" />
 
 <link href="<?php echo base_url(); ?>assets/css/simplePagination.css" rel="stylesheet" type="text/css"/>
 
