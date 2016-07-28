@@ -1,11 +1,9 @@
 <!-- breadcrumb -->
 <style>
-.modal {
-    /* new custom width */
-	width:1060px;
-    /* must be half of the width, minus scrollbar on the left (30px) width: 560px;*/
-	margin-left:560px;
-    
+body .modal {
+  width: 900px;
+  margin-left: -450px;
+  horizontal-align: middle;
 }
 </style>
 <link href="<?php echo base_url(); ?>assets/global/plugins/jstree/dist/themes/default/style.min.css" rel="stylesheet" type="text/css" />
@@ -83,145 +81,118 @@
 	</div>
 </div>
 <div class="space-4"></div>
-
-<div class="col-md-12">
- <div class="portlet light bordered">
-                                <div class="portlet-title">
-                                    <div class="caption">
-                                        <i class="icon-social-dribbble font-blue-sharp"></i>
-                                        <span class="caption-subject font-blue-sharp bold uppercase">Customer Hierarcy</span>
-                                    </div>
-                                </div>
-                                <div class="portlet-body" id="content_tree_js">
-                <div id="tree_1" class="tree-demo">
-
+	<div class="col-md-12">
+		<div class="portlet light bordered">
+				<div class="portlet-title">
+					<div class="caption">
+						<i class="icon-social-dribbble font-blue-sharp"></i>
+						<span class="caption-subject font-blue-sharp bold uppercase">Customer Hierarcy</span>
+					</div>
+				</div>
+			<div class="portlet-body" id="cosntent_tree_js">
+                <div id="treeviews">
+					<div id="container" class="tree-demo">
+						<ul>
+							<li id="data"> Data								
+							</li>
+						</ul>
+					</div>									
                 </div>
-</div>
-</div>
-</div>
+			</div>
+		</div>
+	</div>
 <div class="row" id="customer_details">
-	
 
-
-<div class="space-4"></div>
-	<!-- Trigger the modal with a button -->
-	<button type="button" id="btbt" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">Open Modal</button>
-	
-	<!-- Modal -->
-	<div id="treeModal" class="modal fade" role="dialog">
-	<div class="modal-dialog">
-	
-		<!-- Modal content-->
-		<div class="modal-content">
-		<div class="modal-header">
-			<button type="button" class="close" data-dismiss="modal">&times;</button>
-			<h4 class="modal-title">Modal Header</h4>
+	<div class="space-4"></div>
+		<!-- Trigger the modal with a button -->
+		<button type="button" id="btbt" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">Open Modal</button>
+		
+		<!-- Modal -->
+		<div id="treeModal" class="modal fade" role="dialog">
+			<div class="modal-dialog">
+			
+				<!-- Modal content-->
+				<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+					<h4 class="modal-title">Modal Header</h4>
+				</div>
+				<div class="modal-body">
+					<div class="col-md-12">
+						<div class="tabbable tabbable-tabdrop">
+							<ul class="nav nav-tabs">
+								<li class="active">
+									<a data-toggle="tab"> Informasi </a>
+								</li>
+								<li id="tab-22">
+									<a data-toggle="tab"> Threshold </a>
+								</li>
+								<li id="tab-322">
+									<a data-toggle="tab"> Fastel </a>
+								</li>
+							</ul>
+							<div class="tab-content">
+								<div class="tab-pane active">
+									<table id="grid-table-prebill"></table>
+									<div id="grid-pager-prebill"></div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+				</div>
+				</div>
+			
+			</div>
 		</div>
-		<div class="modal-body">
-                            <div class="portlet light bordered">
-                                <div class="portlet-title">
-                                    <div class="caption">
-                                        <i class="icon-social-dribbble font-blue-sharp"></i>
-                                        <span class="caption-subject font-blue-sharp bold uppercase">Default Tree</span>
-                                    </div>
-                                    <div class="actions">
-                                        <a class="btn btn-circle btn-icon-only btn-default" href="javascript:;">
-                                            <i class="icon-cloud-upload"></i>
-                                        </a>
-                                        <a class="btn btn-circle btn-icon-only btn-default" href="javascript:;">
-                                            <i class="icon-wrench"></i>
-                                        </a>
-                                        <a class="btn btn-circle btn-icon-only btn-default" href="javascript:;">
-                                            <i class="icon-trash"></i>
-                                        </a>
-                                    </div>
-                                </div>
-                                <div class="portlet-body">
-                                    <div id="tree_1" class="tree-demo">
-                                        <ul>
-                                            <li> Data
-                                                <ul>
-                                                    <li data-jstree='{ "selected" : true }'>
-                                                        <a href="javascript:;"> 8000000127 - PT. ESSAR INDONESIA </a>
-                                                        <ul>
-                                                            <li data-jstree='{ "selected" : false }'>
-                                                                <a href="javascript:;"> 8000000127 - PT. ESSAR INDONESIA </a>
-                                                                 <ul>
-                                                                    <li data-jstree='{ "type" : "file" }'>
-                                                                     <a href="javascript:;"> PSTN Wholesale - 8000000127_8000000127_2 - 8000000127 ( 01/06/2011 - 01/01/2014) </a>
-                                                                    </li>
-                                                                     <li data-jstree='{ "type" : "file" }'>
-                                                                     <a href="javascript:;"> PSTN Wholesale - 8000000127_8000000127_2 - 8000000127 ( 01/06/2011 - 01/01/2014) </a>
-                                                                    </li>
-                                                                     <li data-jstree='{ "type" : "file" }'>
-                                                                     <a href="javascript:;"> PSTN Wholesale - 8000000127_8000000127_2 - 8000000127 ( 01/06/2011 - 01/01/2014) </a>
-                                                                    </li>
-                                                                 </ul>
-                                                             </li>
-                                                        </ul>
-                                                    </li>
-                                                    </ul>
-                                                </ul>
-                                    </div>
-                                </div>
-                            </div>
-		</div>
-		<div class="modal-footer">
-			<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-		</div>
-		</div>
-	
-	</div>
-	</div>
- <?php //$this->load->view('customer/customer_details.php'); ?>
-</div>
+	</div>	
 <script src="<?php echo base_url(); ?>assets/global/plugins/select2/js/select2.full.min.js" type="text/javascript"></script>
  <script src="<?php echo base_url(); ?>assets/global/plugins/jstree/dist/jstree.min.js" type="text/javascript"></script>
         <!-- END PAGE LEVEL PLUGINS -->
         <!-- BEGIN PAGE LEVEL SCRIPTS -->
         <script src="<?php echo base_url(); ?>assets/pages/scripts/ui-tree.min.js" type="text/javascript"></script>
-<script>
+<script>	
 	// $(function(){
 		// $('#container').jstree();
 	// });
-	function get_node_tree(customer_ref){
+	// function get_node_tree(customer_ref){
 
-         $.ajax({
-                type: "POST",
-                url: "<?php echo WS_JQGRID.'customer.search_customer_controller/get_data_hierarcy'; ?>",
-                data: { customer_ref:customer_ref},
-                success: function (data) {
-                 $('#tree_1').html('');
-                 $('#tree_1').html(data);
-                 $('#tree_1').jstree({
-                    "core" : {
-                        "themes" : {
-                            "responsive": false
-                        }            
-                    },
-                    "types" : {
-                        "default" : {
-                            "icon" : "fa fa-folder icon-state-warning icon-lg"
-                        },
-                        "file" : {
-                            "icon" : "fa fa-file icon-state-warning icon-lg"
-                        }
-                    },
-                    "plugins": ["types"]
-                });
-            }
-         });
+         // $.ajax({
+                // type: "POST",
+                // url: "<?php echo WS_JQGRID.'customer.search_customer_controller/get_data_hierarcy'; ?>",
+                // data: { customer_ref:customer_ref},
+                // success: function (data) {
+                 // $('#tree_1').html('');
+                 // $('#tree_1').html(data);
+                 // $('#tree_1').jstree({
+                    // "core" : {
+                        // "themes" : {
+                            // "responsive": false
+                        // }            
+                    // },
+                    // "types" : {
+                        // "default" : {
+                            // "icon" : "fa fa-folder icon-state-warning icon-lg"
+                        // },
+                        // "file" : {
+                            // "icon" : "fa fa-file icon-state-warning icon-lg"
+                        // }
+                    // },
+                    // "plugins": ["types"]
+                // });
+            // }
+         // });
 
-    }
+    // }
+	
 	$(document).ready(function(){
 		$('#customer_details').hide();
-		$('#treeviews').show();
+		$('#treeviews').hide();
 		$('#btbt').hide();
 		// UITree.init();
 	});
-	function ss(){
-		console.log('"text" : "A"');
-	};
 	$('#findFilter').click(function(){
 		if( $('#form_reference').val().length >0 ){
 			var grid_id = $("#grid-table");
@@ -249,10 +220,16 @@
 	// $('#dat').click(function(){
 		// alert();
 	// });
-	
-	function dats(x){
-		alert($('#dat'+x).val());
-		alert($('#dat'+x).text());
+	function dats(x, y){
+		loadContentWithParams("customer.customer_details", {
+				celval:x,
+				celprodseq:y
+            });
+		// $('#treeModal').modal('show');
+		// alert($('#dat'+x).val());
+		// alert($('#dat'+x).text());
+		
+		
 	};
     jQuery(function($) {
         var grid_selector = "#grid-table";
@@ -283,10 +260,10 @@
             shrinkToFit: true,
             multiboxonly: true,
             onSelectRow: function (rowid) {
-                var customer_ref = $('#grid-table').jqGrid('getCell', rowid, 'CUSTOMER_REF');
-                get_node_tree(customer_ref);
+                // var customer_ref = $('#grid-table').jqGrid('getCell', rowid, 'CUSTOMER_REF');
+                // get_node_tree(customer_ref);
 
-              /*  var celValue = $('#grid-table').jqGrid('getCell', rowid, 'CUSTOMER_REF');
+                var celValue = $('#grid-table').jqGrid('getCell', rowid, 'CUSTOMER_REF');
 				if (rowid != null){
 					$.ajax({
 						// async: false,
@@ -297,7 +274,7 @@
 						success: function (data) {
 							var items = jQuery.parseJSON(data);
 							//Node teratas
-							var ix = 0; var dataTreeLeaves =  [];
+							var ix = 0; var dataTreeLeaves = [];
 							 while (ix < items.length){
 								if(items[ix].parentNode == -1){
 									data_1 = items[ix].nodeLabel;									
@@ -321,55 +298,20 @@
 								};
 								ix++;
 							}
-							// alert(data_2);
-							// $("#data").val(data_1);
-							// $("#data").text(data_1);
-							// $("#data_2").html(data_2);
 							$("#data").append("<ul><li>"+data_1+"<ul><li id='data_2'>"+data_2+"</li></ul></li></ul>");
 							$("#data_2").append("<ul class='leaves'></ul>");
 							while(x < datS){								
-								$(".leaves").append("<li><a id='dat"+x+"'  onclick=dats("+ x +") value="+ x +">"+ dataTreeLeaves[x] +"</a></li>");
+								$(".leaves").append("<li><a id='dat"+x+"'  onclick=dats("+ $('#form_reference').val() +","+ x+1 +") value="+ $('#form_reference').val() +">"+ dataTreeLeaves[x] +"</a></li>");
 								x++;
 							};							
 							$(function(){
 								$('#container').jstree();
 							});
-							// $(function() {
-								// $('#container').jstree({
-									// 'core' : {
-									// 'data' : [
-										// {
-											// "text" : "DATA",
-											// "state" : {"opened" : true },
-											// "children" : [
-												// {
-													// "text" : data_1,
-													// "state" : { "selected" : true },
-													// "children" : [
-														// {
-															// "text" : data_2,
-															// "children" : 
-															// [
-																 // ss()
-																// while(x <= datS){
-																	// console.log("text" : dataTreeLeaves[datS];)
-																	// x++;
-																// }
-															// ]															
-														// }
-													// ]
-												// }
-											// ]
-										// }
-									// ]
-									// }
-								// });
-							// });
 							$('#treeviews').show(1000);
-							$('#treeModal').modal('show');
+							// $('#treeModal').modal('show');
 						}
 					});
-				}*/
+				}
             },
             sortorder:'',
             pager: '#grid-pager',

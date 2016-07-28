@@ -14,45 +14,6 @@
 				<a data-toggle="tab"> Fastel </a>
 			</li>
         </ul>
-		<div>
-			<div class="portlet light bordered">
-				<div class="row">
-					<form class="form-horizontal">
-					<div class="col-md-5">
-						<div class="form-group">
-							<div class="col-md-1"></div>
-							<label class="col-md-3 control-label">Commitment</label>
-							<div class="col-md-8">
-								<input type="text" class="form-control" id="commitment_id">
-							</div>
-						</div>
-						<div class="form-group">
-							<div class="col-md-1"></div>
-							<label class="col-md-3 control-label">Allowance</label>
-							<div class="col-md-8">
-								<input type="text" class="form-control" id="allowance_id">
-							</div>
-						</div>					
-					</div>
-					<div class="col-md-5">
-						<div class="form-group">
-							<div class="col-md-1"></div>
-							<label class="col-md-3 control-label">Discount</label>
-							<div class="col-md-8">
-								<input type="text" class="form-control" id="discount_id">
-							</div>
-						</div>
-						<div class="form-group">
-							<div class="col-md-1"></div>
-							<label class="col-md-3 control-label">Reccuring Number</label>
-							<div class="col-md-8">
-								<input type="text" class="form-control" id="recnum_id">
-							</div>
-						</div>					
-					</div>
-				</div>
-			</div>
-		</div>
 		<div class="tab-content">
             <div class="tab-pane active">
                 <table id="grid-table"></table>
@@ -60,46 +21,31 @@
             </div>
         </div>
     </div>
+	<div>
+	
+	</div>
 </div>
 
 <script>
-$(document).ready(function()
-	{
-		$.ajax({
-			async: false,
-			url: "<?php echo WS_JQGRID."customer.search_customer_controller/viewThresholdSchema"; ?>",
-			type: "POST",
-			datatype: "json",
-			data: {	celval: "<?php echo $this->input->post('celval') ?>",
-					celprodseq: "<?php echo $this->input->post('celprodseq') ?>"
-				},
-			success: function (data) {
-				var items = jQuery.parseJSON(data);
-				
-				$('#commitment_id').val(items[0].txt_comm);
-				$('#allowance_id').val(items[0].txt_allowance);
-				$('#discount_id').val(items[0].txt_disc);
-				$('#recnum_id').val(items[0].txt_recurr);			
-			}
-		});
-	});
-	
 $(function($) {
-        $("#tab-1").on( "click", function() {             
-            loadContentWithParams("customer.customer_details", {
-				celval:"<?php echo $this->input->post('celval') ?>",
-				celprodseq:"<?php echo $this->input->post('celprodseq') ?>",
-				tariff_id: "<?php echo $this->input->post('tariff_id') ?>"				
+        $("#tab-2").on( "click", function() { 
+            var grid = $('#grid-table-prebill');
+            selRowId = grid.jqGrid ('getGridParam', 'selrow');
+
+            var idd = grid.jqGrid ('getCell', selRowId, 'p_finance_period_id');
+            var code = grid.jqGrid ('getCell', selRowId, 'finance_period_code');
+
+            if(selRowId == null) {
+                swal("Informasi", "Silahkan Pilih Salah Satu Baris Data", "info");
+                return false;
+            }
+
+            loadContentWithParams("customer.customer_details_2", {
             });
         });
 
         $("#tab-3").on( "click", function() { 
-            loadContentWithParams("customer.customer_details_fastel", {
-				celval:"<?php echo $this->input->post('celval') ?>",
-				celprodseq:"<?php echo $this->input->post('celprodseq') ?>",
-				tariff_id: "<?php echo $this->input->post('tariff_id') ?>",
-				accountNum: "<?php echo $this->input->post('accountNum') ?>"
-            });
+            return false;
         });
     });
 	
@@ -108,17 +54,21 @@ jQuery(function($) {
         var pager_selector = "#grid-pager";
 
         jQuery("#grid-table").jqGrid({
-            url: '<?php echo WS_JQGRID."customer.search_customer_controller/viewEventDiscount"; ?>',
+            url: '<?php echo WS_JQGRID."customer.search_customer_controller/viewFastel"; ?>',
             datatype: "json",
             mtype: "POST",
             postData: {
-                tariffVal : "<?php echo $this->input->post('tariff_id') ?>"
+                accountNum : "<?php echo $this->input->post('accountNum') ?>"
             },
             colModel: [
-                {label: 'Event Discount ID', name: 'EVENT_DISCOUNT_ID', hidden: true},                
-                {label: 'Discount Name', name: 'DISCOUNT_NAME', hidden: false},                
-                {label: 'Discount Desc', name: 'DISCOUNT_DESC', hidden: false},
-                {label: 'Filter Name', name: 'FILTER_NAME', hidden: false}
+                {label: 'Kode Divre', name: 'P_KODE_DIVRE', hidden: false},                
+                {label: 'Bisnis Area', name: 'P_BISNIS_AREA', hidden: false},                
+                {label: 'Notel', name: 'P_NOTEL', hidden: false},
+                {label: 'Kode Produk', name: 'P_KODE_PRODUK', hidden: false},
+                {label: 'Customer Ref', name: 'P_CUST_ID', hidden: false},
+                {label: 'Account Number', name: 'P_CUST_ACCOUNT', hidden: false},
+                {label: 'Start Date', name: "TO_CHAR(A.START_DTM,'DDMONYYYY')", hidden: false},
+                {label: 'End Date', name: "TO_CHAR(A.START_DTM,'DDMONYYYY')", hidden: false}
 			],
             height: '100%',
             autowidth: true,
