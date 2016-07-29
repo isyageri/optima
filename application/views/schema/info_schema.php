@@ -119,7 +119,7 @@
                 {label: 'Tgl Berlaku Skema', name: 'start_dat', width: 150, align: "center", editable: false},
                 {label: 'Tgl Berakhir Skema', name: 'end_dat', width: 150, align: "center", editable: false},
                 {label: 'Status', name: 'status', width: 150, align: "center", editable: false},
-                {label: 'Detail Skema', name: 'schema_id', width: 150,  sortable:false, search:false, align:"center", editable: false,
+                {label: 'Data Contract', name: 'schema_id', width: 150,  sortable:false, search:false, align:"center", editable: false,
                     formatter: function(cellvalue, options, rowObject) {
                         //var  theID = rowObject['role_permissions_id'];
                         //console.log(rowObject.status);

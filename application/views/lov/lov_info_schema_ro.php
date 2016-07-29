@@ -119,6 +119,13 @@
                                                     Download Kontrak
                                                 </button>
                   </div>
+                  <hr>
+                   <div class="col-md-12" >
+                        <div class="col-md-12" id="contract_content">
+sadfghfdsa
+                       </div>
+                        
+                  </div>
               </div>
             </div>
         </div>
@@ -160,7 +167,24 @@
 
         $("#modal_lov_detail_skema").modal({backdrop: 'static'});
     }
-
+    function get_contract_data() {
+  
+        var discount_code = $('#disc_code_lov').val();
+        var schema_id = $("#schema_id").val();
+        var customer_name = $("#customer_name_lov").val();
+      $.ajax({
+          url: "<?php echo WS_JQGRID.'schema.sc_schema_controller/get_contract_data'; ?>",
+          type: "POST",
+          data: { schema_id: schema_id },
+          success: function (data) {
+              $('#contract_content').html(data);
+          },
+          error: function (xhr, status, error) {
+              swal({title: "Error!", text: xhr.responseText, html: true, type: "error"});
+              return false;
+          }
+      });
+    }
     function loadTableTrendInfo() {
       var schema_id = $("#schema_id").val();
 
@@ -171,6 +195,7 @@
           success: function (data) {
               $('#table-trend-info2').html(data);
               loadTableSkemaPembayaran_lov($('#trend-name').val());
+               get_contract_data();
           },
           error: function (xhr, status, error) {
               swal({title: "Error!", text: xhr.responseText, html: true, type: "error"});

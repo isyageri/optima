@@ -272,6 +272,7 @@ body .modal {
 						datatype: "json",
 						data: {celval:celValue},
 						success: function (data) {
+                          $("#data_2").html('');
 							var items = jQuery.parseJSON(data);
 							//Node teratas
 							var ix = 0; var dataTreeLeaves = [];
@@ -298,10 +299,10 @@ body .modal {
 								};
 								ix++;
 							}
-							$("#data").append("<ul><li>"+data_1+"<ul><li id='data_2'>"+data_2+"</li></ul></li></ul>");
+							$("#data").append("<ul><li data-jstree=\''{ 'selected' : true, 'opened' : true }'\'>"+data_1+"<ul><li id='data_2'>"+data_2+"</li></ul></li></ul>");
 							$("#data_2").append("<ul class='leaves'></ul>");
 							while(x < datS){								
-								$(".leaves").append("<li><a id='dat"+x+"'  onclick=dats("+ $('#form_reference').val() +","+ x+1 +") value="+ $('#form_reference').val() +">"+ dataTreeLeaves[x] +"</a></li>");
+								$(".leaves").append("<li data-jstree=\''{ 'selected' : true, 'opened' : true }'\'><a id='dat"+x+"'  onclick=dats("+ $('#form_reference').val() +","+ x+1 +") value="+ $('#form_reference').val() +">"+ dataTreeLeaves[x] +"</a></li>");
 								x++;
 							};							
 							$(function(){

@@ -457,6 +457,40 @@ class Sc_schema extends Abstract_model {
 
     }
 
+    function send_mail($html) {
+        $ci =& get_instance();
+        $userinfo = $ci->ion_auth->user()->row();
+        $username = $userinfo->username;
+        $optima = $this->load->database('default', TRUE);
+        $optima->_escape_char = ' ';
+
+     
+            $sql = "  BEGIN ".
+                            "  marfee.p_send_mail_html('tos_admin@telkom.co.id',
+                                    'umar.abduljabar@triklin-rekatama.co.id', 
+                                    null,
+                                    null,
+                                    'Pemberitahuan proses m4l',
+                                     null,
+                                    'test',
+                                    'smtp.telkom.co.id' ); END;";
+
+            $stmt = oci_parse($optima->conn_id, $sql);
+/*
+            //  Bind the input parameter
+            oci_bind_by_name($stmt, ':i_doc_type_id', $doc_type_id);
+            oci_bind_by_name($stmt, ':i_cust_req_id', $t_customer_order_id);
+            oci_bind_by_name($stmt, ':i_username', $username);
+
+            // Bind the output parameter
+            oci_bind_by_name($stmt, ':o_result_code', $code, 2000000);
+            oci_bind_by_name($stmt, ':o_result_msg', $msg, 2000000);*/
+
+            ociexecute($stmt);
+
+            return 1;
+        }
+        
 }
 
 /* End of file Users.php */

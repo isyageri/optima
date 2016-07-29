@@ -113,7 +113,7 @@ class Trx_control extends Abstract_model {
 
              $this->db->query($sql);
 
-            $submit = $this->submitWF($cust_order_id, 5);
+            $submit = $this->submitWF($cust_order_id, 3);
             if($submit){
                 return true;    
             }else{

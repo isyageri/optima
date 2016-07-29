@@ -509,6 +509,7 @@
                 data: { operator:operator, trend:trend, kuadran:kuadran, model:model, schema_id:schema_id },
                 success: function (data) {
                    swal({title: 'Info', text: 'Selesai, Step selanjutnya adalah mengisi data kontrak !', html: true, type: "info"});
+                    loadContentWithParams('schema.index', {});
                     }
                  });
             }).hide();
@@ -658,6 +659,7 @@
               if(response.success) {
 
                   swal({title: 'Info', text: response.message, html: true, type: "info"});
+                   loadContentWithParams('schema.index', {});
 
               }else{
                   swal({title: 'Attention', text: response.message, html: true, type: "warning"});
@@ -810,10 +812,12 @@
 
 
   var skemaAdded = false;
+  var del_fastel = true;
 
   function onNextTab(tab, navigation, index) {
       if(index == 1 && !skemaAdded) {
           return addSkema(tab, navigation, index);
+          return true;
       }
 
       if(index == 1) {
@@ -842,6 +846,10 @@
            loadTableSkemaPembayaran(trend, kuadran, operator, model);
       }
   }
+
+function cek_fastel(){
+
+}
 
  function del_all(){
     schema_id = $('#schema_id').val();
@@ -900,7 +908,12 @@
                 $('#customer_name').val(data[0].account_name);
                 $('#btn-lov-nipnas').hide();
                 $('#btn-lov-account').hide();
+                $('#add_fastel').hide();
+                $('#proses_fastel').hide();
+                $('#hapus_fastel').hide();
+
                 skemaAdded = true;
+                del_fastel = false;
             }
           },
           error: function (xhr, status, error) {
@@ -988,7 +1001,7 @@
       items.created_by = '<?php echo $this->ion_auth->user()->row()->username; ?>';
       items.created_date = '<?php echo date('Y-m-d'); ?>';
       items.step = 1;
-      items.status = 1;
+      items.status = 'Inisialisasi Pembuatan Skema';
       /*items.start_dat = start_dat;
       items.end_dat = end_dat;*/
 
@@ -1059,7 +1072,12 @@
                 },
                 {label: 'Action',name: 'action',width: 150, align: "left",editable: true,
                     formatter:  function(cellvalue, options, rowobject){
-                      return '<a class="btn btn-xs btn-danger" onclick="delete_fastel('+cellvalue+')" href="javascript:;"><i class="icon-trash"></i></a>';
+                      if(del_fastel){
+                          return '<a class="btn btn-xs btn-danger" onclick="delete_fastel('+cellvalue+')" href="javascript:;"><i class="icon-trash"></i></a>';
+                      }else{
+                        return '-';
+                      }
+                     
                       // return '<i class="btn red btn-xs fa fa-trash-o fa-1x" onclick="delete_fastel('+cellvalue+')"></i>';
                     }
                 },

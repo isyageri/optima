@@ -60,40 +60,47 @@
             mtype: "POST",
             colModel: [
                 {label: 'ID', name: 'schema_id', key: true, width: 5, sorttype: 'number', editable: true, hidden: true},
-                {label: 'Schema ID',name: 'schema_id',width: 250, align: "left",editable: true,
+                {label: 'Schema ID',name: 'schema_id',width: 120, align: "left",editable: true,
                     editoptions: {
                         size: 30,
                         maxlength:32
                     },
                     editrules: {required: true}
                 },
-                {label: 'NIPNAS',name: 'customer_ref',width: 150, align: "left",editable: true,
+                {label: 'NIPNAS',name: 'customer_ref',width: 100, align: "left",editable: true,
                     editoptions: {
                         size: 30,
                         maxlength:32
                     },
                     editrules: {required: true}
                 },
-                {label: 'Nomor Account',name: 'account_num',width: 150, align: "left",editable: true,
+                {label: 'Nomor Account',name: 'account_num',width: 100, align: "left",editable: true,
                     editoptions: {
                         size: 30,
                         maxlength:32
                     },
                     editrules: {required: true}
                 },
-                {label: 'Step',name: 'step',width: 150, align: "center",editable: true,
+                {label: 'Nama Customer',name: 'account_name',width: 250, align: "left",editable: true,
                     editoptions: {
                         size: 30,
                         maxlength:32
                     },
                     editrules: {required: true}
                 },
-                {label: 'Action',name: 'schema_id',width: 150, align: "left",editable: true,
+                {label: 'Status',name: 'status',width: 100, align: "center",editable: true,
+                    editoptions: {
+                        size: 30,
+                        maxlength:32
+                    },
+                    editrules: {required: true}
+                },
+               /* {label: 'Action',name: 'schema_id',width: 50, align: "left",editable: true,
                     formatter:  function(cellvalue, options, rowobject){
                       return '<a class="btn btn-xs btn-default" onclick="delete_fastel('+cellvalue+')" href="javascript:;">Detail</a>';
                       // return '<i class="btn red btn-xs fa fa-trash-o fa-1x" onclick="delete_fastel('+cellvalue+')"></i>';
                     }
-                },
+                },*/
             ],
             height: '100%',
             autowidth: true,
