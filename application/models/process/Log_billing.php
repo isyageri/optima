@@ -12,7 +12,7 @@ class Log_billing extends Abstract_model {
 
     public $fields          = array();
 
-    public $selectClause    = "log.*";
+    public $selectClause    = "log.job_control_id, log.counter_no, to_char(log.log_date, 'DD/MM/YYYY HH24:MI:SS PM') as log_date, log.log_message";
     public $fromClause      = "log_background_job log";
 
     public $refs            = array();

@@ -348,7 +348,7 @@
             mtype: "POST",
             colModel: [
                 {label: 'counter_no', name: 'counter_no', hidden: true},                
-                {label: 'Time', name: 'log_date', hidden: false, width: 20},                
+                {label: 'Time', name: 'log_date', hidden: false, width: 40},                
                 {label: 'Message', name: 'log_message', hidden: false}
             ],
             height: '100%',
