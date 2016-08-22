@@ -931,17 +931,17 @@ function is_process_finished(){
      $.ajax({
           url: "<?php echo WS_JQGRID.'schema.fastel_controller/is_finished'; ?>",
           type: "POST",
-		  dataType : 'json',
+		      dataType : 'json',
           data: { schema_id:schema_id },
           success: function (data) {
 
-                if(data.check == 1){
+            if(data.check == 1){
     			         //swal({title: "Warning!", text: data.message, html: true, type: "warning"});
                         $('#continue_btn').show();
-    				    $('#msg_proses_fastel').hide();
-                        $('#add_fastel').hide();
-                        $('#proses_fastel').hide();
-                        $('#hapus_fastel').hide();
+    				            $('#msg_proses_fastel').hide();
+                        $('#add_fastel').show();
+                        $('#proses_fastel').show();
+                        $('#hapus_fastel').show();
                         del_fastel = false;
     			 }else if( data.check < 0 ){
                         $('#msg_proses_fastel').hide();
@@ -955,7 +955,7 @@ function is_process_finished(){
                         $('#msg_proses_fastel').show();
                         $('#add_fastel').hide();
                         $('#proses_fastel').hide();
-                        $('#hapus_fastel').hide();
+                        //$('#hapus_fastel').hide();
                         del_fastel = false;
              }
 
