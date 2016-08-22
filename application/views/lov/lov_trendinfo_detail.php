@@ -21,14 +21,24 @@
                 <table id="modal_lov_trendinfodetail_grid_selection" class="table table-striped table-bordered table-hover">
                 <thead>
                   <tr>
-                     <th data-column-id="id" data-sortable="false" data-visible="false">ID trendinfodetail</th>
+                     <!-- <th data-column-id="id" data-sortable="false" data-visible="false">ID trendinfodetail</th>
                      <th data-column-id="ncli">NCLI</th>
                      <th data-column-id="nd">ND</th>
                      <th data-column-id="nfact">NFACT</th>
                      <th data-column-id="neltfact">NELTFACT</th>
                      <th data-column-id="no_cpta">NO_CPTA</th>
                      <th data-column-id="batch_id">BATCH ID</th>
-                     <th data-column-id="leltfact">LELTFACT</th>
+                     <th data-column-id="leltfact">LELTFACT</th> -->
+                     <th data-column-id="id" data-sortable="false" data-visible="false">ID trendinfodetail</th>
+                     <th data-column-id="nd">ND</th>
+                     <th data-column-id="periode">PERIODE</th>
+                     <th data-column-id="telkom_jj">TELKOM JJ</th>
+                     <th data-column-id="telkom_lk">TELKOM LK</th>
+                     <th data-column-id="telkomsel">TELKOMSEL/th>
+                     <th data-column-id="lainnya">LAINNYA</th>
+                     <th data-column-id="on_net">ON NET</th>
+                     <th data-column-id="non_on_net">NON ON NET</th>
+                     <th data-column-id="total_aamount">TOTAL</th>
                   </tr>
                 </thead>
                 </table>

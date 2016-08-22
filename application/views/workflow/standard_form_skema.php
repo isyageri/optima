@@ -109,6 +109,9 @@
                                                 <li class="">
                                                     <a href="#tab_1_2" data-toggle="tab"> Data Fastel </a>
                                                 </li>
+                                                <li>
+                                                    <a href="#tab_1_4" data-toggle="tab"> Trend & Tagihan</a>
+                                                </li>
                                                 <li class="">
                                                     <a href="#tab_1_3" data-toggle="tab"> Contract </a>
                                                 </li>
@@ -170,14 +173,61 @@
                                                     </form>
 
                                                 </div>
+                                                <div class="tab-pane " id="tab_1_4">
+                                                 <div class="row">
+                                                      <div class="col-md-12">
+                                                          <h4> Trend & Tagihan </h4>
+                                                      </div>
+                                                      <div class="col-md-12" id="table-trend-info2">
+                                                    </div>
+                                                  </div>
+                                                 </div>
                                                 <div class="tab-pane " id="tab_1_3">
+                                                 <form role="form" id="form-upload-contract" method="post" enctype="multipart/form-data" accept-charset="utf-8">
+                                                  <input type="hidden" id="modal_lov_contract_schema_id" name="schema_id">
+                                                    <input type="hidden" id="modal_lov_contract_discount_code" name="discount_code">
+                                                    <input type="hidden" id="modal_lov_contract_p_business_schem_id" name="p_business_schem_id">
+                                                    <input type="hidden" name="<?php echo $this->security->get_csrf_token_name(); ?>" value="<?php echo $this->security->get_csrf_hash(); ?>">
+                                                    <h4>Upload Kontrak</h4>
+                                                        <hr>
+                                                    <div class="input-group col-md-4">
+                                                       <input type="file" name="file_upload_contract" id="file_upload_contract" />
+                                                       <input type="hidden" name="<?php echo $this->security->get_csrf_token_name(); ?>" value="<?php echo $this->security->get_csrf_hash(); ?>">
+                                                       <span class="input-group-btn btn-right">
+                                                            <input type="submit" id="submit_contract" class="btn green-haze" value="Upload">
+                                                       </span>
+                                                    </div>
+                                                    <div class="input-group col-md-8">
+                                                        <div class="portlet">
+                                                            <div class="portlet-body">
+                                                                <div class="table-scrollable">
+                                                                    <table class="table table-hover table-bordered">
+                                                                        <thead>
+                                                                            <tr>
+                                                                                <th> # </th>
+                                                                                <th> File Name </th>
+                                                                                <th> Action </th>
+                                                                            </tr>
+                                                                        </thead>
+                                                                        <tbody id="body_tbl_kontrak">
+                                                                            
+                                                                       
+                                                                        </tbody>
+                                                                    </table>
+                                                                </div>
+                                                            </div>
+                             
+                                                         </div>
+                                                    </div>
+                                                </form>
+                                                        <hr>
                                                     <form role="form" id="form-data-contract" method="post" class="form-horizontal">
                                                         <input type="hidden" id="modal_lov_contract_schema_id" name="schema_id">
                                                         <input type="hidden" id="modal_lov_contract_discount_code" name="discount_code">
                                                         <input type="hidden" id="modal_lov_contract_p_business_schem_id" name="p_business_schem_id">
                                                         <input type="hidden" name="<?php echo $this->security->get_csrf_token_name(); ?>" value="<?php echo $this->security->get_csrf_hash(); ?>">
 
-                                                        <h4>Data Kontrak</h4>
+                                                        <h4>Input Data Kontrak</h4>
                                                         <hr>
                                                         <div class="form-group">
                                                             <div class="col-md-6">
@@ -367,6 +417,7 @@
     $this->load->view('lov/lov_legaldoc.php');
     $this->load->view('lov/lov_log.php');
 ?>
+<?php $this->load->view('lov/lov_trendinfo_detail.php'); ?>
 
 <script src="<?php echo base_url(); ?>assets/global/plugins/select2/js/select2.full.min.js" type="text/javascript"></script>
 <script src="<?php echo base_url(); ?>assets/global/plugins/jquery-validation/js/jquery.validate.min.js" type="text/javascript"></script>
@@ -665,15 +716,30 @@
         $('#info_discount_description').val(name);
         $('#modal_lov_contract_p_business_schem_id').val(bs_scheme);
     }
+    function check_date(date1, date2, program){
+        
+        if(date1 > date2 ){
+            return 'Tanggal Berakhir Tidak Boleh Kurang Dari Tanggal Mulai !';
+        }else{
+
+        }
+/* 
+        if(program == 'COSTCAP'){
+
+        }
+        if() */
+    }
 
     $(function(){
-        $('#submit_form1').click(function(){
+        $('#form-data-contract_schema').submit(function(){
 
             start_dat = $('#info_start_dat').val();
             end_dat = $('#info_end_dat').val();
             discount_code = $('#info_discount_code').val();
             schema_id = $('#info_schema_id').val();
-
+            if(start_dat >= end_dat ){
+                swal({title: 'Info', text: 'Tanggal Mulai tidak boleh lebih dari atau sama dengan tanggal berakhir', html: true, type: "info"});
+            }else{
              $.ajax({
                 type: "POST",
                 url: "<?php echo WS_JQGRID.'schema.input_data_contract_controller/submit_skema_diskon'; ?>",
@@ -685,7 +751,69 @@
 
                 }
              });
+            }
         });
+    
+    $("#form-upload-contract").on('submit', (function (e) {
+          e.preventDefault();
+          var data = new FormData(this);
+
+          $.ajax({
+            type: 'POST',
+            dataType: "json",
+            url: '<?php echo WS_JQGRID."schema.sc_schema_controller/uploadContract"; ?>',
+            data: data,
+            timeout: 10000,
+            contentType: false, // The content type used when sending data to the server.
+            cache: false, // To unable request pages to be cached
+            processData: false,
+            success: function(response) {
+              if(response.success) {
+
+                  $('#file_upload_contract').val('');
+                  load_upd_contract( $("#modal_lov_contract_schema_id").val());
+                  swal({title: 'Info', text: response.message, html: true, type: "info"});
+
+              }else{
+                  swal({title: 'Attention', text: response.message, html: true, type: "warning"});
+              }
+            }
+
+          });
+
+          return false;
+      }));
+        $("#form-upload-fastel").on('submit', (function (e) {
+                  e.preventDefault();
+                  var data = new FormData(this);
+
+                  $.ajax({
+                    type: 'POST',
+                    dataType: "json",
+                    url: '<?php echo WS_JQGRID."schema.fastel_controller/uploadFastel"; ?>',
+                    data: data,
+                    timeout: 10000,
+                    contentType: false, // The content type used when sending data to the server.
+                    cache: false, // To unable request pages to be cached
+                    processData: false,
+                    success: function(response) {
+                      if(response.success) {
+
+                          $('#file_upload_fastel').val('');
+
+                          swal({title: 'Info', text: response.message, html: true, type: "info"});
+                          modal_lov_upload_fastel_hide();
+                          $('#grid-table-fastel').trigger("reloadGrid");
+
+                      }else{
+                          swal({title: 'Attention', text: response.message, html: true, type: "warning"});
+                      }
+                    }
+
+                  });
+
+                  return false;
+              }));
 
         $("#save-contract").click(function() {
 
@@ -799,6 +927,8 @@
                 loadTableSkemaPembayaran(trend);
                 loadTableFastel(items.schema_id);
                 loadDataContract(items.schema_id);
+                loadTableTrendInfo(items.schema_id);
+                load_upd_contract(items.schema_id);
 
                 checkContractExist(items.schema_id);
             }
@@ -822,6 +952,57 @@
             }
         });
     }
+    function download_c(c_id, filename){
+        schema_id = $("#modal_lov_contract_schema_id").val();
+         location.href = '<?php echo './application/third_party/upload_contract/'; ?>'+filename;
+    }
+    function delete_c(c_id, filename){
+        schema_id = $("#modal_lov_contract_schema_id").val();
+        $.ajax({
+              url: "<?php echo WS_JQGRID.'schema.sc_schema_controller/del_down_c'; ?>",
+              type: "POST",
+              data: { schema_id: schema_id, c_id:c_id, filename:filename },
+              success: function (data) {
+                  load_upd_contract( $("#modal_lov_contract_schema_id").val());
+              },
+              error: function (xhr, status, error) {
+                  swal({title: "Error!", text: xhr.responseText, html: true, type: "error"});
+                  return false;
+              }
+          });
+    }
+    function load_upd_contract(schema_id) {
+         
+        $('#body_tbl_kontrak').html('');
+          $.ajax({
+              url: "<?php echo WS_JQGRID.'schema.sc_schema_controller/get_contract_uploaded'; ?>",
+              type: "POST",
+              data: { schema_id: schema_id, is_del:1 },
+              success: function (data) {
+                  $('#body_tbl_kontrak').html(data);
+              },
+              error: function (xhr, status, error) {
+                  swal({title: "Error!", text: xhr.responseText, html: true, type: "error"});
+                  return false;
+              }
+          });
+      }
+    function loadTableTrendInfo(schema_id) {
+         
+
+          $.ajax({
+              url: "<?php echo WS_JQGRID.'schema.sc_schema_controller/getTableTrendInfo'; ?>",
+              type: "POST",
+              data: { schema_id: schema_id },
+              success: function (data) {
+                  $('#table-trend-info2').html(data);
+              },
+              error: function (xhr, status, error) {
+                  swal({title: "Error!", text: xhr.responseText, html: true, type: "error"});
+                  return false;
+              }
+          });
+      }
 
     function loadDataContract(schema_id) {
 

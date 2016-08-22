@@ -54,7 +54,6 @@
     }
 
     function showDiskon(account_num,customer_ref,account_name,created_date,schema_id) {
-     
        modal_lov_detail_info_skema_show(account_num,customer_ref,account_name,created_date,schema_id);
     }
 
@@ -72,7 +71,13 @@
             mtype: "POST",
             colModel: [
                 {label: 'ID', name: 'schema_id', key: true, width: 5, sorttype: 'number', editable: true, hidden: true},
-
+                {label: 'Detail Skema', name: 'schema_id', width: 150,  sortable:false, search:false, align:"center", editable: false,
+                    formatter: function(cellvalue, options, rowObject) {
+                        //var  theID = rowObject['role_permissions_id'];
+                        //console.log(rowObject.status);
+                        return '<button type="button" class="btn btn-xs btn-default" onclick="showDiskon(\''+rowObject.account_num+'\',\''+rowObject.customer_ref+'\',\''+rowObject.account_name+'\',\''+rowObject.created_date+'\',\''+rowObject.schema_id+'\')"> Detail Schema </button>';
+                    }
+                },
                 {label: 'NIPNAS',name: 'customer_ref',width: 150, align: "left",editable: true,
                     editoptions: {
                         size: 30,
@@ -119,20 +124,14 @@
                 {label: 'Tgl Berlaku Skema', name: 'start_dat', width: 150, align: "center", editable: false},
                 {label: 'Tgl Berakhir Skema', name: 'end_dat', width: 150, align: "center", editable: false},
                 {label: 'Status', name: 'status', width: 150, align: "center", editable: false},
-                {label: 'Data Contract', name: 'schema_id', width: 150,  sortable:false, search:false, align:"center", editable: false,
+                /*{label: 'Data Contract', name: 'schema_id', width: 150,  sortable:false, search:false, align:"center", editable: false,
                     formatter: function(cellvalue, options, rowObject) {
                         //var  theID = rowObject['role_permissions_id'];
                         //console.log(rowObject.status);
                         return '<button type="button" class="btn btn-xs btn-default" onclick="download_contract(\''+cellvalue+'\',\''+rowObject.status+'\')"> Download Contract</button>';
                     }
-                },
-                {label: 'Detail Skema', name: 'schema_id', width: 150,  sortable:false, search:false, align:"center", editable: false,
-                    formatter: function(cellvalue, options, rowObject) {
-                        //var  theID = rowObject['role_permissions_id'];
-                        //console.log(rowObject.status);
-                        return '<button type="button" class="btn btn-xs btn-default" onclick="showDiskon(\''+rowObject.account_num+'\',\''+rowObject.customer_ref+'\',\''+rowObject.account_name+'\',\''+rowObject.created_date+'\',\''+rowObject.schema_id+'\')"> Detail Schema </button>';
-                    }
-                }
+                }*/
+               
                /* {label: 'Fastel', name: 'schema_id', width: 150,  sortable:false, search:false, align:"center", editable: false,
                     formatter: function(cellvalue, options, rowObject) {
                         //var  theID = rowObject['role_permissions_id'];

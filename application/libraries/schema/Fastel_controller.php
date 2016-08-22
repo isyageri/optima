@@ -136,7 +136,7 @@ class Fastel_controller {
                 $datainsert[$loop]['p_notel'] = $row;
                 $datainsert[$loop]['p_cust_id'] = $p_cust_id;
                 $datainsert[$loop]['p_cust_account'] = $p_cust_account;
-                $datainsert[$loop]['flag'] = null;
+                $datainsert[$loop]['flag'] = 4;
                 $datainsert[$loop]['batch_id'] = $batch_id;
                 $datainsert[$loop]['schema_id'] = $schema_id;
 
@@ -218,7 +218,7 @@ class Fastel_controller {
             $datainsert[$loop]['p_notel'] = $notel;
             $datainsert[$loop]['p_cust_id'] = $p_cust_id;
             $datainsert[$loop]['p_cust_account'] = $p_cust_account;
-            $datainsert[$loop]['flag'] = null;
+            $datainsert[$loop]['flag'] = 4;
             $datainsert[$loop]['batch_id'] = $batch_id;
             $datainsert[$loop]['schema_id'] = $schema_id;
 
@@ -373,5 +373,48 @@ class Fastel_controller {
         exit;
 
     }
+	
+	function is_finished(){
+		
+		$ci = & get_instance();
+        $ci->load->model('schema/fastel');
+        $table = $ci->fastel;
+
+        $schema_id = getVarClean('schema_id', 'str', '');
+		
+		try{
+
+            $check = $table->check_history_proses($schema_id);
+			$status = $table->get_status_schema($schema_id);
+			
+            $data['message'] = 'Data Fastel Berhasil Di Proses';
+            $data['check'] = $check;
+			
+			if( 1 > $check && 'INITIAL' != $status ) {
+			
+				$data['message'] = 'Pengambilan Data History Fastel Masih Berjalan, Email Pemberitahuan akan dikirimkan saat proses sudah selesai !';
+				$data['check'] = $check;
+			
+			}else if(1 > $check && 'INITIAL' == $status){
+                $data['message'] = '';
+                $data['check'] = -1;
+            }
+
+            $data['success'] = true;
+
+        }catch (Exception $e) {
+            $data['message'] = $e->getMessage();
+        }
+
+        echo json_encode($data);
+        exit;
+
+	
+	}
+	
+	function reproses_fastel(){
+		// TODO: reproses fastel
+	}
+	
 }
 /* End of file Scema_controller.php */

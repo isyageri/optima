@@ -151,7 +151,7 @@
         jQuery('#grid-table-account').jqGrid('navGrid', '#grid-pager-account',
             {   //navbar options
                 edit: false,
-                excel: true,
+                excel: false,
                 editicon: 'fa fa-pencil blue bigger-120',
                 add: false,
                 addicon: 'fa fa-plus-circle purple bigger-120',

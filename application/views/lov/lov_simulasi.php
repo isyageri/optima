@@ -66,7 +66,7 @@
 <script>
 
     $(function(e) {
-
+        $('#modal_lov_simulasi_btn_excel').hide();
         $('#simulasi_generate').on('click', function(e) {
             
             trend = $('#trend').val();
@@ -99,6 +99,7 @@
                       },
                 success: function (data) {
                     $('#table-simulasi').html(data);
+                     $('#modal_lov_simulasi_btn_excel').show();
                 },
                 error: function (xhr, status, error) {
                     swal({title: "Error!", text: xhr.responseText, html: true, type: "error"});
@@ -145,7 +146,9 @@
         $('#simulasi_on_net').val('');
         $('#simulasi_non_on_net').val('');
         $('#r_simulasi_avg_on_net').html($('#trend-avg-usage-onnet').val());
-
+    /*    $('#r_simulasi_on_net').html($('#trend-avg-usage-onnet').val());
+        $('#r_simulasi_non_on_net').html($('#trend-avg-usage-onnet').val());*/
+        $('#modal_lov_simulasi_btn_excel').hide();
         modal_lov_simulasi_set_field_value(discount_code);
         $("#modal_lov_simulasi").modal({backdrop: 'static'});
     }

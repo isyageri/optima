@@ -109,6 +109,9 @@
                                                 <li class="">
                                                     <a href="#tab_1_2" data-toggle="tab"> Data Fastel </a>
                                                 </li>
+                                                 <li>
+                                                    <a href="#tab_1_4" data-toggle="tab"> Trend & Tagihan</a>
+                                                </li>
                                                 <li class="">
                                                     <a href="#tab_1_3" data-toggle="tab"> Contract </a>
                                                 </li>
@@ -166,6 +169,15 @@
                                                     </form>
 
                                                 </div>
+                                                <div class="tab-pane " id="tab_1_4">
+                                                 <div class="row">
+                                                      <div class="col-md-12">
+                                                          <h4> Trend & Tagihan </h4>
+                                                      </div>
+                                                      <div class="col-md-12" id="table-trend-info2">
+                                                    </div>
+                                                  </div>
+                                                 </div>
                                                 <div class="tab-pane " id="tab_1_3">
                                                     <form role="form" id="form-data-contract" method="post" class="form-horizontal">
                                                         <input type="hidden" id="modal_lov_contract_schema_id" name="schema_id">
@@ -175,6 +187,28 @@
 
                                                         <h4>Data Kontrak</h4>
                                                         <hr>
+                                                        <div class="input-group col-md-8">
+                                                        <div class="portlet">
+                                                            <div class="portlet-body">
+                                                                <div class="table-scrollable">
+                                                                    <table class="table table-hover table-bordered">
+                                                                        <thead>
+                                                                            <tr>
+                                                                                <th> # </th>
+                                                                                <th> File Name </th>
+                                                                                <th> Action </th>
+                                                                            </tr>
+                                                                        </thead>
+                                                                        <tbody id="body_tbl_kontrak">
+                                                                            
+                                                                       
+                                                                        </tbody>
+                                                                    </table>
+                                                                </div>
+                                                            </div>
+                             
+                                                         </div>
+                                                    </div>
                                                         <div class="form-group">
                                                             <div class="col-md-6">
                                                                 <input type="text" placeholder="Nomor" name="nomor1" id="kontrak_nomor1" class="form-control required" required>
@@ -782,6 +816,8 @@
                 loadTableSkemaPembayaran(trend);
                 loadTableFastel(items.schema_id);
                 loadDataContract(items.schema_id);
+                loadTableTrendInfo(items.schema_id);
+                load_upd_contract(items.schema_id);
 
                 checkContractExist(items.schema_id);
             }
@@ -807,7 +843,57 @@
             }
         });
     }
+  function download_c(c_id, filename){
+        schema_id = $("#modal_lov_contract_schema_id").val();
+         location.href = '<?php echo './application/third_party/upload_contract/'; ?>'+filename;
+    }
+    function delete_c(c_id, filename){
+        schema_id = $("#modal_lov_contract_schema_id").val();
+        $.ajax({
+              url: "<?php echo WS_JQGRID.'schema.sc_schema_controller/del_down_c'; ?>",
+              type: "POST",
+              data: { schema_id: schema_id, c_id:c_id, filename:filename },
+              success: function (data) {
+                  load_upd_contract( $("#modal_lov_contract_schema_id").val());
+              },
+              error: function (xhr, status, error) {
+                  swal({title: "Error!", text: xhr.responseText, html: true, type: "error"});
+                  return false;
+              }
+          });
+    }
+    function load_upd_contract(schema_id) {
+         
+        $('#body_tbl_kontrak').html('');
+          $.ajax({
+              url: "<?php echo WS_JQGRID.'schema.sc_schema_controller/get_contract_uploaded'; ?>",
+              type: "POST",
+              data: { schema_id: schema_id },
+              success: function (data) {
+                  $('#body_tbl_kontrak').html(data);
+              },
+              error: function (xhr, status, error) {
+                  swal({title: "Error!", text: xhr.responseText, html: true, type: "error"});
+                  return false;
+              }
+          });
+      }
+    function loadTableTrendInfo(schema_id) {
+         
 
+          $.ajax({
+              url: "<?php echo WS_JQGRID.'schema.sc_schema_controller/getTableTrendInfo'; ?>",
+              type: "POST",
+              data: { schema_id: schema_id },
+              success: function (data) {
+                  $('#table-trend-info2').html(data);
+              },
+              error: function (xhr, status, error) {
+                  swal({title: "Error!", text: xhr.responseText, html: true, type: "error"});
+                  return false;
+              }
+          });
+      }
     function loadDataContract(schema_id) {
 
         $.ajax({

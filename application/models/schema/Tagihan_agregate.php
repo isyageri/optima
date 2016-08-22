@@ -6,7 +6,8 @@
  */
 class Tagihan_agregate extends Abstract_model {
 
-    public $table           = "tagihan_agregat_m4l_batch";
+    //public $table           = "tagihan_agregat_m4l_batch";
+    public $table           = "V_TAGIHAN_AGREGAT_M4L";
     public $pkey            = "";
     public $alias           = "a";
 
@@ -14,9 +15,10 @@ class Tagihan_agregate extends Abstract_model {
 
                             );
 
-    public $selectClause    = "rownum as id, a.*,  b.LELTFACT";
-    public $fromClause      = "tagihan_agregat_m4l_batch a
-                                    left join p_neltfact b on a.neltfact = b.neltfact";
+    // public $selectClause    = "rownum as id, a.*,  b.LELTFACT";
+    public $selectClause    = "rownum as id, a.* ";
+    //public $fromClause      = "tagihan_agregat_m4l_batch a left join p_neltfact b on a.neltfact = b.neltfact";
+    public $fromClause      = "V_TAGIHAN_AGREGAT_M4L a";
 
     public $refs            = array();
 

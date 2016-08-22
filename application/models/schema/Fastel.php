@@ -14,7 +14,7 @@ class Fastel extends Abstract_model {
 
                             );
 
-    public $selectClause    = "fastel.*, (p_notel || '|' || schema_id) as fastel_id, batch_id||','|| '''' || fastel.p_notel ||'''' as action, (select   decode(count(1),0,'NOT VALID', 'VALID' ) as haha from operasi.cc_dataref_01@tosdbTIBSNP a where a.p_notel =fastel.p_notel) as status ";
+    public $selectClause    = "fastel.*, (p_notel || '|' || schema_id) as fastel_id, batch_id||','|| '''' || fastel.p_notel ||'''' as action, fastel.valid status";
     public $fromClause      = "cc_dataref_batch fastel";
 
     public $refs            = array();
@@ -54,9 +54,10 @@ class Fastel extends Abstract_model {
 
     function getNextBatchID($schema_id) {
         //$sql = "select nvl(max(batch_id),0)+1 as total from cc_dataref_batch";
-        $sql = "select nvl(batch_id,(select nvl(max(batch_id),0)+1 as total from cc_dataref_batch)) total 
+        $sql = "select decode(batch_id,null,max(batch_id)+1, batch_id)  total 
                 from sc_schema 
-                where schema_id = '".$schema_id."' ";
+                where schema_id = '".$schema_id."' 
+                group by batch_id ";
         $query = $this->db->query($sql);
         $row = $query->row_array();
 
@@ -107,6 +108,43 @@ class Fastel extends Abstract_model {
 
         $query = $this->db->query($sql);
 
+    }
+
+    function delete_history_fastel($schema_id){
+
+        $sql = "DELETE cc_dataref_batch where schema_id = '".$schema_id."' ";
+
+        $query = $this->db->query($sql);
+        
+        $sql = " DELETE control_batch where BATCH_CONTROL_ID = $batch_id ";
+        $query = $this->db->query($sql);
+        
+        $sql = " DELETE t_job_has_period where BATCH_ID = $batch_id ";
+        $query = $this->db->query($sql);
+
+    }
+	
+	function check_history_proses($schema_id){
+		
+		$batch_id =  $this->getNextBatchID($schema_id);
+		
+		$sql = "select count(*) total 
+				from M4L_ACC_SCHEMA_REG where batch_id = $batch_id ";
+        $query = $this->db->query($sql);
+        $row = $query->row_array();
+
+        return (int)$row['total'];
+		
+	}
+
+    function get_status_schema($schema_id){
+        
+        $sql = "select status from sc_schema where schema_id =  '".$schema_id."' ";
+        $query = $this->db->query($sql);
+        $row = $query->row_array();
+
+        return $row['status'];
+        
     }
 }
 

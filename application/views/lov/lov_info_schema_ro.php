@@ -121,8 +121,11 @@
                   </div>
                   <hr>
                    <div class="col-md-12" >
+                        <div class="col-md-12" >
+                            
+                       </div>
+<!--                        http://docs.google.com/gview?url=http://infolab.stanford.edu/pub/papers/google.pdf&embedded=true -->                   <div class="col-md-12" >
                         <div class="col-md-12" id="contract_content">
-sadfghfdsa
                        </div>
                         
                   </div>
@@ -287,6 +290,13 @@ jQuery(function($) {
                     editrules: {required: true}
                 },
                 {label: 'Status',name: 'status',width: 150, align: "left",editable: true,
+                    editoptions: {
+                        size: 30,
+                        maxlength:32
+                    },
+                    editrules: {required: true}
+                }, 
+                {label: 'Info',name: 'error_msg',width: 150, align: "left",editable: true,
                     editoptions: {
                         size: 30,
                         maxlength:32

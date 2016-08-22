@@ -55,6 +55,7 @@ class Sc_schema extends Abstract_model {
 
             $this->db->set('created_date',"to_date('".date('Y-m-d')."','yyyy-mm-dd')",false);
             $this->db->set('created_by', "'".$ci->ion_auth->user()->row()->username."'" ,false);
+            $this->db->set('status', "'INITIAL'" ,false);
 
             unset($this->record['created_date']);
             unset($this->record['created_by']);
@@ -93,9 +94,13 @@ class Sc_schema extends Abstract_model {
                 sc.schema_id, sc.batch_id, sc.schema_name, sc.customer_ref, ac.account_name,
                 sc.account_num, to_char(sc.start_dat,'yyyy-mm-dd') as start_dat,
                 to_char(sc.end_dat,'yyyy-mm-dd') as end_dat,
-        to_char(sc.start_dat,'yyyymm') as start_periode, sc.created_by, sc.status, sc.step
+                to_char(sc.created_date,'yyyy-mm-dd') as created_date,
+                to_char(sc.start_dat,'yyyymm') as start_periode, sc.created_by, sc.status, sc.step, us.company_name location_name
         from sc_schema sc
         join geneva_admin_npots.account ac on sc.account_num = ac.account_num
+        join (select aa.id, username, company_name 
+                    from users@OPTIMAL_DEV aa, location@OPTIMAL_DEV ll where aa.location_id = ll.id) us 
+             ON us.username = sc.created_by
         where schema_id = '".$schema_id."'
         and rownum = 1
         ";
@@ -108,7 +113,8 @@ class Sc_schema extends Abstract_model {
     function getTrendInfo($schema_id) {
 
         $item = $this->get($schema_id);
-
+		// TODO: ganti sysdate periode menjadi data dari table 
+		
         $sql = "select max(P_CUST_ID) p_cust_id,
                     b.PERIODE,
                     sum(b.TELKOM_JJ) TELKOM_JJ,
@@ -152,10 +158,9 @@ class Sc_schema extends Abstract_model {
     }
 
 
-    // function getListSkemaPembayaran($discount_code = "") {
     function getListSkemaPembayaran($trend, $operator, $kuadran, $model, $discount_code) {
-
-        // $sql = "select * from v_business_schem_list";
+		
+		
         $sql = "select * from V_BS_SCHEM_LIST
                     where OPERATOR = '".$operator."'
                     and KUADRAN = '".$kuadran."'
@@ -169,6 +174,12 @@ class Sc_schema extends Abstract_model {
         $query = $this->db->query($sql);
         $row = $query->result_array();
         return $row;
+    }
+
+    function get_reference_tiering(){
+
+		// TODO: tiering model 
+
     }
 
     function getListSkemaPembayaran2($trend, $operator, $kuadran, $model, $discount_code) {
@@ -290,7 +301,7 @@ class Sc_schema extends Abstract_model {
 
     function getNextBatchID($schema_id) {
         //$sql = "select nvl(max(batch_id),0)+1 as total from cc_dataref_batch";
-        $sql = "select nvl(batch_id,(select nvl(max(batch_id),0)+1 as total from cc_dataref_batch)) total
+        $sql = "select nvl(batch_id,(select nvl(max(batch_id),0)+1 as total from sc_schema)) total
                 from sc_schema
                 where schema_id = '".$schema_id."' ";
         $query = $this->db->query($sql);
@@ -490,7 +501,8 @@ class Sc_schema extends Abstract_model {
 
             return 1;
         }
-        
+       
+	
 }
 
 /* End of file Users.php */

@@ -36,7 +36,7 @@ class Sc_schema_controller {
             );
 
             // Filter Table
-            $req_param['where'] = array("sc.status NOT IN  ('ACTIVE', 'IN PROGRESS', 'TERMINATE') ");
+            $req_param['where'] = array("sc.status NOT IN  ('ACTIVE', 'TERMINATE') ");
 
             $table->setJQGridParam($req_param);
             $count = $table->countAll();
@@ -474,13 +474,13 @@ class Sc_schema_controller {
                       <div class="form-group form-md-line-input form-md-floating-label">
                             <label class="col-md-3 control-label" for="trend"><b>Avg On Net:</b></label>
                             <div class="col-md-4">
-                                <input type="text" id="trend-avg-usage-onnet" class="form-control" readonly value="'.$itemheader['avg_usage_onnet'].'">
+                                <input type="text" id="trend-avg-usage-onnet" class="form-control" readonly value="'.number_format($itemheader['avg_usage_onnet'],2,',','.').'">
                             </div>
                       </div>
                       <div class="form-group form-md-line-input form-md-floating-label">
                             <label class="col-md-3 control-label" for="trend"><b>Avg Non On Net:</b></label>
                             <div class="col-md-4">
-                                <input type="text" id="trend-avg-usage-nononnet" class="form-control" readonly value="'.$itemheader['avg_usage_non_onnet'].'">
+                                <input type="text" id="trend-avg-usage-nononnet" class="form-control" readonly value="'.number_format($itemheader['avg_usage_non_onnet'],2,',','.').'">
                             </div>
                       </div>
                   </div>';
@@ -887,16 +887,15 @@ class Sc_schema_controller {
                         $CONTENT_TABLE_SECTION .= '<tr>';
                         $CONTENT_TABLE_SECTION .= '<td>'.$no++.'</td>';
                         $CONTENT_TABLE_SECTION .= '<td>'.$item1['V1'].'</td>';
-                        $CONTENT_TABLE_SECTION .= '<td align="right">'.$item1['V2'].'</td>replace'.$rpc.'#'.$no;
+                        $CONTENT_TABLE_SECTION .= '<td align="right">'.number_format($item1['V2'],2,',','.').'</td>replace'.$rpc.'#'.$no;
                         $CONTENT_TABLE_SECTION .= '</tr>';
-
                      }else{
 
                         $no++;
                         if($tdnum ==  $total_skema ){
-                            $addingtd = '<td align="right">'.$item1['V2'].'</td>';
+                            $addingtd = '<td align="right">'.number_format($item1['V2'],2,',','.').'</td>';
                         }else{
-                            $addingtd = '<td align="right">'.$item1['V2'].'</td>replace'.$rpc.'#'.$no;
+                            $addingtd = '<td align="right">'.number_format($item1['V2'],2,',','.').'</td>replace'.$rpc.'#'.$no;
                         }
 
                         $CONTENT_TABLE_SECTION = str_replace('replace'.$tdnum.'#'.$no, $addingtd, $CONTENT_TABLE_SECTION);
@@ -1051,16 +1050,16 @@ class Sc_schema_controller {
                         $CONTENT_TABLE_SECTION .= '<tr>';
                         $CONTENT_TABLE_SECTION .= '<td>'.$no++.'</td>';
                         $CONTENT_TABLE_SECTION .= '<td>'.$item1['V1'].'</td>';
-                        $CONTENT_TABLE_SECTION .= '<td align="right">'.$item1['V2'].'</td>replace'.$rpc.'#'.$no;
+                        $CONTENT_TABLE_SECTION .= '<td align="right">'.number_format($item1['V2'],2,',','.').'</td>replace'.$rpc.'#'.$no;
                         $CONTENT_TABLE_SECTION .= '</tr>';
 
                      }else{
 
                         $no++;
                         if($tdnum ==  $total_skema ){
-                            $addingtd = '<td align="right">'.$item1['V2'].'</td>';
+                            $addingtd = '<td align="right">'.number_format($item1['V2'],2,',','.').'</td>';
                         }else{
-                            $addingtd = '<td align="right">'.$item1['V2'].'</td>replace'.$rpc.'#'.$no;
+                            $addingtd = '<td align="right">'.number_format($item1['V2'],2,',','.').'</td>replace'.$rpc.'#'.$no;
                         }
 
                         $CONTENT_TABLE_SECTION = str_replace('replace'.$tdnum.'#'.$no, $addingtd, $CONTENT_TABLE_SECTION);
@@ -1516,7 +1515,7 @@ echo $TAB_EXCEL;
             $table-> updateScSchema($schema_id, $kolom='status', $val='Proses Data Fastel','');
             $table-> updateScSchema($schema_id, $kolom='step', $val=2,'');
 
-            $table->send_mail('');
+            //$table->send_mail('');
             
             $data['success'] = true;
             $data['message'] = 'Data Fastel Berhasil Di Proses, Email Notifikasi akan di kirim jika proses telah selesai ';
@@ -1592,6 +1591,7 @@ echo $TAB_EXCEL;
         $items2 = $table->get_select_option($select='skema_pembayaran', $trend, $kuadran, $operator);
         $ret.='|';
 
+        // $ret.= '<option value="-"> - </option>';
         $ret.= '<option value="-"> - </option>';
         foreach($items2 as $item) {
             $ret.= '<option value="'.$item['id'].'"> '.$item['code'].' </option>';
@@ -1726,6 +1726,39 @@ echo $TAB_EXCEL;
         exit;
     }
 
+    function download_upd_con(){
+      // make sure it's a file before doing anything!
+        $ci = & get_instance();
+        $ci->load->model('schema/schema_contract');
+        $table = $ci->schema_contract;
+        $file_name = getVarClean('file_name','str','');
+
+       $path = './application/third_party/upload_contract/'.$file_name;
+        if(is_file($path)){
+            // required for IE
+            if(ini_get('zlib.output_compression')) { ini_set('zlib.output_compression', 'Off'); }
+
+            // get the file mime type using the file extension
+            $ci->load->helper('file');
+
+            $mime = get_mime_by_extension($path);
+
+            // Build the headers to push out the file properly.
+            header('Pragma: public');     // required
+            header('Expires: 0');         // no cache
+            header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
+            header('Last-Modified: '.gmdate ('D, d M Y H:i:s', filemtime ($path)).' GMT');
+            header('Cache-Control: private',false);
+            header('Content-Type: '.$mime);  // Add the mime type from Code igniter.
+            header('Content-Disposition: attachment; filename="'.basename($file_name).'"');  // Add the file name
+            header('Content-Transfer-Encoding: binary');
+            header('Content-Length: '.filesize($path)); // provide file size
+            header('Connection: close');
+            readfile($path); // push it out
+            exit();
+        }
+         exit;
+    }
 
     public function downloadContract() {
         $ci = & get_instance();
@@ -1816,6 +1849,56 @@ echo $TAB_EXCEL;
         exit;
     }
 
+
+    function uploadContract() {
+
+        $ci = & get_instance();
+        $ci->load->model('schema/sc_schema');
+        $ci->load->model('schema/schema_contract');
+        $table2 = $ci->schema_contract;
+        $table = $ci->sc_schema;
+
+        $schema_id = getVarClean('schema_id', 'str', '');
+        $p_cust_id = getVarClean('p_cust_id', 'str', '');
+        $p_cust_account = getVarClean('p_cust_account', 'str', '');
+
+        $seq =$table2->get_con_id($schema_id);
+
+        $data = array('success' => false, 'message' => '');
+
+        try{
+
+            $path = $_FILES['file_upload_contract']['name'];
+            $ext = pathinfo($path, PATHINFO_EXTENSION);
+
+            $config['upload_path'] = './application/third_party/upload_contract';
+            $config['allowed_types'] = 'doc|docx|pdf';
+            $config['max_size'] = '10000000';
+            $config['overwrite'] = TRUE;
+            $config['file_name'] = "contract_" . $schema_id.'_'.$seq.'.'.$ext;
+            $ci->load->library('upload');
+            $ci->upload->initialize($config);
+            
+            if (!$ci->upload->do_upload("file_upload_contract")) {
+                throw new Exception( $ci->upload->display_errors() );
+            }else{
+                $filedata = $ci->upload->data();
+                $ext = pathinfo($path, PATHINFO_EXTENSION);
+                $table2->ins_data_contract($schema_id, $config['file_name'],$seq);
+                // $table->updateScSchema( $schema_id, 'contract_name', $config['file_name'] );
+            }
+
+            $data['message'] = 'Upload data success';
+            $data['success'] = true;
+
+        }catch (Exception $e) {
+            $data['message'] = $e->getMessage();
+        }
+
+        echo json_encode($data);
+        exit;
+    }
+
     function terminate_schema(){
 
         $ci = & get_instance();
@@ -1837,6 +1920,63 @@ echo $TAB_EXCEL;
         exit;
 
 
+    }
+    function del_down_c(){
+
+        $ci = & get_instance();
+        $ci->load->model('schema/schema_contract');
+        $table = $ci->schema_contract;
+
+        $schema_id = getVarClean('schema_id','str','');
+        $c_id = getVarClean('c_id','str','');
+        $filename = getVarClean('filename','str','');
+
+        $path = './application/third_party/upload_contract/'.$filename;
+        try{
+            $table->delete_upd_c($schema_id, $c_id);
+            unlink($path);
+            $data['success'] = true;
+            $data['message'] = 'Data berhasil di hapus ';
+        }catch (Exception $e) {
+            $data['message'] = $e->getMessage();
+        }
+
+        echo json_encode($data);
+        exit;
+    }
+    function get_contract_uploaded() {
+        $ci = & get_instance();
+        $ci->load->model('schema/schema_contract');
+        $table = $ci->schema_contract;
+
+        $schema_id = getVarClean('schema_id','str','');
+        $is_del = getVarClean('is_del','int',0);
+
+        $item = $table->get_uploaded_contract($schema_id);
+
+        $html = '';
+        $no = 1;
+        foreach ($item as $key => $value) {
+        $contract_id = $value['contract_id'];
+        $html.= '<tr>';
+        $html.= '<td> '.$no.' </td>';
+        $html.= '<td> '.$value['file_name'].' </td>';
+
+        if($is_del == 1){
+            $html.= '<td><a class="label label-sm label-success" onclick="download_c(\''.$contract_id.'\',\''.$value['file_name'].'\')"> Download </a> | 
+                 <a class="label label-sm label-danger" onclick="delete_c(\''.$contract_id.'\',\''.$value['file_name'].'\')"> Delete </a>
+            </td>';
+        }else{
+            $html.= '<td><a class="label label-sm label-success" onclick="download_c(\''.$contract_id.'\',\''.$value['file_name'].'\')"> Download </a>';
+        }
+
+        
+        $html.= '</tr>';
+        $no++;
+        }
+
+        echo $html;
+        exit;
     }
 
 }

@@ -60,6 +60,15 @@
             mtype: "POST",
             colModel: [
                 {label: 'ID', name: 'schema_id', key: true, width: 5, sorttype: 'number', editable: true, hidden: true},
+				/*{label: 'Action',name: 'action',width: 100, align: "center",editable: true,
+                    formatter:  function(cellvalue, options, rowobject){
+               
+                          return '<a title="delete" class="btn btn-xs btn-default" onclick="delete_fastel('+cellvalue+')" href="javascript:;">edit</a>| <a class="btn btn-xs btn-info" onclick="" href="javascript:;">detail</a>';
+                   
+                     
+                      // return '<i class="btn red btn-xs fa fa-trash-o fa-1x" onclick="delete_fastel('+cellvalue+')"></i>';
+                    }
+                },*/
                 {label: 'Schema ID',name: 'schema_id',width: 120, align: "left",editable: true,
                     editoptions: {
                         size: 30,

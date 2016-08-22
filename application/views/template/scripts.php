@@ -59,7 +59,11 @@
 <script src="<?php echo base_url(); ?>assets/js/optimal.js"></script>
 <script src="<?php echo base_url(); ?>assets/js/jquery.simplePagination.js"></script>
 
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+
 <script type="text/javascript">
+	
+	// google.charts.load('current', {'packages':['corechart']});
     $(document).ready(function () {
         // Ajax setup csrf token.
         var csfrData = {};

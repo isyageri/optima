@@ -5,7 +5,12 @@
 * @version 07/05/2015 12:18:00
 */
 class Tagihan_agregate_controller {
-
+    function periode($t,$b){
+        if($b < 10){
+            $b = '0'.$b;
+        }
+        return $t.$b;
+    }
     function read() {
 
         $page = getVarClean('page','int',1);
@@ -40,10 +45,12 @@ class Tagihan_agregate_controller {
             );
 
             // Filter Table
-            $req_param['where'] = array("an_fact = ".$an_fact,
+           /* $req_param['where'] = array("an_fact = ".$an_fact,
                                         "per_fact = ".$per_fact,
                                         "nd in (select distinct p_notel from cc_dataref_batch where schema_id = '".$schema_id."')");
-
+*/
+            $req_param['where'] = array("periode = '".$this->periode($an_fact,$per_fact)."' ",
+            "batch_id = (select batch_id from sc_schema where schema_id = '".$schema_id."')");
             $table->setJQGridParam($req_param);
             $count = $table->countAll();
 
@@ -104,9 +111,11 @@ class Tagihan_agregate_controller {
                 $table->setCriteria("(upper(a.nd) ".$table->likeOperator." upper('%".$searchPhrase."%') OR upper(a.no_cpta) ".$table->likeOperator." upper('%".$searchPhrase."%'))");
             }
 
-            $table->setCriteria("an_fact = ".$an_fact);
+           /* $table->setCriteria("an_fact = ".$an_fact);
             $table->setCriteria("per_fact = ".$per_fact);
-            $table->setCriteria("nd in (select distinct p_notel from cc_dataref_batch where schema_id = '".$schema_id."')");
+            $table->setCriteria("nd in (select distinct p_notel from cc_dataref_batch where schema_id = '".$schema_id."')");*/
+            $table->setCriteria("periode = '".$this->periode($an_fact,$per_fact)."' ");
+            $table->setCriteria("batch_id = (select batch_id from sc_schema where schema_id = '".$schema_id."')");
 
             $start = ($start-1) * $limit;
             $items = $table->getAll($start, $limit, $sort, $dir);
@@ -156,9 +165,67 @@ class Tagihan_agregate_controller {
         $ci->load->model('schema/tagihan_agregate');
         $table = $ci->tagihan_agregate;
 
-        $table->setCriteria("an_fact = ".$an_fact);
-        $table->setCriteria("per_fact = ".$per_fact);
-        $table->setCriteria("nd in (select distinct p_notel from cc_dataref_batch where schema_id = '".$schema_id."')");
+         $table->setCriteria("periode = '".$this->periode($an_fact,$per_fact)."' ");
+         $table->setCriteria("batch_id = (select batch_id from sc_schema where schema_id = '".$schema_id."')");
+
+        $items = $table->getAll(0, -1, $sort, $dir);
+ 
+        $html  = '<table border="1">';
+        $html .= '<tr>';
+        $html .= '<th>NO</th>';
+        $html .= '<th>ND</th>';
+        $html .= '<th>PERIODE</th>';
+        $html .= '<th>TELKOM JJ</th>';
+        $html .= '<th>TELKOM LK</th>';
+        $html .= '<th>TELKOMSEL</th>';
+        $html .= '<th>LAINNYA</th>';
+        $html .= '<th>ON NET</th>';
+        $html .= '<th>NON ON NET</th>';
+        $html .= '<th>TOTAL</th>';
+        $html .= '</tr>';
+
+        $i = 1;
+        foreach($items as $item) {
+            $html .= '<tr>';
+            $html .= '<td>'.$i++.'</td>';
+            $html .= '<td>&nbsp;'.$item['nd'].'</td>';
+            $html .= '<td>'.$item['periode'].'</td>';
+            $html .= '<td>'.$item['telkom_jj'].'</td>';
+            $html .= '<td>'.$item['telkom_lk'].'</td>';
+            $html .= '<td>'.$item['telkomsel'].'</td>';
+            $html .= '<td>'.$item['lainnya'].'</td>';
+            $html .= '<td>'.$item['on_net'].'</td>';
+            $html .= '<td>'.$item['non_on_net'].'</td>';
+            $html .= '<td>'.$item['total_aamount'].'</td>';
+            $html .= '</tr>';
+        }
+        $html .= '</table>';
+
+        startExcel('detail_trend_info_'.$schema_id.'.xls');
+        echo '<html>';
+        echo '<head><title>Excel Trend & Info Detail</title></head>';
+        echo '<body>';
+        echo $html;
+        echo '</body>';
+        echo '</html>';
+        exit;
+    }
+
+     function excelDetailTableTrendInfo_bkp() {
+
+        $sort = getVarClean('sort','str','nd');
+        $dir  = getVarClean('dir','str','asc');
+
+        $schema_id = getVarClean('schema_id','str','');
+        $an_fact = getVarClean('an_fact','int',0);
+        $per_fact = getVarClean('per_fact','int',0);
+
+        $ci = & get_instance();
+        $ci->load->model('schema/tagihan_agregate');
+        $table = $ci->tagihan_agregate;
+
+         $table->setCriteria("periode = '".$this->periode($an_fact,$per_fact)."' ");
+         $table->setCriteria("batch_id = (select batch_id from sc_schema where schema_id = '".$schema_id."')");
 
         $items = $table->getAll(0, -1, $sort, $dir);
 

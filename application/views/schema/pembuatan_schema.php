@@ -15,14 +15,14 @@
             <i class="fa fa-circle"></i>
         </li>
         <li>
-            <span>Pembuatan Schema</span>
+            <span>Pembuatan Schema Offering</span>
         </li>
     </ul>
 </div>
 <!-- end breadcrumb -->
 <div class="space-4"></div>
 <div class="row">
-   <!--  <div class="col-md-12">
+   <!-- <div class="col-md-12">
 
   		<div class="portlet light bordered" >
   			<div class="portlet-title">
@@ -60,7 +60,7 @@
   			</form>
   		</div> 
 
-    </div>-->
+    </div> -->
 
     <div class="col-md-12">
       <div class="portlet light bordered" id="form_wizard_1">
@@ -95,7 +95,7 @@
                                      <a href="#tab3" data-toggle="tab" class="step active">
                                          <span class="number"> 3 </span>
                                          <span class="desc">
-                                             <i class="fa fa-check"></i> Tren & Info </span>
+                                             <i class="fa fa-check"></i> Trend & Info </span>
                                      </a>
                                  </li>
                                  <li>
@@ -117,10 +117,10 @@
                                  <div class="tab-pane active" id="tab1">
                                       <!--- TAB 1 -->
                                       <div class="form-group">
-                                          <label class="control-label col-md-3">Nipnas
+                                          <label class="control-label col-md-2">Nipnas
                                              <span> * </span>
                                           </label>
-                                          <div class="col-md-4">
+                                          <div class="col-md-3">
                                             <div class="input-group">
                                                <input type="hidden" class="form-control required"  id="schema_id" name="schema_id" placeholder="Nipnas" />
                                                <input type="text" class="form-control required"  id="nipnas" name="nipnas" placeholder="Nipnas" />
@@ -131,16 +131,16 @@
                                                </span>
                                             </div>
                                          </div>
-                                         <div class="col-md-3">
+                                         <div class="col-md-5">
                                             <input type="text" class="form-control" id="customer_name" readonly="" placeholder="Customer Name"  />
                                          </div>
                                       </div>
 
                                       <div class="form-group">
-                                          <label class="control-label col-md-3">Account Num
+                                          <label class="control-label col-md-2">Account Num
                                              <span> * </span>
                                           </label>
-                                          <div class="col-md-4">
+                                          <div class="col-md-3">
                                              <div class="input-group">
                                                  <input type="text" class="form-control required" id="account_num" name="account_num" placeholder="Account Number" />
                                                  <span class="input-group-btn">
@@ -150,8 +150,35 @@
                                                  </span>
                                              </div>
                                          </div>
-                                         <div class="col-md-3">
+                                         <div class="col-md-5">
                                             <input type="text" class="form-control" id="account_name" readonly="" placeholder="Account Name"  />
+                                         </div>
+                                      </div>
+                                      <div class="form-group">
+                                          <label class="control-label col-md-2">Location
+                                          </label>
+                                          <div class="col-md-3">
+                                             <div class="input-group">
+                                                 <input type="text" class="form-control" readonly id="location" name="location" placeholder="Location" value="<?php  echo $this->session->location_name;?>" />
+                                             </div>
+                                         </div>
+                                      </div>
+                                      <div class="form-group">
+                                          <label class="control-label col-md-2">Created By
+                                          </label>
+                                          <div class="col-md-3">
+                                             <div class="input-group">
+                                                 <input type="text" class="form-control" readonly id="created_by" name="created_by" placeholder="Created by" value="<?php echo $this->ion_auth->user()->row()->username;?>" />
+                                             </div>
+                                         </div>
+                                      </div>
+                                      <div class="form-group">
+                                          <label class="control-label col-md-2">Created Date
+                                          </label>
+                                          <div class="col-md-3">
+                                             <div class="input-group">
+                                                 <input type="text" class="form-control" readonly id="created_date" name="created_date" placeholder="Created date" value="<?php echo date('d-m-Y');?>" />
+                                             </div>
                                          </div>
                                       </div>
                                       <!-- <a type="button" id="send_email" class="btn blue-haze" value="send_email">send_mail </a> -->
@@ -186,6 +213,14 @@
                                       <input type="button" id="proses_fastel" class="btn blue-haze" value="Proses">
                                       <input type="button" id="hapus_fastel" class="btn red-haze" onclick="delete_fastel($('#batch_id').val(),0,1)" value="Hapus Semua Fastel">
                                       <div class="space-4"></div>
+                                       <div class="space-4"></div>
+                                       <div class="row" id="msg_proses_fastel">
+                                          <div class="col-md-12">
+                                          <p><i><b>Proses Pengambilan data history dan validasi fastel sedang berjalan, email pemberitahuan akan dikirim ketika proses sudah selesai.</b></i></p>
+                                          <input type="button" id="check_proses_fastel" class="btn blue-haze" value="Check Proses" onclick="is_process_finished()">
+                                          </div>
+                                      </div>
+                                        <div class="space-4"></div>
                                       <div class="row">
                                           <div class="col-md-12">
                                               <table id="grid-table-fastel"></table>
@@ -251,12 +286,21 @@
                                                         </select>
                                                       </div>
                                               </div>
-                                              <div class="form-group form-md-line-input form-md-floating-label">
-                                                   <button type ="button" class="btn btn-sm btn-primary" onclick="showSimulasi()"> Simulasi </button>
-                                              </div>
+                                              
                                                
                                               <!-- <input type="button" id="filter_diskon" class="btn blue-haze" value="Submit"> -->
                                           </div>
+                                           <div class="col-md-12">
+                                              <div class="form-group form-md-line-input form-md-floating-label">
+                                               <label class="col-md-3 control-label" for="trend"></label>
+                                                    <div class="col-md-4">
+                                                      <button type ="button" class="btn btn-sm btn-info" id="simulasi_diskon" onclick="showSimulasi()"> Simulasi </button>
+                                                    </div>
+                                                     <div class="col-md-4">
+                                                       
+                                                      </div>
+                                                   
+                                              </div>
                                       </div>
                                       <div class="space-4"></div>
                                       <div class="row">
@@ -275,7 +319,7 @@
                                  <div class="col-md-offset-3 col-md-9">
                                      <a href="javascript:;" class="btn default button-previous">
                                          <i class="fa fa-angle-left"></i> Back </a>
-                                     <a href="javascript:;" class="btn btn-outline green button-next"> Continue
+                                     <a href="javascript:;" class="btn btn-outline green button-next" id="continue_btn"> Continue
                                          <i class="fa fa-angle-right"></i>
                                      </a>
                                      <a href="javascript:;" class="btn green button-submit" id="submit_finale"> Submit
@@ -497,21 +541,29 @@
             $('#form_wizard_1').find('.button-previous').hide();
             $('#form_wizard_1 .button-submit').click(function () {
                 
+
                 trend = $('#trend').val();
                 operator = $('#temp_operator').val();
                 kuadran = $('#select_kuadran').val();
                 model = $('#select_model').val();
                 schema_id = $('#schema_id').val();
                 
-                $.ajax({
-                type: "POST",
-                url: "<?php echo WS_JQGRID.'schema.sc_schema_controller/finished'; ?>",
-                data: { operator:operator, trend:trend, kuadran:kuadran, model:model, schema_id:schema_id },
-                success: function (data) {
-                   swal({title: 'Info', text: 'Selesai, Step selanjutnya adalah mengisi data kontrak !', html: true, type: "info"});
-                    loadContentWithParams('schema.index', {});
-                    }
-                 });
+                if(trend != '' && operator != '' && kuadran != '' && model != '' && model != '-' && schema_id != ''){
+                  $.ajax({
+                    type: "POST",
+                    url: "<?php echo WS_JQGRID.'schema.sc_schema_controller/finished'; ?>",
+                    data: { operator:operator, trend:trend, kuadran:kuadran, model:model, schema_id:schema_id },
+                    success: function (data) {
+                       swal({title: 'Info', text: 'Selesai, Step selanjutnya adalah mengisi data kontrak !', html: true, type: "info"});
+                        loadContentWithParams('schema.index', {});
+                        }
+                     });
+                }else{
+                  swal({title: 'Warinig', text: 'Harap Lengkapi Data !', html: true, type: "warning"});
+                }
+
+                
+
             }).hide();
 
             //apply validation on select2 dropdown value change, this only needed for chosen dropdown integration.
@@ -533,7 +585,18 @@
     }
 
     function showSimulasi(discount_code) {
-        modal_lov_simulasi_show(discount_code);
+                trend = $('#trend').val();
+                operator = $('#temp_operator').val();
+                kuadran = $('#select_kuadran').val();
+                model = $('#select_model').val();
+                schema_id = $('#schema_id').val();
+                
+                if(trend != '' && operator != '' && kuadran != '' && model != '' && model != '-' && schema_id != ''){
+                  modal_lov_simulasi_show(discount_code);
+                }else{
+                 swal({title: "Warning!", text: 'Harap Lengkapi Data', html: true, type: "warning"});
+                }
+        
     }
 
     function pilihSimulasi(discount_code, p_business_schem_id) {
@@ -584,7 +647,9 @@
 
 <script>
   $(document).ready(function(){
-      
+
+      $('#msg_proses_fastel').hide();
+       $('#submit_finale').hide();
       // initial edit schema | add by umar 27/6/16
       var edit_schm_id = '<?php echo getVarClean('schema_id','str','0'); ?>';
       //alert(edit_schm_id);
@@ -717,6 +782,7 @@
                   ret = data.split('|');
                   $('#select_kuadran').html(ret[0]);
                   $('#select_model').html(ret[1]);
+                 /* $('#simulasi_diskon').show();*/
 
             }
          });
@@ -812,45 +878,96 @@
 
 
   var skemaAdded = false;
+  var is_finished_fastel = false;
   var del_fastel = true;
 
   function onNextTab(tab, navigation, index) {
-      if(index == 1 && !skemaAdded) {
-          return addSkema(tab, navigation, index);
-          return true;
-      }
+	  
+    if(index == 1 && !skemaAdded) {
+        return addSkema(tab, navigation, index);
+        return true;
+    }
 
-      if(index == 1) {
-          responsive_jqgrid('#grid-table-fastel', '#grid-pager-fastel');
-          $('#grid-table-fastel').jqGrid('setGridParam', {
-                    postData: {schema_id: $("#schema_id").val()}
-                });
-          $('#grid-table-fastel').trigger("reloadGrid");
-      }
+    if(index == 1) {
 
-      if(index == 2) {
-          loadTableTrendInfo();
-      }
+        is_process_finished();
+        responsive_jqgrid('#grid-table-fastel', '#grid-pager-fastel');
+        $('#grid-table-fastel').jqGrid('setGridParam', {
+                  postData: {schema_id: $("#schema_id").val()}
+              });
+        $('#grid-table-fastel').trigger("reloadGrid");
+    }
 
-      if(index == 3) {
-       /* var operator = $('#trend-name').val() ;
-            kuadran = $('#trend-name').val() ;
-            trend = $('#trend-name').val() ;*/
+    if(index == 2) {
+      loadTableTrendInfo();
+    }
 
-      var trend = $('#trend').val();
-          operator = $('#temp_operator').val();
-          kuadran = $('#select_kuadran').val();
-          model = $('#select_model').val();
+	if(index == 3) {
+	/* var operator = $('#trend-name').val() ;
+		kuadran = $('#trend-name').val() ;
+		trend = $('#trend-name').val() ;*/
+    
+    $('#submit_finale').hide();
+    /* $('#simulasi_diskon').hide();*/
+		var trend  = $('#trend').val();
+		operator  = $('#temp_operator').val();
+		kuadran  = $('#select_kuadran').val();
+		model  = $('#select_model').val();
 
-          // loadTableSkemaPembayaran();
-           loadTableSkemaPembayaran(trend, kuadran, operator, model);
-      }
+		// loadTableSkemaPembayaran();
+		loadTableSkemaPembayaran(trend, kuadran, operator, model);
+	}
+    if(index == 4) {
+
+  }
   }
 
 function cek_fastel(){
 
 }
 
+function is_process_finished(){
+    schema_id = $('#schema_id').val();
+     $.ajax({
+          url: "<?php echo WS_JQGRID.'schema.fastel_controller/is_finished'; ?>",
+          type: "POST",
+		  dataType : 'json',
+          data: { schema_id:schema_id },
+          success: function (data) {
+
+                if(data.check == 1){
+    			         //swal({title: "Warning!", text: data.message, html: true, type: "warning"});
+                        $('#continue_btn').show();
+    				    $('#msg_proses_fastel').hide();
+                        $('#add_fastel').hide();
+                        $('#proses_fastel').hide();
+                        $('#hapus_fastel').hide();
+                        del_fastel = false;
+    			 }else if( data.check < 0 ){
+                        $('#msg_proses_fastel').hide();
+                        $('#continue_btn').hide();
+                        $('#add_fastel').show();
+                        $('#proses_fastel').show();
+                        $('#hapus_fastel').show();
+                        del_fastel = true;
+    			   }else{
+                        $('#continue_btn').hide();
+                        $('#msg_proses_fastel').show();
+                        $('#add_fastel').hide();
+                        $('#proses_fastel').hide();
+                        $('#hapus_fastel').hide();
+                        del_fastel = false;
+             }
+
+          },
+          error: function (xhr, status, error) {
+              swal({title: "Error!", text: xhr.responseText, html: true, type: "error"});
+              return false;
+          }
+      });
+	  return is_finished_fastel;
+  }
+  
  function del_all(){
     schema_id = $('#schema_id').val();
      $.ajax({
@@ -906,14 +1023,13 @@ function cek_fastel(){
                 $('#account_name').val(data[0].account_name);
                 $('#nipnas').val(data[0].customer_ref);
                 $('#customer_name').val(data[0].account_name);
-                $('#btn-lov-nipnas').hide();
-                $('#btn-lov-account').hide();
-                $('#add_fastel').hide();
-                $('#proses_fastel').hide();
-                $('#hapus_fastel').hide();
+                $('#created_by').val(data[0].created_by);
+                $('#created_date').val(data[0].created_date);
+                $('#location').val(data[0].location_name);
+                $('#btn-lov-nipnas').prop('disabled',true);
+                $('#btn-lov-account').prop('disabled',true);
 
                 skemaAdded = true;
-                del_fastel = false;
             }
           },
           error: function (xhr, status, error) {
@@ -1070,11 +1186,20 @@ function cek_fastel(){
                     },
                     editrules: {required: true}
                 },
-                {label: 'Action',name: 'action',width: 150, align: "left",editable: true,
+                 {label: 'Info',name: 'error_msg',width: 150, align: "left",editable: true,
+                    editoptions: {
+                        size: 30,
+                        maxlength:32
+                    },
+                    editrules: {required: true}
+                },
+                {label: 'Action',name: 'action',width: 100, align: "center",editable: true,
                     formatter:  function(cellvalue, options, rowobject){
                       if(del_fastel){
-                          return '<a class="btn btn-xs btn-danger" onclick="delete_fastel('+cellvalue+')" href="javascript:;"><i class="icon-trash"></i></a>';
+                          return '<a title="delete" class="btn btn-xs btn-danger" onclick="delete_fastel('+cellvalue+')" href="javascript:;"><i title="info" class="icon-trash"></i></a>';
+                          //'| <a class="btn btn-xs btn-info" onclick="" href="javascript:;"><i class="icon-info"></i></a>';
                       }else{
+                        //return '<a title="info" class="btn btn-xs btn-info" onclick="" href="javascript:;"><i class="icon-info"></i></a>';
                         return '-';
                       }
                      
