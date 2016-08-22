@@ -72,6 +72,48 @@ class Schema_contract extends Abstract_model {
         return false;
     }
 
+    function get_data_contract($schema_id){
+        
+        $sql = "SELECT a.SCHEMA_ID,
+                       NOMOR1,
+                       NOMOR2,
+                       HARI,
+                       TANGGAL,
+                       BULAN,
+                       TAHUN,
+                       LOKASI,
+                       ALAMAT_T,
+                       ALAMAT_C,
+                       NAMA_T,
+                       NAMA_C,
+                       REK_NO,
+                       REK_NAME,
+                       JABATAN_T,
+                       JABATAN_C,
+                       NAMA_PT,
+                       ALAMAT_INV,
+                       c.schem_name PROGRAM,
+                       c.disc_pct || '%' PERCENT_CMT,
+                       to_char(d.START_PERIOD,'MON') BULAN_4,
+                       to_char(add_months(d.START_PERIOD, MONTH_BACKWARD_QTY*-1),'MON') BULAN_1, 
+                       d.AVG_USAGE_ONNET NILAI_CMT, 
+                       d.AVG_USAGE_ONNET * c.disc_pct/100 NILAI_RATA2
+                       from schema_contract a
+                       join sc_schema@GNV_CUS_NPOTS b on a.schema_id = b.schema_id  
+                       join v_bs_schem_list@GNV_CUS_NPOTS c
+                       on b.discount_id = c.discount_code
+                       join M4L_ACC_SCHEMA_REG@GNV_CUS_NPOTS d
+                       on b.batch_id = d.batch_id 
+                       where a.schema_id = '$schema_id' ";
+
+        $query = $this->db->query($sql);
+        $result = $query->result_array();
+
+        return $result;
+
+    }
+
+
     function getSchemName($discount_code) {
         $this->db = $this->load->database('default', TRUE);
         $this->db->_escape_char = ' ';
@@ -83,6 +125,35 @@ class Schema_contract extends Abstract_model {
         return $row['schem_name'];
     }
 
+    function get_uploaded_contract($schema_id='') {
+        $sql = "select * from schema_contract_upd where schema_id = '".$schema_id."'";
+        $query = $this->db->query($sql);
+        $item  = $query->result_array();
+
+        return $item;
+    }
+
+    function get_con_id($schema_id){
+      $sql = "SELECT nvl(max(contract_id),0)+1  cid FROM schema_contract_upd WHERE schema_id = '".$schema_id."'";
+        $query = $this->db->query($sql);
+        $row = $query->row_array();
+        $query->free_result();
+
+        return $row['cid'];
+    }
+
+    function delete_upd_c($schema_id='',  $seq) {
+        
+        $sql = "delete schema_contract_upd where schema_id = '".$schema_id."' and contract_id = '".$seq."' ";
+        $query = $this->db->query($sql);
+    }
+    
+    function ins_data_contract($schema_id='', $filename, $seq) {
+        
+        $sql = "insert into schema_contract_upd (SCHEMA_ID, UPLOADED_DATE, FILE_NAME, CONTRACT_ID) 
+                VALUES('".$schema_id."', sysdate, '".$filename."', ".$seq.")";
+        $query = $this->db->query($sql);
+    }
 }
 
 /* End of file Users.php */
