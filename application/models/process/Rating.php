@@ -4,22 +4,22 @@
  * Groups Model
  *
  */
-class Period extends Abstract_model {
+class Rating extends Abstract_model {
 
-    public $table           = "p_finance_period";
-    public $pkey            = "p_finance_period_id";
+    public $table           = "v_control_process_rating_rmd";
+    public $pkey            = "task_request_id";
     public $alias           = "per";
 
     public $fields          = array();
 
     public $selectClause    = "per.*";
-    public $fromClause      = "v_p_finance_period per";
+    public $fromClause      = "v_control_process_rating_rmd per";
 
     public $refs            = array();
 
     function __construct() {
         parent::__construct();
-        $this->db = $this->load->database('tosdb_prod', TRUE);
+        $this->db = $this->load->database('operasi', TRUE);
         $this->db->_escape_char = ' ';
     }
 

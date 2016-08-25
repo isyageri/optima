@@ -26,6 +26,9 @@
 				<li id="tab-3" class="active">
                     <a data-toggle="tab"> Proses </a>
                 </li>
+                <li id="tab-4" style="display:none;">
+                    <a data-toggle="tab"> Proses Rating</a>
+                </li>
             </ul>
 			<div class="row">
 				<div class="col-md-8">
@@ -64,6 +67,22 @@
             loadContentWithParams("process.process_prebill_batch", {   
                 p_finance_period_id: "<?php echo $this->input->post('p_finance_period_id'); ?>",
                 finance_period_code : "<?php echo $this->input->post('finance_period_code'); ?>"             
+            });
+        });
+
+        $("#tab-4").on( "click", function() { 
+             var grid = $('#grid-table-prebill');
+            selRowId = grid.jqGrid ('getGridParam', 'selrow');
+            
+            var idd = grid.jqGrid ('getCell', selRowId, 'req_id');  
+            var idd = grid.jqGrid ('getCell', selRowId, 'req_id');  
+
+            loadContentWithParams("process.process_rating", {   
+                p_finance_period_id: "<?php echo $this->input->post('p_finance_period_id'); ?>",
+                finance_period_code : "<?php echo $this->input->post('finance_period_code'); ?>",  
+                input_data_control_id :"<?php echo $this->input->post('input_data_control_id'); ?>",           
+                input_file_name :"<?php echo $this->input->post('input_file_name'); ?>",           
+                task_request_id : idd             
             });
         });
 		
@@ -164,7 +183,8 @@
                 {label: 'User', name: 'operator_id', hidden: false},                
                 {label: 'Mulai', name: 'start_process_date', hidden: false},                
                 {label: 'Selesai', name: 'end_process_date', hidden: false},                
-                {label: 'Prosedur', name: 'real_procedure_name', hidden: false}
+                {label: 'Prosedur', name: 'real_procedure_name', hidden: false},
+                {label: 'Req Id', name: 'req_id', hidden: false}
             ],
             height: '100%',
             autowidth: true,
@@ -179,6 +199,7 @@
             onSelectRow: function (rowid) {
                 /*do something when selected*/
                 var celValue = $('#grid-table-prebill').jqGrid('getCell', rowid, 'job_control_id');
+                var req_id = $('#grid-table-prebill').jqGrid('getCell', rowid, 'req_id');
 
                 if (rowid != null) {
                     jQuery("#grid-table-proses").jqGrid('setGridParam', {
@@ -188,6 +209,12 @@
                     $("#grid-table-proses").trigger("reloadGrid");
                     $("#table_proses").show();
 
+                }
+
+                if(req_id != 0){
+                    $("#tab-4").show();
+                }else{
+                    $("#tab-4").hide();
                 }
 
             },

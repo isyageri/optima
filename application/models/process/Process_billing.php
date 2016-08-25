@@ -18,7 +18,7 @@ class Process_billing extends Abstract_model {
 
     function __construct() {
         parent::__construct();
-        $this->db = $this->load->database('tosdb', TRUE);
+        $this->db = $this->load->database('tosdb_prod', TRUE);
         $this->db->_escape_char = ' ';
     }
 

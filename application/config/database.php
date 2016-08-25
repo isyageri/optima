@@ -236,3 +236,72 @@ $db['geneva']['dbcollat'] = 'utf8_general_ci';
 $db['geneva']['swap_pre'] = '';
 $db['geneva']['autoinit'] = TRUE;
 $db['geneva']['stricton'] = FALSE;
+
+
+/*-----------------------------------------------*/
+/*  tosdb Prod Connection
+/*
+/*-----------------------------------------------*/
+
+$db['tosdb_prod']['hostname'] ='
+(DESCRIPTION =
+    (ADDRESS_LIST =
+      (ADDRESS =
+        (PROTOCOL = TCP)
+        (HOST = 10.60.185.108)
+        (PORT = 1521)
+      )
+    )
+    (CONNECT_DATA =
+      (SID = TIBSNP)
+    )
+  )';
+
+$db['tosdb_prod']['username'] = 'tosdb';
+$db['tosdb_prod']['password'] = 'tosdb';
+$db['tosdb_prod']['database'] = 'tibs_nonpots';
+$db['tosdb_prod']['dbdriver'] = 'oci8';
+$db['tosdb_prod']['dbprefix'] = '';
+$db['tosdb_prod']['pconnect'] = FALSE;
+$db['tosdb_prod']['db_debug'] = TRUE;
+$db['tosdb_prod']['cache_on'] = FALSE;
+$db['tosdb_prod']['cachedir'] = '';
+$db['tosdb_prod']['char_set'] = 'utf8';
+$db['tosdb_prod']['dbcollat'] = 'utf8_general_ci';
+$db['tosdb_prod']['swap_pre'] = '';
+$db['tosdb_prod']['autoinit'] = TRUE;
+$db['tosdb_prod']['stricton'] = FALSE;
+
+/*-----------------------------------------------*/
+/*  Operasi Connection
+/*
+/*-----------------------------------------------*/
+
+$db['operasi']['hostname'] ='
+(DESCRIPTION =
+    (ADDRESS_LIST =
+      (ADDRESS =
+        (PROTOCOL = TCP)
+        (HOST = 10.60.185.108)
+        (PORT = 1521)
+      )
+    )
+    (CONNECT_DATA =
+      (SID = TIBSNP)
+    )
+  )';
+
+$db['operasi']['username'] = 'operasi';
+$db['operasi']['password'] = 'fbcc_201607';
+$db['operasi']['database'] = 'tibs_nonpots';
+$db['operasi']['dbdriver'] = 'oci8';
+$db['operasi']['dbprefix'] = '';
+$db['operasi']['pconnect'] = FALSE;
+$db['operasi']['db_debug'] = TRUE;
+$db['operasi']['cache_on'] = FALSE;
+$db['operasi']['cachedir'] = '';
+$db['operasi']['char_set'] = 'utf8';
+$db['operasi']['dbcollat'] = 'utf8_general_ci';
+$db['operasi']['swap_pre'] = '';
+$db['operasi']['autoinit'] = TRUE;
+$db['operasi']['stricton'] = FALSE;
