@@ -27,7 +27,7 @@
                     <a data-toggle="tab"> Proses </a>
                 </li>
                 <li id="tab-4" style="display:none;">
-                    <a data-toggle="tab"> Proses Rating</a>
+                    <a data-toggle="tab"> Task Request </a>
                 </li>
             </ul>
 			<div class="row">
@@ -183,7 +183,7 @@
                 {label: 'User', name: 'operator_id', hidden: false},                
                 {label: 'Mulai', name: 'start_process_date', hidden: false},                
                 {label: 'Selesai', name: 'end_process_date', hidden: false},                
-                {label: 'Prosedur', name: 'real_procedure_name', hidden: false},
+                {label: 'Prosedur', name: 'real_procedure_name', hidden: true},
                 {label: 'Req Id', name: 'req_id', hidden: false}
             ],
             height: '100%',

@@ -10,7 +10,7 @@
 				<i class="fa fa-circle"></i>
 			</li>
 			<li>
-				<span>Proses Rating</span>
+				<span>Task Request/span>
 			</li>
 		</ul>
 	</div>
@@ -28,7 +28,7 @@
                     <a data-toggle="tab"> Proses </a>
                 </li>
                 <li  class="active">
-                    <a data-toggle="tab"> Proses Rating</a>
+                    <a data-toggle="tab"> Task Request </a>
                 </li>
             </ul>
 			<div class="tab-content">
@@ -69,6 +69,9 @@
         jQuery("#grid-table-prebill").jqGrid({
             url: '<?php echo WS_JQGRID."process.rating_controller/crud"; ?>',
             datatype: "json",
+            postData: {
+                task_request_id : <?php echo $this->input->post('task_request_id'); ?>
+            },
             mtype: "POST",
             colModel: [
                 {label: 'Task Request ID', name: 'task_request_id', hidden: false},                

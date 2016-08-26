@@ -14,8 +14,8 @@ class Rating_controller {
         $sord = getVarClean('sord','str','desc');
 
         $data = array('rows' => array(), 'page' => 1, 'records' => 0, 'total' => 1, 'success' => false, 'message' => '');
-        $idd = getVarClean('task_request_id','int', 0);
-
+        $task_request_id = getVarClean('task_request_id','int', 0);
+        
         try {
 
             $ci = & get_instance();
@@ -37,7 +37,7 @@ class Rating_controller {
             );
 
             // Filter Table
-            $req_param['where'] = array('task_request_id = '.$idd);
+            $req_param['where'] = array('per.task_request_id = '.$task_request_id);
 
             $table->setJQGridParam($req_param);
             $count = $table->countAll();
