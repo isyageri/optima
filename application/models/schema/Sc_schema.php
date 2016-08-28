@@ -176,6 +176,31 @@ class Sc_schema extends Abstract_model {
         return $row;
     }
 
+    function getListSkemaPembayaran_new($trend, $operator, $kuadran, $model, $discount_code, $r_onnet, $onnet) {
+        
+        $delta = $onnet - $r_onnet;
+        $kenaikan = round(($delta / $r_onnet) *100);
+        
+        $sql = "select * from V_BS_SCHEM_LIST
+                    where OPERATOR = '".$operator."'
+                    and KUADRAN = '".$kuadran."'
+                    and SCHEM_NAME = '".$model."'
+                    and TREND = '".$trend."'
+                    and discount_code = nvl('".$discount_code."', discount_code)";
+
+        if($model == 'TIERING MODEL'){
+            $sql .= " AND ".$kenaikan." BETWEEN  LOW_LIMIT_PCT_INCREASE AND UP_LIMIT_PCT_INCREASE ";
+        }
+        
+        $sql .=  " order by schem_name, disc_pct";
+
+        /*if(!empty($discount_code))
+            $sql .= " where discount_code = '".$discount_code."'";*/
+        $query = $this->db->query($sql);
+        $row = $query->result_array();
+        return $row;
+    }
+
     function get_reference_tiering(){
 
 		// TODO: tiering model 

@@ -731,7 +731,7 @@
     }
 
     $(function(){
-        $('#form-data-contract_schema').submit(function(){
+        $('#submit_form1').click(function(){
 
             start_dat = $('#info_start_dat').val();
             end_dat = $('#info_end_dat').val();

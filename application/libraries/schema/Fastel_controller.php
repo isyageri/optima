@@ -91,7 +91,11 @@ class Fastel_controller {
         return $data;
     }
 
+    function clean_str($string) {
+       $string = str_replace(' ', '-', $string); // Replaces all spaces with hyphens.
 
+       return preg_replace('/[^A-Za-z0-9\-]/', '', $string); // Removes special chars.
+    }
     function uploadFastel() {
 
         $ci = & get_instance();
@@ -132,6 +136,7 @@ class Fastel_controller {
 
                 $row = fgets($fastelfile);
 
+                $row = $this->clean_str($row);
 
                 $datainsert[$loop]['p_notel'] = $row;
                 $datainsert[$loop]['p_cust_id'] = $p_cust_id;
@@ -182,9 +187,17 @@ class Fastel_controller {
         try{
             if($all == 1){
                 $table->db->delete($table->table, array('schema_id' => $schema_id)); 
+                $table->db->delete('t_job_has_period', array('batch_id' => $batch_id)); 
+                $table->db->delete('control_batch', array('BATCH_CONTROL_ID' => $batch_id)); 
+                $table->db->delete('TAGIHAN_AGREGAT_M4L_BATCH', array('batch_id' => $batch_id)); 
+                $table->db->delete('M4L_ACC_SCHEMA_REG', array('batch_id' => $batch_id)); 
                  $data['message'] = 'Semua Fastel Berhasil Dihapus !';
             }else{
                 $table->db->delete($table->table, array('batch_id' => $batch_id,'p_notel' => $notel )); 
+                $table->db->delete('t_job_has_period', array('batch_id' => $batch_id)); 
+                $table->db->delete('control_batch', array('BATCH_CONTROL_ID' => $batch_id)); 
+                $table->db->delete('TAGIHAN_AGREGAT_M4L_BATCH', array('batch_id' => $batch_id)); 
+                $table->db->delete('M4L_ACC_SCHEMA_REG', array('batch_id' => $batch_id)); 
                  $data['message'] = 'No '.$notel.' Berhasil Dihapus !';
             }
            

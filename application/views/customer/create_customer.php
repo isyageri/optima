@@ -140,7 +140,7 @@
                                     <div class="row">
                                         <div class="col-md-6">
                                             <div class="form-group">
-                                                <label class="control-label col-md-4">NIPNAS
+                                                <label class="control-label col-md-4">Customer Ref
                                                 </label>
                                                 <div class="col-md-8">
                                                     <input type="text" class="form-control" name="nipnas" id="nipnas" readonly>

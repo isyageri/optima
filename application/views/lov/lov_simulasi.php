@@ -14,7 +14,8 @@
                     <div class="form-group">
                         <label class="col-md-3 control-label" for="simulasi_avg_on_net">Average On Net</label>
                         <div class="col-md-4">
-                            <input type="text" id="simulasi_avg_on_net" name="simulasi_avg_on_net" class="form-control input-inline">
+                            <input type="text" id="simulasi_avg_on_net" readonly name="simulasi_avg_onjkkjkj" class="form-control input-inline">
+                            <input type="hidden" id="simulasi_avg_on_net2" readonly name="simulasi_avg_on_net" class="form-control input-inline">
                             <span class="help-inline" id="r_simulasi_avg_on_net"> </span>
                         </div>
                     </div>
@@ -83,12 +84,13 @@
             }
 
             var schema_id = $("#schema_id").val();
+            avgonnet =  $('#simulasi_avg_on_net2').val();
 
             $.ajax({
                 url: "<?php echo WS_JQGRID.'schema.sc_schema_controller/getSimulasiTable'; ?>",
                 type: "POST",
                 data: { schema_id  : schema_id ,
-                        avg_on_net : $('#simulasi_avg_on_net').val(),
+                        avg_on_net : avgonnet,
                         on_net     : $('#simulasi_on_net').val(),
                         non_on_net : $('#simulasi_non_on_net').val(),
                         trend : trend,
@@ -129,7 +131,7 @@
             url += "operator="+operator+"&";
             url += "kuadran="+kuadran+"&";
             url += "model="+model+"&";
-            url += "avg_on_net="+$('#simulasi_avg_on_net').val()+"&";
+            url += "avg_on_net="+$('#simulasi_avg_on_net2').val()+"&";
             url += "on_net="+$('#simulasi_on_net').val()+"&";
             url += "non_on_net="+$('#simulasi_non_on_net').val()+"&";
             url += "discount_code="+$('#modal_lov_simulasi_discount_code').val()+"&";
@@ -142,10 +144,12 @@
 
     function modal_lov_simulasi_show(discount_code) {
         $('#table-simulasi').html('');
-        $('#simulasi_avg_on_net').val('');
+        $('#simulasi_avg_on_net').val($('#trend-avg-usage-onnet').val());
+        $('#simulasi_avg_on_net2').val($('#trend-avg-usage-onnet2').val());
         $('#simulasi_on_net').val('');
         $('#simulasi_non_on_net').val('');
-        $('#r_simulasi_avg_on_net').html($('#trend-avg-usage-onnet').val());
+        $('#r_simulasi_avg_on_net').hide(); 
+       // $('#r_simulasi_avg_on_net').html($('#trend-avg-usage-onnet').val());
     /*    $('#r_simulasi_on_net').html($('#trend-avg-usage-onnet').val());
         $('#r_simulasi_non_on_net').html($('#trend-avg-usage-onnet').val());*/
         $('#modal_lov_simulasi_btn_excel').hide();

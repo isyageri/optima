@@ -475,6 +475,7 @@ class Sc_schema_controller {
                             <label class="col-md-3 control-label" for="trend"><b>Avg On Net:</b></label>
                             <div class="col-md-4">
                                 <input type="text" id="trend-avg-usage-onnet" class="form-control" readonly value="'.number_format($itemheader['avg_usage_onnet'],2,',','.').'">
+                                <input type="hidden" id="trend-avg-usage-onnet2" class="form-control" readonly value="'.$itemheader['avg_usage_onnet'].'">
                             </div>
                       </div>
                       <div class="form-group form-md-line-input form-md-floating-label">
@@ -844,7 +845,15 @@ class Sc_schema_controller {
             $TAB_CONTENT_SECTION .= '</tr>';
             $TAB_CONTENT_SECTION .= '</table>';
 
-                $skema_discount =  $table->getListSkemaPembayaran($trend, $operator, $kuadran, $item['id'], '');
+                //$skema_discount =  $table->getListSkemaPembayaran($trend, $operator, $kuadran, $item['id'], '');
+                $skema_discount =  $table->getListSkemaPembayaran_new(  $trend, 
+                                                                        $operator, 
+                                                                        $kuadran, 
+                                                                        $item['id'], 
+                                                                        '', 
+                                                                        $avg_on_net, 
+                                                                        $on_net );
+
 
                 $TH_VAL_SECTION = '';
                 foreach ($skema_discount as $key ) {
@@ -887,7 +896,12 @@ class Sc_schema_controller {
                         $CONTENT_TABLE_SECTION .= '<tr>';
                         $CONTENT_TABLE_SECTION .= '<td>'.$no++.'</td>';
                         $CONTENT_TABLE_SECTION .= '<td>'.$item1['V1'].'</td>';
+                        if($tdnum ==  $total_skema ){
+                        $CONTENT_TABLE_SECTION .= '<td align="right">'.number_format($item1['V2'],2,',','.').'</td>';
+                        }else{
                         $CONTENT_TABLE_SECTION .= '<td align="right">'.number_format($item1['V2'],2,',','.').'</td>replace'.$rpc.'#'.$no;
+                        }
+                        
                         $CONTENT_TABLE_SECTION .= '</tr>';
                      }else{
 
@@ -1007,8 +1021,14 @@ class Sc_schema_controller {
             $TAB_CONTENT_SECTION .= '</tr>';
             $TAB_CONTENT_SECTION .= '</table>';
 
-                $skema_discount =  $table->getListSkemaPembayaran($trend, $operator, $kuadran, $item['id'], '');
-
+                //$skema_discount =  $table->getListSkemaPembayaran($trend, $operator, $kuadran, $item['id'], '');
+                $skema_discount =  $table->getListSkemaPembayaran_new(  $trend, 
+                                                                        $operator, 
+                                                                        $kuadran, 
+                                                                        $item['id'], 
+                                                                        '', 
+                                                                        $avg_on_net, 
+                                                                        $on_net );
                 $TH_VAL_SECTION = '';
                 foreach ($skema_discount as $key ) {
                       $TH_VAL_SECTION .= '<th>'.$key['disc_description'].'</th>';
@@ -1050,7 +1070,13 @@ class Sc_schema_controller {
                         $CONTENT_TABLE_SECTION .= '<tr>';
                         $CONTENT_TABLE_SECTION .= '<td>'.$no++.'</td>';
                         $CONTENT_TABLE_SECTION .= '<td>'.$item1['V1'].'</td>';
-                        $CONTENT_TABLE_SECTION .= '<td align="right">'.number_format($item1['V2'],2,',','.').'</td>replace'.$rpc.'#'.$no;
+                        
+                        if($tdnum ==  $total_skema ){
+                            $CONTENT_TABLE_SECTION .= '<td align="right">'.number_format($item1['V2'],2,',','.').'</td>';
+                        }else{
+                            $CONTENT_TABLE_SECTION .= '<td align="right">'.number_format($item1['V2'],2,',','.').'</td>replace'.$rpc.'#'.$no;
+                        }
+                        
                         $CONTENT_TABLE_SECTION .= '</tr>';
 
                      }else{

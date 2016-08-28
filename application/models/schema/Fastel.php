@@ -14,7 +14,7 @@ class Fastel extends Abstract_model {
 
                             );
 
-    public $selectClause    = "fastel.*, (p_notel || '|' || schema_id) as fastel_id, batch_id||','|| '''' || fastel.p_notel ||'''' as action, fastel.valid status";
+    public $selectClause    = "fastel.*, (p_notel || '|' || schema_id) as fastel_id, batch_id||','|| '''' || fastel.p_notel ||'''' as action, fastel.valid status, (select sum(total_aamount) from V_TAGIHAN_AGREGAT_M4L where batch_id = fastel.batch_id and nd = fastel.p_notel) amount";
     public $fromClause      = "cc_dataref_batch fastel";
 
     public $refs            = array();

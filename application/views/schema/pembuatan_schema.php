@@ -117,7 +117,7 @@
                                  <div class="tab-pane active" id="tab1">
                                       <!--- TAB 1 -->
                                       <div class="form-group">
-                                          <label class="control-label col-md-2">Nipnas
+                                          <label class="control-label col-md-2">Customer Ref
                                              <span> * </span>
                                           </label>
                                           <div class="col-md-3">
@@ -716,7 +716,7 @@
             type: 'get',
             dataType: "json",
             url: url,
-            timeout: 10000,
+            // timeout: 10000,
             contentType: false, // The content type used when sending data to the server.
             cache: false, // To unable request pages to be cached
             processData: false,
@@ -746,7 +746,7 @@
             dataType: "json",
             url: '<?php echo WS_JQGRID."schema.fastel_controller/uploadFastel"; ?>',
             data: data,
-            timeout: 10000,
+            // timeout: 10000,
             contentType: false, // The content type used when sending data to the server.
             cache: false, // To unable request pages to be cached
             processData: false,
@@ -810,7 +810,7 @@
               dataType: "json",
               url: '<?php echo WS_JQGRID."schema.fastel_controller/addFastelSatuan"; ?>',
               data: data,
-              timeout: 10000,
+              // timeout: 10000,
               contentType: false, // The content type used when sending data to the server.
               cache: false, // To unable request pages to be cached
               processData: false,
@@ -984,8 +984,9 @@ function is_process_finished(){
       });
   }
   function delete_fastel(batch_id, notel, is_all){
-
-     $.ajax({
+    conf = confirm('Anda yakin ?, penghapusan data fastel berpengaruh pada penghapusan data history tagihan ');
+    if(conf){
+        $.ajax({
           url: "<?php echo WS_JQGRID.'schema.fastel_controller/del_fastel'; ?>",
           type: "POST",
           data: { batch_id: batch_id, notel:notel, is_all:is_all },
@@ -997,6 +998,8 @@ function is_process_finished(){
               return false;
           }
       });
+    }
+    
   }
 
   function get_schema_disount(tren, kuadram, operator){
@@ -1172,7 +1175,7 @@ function is_process_finished(){
                     },
                     editrules: {required: true}
                 },
-                {label: 'Location',name: 'location',width: 150, align: "left",editable: true,
+                {label: 'Location',name: 'location',width: 150, align: "left",editable: true,hidden: true,
                     editoptions: {
                         size: 30,
                         maxlength:32
