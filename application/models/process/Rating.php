@@ -12,7 +12,7 @@ class Rating extends Abstract_model {
 
     public $fields          = array();
 
-    public $selectClause    = "per.*";
+    public $selectClause    = "per.task_request_id, per.task_instance_id, to_char(per.start_dtm, 'DD/MM/YYYY HH24:MI:SS PM') as start_dtm, to_char(per.end_dtm, 'DD/MM/YYYY HH24:MI:SS PM') as end_dtm, total_errors, task_status";
     public $fromClause      = "v_control_process_rating_rmd per";
 
     public $refs            = array();
