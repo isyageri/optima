@@ -76,8 +76,8 @@
             colModel: [
                 {label: 'Task Request ID', name: 'task_request_id', hidden: false},                
                 {label: 'Task Instance ID', name: 'task_instance_id', hidden: false},                
-                {label: 'Dari', name: 'start_date', hidden: false},                
-                {label: 'Sampai', name: 'end_date', hidden: false},                
+                {label: 'Dari', name: 'start_dtm', hidden: false},                
+                {label: 'Sampai', name: 'end_dtm', hidden: false},                
                 {label: 'Total Error', name: 'total_errors', hidden: false},                
                 {label: 'Status', name: 'task_status', hidden: false}
             ],
