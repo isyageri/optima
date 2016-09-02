@@ -36,10 +36,18 @@ class Rerating extends Abstract_model {
         if($this->actionType == 'CREATE') {
             //do something
             // example :
+
             $this->db->set('creation_date',"to_date('".date('Y-m-d')."','yyyy-mm-dd')",false);
             $this->record['operator_id'] = $userinfo->username;
+
+            if ( $this->record['input_file_name'] == 'ALL_ACCOUNT'){
+                $this->record['input_file_name'] = 'ALL_ACCOUNT_'.date('YmdHis');
+            }else{
+                $this->record['input_file_name'] = $this->record['account_name'].'_'.date('YmdHis');
+            }
             //$this->record['updated_date'] = date('Y-m-d');
             $this->record[$this->pkey] = $this->generate_id($this->table);
+    
         }else {
             //do something
             //example:

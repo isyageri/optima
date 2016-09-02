@@ -130,7 +130,7 @@
                 acn = $('#account_name').val();
             }else{
                 var d = new Date();
-                ipn = 'ALL_ACCOUNT_';
+                ipn = 'ALL_ACCOUNT';
                 inc = 3;
                 acn = '-';
             }

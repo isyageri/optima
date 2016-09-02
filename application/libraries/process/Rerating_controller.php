@@ -106,7 +106,7 @@ class Rerating_controller {
 
         if(getVarClean('p_finance_period_id', 'int', 0) == 0){
             $items[0]['p_finance_period_id'] = $this->getFinancePeriod();
-            $items[0]['input_file_name'] = 'ALL_ACCOUNT_'.$this->getFinancePeriod();
+            $items[0]['input_file_name'] = 'ALL_ACCOUNT';
         }else{
             $items[0]['p_finance_period_id'] = getVarClean('p_finance_period_id', 'int', 0);    
             $items[0]['input_file_name'] = getVarClean('input_file_name', 'str', '');
