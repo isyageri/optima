@@ -4,7 +4,7 @@
 * @class ReRating_controller
 * @version 07/05/2015 12:18:00
 */
-class ReRating_controller {
+class Rerating_controller {
 
     function read() {
 
