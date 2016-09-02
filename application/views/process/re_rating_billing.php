@@ -6,11 +6,11 @@
 				<i class="fa fa-circle"></i>
 			</li>
 			<li>
-				<a href="#">Pra Billing</a>
+				<a href="#">Process</a>
 				<i class="fa fa-circle"></i>
 			</li>
 			<li>
-				<span>Task Request</span>
+				<span>Re Rating-Billing</span>
 			</li>
 		</ul>
 	</div>
@@ -18,19 +18,20 @@
 	<div class="col-md-12">
         <div class="tabbable tabbable-tabdrop">
             <ul class="nav nav-tabs">
-                <li id="tab-1">
-                    <a data-toggle="tab"> Periode </a>
+                <li class="active">
+                    <a data-toggle="tab"> File </a>
                 </li>
                 <li id="tab-2">
-                    <a data-toggle="tab"> Batch Billing </a>
-                </li>
-				<li id="tab-3">
                     <a data-toggle="tab"> Proses </a>
                 </li>
-                <li  class="active">
-                    <a data-toggle="tab"> Task Request </a>
-                </li>
             </ul>
+            <div class="row">
+                <div class="col-md-8">
+                    <i id="process_add" class="btn btn-success"> Add </i>
+                    <i id="process_delete" class="btn btn-success"> Delete </i>
+                </div>
+            </div>
+            <div class="space-4"></div> 
 			<div class="tab-content">
                 <div class="tab-pane active">
                     <table id="grid-table-prebill"></table>
@@ -40,46 +41,83 @@
         </div>
     </div>
 </div>
+<?php 
+    $this->load->view('lov/lov_rerating.php');
+    $this->load->view('lov/lov_billingerrorlog.php');
+    $this->load->view('lov/lov_rejectevent.php');
+?>
 <script>
 	$(function($) {
-        $("#tab-1").on( "click", function() {    
-            loadContentWithParams("process.process_prebill", {                
+        $('#process_add').on('click', function(){
+            modal_lov_rerating_show();
+        });
+
+        $('#process_delete').on('click', function(){
+            var grid = $('#grid-table-prebill');
+            selRowId = grid.jqGrid ('getGridParam', 'selrow');
+            var idd = grid.jqGrid ('getCell', selRowId, 'input_data_control_id');
+
+            if(selRowId == null) {
+                swal("Informasi", "Silahkan Pilih Salah Satu Baris Data", "info");
+                return false;
+            }
+
+            $.ajax({
+                type: 'POST',
+                dataType: "json",
+                url: '<?php echo WS_JQGRID."process.rerating_controller/destroy"; ?>',
+                data: {
+                    "<?php echo $this->security->get_csrf_token_name(); ?>" : "<?php echo $this->security->get_csrf_hash(); ?>",
+                    input_data_control_id : idd
+
+                },
+                timeout: 10000,
+                success: function(data) {
+                    if(data.success) {
+                        $('#grid-table-prebill').trigger("reloadGrid");
+                    }else{
+                        swal("", data.message, "warning");
+                    }
+                   
+                }
+            });
+
+        });
+
+
+        $("#tab-2").on( "click", function() { 
+            var grid = $('#grid-table-prebill');
+            selRowId = grid.jqGrid ('getGridParam', 'selrow');
+
+            var idd = grid.jqGrid ('getCell', selRowId, 'input_data_control_id');
+            var file_name = grid.jqGrid ('getCell', selRowId, 'input_file_name');
+            
+            if(selRowId == null) {
+                swal("Informasi", "Silahkan Pilih Salah Satu Baris Data", "info");
+                return false;
+            }
+            loadContentWithParams("process.process_rerating_proc", {
+                input_data_control_id: idd,
+                input_file_name : file_name              
+                
             });
         });
 
-        $("#tab-2").on( "click", function() {    
-            loadContentWithParams("process.process_prebill_batch", {   
-                p_finance_period_id: "<?php echo $this->input->post('p_finance_period_id'); ?>",
-                finance_period_code : "<?php echo $this->input->post('finance_period_code'); ?>"             
-            });
-        });
-
-        $("#tab-3").on( "click", function() { 
-
-            loadContentWithParams("process.process_prebill_proc", {   
-                input_data_control_id :"<?php echo $this->input->post('input_data_control_id'); ?>",           
-                input_file_name :"<?php echo $this->input->post('input_file_name'); ?>"    
-            });
-        });;
     });
 	jQuery(function($) {
         var grid_selector = "#grid-table-prebill";
         var pager_selector = "#grid-pager-prebill";
 
         jQuery("#grid-table-prebill").jqGrid({
-            url: '<?php echo WS_JQGRID."process.rating_controller/crud"; ?>',
+            url: '<?php echo WS_JQGRID."process.rerating_controller/crud"; ?>',
             datatype: "json",
-            postData: {
-                task_request_id : <?php echo $this->input->post('task_request_id'); ?>
-            },
             mtype: "POST",
             colModel: [
-                {label: 'Task Request ID', name: 'task_request_id', hidden: false},                
-                {label: 'Task Instance ID', name: 'task_instance_id', hidden: false},                
-                {label: 'Dari', name: 'start_dtm', hidden: false},                
-                {label: 'Sampai', name: 'end_dtm', hidden: false},                
-                {label: 'Total Error', name: 'total_errors', hidden: false},                
-                {label: 'Status', name: 'task_status', hidden: false}
+                {label: 'ID', name: 'input_data_control_id', hidden: false},                
+                {label: 'Account Name', name: 'account_name', hidden: false},                
+                {label: 'File Name', name: 'input_file_name', hidden: false},            
+                {label: 'Finish?', name: 'is_finish_processed', hidden: false},                
+                {label: 'Status', name: 'data_status_code', hidden: false}
             ],
             height: '100%',
             autowidth: true,
@@ -109,8 +147,8 @@
 				responsive_jqgrid(grid_selector,pager_selector);
             },
             //memanggil controller jqgrid yang ada di controller crud
-            editurl: '<?php echo WS_JQGRID."process.rating_controller/crud"; ?>',
-            caption: "Periode"
+            editurl: '<?php echo WS_JQGRID."process.period_controller/crud"; ?>',
+            caption: "File"
 
         });
 
@@ -166,8 +204,11 @@
                 closeAfterAdd: false,
                 clearAfterAdd : true,
                 closeOnEscape:true,
-                recreateForm: true,
+                recreateForm: false,
                 width: 'auto',
+                onClick: function (e) {
+                    // alert();
+                },
                 errorTextFormat: function (data) {
                     return 'Error: ' + data.responseText
                 },

@@ -6,7 +6,7 @@
 				<i class="fa fa-circle"></i>
 			</li>
 			<li>
-				<a href="#">Pra Billing</a>
+				<a href="#">Process</a>
 				<i class="fa fa-circle"></i>
 			</li>
 			<li>
@@ -19,12 +19,9 @@
         <div class="tabbable tabbable-tabdrop">
             <ul class="nav nav-tabs">
                 <li id="tab-1">
-                    <a data-toggle="tab"> Periode </a>
+                    <a data-toggle="tab"> File </a>
                 </li>
                 <li id="tab-2">
-                    <a data-toggle="tab"> Batch Billing </a>
-                </li>
-				<li id="tab-3">
                     <a data-toggle="tab"> Proses </a>
                 </li>
                 <li  class="active">
@@ -43,20 +40,13 @@
 <script>
 	$(function($) {
         $("#tab-1").on( "click", function() {    
-            loadContentWithParams("process.process_prebill", {                
+            loadContentWithParams("process.re_rating_billing", {                
             });
         });
 
-        $("#tab-2").on( "click", function() {    
-            loadContentWithParams("process.process_prebill_batch", {   
-                p_finance_period_id: "<?php echo $this->input->post('p_finance_period_id'); ?>",
-                finance_period_code : "<?php echo $this->input->post('finance_period_code'); ?>"             
-            });
-        });
+        $("#tab-2").on( "click", function() { 
 
-        $("#tab-3").on( "click", function() { 
-
-            loadContentWithParams("process.process_prebill_proc", {   
+            loadContentWithParams("process.process_rerating_proc", {   
                 input_data_control_id :"<?php echo $this->input->post('input_data_control_id'); ?>",           
                 input_file_name :"<?php echo $this->input->post('input_file_name'); ?>"    
             });

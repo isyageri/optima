@@ -6,7 +6,7 @@
 				<i class="fa fa-circle"></i>
 			</li>
 			<li>
-				<a href="#">Pra Billing</a>
+				<a href="#">Process</a>
 				<i class="fa fa-circle"></i>
 			</li>
 			<li>
@@ -18,15 +18,12 @@
 	<div class="col-md-12">        
             <ul class="nav nav-tabs">
                 <li id="tab-1">
-                    <a data-toggle="tab"> Periode </a>
+                    <a data-toggle="tab"> File </a>
                 </li>
-                <li id="tab-2">
-                    <a data-toggle="tab"> Batch Billing </a>
-                </li>
-				<li id="tab-3" class="active">
+                <li class="active">
                     <a data-toggle="tab"> Proses </a>
                 </li>
-                <li id="tab-4" style="display:none;">
+                <li id="tab-3" style="display:none;">
                     <a data-toggle="tab"> Task Request </a>
                 </li>
             </ul>
@@ -59,26 +56,17 @@
 
 	$(function($) {
         $("#tab-1").on( "click", function() {    
-            loadContentWithParams("process.process_prebill", {                
+            loadContentWithParams("process.re_rating_billing", {                
             });
         });
 
-        $("#tab-2").on( "click", function() {    
-            loadContentWithParams("process.process_prebill_batch", {   
-                p_finance_period_id: "<?php echo $this->input->post('p_finance_period_id'); ?>",
-                finance_period_code : "<?php echo $this->input->post('finance_period_code'); ?>"             
-            });
-        });
-
-        $("#tab-4").on( "click", function() { 
-             var grid = $('#grid-table-prebill');
+        $("#tab-3").on( "click", function() { 
+            var grid = $('#grid-table-prebill');
             selRowId = grid.jqGrid ('getGridParam', 'selrow');
             
-            var idd = grid.jqGrid ('getCell', selRowId, 'req_id');  
+            var idd = grid.jqGrid ('getCell', selRowId, 'req_id');   
 
-            loadContentWithParams("process.process_rating", {   
-                p_finance_period_id: "<?php echo $this->input->post('p_finance_period_id'); ?>",
-                finance_period_code : "<?php echo $this->input->post('finance_period_code'); ?>",  
+            loadContentWithParams("process.process_task", {   
                 input_data_control_id :"<?php echo $this->input->post('input_data_control_id'); ?>",           
                 input_file_name :"<?php echo $this->input->post('input_file_name'); ?>",           
                 task_request_id : idd             
@@ -211,9 +199,9 @@
                 }
 
                 if(req_id != 0){
-                    $("#tab-4").show();
+                    $("#tab-3").show();
                 }else{
-                    $("#tab-4").hide();
+                    $("#tab-3").hide();
                 }
 
             },
