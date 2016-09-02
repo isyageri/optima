@@ -47,17 +47,6 @@
                             <div class="row">
                                 <div class="form-group">
                                     <div class="col-xs-3">
-                                        <label id='lbl-input'>Account Name</label>
-                                    </div>
-                                    <div class="col-xs-8">
-                                        <input type="text" name="account_name" id="account_name" class="form-control" /> 
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="space-1"></div> 
-                            <div class="row">
-                                <div class="form-group">
-                                    <div class="col-xs-3">
                                         <label id='lbl-period'>Period</label>
                                     </div>
                                     <div class="col-xs-5">
@@ -65,6 +54,18 @@
                                     </div>
                                 </div>
                             </div>
+                            <div class="space-1"></div> 
+                            <div class="row">
+                                <div class="form-group">
+                                    <div class="col-xs-3">
+                                        <label id='lbl-input'>Account Name</label>
+                                    </div>
+                                    <div class="col-xs-8">
+                                        <input type="text" name="account_name" id="account_name" class="form-control" /> 
+                                    </div>
+                                </div>
+                            </div>
+                            
                     <!-- modal footer -->
                     <div class="modal-footer no-margin-top">
                         <div class="bootstrap-dialog-footer">
@@ -102,8 +103,8 @@
         }else{
             $('#account_name').hide(150);
             $('#lbl-input').hide(150);
-            $('#date-picker').hide(150);
-            $('#lbl-period').hide(150);
+            $('#date-picker').show(150);
+            $('#lbl-period').show(150);
         }
     });
 
