@@ -19,7 +19,7 @@ class Rerating extends Abstract_model {
                               );
 
     public $selectClause    = "ip.*";
-    public $fromClause      = "v_input_data_control ip";
+    public $fromClause      = "v_input_data_control_re ip";
 
     public $refs            = array();
 
