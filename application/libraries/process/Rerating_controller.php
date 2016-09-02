@@ -112,6 +112,7 @@ class Rerating_controller {
             $items[0]['input_file_name'] = getVarClean('input_file_name', 'str', '');
         }
         
+        $items[0]['p_input_file_desc_id'] = getVarClean('p_input_file_desc_id', 'int', 0);
         $items[0]['input_data_class_id'] = getVarClean('input_data_class_id', 'int', 0);
         $items[0]['account_name'] = getVarClean('account_name', 'str', '');
         // $items = jsonDecode($jsonItems);

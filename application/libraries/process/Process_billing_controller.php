@@ -117,6 +117,34 @@ class Process_billing_controller {
         exit;
     }
 
+    function submit_rerating(){
+        $ci = & get_instance();
+        $ci->load->model('process/process_billing');
+        $userinfo = $ci->ion_auth->user()->row();
+        $table = $ci->process_billing;
+
+        $input_data_control_id = getVarClean('input_data_control_id','int', 0);
+        $input_data_class_id = $table->cekInputDataClass($input_data_control_id);
+
+        if($input_data_class_id == 1){
+            $name = 'EVENT_RERATING_BILM4L'; //rating
+        }else{
+            $name = 'EVENT_REBILL_M4L'; //billing
+        }
+        // var_dump($name);
+        // exit;
+        $status = $table->action_submit($name, $input_data_control_id, $userinfo->username);
+
+        if($status == 'SUCCESS'){
+            $items['success'] = true;            
+        }else{
+            $items['success'] = false;
+        }
+
+        echo json_encode( $items );
+        exit;
+    }
+
     function submit_prabilling(){
         $ci = & get_instance();
         $ci->load->model('process/process_billing');

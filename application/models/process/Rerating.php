@@ -16,6 +16,7 @@ class Rerating extends Abstract_model {
                                   'account_name'    => array('nullable' => true, 'type' => 'str', 'unique' => false, 'display' => 'account_name'),
                                   'p_finance_period_id'    => array('nullable' => true, 'type' => 'int', 'unique' => false, 'display' => 'p_finance_period_id'),
                                   'input_data_class_id'    => array('nullable' => true, 'type' => 'int', 'unique' => false, 'display' => 'input_data_class_id'),
+                                  'p_input_file_desc_id'    => array('nullable' => true, 'type' => 'int', 'unique' => false, 'display' => 'p_input_file_desc_id'),
                               );
 
     public $selectClause    = "ip.*";

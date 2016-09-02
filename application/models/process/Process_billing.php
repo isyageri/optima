@@ -79,6 +79,25 @@ class Process_billing extends Abstract_model {
         }
     }
 
+    function cekInputDataClass($id){
+        try {
+
+            $sql = "select p_input_file_desc_id from input_data_control where input_data_control_id = ".$id;
+            $query = $this->db->query($sql);
+
+            $items = '';
+            if($query->num_rows() > 0){
+                $result = $query->row_array();
+                $items = $result['p_input_file_desc_id'];   
+            }
+
+            return $items;
+
+        } catch (Exception $e) {
+            return $e->getMessage();
+        }
+    }
+
 }
 
 /* End of file Groups.php */

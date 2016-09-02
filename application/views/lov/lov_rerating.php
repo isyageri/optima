@@ -144,7 +144,8 @@
                     p_finance_period_id : $('#date-picker').val(),
                     input_file_name : ipn,
                     input_data_class_id : inc,
-                    account_name : acn
+                    account_name : acn,
+                    p_input_file_desc_id : $('#filter').val()
 
                 },
                 timeout: 10000,

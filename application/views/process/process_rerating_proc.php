@@ -75,7 +75,7 @@
 		
 		$("#submit_job").on( "click", function() {    		
 			$.ajax({
-                url: '<?php echo WS_JQGRID."process.process_billing_controller/submit_prabilling"; ?>',
+                url: '<?php echo WS_JQGRID."process.process_billing_controller/submit_rerating"; ?>',
                 type: "POST",
                 dataType: "json",
                 data: {input_data_control_id : "<?php echo $this->input->post('input_data_control_id'); ?>"},
