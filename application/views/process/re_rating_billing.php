@@ -62,25 +62,30 @@
                 return false;
             }
 
-            $.ajax({
-                type: 'POST',
-                dataType: "json",
-                url: '<?php echo WS_JQGRID."process.rerating_controller/destroy"; ?>',
-                data: {
-                    "<?php echo $this->security->get_csrf_token_name(); ?>" : "<?php echo $this->security->get_csrf_hash(); ?>",
-                    input_data_control_id : idd
+            result = confirm('Apakah Anda yakin ?');
+            if(result){  
+                $.ajax({
+                    type: 'POST',
+                    dataType: "json",
+                    url: '<?php echo WS_JQGRID."process.rerating_controller/destroy"; ?>',
+                    data: {
+                        "<?php echo $this->security->get_csrf_token_name(); ?>" : "<?php echo $this->security->get_csrf_hash(); ?>",
+                        input_data_control_id : idd
 
-                },
-                timeout: 10000,
-                success: function(data) {
-                    if(data.success) {
-                        $('#grid-table-prebill').trigger("reloadGrid");
-                    }else{
-                        swal("", data.message, "warning");
+                    },
+                    timeout: 10000,
+                    success: function(data) {
+                        if(data.success) {
+                            $('#grid-table-prebill').trigger("reloadGrid");
+                        }else{
+                            swal("", data.message, "warning");
+                        }
+                       
                     }
-                   
-                }
-            });
+                });
+            }
+
+            return false;
 
         });
 

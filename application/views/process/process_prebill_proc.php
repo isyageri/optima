@@ -123,42 +123,52 @@
             });
         });
 		
-		$("#cancel_all_job").on( "click", function() {    			
-			$.ajax({
-                url: '<?php echo WS_JQGRID."process.process_billing_controller/cancel_all_prabilling"; ?>',
-                type: "POST",
-                dataType: "json",
-                data: {input_data_control_id : "<?php echo $this->input->post('input_data_control_id'); ?>"},
-                success: function (data) {
-                    if(data.success){
-                        swal("", "Start Daemon success", "success");
-                    }else{
-                        swal("Informasi", "Start Daemon failed", "info"); 
+		$("#cancel_all_job").on( "click", function() { 
+            result = confirm('Apakah Anda yakin ?');
+            if(result){    			
+    			$.ajax({
+                    url: '<?php echo WS_JQGRID."process.process_billing_controller/cancel_all_prabilling"; ?>',
+                    type: "POST",
+                    dataType: "json",
+                    data: {input_data_control_id : "<?php echo $this->input->post('input_data_control_id'); ?>"},
+                    success: function (data) {
+                        if(data.success){
+                            swal("", "Start Daemon success", "success");
+                        }else{
+                            swal("Informasi", "Start Daemon failed", "info"); 
+                        }
+                    },
+                    error: function (xhr, status, error) {
+                        swal({title: "Error!", text: xhr.responseText, html: true, type: "error"});
                     }
-                },
-                error: function (xhr, status, error) {
-                    swal({title: "Error!", text: xhr.responseText, html: true, type: "error"});
-                }
-            });
+                });
+            }
+
+            return false;
         });
 		
-		$("#cancel_last_job").on( "click", function() {    			
-			$.ajax({
-                url: '<?php echo WS_JQGRID."process.process_billing_controller/cancel_last_job_prabilling"; ?>',
-                type: "POST",
-                dataType: "json",
-                data: {input_data_control_id : "<?php echo $this->input->post('input_data_control_id'); ?>"},
-                success: function (data) {
-                    if(data.success){
-                        swal("", "Start Daemon success", "success");
-                    }else{
-                        swal("Informasi", "Start Daemon failed", "info"); 
+		$("#cancel_last_job").on( "click", function() { 
+            result = confirm('Apakah Anda yakin ?');
+            if(result){   		
+    			$.ajax({
+                    url: '<?php echo WS_JQGRID."process.process_billing_controller/cancel_last_job_prabilling"; ?>',
+                    type: "POST",
+                    dataType: "json",
+                    data: {input_data_control_id : "<?php echo $this->input->post('input_data_control_id'); ?>"},
+                    success: function (data) {
+                        if(data.success){
+                            swal("", "Start Daemon success", "success");
+                        }else{
+                            swal("Informasi", "Start Daemon failed", "info"); 
+                        }
+                    },
+                    error: function (xhr, status, error) {
+                        swal({title: "Error!", text: xhr.responseText, html: true, type: "error"});
                     }
-                },
-                error: function (xhr, status, error) {
-                    swal({title: "Error!", text: xhr.responseText, html: true, type: "error"});
-                }
-            });
+                });
+            }
+
+            return false;
         });
 
     });
