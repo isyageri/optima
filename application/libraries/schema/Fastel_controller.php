@@ -37,7 +37,7 @@ class Fastel_controller {
             );
 
             // Filter Table
-            $req_param['where'] = array("schema_id = '".$schema_id."'");
+            $req_param['where'] = array("schema_id = '".$schema_id."'", "status_notel is null");
 
             $table->setJQGridParam($req_param);
             $count = $table->countAll();
@@ -193,12 +193,15 @@ class Fastel_controller {
                 $table->db->delete('M4L_ACC_SCHEMA_REG', array('batch_id' => $batch_id)); 
                  $data['message'] = 'Semua Fastel Berhasil Dihapus !';
             }else{
-                $table->db->delete($table->table, array('batch_id' => $batch_id,'p_notel' => $notel )); 
+                // $table->db->delete($table->table, array('batch_id' => $batch_id,'p_notel' => $notel )); 
+                $table->db->update($table->table, array('status_notel' => 'DELETE'), array('batch_id' => $batch_id,'p_notel' => $notel ));
+                $sql = "insert into cc_dataref_batch_tmp select * from cc_dataref_batch where batch_id = ".$batch_id." and p_notel = '".$notel."' ";
+                $table->db->query($sql);
                 $table->db->delete('t_job_has_period', array('batch_id' => $batch_id)); 
                 $table->db->delete('control_batch', array('BATCH_CONTROL_ID' => $batch_id)); 
                 $table->db->delete('TAGIHAN_AGREGAT_M4L_BATCH', array('batch_id' => $batch_id)); 
                 $table->db->delete('M4L_ACC_SCHEMA_REG', array('batch_id' => $batch_id)); 
-                 $data['message'] = 'No '.$notel.' Berhasil Dihapus !';
+                $data['message'] = 'No '.$notel.' Berhasil Dihapus !';
             }
            
             $data['success'] = true;
@@ -365,12 +368,18 @@ class Fastel_controller {
             $datainsert[$loop]['flag'] = null;
             $datainsert[$loop]['batch_id'] = $batch_id;
             $datainsert[$loop]['schema_id'] = $schema_id;
-            $datainsert[$loop]['status_notel'] = 'TMP';
+            $datainsert[$loop]['status_notel'] = null;
 
             $table->db->delete($table->table, array('schema_id' => $schema_id,'batch_id' => $batch_id,'p_notel' => $notel )); 
             
             foreach($datainsert as $rec) {
                 $table->db->insert( $table->table, $rec );
+
+            }
+
+            $datainsert[$loop]['status_notel'] = 'INSERT';
+            foreach($datainsert as $rec2) {
+                $table->db->insert('cc_dataref_batch_tmp', $rec2 );
             }
 
             $table->updateScSchema( $schema_id, 'batch_id', $batch_id );
