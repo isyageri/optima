@@ -439,8 +439,8 @@ class Sc_schema_controller {
 
         $items = $table->getTrendInfo($schema_id);
         foreach($items as $item) {
-
-            $periode[$item['periode']] = getMonth((int)substr($item['periode'], (strlen($item['periode'])-2)+1));
+            
+            $periode[$item['periode']] = getMonth((int)substr($item['periode'], -2));
 
             $result['TELKOM_JJ']['items'][$item['periode']] = $item['telkom_jj'];
             $result['TELKOM_LK']['items'][$item['periode']]  = $item['telkom_lk'];
