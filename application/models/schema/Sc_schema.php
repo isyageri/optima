@@ -142,14 +142,16 @@ class Sc_schema extends Abstract_model {
                     sum(b.ON_NET) TAGIHAN_ON_NET ,
                     sum(b.NON_ON_NET) TAGIHAN_NON_ON_NET
                     from CC_DATAREF_BATCH a,
-                    V_TAGIHAN_AGREGAT_M4L b
+                    V_TAGIHAN_AGREGAT_M4L b,
+                    sc_schema c
                     where A.P_NOTEL = B.ND
+                    and a.SCHEMA_ID = c.SCHEMA_ID
                     and a.P_CUST_ACCOUNT = '".$item['account_num']."'
-                    and to_number(b.PERIODE) between to_number(to_char(ADD_MONTHS(SYSDATE, -3), 'YYYYMM')) and to_number(to_char(SYSDATE, 'YYYYMM'))
+                    and to_number(b.PERIODE) between to_number(to_char(ADD_MONTHS(c.START_DAT, -3), 'YYYYMM')) and to_number(to_char(c.START_DAT, 'YYYYMM'))
                     and a.batch_id = ".$item['batch_id']."
                     group by b.PERIODE
                     order by b.PERIODE";
-                           
+
         $query = $this->db->query($sql);
         $row = $query->result_array();
         return $row;
