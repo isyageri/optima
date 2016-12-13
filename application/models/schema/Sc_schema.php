@@ -114,7 +114,7 @@ class Sc_schema extends Abstract_model {
 
         $item = $this->get($schema_id);
 		// TODO: ganti sysdate periode menjadi data dari table 
-		
+		/*
         $sql = "select max(P_CUST_ID) p_cust_id,
                     b.PERIODE,
                     sum(b.TELKOM_JJ) TELKOM_JJ,
@@ -131,7 +131,25 @@ class Sc_schema extends Abstract_model {
                     and a.batch_id = ".$item['batch_id']."
                     group by b.PERIODE
                     order by b.PERIODE";
-
+        */
+        //update asep 13 Des 2016
+        $sql = "select max(P_CUST_ID) p_cust_id,
+                    b.PERIODE,
+                    sum(b.TELKOM_JJ) TELKOM_JJ,
+                    sum(b.TELKOM_LK) TELKOM_LK,
+                    sum(b.TELKOMSEL) TELKOMSEL,
+                    sum(b.LAINNYA) LAINNYA,
+                    sum(b.ON_NET) TAGIHAN_ON_NET ,
+                    sum(b.NON_ON_NET) TAGIHAN_NON_ON_NET
+                    from CC_DATAREF_BATCH a,
+                    V_TAGIHAN_AGREGAT_M4L b
+                    where A.P_NOTEL = B.ND
+                    and a.P_CUST_ACCOUNT = '".$item['account_num']."'
+                    and to_number(b.PERIODE) between to_number(to_char(ADD_MONTHS(SYSDATE, -3), 'YYYYMM')) and to_number(to_char(SYSDATE, 'YYYYMM'))
+                    and a.batch_id = ".$item['batch_id']."
+                    group by b.PERIODE
+                    order by b.PERIODE";
+                           
         $query = $this->db->query($sql);
         $row = $query->result_array();
         return $row;
