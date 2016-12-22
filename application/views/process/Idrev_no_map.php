@@ -48,7 +48,7 @@
         var pager_selector = "#grid-pager";
 
         jQuery("#grid-table").jqGrid({
-            url: '<?php echo WS_JQGRID."process.idrev_no_map_controller/crud"; ?>',
+            url: '<?php echo WS_JQGRID."process.Idrev_no_map_controller/crud"; ?>',
             datatype: "json",
             mtype: "POST",
             colModel: [
@@ -118,7 +118,7 @@
                 }
             },
             //memanggil controller jqgrid yang ada di controller crud
-            editurl: '<?php echo WS_JQGRID."process.idrev_no_map_controller/crud"; ?>',
+            editurl: '<?php echo WS_JQGRID."process.Idrev_no_map_controller/crud"; ?>',
             caption: "BD29 Not Map"
 
         });
@@ -264,7 +264,7 @@
 
         /* ------------------------------  detail grid --------------------------------*/
       jQuery("#grid-table-detail").jqGrid({
-            url: '<?php echo WS_JQGRID."process.idrev_map_controller/crud"; ?>',
+            url: '<?php echo WS_JQGRID."process.Idrev_map_controller/crud"; ?>',
             datatype: "json",
             mtype: "POST",
             colModel: [
@@ -326,7 +326,7 @@
                 }
             },
             //memanggil controller jqgrid yang ada di controller crud
-            editurl: '<?php echo WS_JQGRID."process.idrev_map_controller/crud"; ?>',
+            editurl: '<?php echo WS_JQGRID."process.Idrev_map_controller/crud"; ?>',
             caption: "BD29 IDREV Map (Reference)"
 
         });
