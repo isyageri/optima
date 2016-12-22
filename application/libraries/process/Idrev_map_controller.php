@@ -18,8 +18,8 @@ class idrev_map_controller {
         try {
 
             $ci = & get_instance();
-            $ci->load->model('process/idrev_map');
-            $table = $ci->idrev_map;
+            $ci->load->model('process/Idrev_map');
+            $table = $ci->Idrev_map;
 
             $req_param = array(
                 "sort_by" => $sidx,
@@ -99,8 +99,8 @@ class idrev_map_controller {
     function update() {
 
         $ci = & get_instance();
-        $ci->load->model('process/idrev_map');
-        $table = $ci->idrev_map;
+        $ci->load->model('process/Idrev_map');
+        $table = $ci->Idrev_map;
 
         $data = array('rows' => array(), 'page' => 1, 'records' => 0, 'total' => 1, 'success' => false, 'message' => '');
 

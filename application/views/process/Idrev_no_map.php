@@ -327,7 +327,7 @@
             },
             //memanggil controller jqgrid yang ada di controller crud
             editurl: '<?php echo WS_JQGRID."process.idrev_map_controller/crud"; ?>',
-            caption: "BD29 IDREV Map"
+            caption: "BD29 IDREV Map (Reference)"
 
         });
 
