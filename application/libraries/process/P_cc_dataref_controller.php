@@ -36,7 +36,7 @@ class p_cc_dataref_controller {
             );
 
             // Filter Table
-            $req_param['where'] = array();
+            $req_param['where'] = array("FLAG IN (2,4)");
 
             $table->setJQGridParam($req_param);
             $count = $table->countAll();
